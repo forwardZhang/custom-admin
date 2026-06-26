@@ -4,6 +4,7 @@ import type { Plugin } from 'vite';
 import { defineConfig } from 'vite';
 import vue from '@vitejs/plugin-vue';
 import vueJsx from '@vitejs/plugin-vue-jsx';
+import tailwindcss from '@tailwindcss/vite';
 
 import { createMockMiddleware } from './mock/server.ts';
 
@@ -17,7 +18,7 @@ const mockPlugin: Plugin = {
 };
 
 export default defineConfig({
-  plugins: [vue(), vueJsx(), mockPlugin],
+  plugins: [vue(), vueJsx(), tailwindcss(), mockPlugin],
   resolve: {
     alias: {
       '#': fileURLToPath(new URL('./src', import.meta.url)),

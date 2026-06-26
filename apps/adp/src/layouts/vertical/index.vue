@@ -7,80 +7,28 @@ const title = computed(() => String(route.meta.title ?? 'Dashboard'));
 </script>
 
 <template>
-  <div class="vertical-layout">
-    <aside class="vertical-layout__sider">
-      <div class="vertical-layout__brand">ADP</div>
-      <nav class="vertical-layout__nav">
-        <RouterLink to="/dashboard" class="vertical-layout__nav-item">Dashboard</RouterLink>
+  <div class="flex min-h-screen bg-[#f5f7fb]">
+    <aside class="w-sider bg-[#111827] text-white">
+      <div class="h-header px-5 text-[18px] font-bold leading-[56px]">ADP</div>
+      <nav class="p-2">
+        <RouterLink to="/dashboard" class="block py-2.5 px-3 text-white/78 rounded-base">Dashboard</RouterLink>
       </nav>
     </aside>
 
-    <section class="vertical-layout__main">
-      <header class="vertical-layout__header">
+    <section class="flex flex-1 flex-col min-w-0">
+      <header class="h-header px-6 font-semibold leading-[56px] bg-white border-b border-[#e5e7eb]">
         <span>{{ title }}</span>
       </header>
-      <main class="vertical-layout__content">
+      <main class="flex-1 p-6">
         <RouterView />
       </main>
     </section>
   </div>
 </template>
 
-<style scoped lang="less">
-.vertical-layout {
-  display: flex;
-  min-height: 100vh;
-  background: #f5f7fb;
-}
-
-.vertical-layout__sider {
-  width: 220px;
-  background: #111827;
-  color: #fff;
-}
-
-.vertical-layout__brand {
-  height: 56px;
-  padding: 0 20px;
-  font-size: 18px;
-  font-weight: 700;
-  line-height: 56px;
-}
-
-.vertical-layout__nav {
-  padding: 8px;
-}
-
-.vertical-layout__nav-item {
-  display: block;
-  padding: 10px 12px;
-  color: rgb(255 255 255 / 78%);
-  border-radius: 6px;
-}
-
-.vertical-layout__nav-item.router-link-active {
+<style scoped>
+.router-link-active {
   color: #fff;
   background: #2563eb;
-}
-
-.vertical-layout__main {
-  display: flex;
-  flex: 1;
-  flex-direction: column;
-  min-width: 0;
-}
-
-.vertical-layout__header {
-  height: 56px;
-  padding: 0 24px;
-  font-weight: 600;
-  line-height: 56px;
-  background: #fff;
-  border-bottom: 1px solid #e5e7eb;
-}
-
-.vertical-layout__content {
-  flex: 1;
-  padding: 24px;
 }
 </style>

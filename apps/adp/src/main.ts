@@ -4,7 +4,7 @@ import { message } from "@package/common-ui";
 import App from './App.vue';
 import { router } from './router';
 import { setupStores } from './stores';
-import './styles/index.less';
+import './styles/theme.css';
 
 const app = createApp(App);
 

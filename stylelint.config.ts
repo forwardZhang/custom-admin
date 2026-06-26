@@ -6,10 +6,31 @@ const config: Config = {
     'stylelint-config-recommended-vue',
     'stylelint-config-recess-order',
   ],
-  plugins: ['stylelint-less'],
   rules: {
     'selector-class-pattern': null,
     'no-empty-source': null,
+    'at-rule-no-unknown': [
+      true,
+      {
+        ignoreAtRules: [
+          'tailwind',
+          'apply',
+          'variants',
+          'responsive',
+          'screen',
+          'utility',
+          'plugin',
+          'source',
+          'theme',
+          'custom-variant',
+          'container',
+          'reference',
+        ],
+      },
+    ],
+    'custom-property-pattern': null,
+    'import-notation': null,
+    'property-no-vendor-prefix': null,
   },
 };
 

@@ -5,8 +5,8 @@ pre-commit:
       glob: '*.{js,jsx,ts,tsx,vue}'
       run: pnpm eslint {staged_files}
     stylelint:
-      glob: '*.{css,less,vue}'
+      glob: '*.{css,vue}'
       run: pnpm stylelint {staged_files} --allow-empty-input
     format:
-      glob: '*.{js,jsx,ts,tsx,vue,json,css,less,md}'
+      glob: '*.{js,jsx,ts,tsx,vue,json,css,md}'
       run: pnpm prettier {staged_files} --check

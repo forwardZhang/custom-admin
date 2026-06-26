@@ -31,119 +31,44 @@ async function handleLogin() {
 </script>
 
 <template>
-  <div class="login-page">
-    <div class="login-card">
-      <h1 class="login-card__title">ADP Admin</h1>
-      <p class="login-card__desc">登录您的账户</p>
+  <div class="flex-center min-h-screen bg-[linear-gradient(135deg,#667eea_0%,#764ba2_100%)]">
+    <div class="w-[400px] p-10 bg-card rounded-lg shadow-[0_8px_32px_rgba(0,0,0,0.18)]">
+      <h1 class="mb-2 text-[28px] font-bold text-center">ADP Admin</h1>
+      <p class="mb-8 text-muted text-center">登录您的账户</p>
 
-      <form class="login-form" @submit.prevent="handleLogin">
-        <div class="login-form__field">
-          <label for="username">用户名</label>
+      <form @submit.prevent="handleLogin">
+        <div class="mb-5">
+          <label for="username" class="block mb-1.5 font-medium text-[#333]">用户名</label>
           <input
             id="username"
             v-model="username"
             type="text"
             placeholder="请输入用户名"
             autocomplete="username"
+            class="w-full h-10 px-3 text-sm border border-[#d9d9d9] rounded-base outline-none transition-[border-color] duration-200 focus:border-primary focus:shadow-[0_0_0_2px_rgba(22,119,255,0.15)]"
           />
         </div>
 
-        <div class="login-form__field">
-          <label for="password">密码</label>
+        <div class="mb-5">
+          <label for="password" class="block mb-1.5 font-medium text-[#333]">密码</label>
           <input
             id="password"
             v-model="password"
             type="password"
             placeholder="请输入密码"
             autocomplete="current-password"
+            class="w-full h-10 px-3 text-sm border border-[#d9d9d9] rounded-base outline-none transition-[border-color] duration-200 focus:border-primary focus:shadow-[0_0_0_2px_rgba(22,119,255,0.15)]"
           />
         </div>
 
-        <button type="submit" class="login-form__btn" :disabled="loading">
+        <button
+          type="submit"
+          :disabled="loading"
+          class="w-full h-[42px] mt-2 text-lg font-medium text-white cursor-pointer bg-primary border-none rounded-base transition-[background] duration-200 hover:bg-[#4096ff] disabled:opacity-70 disabled:cursor-not-allowed"
+        >
           {{ loading ? '登录中...' : '登 录' }}
         </button>
       </form>
     </div>
   </div>
 </template>
-
-<style scoped lang="less">
-.login-page {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 100vh;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-}
-
-.login-card {
-  width: 400px;
-  padding: 40px;
-  background: #fff;
-  border-radius: 8px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.18);
-}
-
-.login-card__title {
-  margin-bottom: 8px;
-  font-size: 28px;
-  font-weight: 700;
-  text-align: center;
-}
-
-.login-card__desc {
-  margin-bottom: 32px;
-  color: #999;
-  text-align: center;
-}
-
-.login-form__field {
-  margin-bottom: 20px;
-
-  label {
-    display: block;
-    margin-bottom: 6px;
-    font-weight: 500;
-    color: #333;
-  }
-
-  input {
-    width: 100%;
-    height: 40px;
-    padding: 0 12px;
-    font-size: 14px;
-    border: 1px solid #d9d9d9;
-    border-radius: 6px;
-    outline: none;
-    transition: border-color 0.2s;
-
-    &:focus {
-      border-color: #1677ff;
-      box-shadow: 0 0 0 2px rgba(22, 119, 255, 0.15);
-    }
-  }
-}
-
-.login-form__btn {
-  width: 100%;
-  height: 42px;
-  margin-top: 8px;
-  font-size: 16px;
-  font-weight: 500;
-  color: #fff;
-  cursor: pointer;
-  background: #1677ff;
-  border: none;
-  border-radius: 6px;
-  transition: background 0.2s;
-
-  &:hover:not(:disabled) {
-    background: #4096ff;
-  }
-
-  &:disabled {
-    cursor: not-allowed;
-    opacity: 0.7;
-  }
-}
-</style>

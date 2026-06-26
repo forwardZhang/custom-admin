@@ -9,8 +9,8 @@
     "build": "pnpm --filter adp build",
     "preview": "pnpm --filter adp preview",
     "typecheck": "pnpm -r typecheck",
-    "lint": "eslint . && stylelint \"**/*.{css,less,vue}\" --allow-empty-input",
-    "lint:fix": "eslint . --fix && stylelint \"**/*.{css,less,vue}\" --fix --allow-empty-input",
+    "lint": "eslint . && stylelint \"**/*.{css,vue}\" --ignore-pattern dist --allow-empty-input",
+    "lint:fix": "eslint . --fix && stylelint \"**/*.{css,vue}\" --ignore-pattern dist --fix --allow-empty-input",
     "format": "prettier . --check",
     "format:fix": "prettier . --write",
     "adp": "pnpm --filter adp dev"
@@ -25,6 +25,7 @@
   },
   "devDependencies": {
     "@eslint/js": "latest",
+    "@tailwindcss/vite": "^4.3.1",
     "@types/node": "latest",
     "@vitejs/plugin-vue": "latest",
     "@vitejs/plugin-vue-jsx": "latest",
@@ -33,13 +34,12 @@
     "eslint-config-prettier": "latest",
     "eslint-plugin-vue": "latest",
     "lefthook": "latest",
-    "less": "latest",
     "prettier": "latest",
     "stylelint": "latest",
     "stylelint-config-recess-order": "latest",
     "stylelint-config-recommended-vue": "latest",
     "stylelint-config-standard": "latest",
-    "stylelint-less": "latest",
+    "tailwindcss": "^4.3.1",
     "typescript": "latest",
     "vite": "latest",
     "vue-tsc": "latest"
