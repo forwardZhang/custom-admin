@@ -1,9 +1,9 @@
 import type { AxiosInstance } from 'axios';
-import { APP_TOKEN_KEY, getStorageItem } from '@package/shared';
+import { APP_TOKEN_KEY, storage } from '@package/shared';
 
 export function setupRequestInterceptors(instance: AxiosInstance): void {
   instance.interceptors.request.use((config) => {
-    const token = getStorageItem(APP_TOKEN_KEY, '');
+    const token = storage.get(APP_TOKEN_KEY, '');
 
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;

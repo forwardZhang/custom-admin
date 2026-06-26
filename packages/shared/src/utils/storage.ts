@@ -1,33 +1,24 @@
-export function getStorageItem<T>(key: string, fallback: T): T {
-  if (typeof localStorage === 'undefined') {
-    return fallback;
-  }
+export const storage = {
+  get<T>(key: string, fallback: T): T {
+    const value = localStorage.getItem(key);
 
-  const rawValue = localStorage.getItem(key);
+    if (value === null) {
+      return fallback;
+    }
 
-  if (!rawValue) {
-    return fallback;
-  }
+    try {
+      return JSON.parse(value) ?? fallback;
+    } catch {
+      return fallback;
+    }
+  },
 
-  try {
-    return JSON.parse(rawValue) as T;
-  } catch {
-    return rawValue as T;
-  }
-}
+  set<T>(key: string, value: T): void {
+    const nextValue = typeof value === 'string' ? value : JSON.stringify(value);
+    localStorage.setItem(key, nextValue);
+  },
 
-export function setStorageItem<T>(key: string, value: T): void {
-  if (typeof localStorage === 'undefined') {
-    return;
-  }
-
-  localStorage.setItem(key, typeof value === 'string' ? value : JSON.stringify(value));
-}
-
-export function removeStorageItem(key: string): void {
-  if (typeof localStorage === 'undefined') {
-    return;
-  }
-
-  localStorage.removeItem(key);
-}
+  remove(key: string): void {
+    localStorage.removeItem(key);
+  },
+};
