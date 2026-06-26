@@ -11,7 +11,9 @@ const title = computed(() => String(route.meta.title ?? 'Dashboard'));
     <aside class="w-sider bg-[#111827] text-white">
       <div class="h-header px-5 text-[18px] font-bold leading-[56px]">ADP</div>
       <nav class="p-2">
-        <RouterLink to="/dashboard" class="block py-2.5 px-3 text-white/78 rounded-base">Dashboard</RouterLink>
+        <RouterLink to="/dashboard" class="block py-2.5 px-3 text-white/78 rounded-base"
+          >Dashboard</RouterLink
+        >
       </nav>
     </aside>
 
