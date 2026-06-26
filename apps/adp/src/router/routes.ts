@@ -1,4 +1,4 @@
-import { VerticalLayout } from '#/layouts';
+import { VerticalLayout } from '@/layouts';
 import type { AppRouteRecord } from './types';
 
 export const routes: AppRouteRecord[] = [
@@ -9,7 +9,7 @@ export const routes: AppRouteRecord[] = [
   {
     path: '/login',
     name: 'Login',
-    component: () => import('#/views/login/index.vue'),
+    component: () => import('@/views/login/index.vue'),
     meta: {
       title: '登录',
       hideInMenu: true,
@@ -27,7 +27,7 @@ export const routes: AppRouteRecord[] = [
       {
         path: 'dashboard',
         name: 'Dashboard',
-        component: () => import('#/views/dashboard/index.vue'),
+        component: () => import('@/views/dashboard/index.vue'),
         meta: {
           title: 'Dashboard',
           order: 1,
@@ -38,7 +38,7 @@ export const routes: AppRouteRecord[] = [
   {
     path: '/404',
     name: 'NotFound',
-    component: () => import('#/views/exception/404.vue'),
+    component: () => import('@/views/exception/404.vue'),
     meta: {
       title: '404',
       hideInMenu: true,

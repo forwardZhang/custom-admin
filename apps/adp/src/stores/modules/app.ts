@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia';
 import { ref } from 'vue';
-import type { LayoutType } from '#/layouts';
+import type { LayoutType } from '@/layouts';
 
 export const useAppStore = defineStore('app', () => {
   const layout = ref<LayoutType>('vertical');

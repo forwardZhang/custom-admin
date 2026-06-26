@@ -1,2 +1,1 @@
-export const constString = '';
 export const APP_TOKEN_KEY = 'admin-token';

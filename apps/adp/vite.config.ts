@@ -21,8 +21,8 @@ export default defineConfig({
   plugins: [vue(), vueJsx(), tailwindcss(), mockPlugin],
   resolve: {
     alias: {
-      '#': fileURLToPath(new URL('./src', import.meta.url)),
-      '#mock': fileURLToPath(new URL('./mock', import.meta.url)),
+      '@': fileURLToPath(new URL('./src', import.meta.url)),
+      '@mock': fileURLToPath(new URL('./mock', import.meta.url)),
     },
   },
   server: {

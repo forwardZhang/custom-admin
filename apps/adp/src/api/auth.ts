@@ -1,6 +1,5 @@
 import { request } from '@package/request';
 import type { ApiResponse } from '@package/request';
-import type { UserInfo } from '@package/shared';
 
 export interface LoginParams {
   username: string;
@@ -9,7 +8,7 @@ export interface LoginParams {
 
 export interface LoginResult {
   token: string;
-  userInfo: UserInfo;
+  userInfo: any;
 }
 
 /** 用户登录 */
@@ -30,7 +29,7 @@ export function logoutApi(): Promise<ApiResponse<null>> {
 }
 
 /** 获取用户信息 */
-export function getProfileApi(): Promise<ApiResponse<UserInfo>> {
+export function getProfileApi(): Promise<ApiResponse<any>> {
   return request({
     url: '/api/user/profile',
     method: 'GET',

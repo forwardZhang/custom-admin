@@ -3,8 +3,8 @@
   "compilerOptions": {
     "jsxImportSource": "vue",
     "paths": {
-      "#/*": ["./src/*"],
-      "#mock/*": ["./mock/*"]
+      "@/*": ["./src/*"],
+      "@mock/*": ["./mock/*"]
     } 
   },
   "include": [
