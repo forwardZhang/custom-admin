@@ -1,0 +1,66 @@
+{
+  // ===== 编辑器基础 =====
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit",
+    "source.fixAll.stylelint": "explicit"
+  },
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.tabSize": 2,
+  "editor.insertSpaces": true,
+
+  // ===== ESLint =====
+  "eslint.enable": true,
+  "eslint.validate": ["javascript", "javascriptreact", "typescript", "typescriptreact", "vue"],
+  "eslint.useFlatConfig": true,
+
+  // ===== Stylelint =====
+  "stylelint.enable": true,
+  "stylelint.validate": ["css", "less", "vue"],
+  "stylelint.configFile": "${workspaceFolder}/stylelint.config.ts",
+  "less.validate": false,
+  "css.validate": false,
+
+  // ===== Prettier =====
+  "[javascript]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
+  "[javascriptreact]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
+  "[typescript]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
+  "[typescriptreact]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
+  "[vue]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
+  "[json]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
+  "[jsonc]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
+  "[less]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
+  "[css]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
+  "[markdown]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
+  "[yaml]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
+
+  // ===== TypeScript =====
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "typescript.enablePromptUseWorkspaceTsdk": true,
+  "typescript.preferences.importModuleSpecifier": "non-relative",
+  "typescript.preferences.preferTypeOnlyAutoImports": true,
+
+  // ===== Vue =====
+  "vue.server.hybridMode": true,
+
+  // ===== 文件管理 =====
+  "files.exclude": {
+    "**/.git": true,
+    "**/.pnpm-store": true,
+    "**/node_modules": true,
+    "**/dist": true,
+    "**/.workbuddy": true,
+    "**/*.tsbuildinfo": true
+  },
+  "search.exclude": {
+    "**/node_modules": true,
+    "**/dist": true,
+    "**/.pnpm-store": true,
+    "pnpm-lock.yaml": true
+  },
+  "files.watcherExclude": {
+    "**/.git/objects/**": true,
+    "**/node_modules/**": true,
+    "**/dist/**": true
+  }
+}

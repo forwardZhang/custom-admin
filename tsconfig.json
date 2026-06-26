@@ -1,0 +1,11 @@
+{
+  "extends": "./tsconfig.base.json",
+  "files": [],
+  "references": [
+    { "path": "./apps/adp" },
+    { "path": "./packages/shared" },
+    { "path": "./packages/request" },
+    { "path": "./packages/common-ui" }
+  ]
+}
+ 

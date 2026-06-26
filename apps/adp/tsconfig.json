@@ -1,0 +1,18 @@
+{
+  "extends": "../../tsconfig.app.json",
+  "compilerOptions": {
+    "jsxImportSource": "vue",
+    "paths": {
+      "#/*": ["./src/*"],
+      "#mock/*": ["./mock/*"]
+    } 
+  },
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "src/**/*.vue",
+    "mock/**/*.ts",
+    "vite.config.ts"
+  ]
+}
+ 

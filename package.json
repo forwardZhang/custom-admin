@@ -1,0 +1,46 @@
+{
+  "name": "custom-antd-next-admin",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@10.32.0",
+  "scripts": {
+    "dev": "pnpm --filter adp dev",
+    "build": "pnpm --filter adp build",
+    "preview": "pnpm --filter adp preview",
+    "typecheck": "pnpm -r typecheck",
+    "lint": "eslint . && stylelint \"**/*.{css,less,vue}\" --allow-empty-input",
+    "lint:fix": "eslint . --fix && stylelint \"**/*.{css,less,vue}\" --fix --allow-empty-input",
+    "format": "prettier . --check",
+    "format:fix": "prettier . --write"
+  },
+  "dependencies": {
+    "antdv-next": "latest",
+    "axios": "latest",
+    "es-toolkit": "latest",
+    "pinia": "latest",
+    "vue": "latest",
+    "vue-router": "latest"
+  },
+  "devDependencies": {
+    "@eslint/js": "latest",
+    "@types/node": "latest",
+    "@vitejs/plugin-vue": "latest",
+    "@vitejs/plugin-vue-jsx": "latest",
+    "@vue/eslint-config-typescript": "latest",
+    "eslint": "latest",
+    "eslint-config-prettier": "latest",
+    "eslint-plugin-vue": "latest",
+    "lefthook": "latest",
+    "less": "latest",
+    "prettier": "latest",
+    "stylelint": "latest",
+    "stylelint-config-recess-order": "latest",
+    "stylelint-config-recommended-vue": "latest",
+    "stylelint-config-standard": "latest",
+    "stylelint-less": "latest",
+    "typescript": "latest",
+    "vite": "latest",
+    "vue-tsc": "latest"
+  }
+}

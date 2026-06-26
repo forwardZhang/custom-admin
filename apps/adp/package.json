@@ -1,0 +1,21 @@
+{
+  "name": "adp",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "imports": {
+    "#/*": "./src/*",
+    "#mock/*": "./mock/*"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "vue-tsc --noEmit -p tsconfig.json && vite build",
+    "preview": "vite preview",
+    "typecheck": "vue-tsc --noEmit -p tsconfig.json"
+  },
+  "dependencies": {
+    "@package/common-ui": "workspace:*",
+    "@package/request": "workspace:*",
+    "@package/shared": "workspace:*"
+  }
+}

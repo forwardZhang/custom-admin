@@ -1,0 +1,12 @@
+pre-commit:
+  parallel: true
+  commands:
+    lint:
+      glob: '*.{js,jsx,ts,tsx,vue}'
+      run: pnpm eslint {staged_files}
+    stylelint:
+      glob: '*.{css,less,vue}'
+      run: pnpm stylelint {staged_files} --allow-empty-input
+    format:
+      glob: '*.{js,jsx,ts,tsx,vue,json,css,less,md}'
+      run: pnpm prettier {staged_files} --check
