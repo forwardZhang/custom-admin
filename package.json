@@ -1,5 +1,5 @@
 {
-  "name": "custom-antd-next-admin",
+  "name": "custom-admin",
   "version": "0.0.1",
   "private": true,
   "type": "module",
@@ -12,7 +12,8 @@
     "lint": "eslint . && stylelint \"**/*.{css,less,vue}\" --allow-empty-input",
     "lint:fix": "eslint . --fix && stylelint \"**/*.{css,less,vue}\" --fix --allow-empty-input",
     "format": "prettier . --check",
-    "format:fix": "prettier . --write"
+    "format:fix": "prettier . --write",
+    "adp": "pnpm --filter adp dev"
   },
   "dependencies": {
     "antdv-next": "latest",
