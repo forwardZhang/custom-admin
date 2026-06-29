@@ -1,12 +1,12 @@
 pre-commit:
-  parallel: true
+  parallel: false
   commands:
     lint:
       glob: '*.{js,jsx,ts,tsx,vue}'
-      run: pnpm eslint {staged_files}
+      run: pnpm eslint --fix {staged_files} && git add {staged_files}
     stylelint:
       glob: '*.{css,vue}'
-      run: pnpm stylelint {staged_files} --allow-empty-input
+      run: pnpm stylelint --fix {staged_files} --allow-empty-input && git add {staged_files}
     format:
       glob: '*.{js,jsx,ts,tsx,vue,json,css,md}'
-      run: pnpm prettier {staged_files} --check
+      run: pnpm prettier --write {staged_files} && git add {staged_files}

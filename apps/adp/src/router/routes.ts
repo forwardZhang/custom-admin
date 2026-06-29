@@ -1,7 +1,7 @@
-import { VerticalLayout } from '@/layouts';
-import type { AppRouteRecord } from './types';
+import Layout from '@/layouts/index.vue';
+import type { RouteRecordRaw } from 'vue-router';
 
-export const routes: AppRouteRecord[] = [
+export const routes: RouteRecordRaw[] = [
   {
     path: '/',
     redirect: '/dashboard',
@@ -18,7 +18,7 @@ export const routes: AppRouteRecord[] = [
   {
     path: '/',
     name: 'RootLayout',
-    component: VerticalLayout,
+    component: Layout,
     meta: {
       title: '首页',
       layout: 'vertical',

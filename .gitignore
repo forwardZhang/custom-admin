@@ -22,7 +22,9 @@ dist-ssr
 # Nitro build output
 .nitro
 .output
-
+test-componets
+vue-vben-admin
+vue-vben-admin/*
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

@@ -1,27 +1,55 @@
 {
-  // ===== 编辑器基础 =====
+  // ==========================================
+  // 1. 编辑器基础体验 (DX & Visuals)
+  // ==========================================
+  "editor.tabSize": 2,
+  "editor.insertSpaces": true,
+  "editor.detectIndentation": true,
+  "editor.wordWrap": "on",
+  // 括号彩色配对与引导线 (极力推荐，看嵌套代码神器)
+  "editor.bracketPairColorization.enabled": true,
+  "editor.guides.bracketPairs": "active",
+  // 语义高亮，使 TS/Vue 代码色彩更丰富
+  "editor.semanticHighlighting.enabled": true,
+
+  // ==========================================
+  // 2. 文件保存与清理规范
+  // ==========================================
   "editor.formatOnSave": true,
+  "files.trimTrailingWhitespace": true, // 保存时自动去除行尾空格
+  "files.insertFinalNewline": true, // 保存时自动在文件末尾加一行空行，符合 Git 规范
+  "files.eol": "\n", // 强制使用 Unix 风格换行符 (LF)
+
+  // ==========================================
+  // 3. ESLint / Stylelint 自动修复与校验
+  // ==========================================
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": "explicit",
     "source.fixAll.stylelint": "explicit"
   },
-  "editor.defaultFormatter": "esbenp.prettier-vscode",
-  "editor.tabSize": 2,
-  "editor.insertSpaces": true,
-
-  // ===== ESLint =====
+  // 启用 ESLint Flat Config 支持
   "eslint.enable": true,
-  "eslint.validate": ["javascript", "javascriptreact", "typescript", "typescriptreact", "vue"],
   "eslint.useFlatConfig": true,
-
-  // ===== Stylelint =====
+  "eslint.validate": [
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact",
+    "vue",
+    "html",
+    "markdown"
+  ],
+  // 启用 Stylelint 支持
   "stylelint.enable": true,
-  "stylelint.validate": ["css", "less", "vue"],
+  "stylelint.validate": ["css", "less", "postcss", "vue"],
   "stylelint.configFile": "${workspaceFolder}/stylelint.config.ts",
   "less.validate": false,
   "css.validate": false,
 
-  // ===== Prettier =====
+  // ==========================================
+  // 4. Prettier 默认格式化器配置
+  // ==========================================
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
   "[javascript]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
   "[javascriptreact]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
   "[typescript]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
@@ -29,35 +57,45 @@
   "[vue]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
   "[json]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
   "[jsonc]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
-  "[less]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
   "[css]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
+  "[less]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
+  "[scss]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
   "[markdown]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
   "[yaml]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
+  "[html]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
 
-  // ===== TypeScript =====
+  // ==========================================
+  // 5. TypeScript & Vue 专属优化
+  // ==========================================
   "typescript.tsdk": "node_modules/typescript/lib",
   "typescript.enablePromptUseWorkspaceTsdk": true,
   "typescript.preferences.importModuleSpecifier": "non-relative",
+  // 自动导入时优先使用 `import type`，保持代码整洁且避免运行时体积膨胀
   "typescript.preferences.preferTypeOnlyAutoImports": true,
-
-  // ===== Vue =====
+  "typescript.updateImportsOnFileMove.enabled": "always", // 移动文件时自动更新 import 路径
+  // 启用 Vue Volar 混合模式，获得极速响应
   "vue.server.hybridMode": true,
 
-  // ===== 文件管理 =====
+  // ==========================================
+  // 6. 文件过滤与性能优化 (排除无用检索)
+  // ==========================================
+  // 侧边栏文件树排除 (不在此隐藏 node_modules，让你能看到它)
   "files.exclude": {
     "**/.git": true,
     "**/.pnpm-store": true,
-    "**/node_modules": true,
-    "**/dist": true,
     "**/.workbuddy": true,
-    "**/*.tsbuildinfo": true
+    "**/*.tsbuildinfo": true,
+    "**/.DS_Store": true
   },
+  // 全局搜索排除 (把 node_modules 和 dist 排除在搜索之外，防止编辑器卡死)
   "search.exclude": {
     "**/node_modules": true,
     "**/dist": true,
     "**/.pnpm-store": true,
-    "pnpm-lock.yaml": true
+    "pnpm-lock.yaml": true,
+    "**/.git": true
   },
+  // 硬件监听器排除 (防止 node_modules 频繁变动导致 CPU 狂飙)
   "files.watcherExclude": {
     "**/.git/objects/**": true,
     "**/node_modules/**": true,
