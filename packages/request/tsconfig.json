@@ -1,5 +1,7 @@
 {
   "extends": "../../tsconfig.app.json",
-  "compilerOptions": {},
-  "include": ["src/**/*.ts"]
+  "compilerOptions": {
+    "jsxImportSource": "vue"
+  },
+  "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.vue"]
 }
