@@ -10,13 +10,13 @@ If a large or small collapse is desired, set the `size` property to either `larg
 
 ```vue
 <script setup lang="ts">
-import { h } from 'vue'
+import { h } from 'vue';
 
 const text = `
   A dog is a type of domesticated animal.
   Known for its loyalty and faithfulness,
   it can be found as a welcome guest in many households across the world.
-`
+`;
 
 const defaultItems = [
   {
@@ -24,7 +24,7 @@ const defaultItems = [
     label: 'This is default size panel header',
     content: h('p', text),
   },
-]
+];
 
 const smallItems = [
   {
@@ -32,7 +32,7 @@ const smallItems = [
     label: 'This is small size panel header',
     content: h('p', text),
   },
-]
+];
 
 const largeItems = [
   {
@@ -40,21 +40,15 @@ const largeItems = [
     label: 'This is large size panel header',
     content: h('p', text),
   },
-]
+];
 </script>
 
 <template>
-  <a-divider title-placement="start">
-    Default Size
-  </a-divider>
+  <a-divider title-placement="start"> Default Size </a-divider>
   <a-collapse :items="defaultItems" />
-  <a-divider title-placement="start">
-    Small Size
-  </a-divider>
+  <a-divider title-placement="start"> Small Size </a-divider>
   <a-collapse size="small" :items="smallItems" />
-  <a-divider title-placement="start">
-    Large Size
-  </a-divider>
+  <a-divider title-placement="start"> Large Size </a-divider>
   <a-collapse size="large" :items="largeItems" />
 </template>
 ```

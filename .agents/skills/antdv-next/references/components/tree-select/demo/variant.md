@@ -11,7 +11,7 @@ Variants of TreeSelect, there are four variants: `outlined` `filled` `borderless
 const style = {
   width: '100%',
   maxWidth: '100%',
-}
+};
 </script>
 
 <template>

@@ -8,13 +8,13 @@ Customize clear button.
 
 ```vue
 <script setup lang="ts">
-import { CloseSquareFilled } from '@antdv-next/icons'
-import { h, ref } from 'vue'
+import { CloseSquareFilled } from '@antdv-next/icons';
+import { h, ref } from 'vue';
 
-const value = ref('hello world')
+const value = ref('hello world');
 const customAllowClear = {
   clearIcon: h(CloseSquareFilled),
-}
+};
 </script>
 
 <template>

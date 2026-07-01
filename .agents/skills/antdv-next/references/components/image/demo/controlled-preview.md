@@ -8,10 +8,10 @@ You can make preview controlled.
 
 ```vue
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref } from 'vue';
 
-const open = ref(false)
-const scaleStep = ref(0.5)
+const open = ref(false);
+const scaleStep = ref(0.5);
 </script>
 
 <template>
@@ -19,10 +19,8 @@ const scaleStep = ref(0.5)
     scaleStep: {{ scaleStep }}
     <a-input-number v-model:value="scaleStep" min="0.1" max="5" step="0.1" />
   </div>
-  <br>
-  <a-button type="primary" @click="open = true">
-    show image preview
-  </a-button>
+  <br />
+  <a-button type="primary" @click="open = true"> show image preview </a-button>
   <a-image
     alt="basic image"
     :width="200"
@@ -33,7 +31,7 @@ const scaleStep = ref(0.5)
       scaleStep,
       src: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
       onOpenChange(val: boolean) {
-        open = val
+        open = val;
       },
     }"
   />

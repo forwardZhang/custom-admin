@@ -8,12 +8,12 @@ Cascade selection box of different sizes.
 
 ```vue
 <script setup lang="ts">
-import type { CascaderEmits } from 'antdv-next'
+import type { CascaderEmits } from 'antdv-next';
 
 interface Option {
-  value: string
-  label: string
-  children?: Option[]
+  value: string;
+  label: string;
+  children?: Option[];
 }
 
 const options: Option[] = [
@@ -49,22 +49,22 @@ const options: Option[] = [
       },
     ],
   },
-]
+];
 
 const onChange: CascaderEmits['change'] = (value) => {
-  console.log(value)
-}
+  console.log(value);
+};
 </script>
 
 <template>
   <a-cascader size="large" :options="options" @change="onChange" />
-  <br>
-  <br>
+  <br />
+  <br />
   <a-cascader :options="options" @change="onChange" />
-  <br>
-  <br>
+  <br />
+  <br />
   <a-cascader size="small" :options="options" @change="onChange" />
-  <br>
-  <br>
+  <br />
+  <br />
 </template>
 ```

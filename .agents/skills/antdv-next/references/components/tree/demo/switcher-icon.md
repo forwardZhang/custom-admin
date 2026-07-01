@@ -8,9 +8,9 @@ customize collapse/expand icon of tree node
 
 ```vue
 <script setup lang="ts">
-import type { TreeDataNode, TreeEmits } from 'antdv-next'
-import { DownOutlined } from '@antdv-next/icons'
-import { ref } from 'vue'
+import type { TreeDataNode, TreeEmits } from 'antdv-next';
+import { DownOutlined } from '@antdv-next/icons';
+import { ref } from 'vue';
 
 const treeData: TreeDataNode[] = [
   {
@@ -61,22 +61,17 @@ const treeData: TreeDataNode[] = [
       },
     ],
   },
-]
+];
 
-const expandedKeys = ref(['0-0-0'])
+const expandedKeys = ref(['0-0-0']);
 
 const onSelect: TreeEmits['select'] = (selectedKeys, info) => {
-  console.log('selected', selectedKeys, info)
-}
+  console.log('selected', selectedKeys, info);
+};
 </script>
 
 <template>
-  <a-tree
-    v-model:expanded-keys="expandedKeys"
-    show-line
-    :tree-data="treeData"
-    @select="onSelect"
-  >
+  <a-tree v-model:expanded-keys="expandedKeys" show-line :tree-data="treeData" @select="onSelect">
     <template #switcherIcon>
       <DownOutlined />
     </template>

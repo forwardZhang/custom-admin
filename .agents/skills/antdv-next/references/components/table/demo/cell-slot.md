@@ -8,13 +8,13 @@ Customize header and body cells via the headerCell and bodyCell slots.
 
 ```vue
 <script setup lang="ts">
-import type { TableProps } from 'antdv-next'
+import type { TableProps } from 'antdv-next';
 
 interface DataItem {
-  key: string
-  name: string
-  age: number
-  address: string
+  key: string;
+  name: string;
+  age: number;
+  address: string;
 }
 
 const columns: TableProps['columns'] = [
@@ -37,7 +37,7 @@ const columns: TableProps['columns'] = [
     title: 'Action',
     key: 'action',
   },
-]
+];
 
 const dataSource: DataItem[] = [
   {
@@ -58,10 +58,10 @@ const dataSource: DataItem[] = [
     age: 32,
     address: 'Sydney No. 1 Lake Park',
   },
-]
+];
 
 function handleAction(record: Record<string, any>) {
-  console.log('Action:', record.name)
+  console.log('Action:', record.name);
 }
 </script>
 

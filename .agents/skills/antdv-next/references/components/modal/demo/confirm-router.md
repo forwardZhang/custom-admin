@@ -8,14 +8,14 @@
 
 ```vue
 <script setup lang="ts">
-import { ExclamationCircleOutlined } from '@antdv-next/icons'
-import { Button, Modal } from 'antdv-next'
-import { h } from 'vue'
+import { ExclamationCircleOutlined } from '@antdv-next/icons';
+import { Button, Modal } from 'antdv-next';
+import { h } from 'vue';
 
-const confirm = Modal.confirm
+const confirm = Modal.confirm;
 
 function destroyAll() {
-  Modal.destroyAll()
+  Modal.destroyAll();
 }
 
 function showConfirm() {
@@ -23,26 +23,28 @@ function showConfirm() {
     setTimeout(() => {
       confirm({
         icon: h(ExclamationCircleOutlined),
-        content: h(Button, {
-          onClick: destroyAll,
-        }, {
-          default: () => 'Click to destroy All',
-        }),
+        content: h(
+          Button,
+          {
+            onClick: destroyAll,
+          },
+          {
+            default: () => 'Click to destroy All',
+          },
+        ),
         onOk() {
-          console.log('OK')
+          console.log('OK');
         },
         onCancel() {
-          console.log('Cancel')
+          console.log('Cancel');
         },
-      })
-    }, i * 500)
+      });
+    }, i * 500);
   }
 }
 </script>
 
 <template>
-  <a-button @click="showConfirm">
-    Confirm
-  </a-button>
+  <a-button @click="showConfirm"> Confirm </a-button>
 </template>
 ```

@@ -18,10 +18,10 @@ This plugin maps Ant Design CSS variables into Tailwind's theme system, so utili
 
 `@antdv-next/tailwind` ships in lockstep with `antdv-next`. Pick the matching version from the table below:
 
-| `antdv-next` | `@antdv-next/tailwind` | Notes |
-| --- | --- | --- |
-| `>=1.3.0` | `^1.1.0` | **Current recommended.** Spacing tokens are aligned with antdv 1.3.0 (`p-xxl`, `p-xxxl`, `m-xxxl` are removed) and many new semantic tokens are added (`primary-text`, `success-bg-hover`, `text-placeholder`, `bg-solid`, …). Also introduces the v4 namespace-safe entry `compat.css`. |
-| `<1.3.0` | `<1.1.0` | antdv before 1.3.0 still exposes the old spacing tokens. Pinning `@antdv-next/tailwind@<1.1.0` avoids referencing variables that no longer exist. |
+| `antdv-next` | `@antdv-next/tailwind` | Notes                                                                                                                                                                                                                                                                                    |
+| ------------ | ---------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `>=1.3.0`    | `^1.1.0`               | **Current recommended.** Spacing tokens are aligned with antdv 1.3.0 (`p-xxl`, `p-xxxl`, `m-xxxl` are removed) and many new semantic tokens are added (`primary-text`, `success-bg-hover`, `text-placeholder`, `bg-solid`, …). Also introduces the v4 namespace-safe entry `compat.css`. |
+| `<1.3.0`     | `<1.1.0`               | antdv before 1.3.0 still exposes the old spacing tokens. Pinning `@antdv-next/tailwind@<1.1.0` avoids referencing variables that no longer exist.                                                                                                                                        |
 
 > When you bump `antdv-next` to 1.3.0, bump `@antdv-next/tailwind` to `>=1.1.0` together. If you are still on antdv-next 1.2.x or earlier, pin `@antdv-next/tailwind` to the 1.0.x line.
 
@@ -58,9 +58,9 @@ If you prefer an UnoCSS-based approach, see the [UnoCSS](unocss.md) guide.
 
 Tailwind CSS v4 wires the theme through the `@theme` mechanism. Starting from 1.1.0, `@antdv-next/tailwind` ships **two parallel entries**:
 
-| Entry | Utility example | When to use |
-| --- | --- | --- |
-| `theme.css` (classic) | `bg-primary`, `p-lg`, `text-lg`, `shadow-card` | Existing projects; accept antdv tokens occupying Tailwind's native utility namespace |
+| Entry                          | Utility example                                                                                              | When to use                                                                              |
+| ------------------------------ | ------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------- |
+| `theme.css` (classic)          | `bg-primary`, `p-lg`, `text-lg`, `shadow-card`                                                               | Existing projects; accept antdv tokens occupying Tailwind's native utility namespace     |
 | `compat.css` (**recommended**) | `bg-ant-primary`, `p-ant-lg`, `text-ant-lg`, `shadow-ant-card` (plus optional `a-bg-primary` etc. shortcuts) | New projects; avoid clashes with Tailwind built-in tokens or project-level custom tokens |
 
 > For the design rationale, see [css-plugin Issue #7 (RFC)](https://github.com/antdv-next/css-plugin/issues/7).
@@ -68,13 +68,13 @@ Tailwind CSS v4 wires the theme through the `@theme` mechanism. Starting from 1.
 ### Option 1: Import the theme file directly
 
 ```css
-@import "tailwindcss";
+@import 'tailwindcss';
 
 /* Pick one — classic entry */
-@import "@antdv-next/tailwind/theme.css";
+@import '@antdv-next/tailwind/theme.css';
 
 /* Or — namespace-safe entry (recommended) */
-@import "@antdv-next/tailwind/compat.css";
+@import '@antdv-next/tailwind/compat.css';
 ```
 
 ### Option 2: Generate theme CSS dynamically
@@ -82,23 +82,20 @@ Tailwind CSS v4 wires the theme through the `@theme` mechanism. Starting from 1.
 If you need a custom CSS variable prefix or namespace, use the generators exported from the `v4` entry:
 
 ```ts
-import {
-  generateCompatThemeCSS,
-  generateThemeCSS,
-} from '@antdv-next/tailwind/v4'
+import { generateCompatThemeCSS, generateThemeCSS } from '@antdv-next/tailwind/v4';
 
 // Classic entry (default antPrefix='ant')
 const css = generateThemeCSS({
   antPrefix: 'my-app',
-})
+});
 
 // Namespace-safe entry
 const compatCss = generateCompatThemeCSS({
-  antPrefix: 'ant',             // antdv CSS variable prefix
-  tokenPrefix: 'ant',           // produces --color-ant-primary, @utility p-ant-lg
-  prefix: 'a',                  // also emits @utility a-bg-primary shortcuts
+  antPrefix: 'ant', // antdv CSS variable prefix
+  tokenPrefix: 'ant', // produces --color-ant-primary, @utility p-ant-lg
+  prefix: 'a', // also emits @utility a-bg-primary shortcuts
   allowPrefixedUtilities: true, // toggle the shortcuts above
-})
+});
 ```
 
 ### compat.css options
@@ -115,18 +112,18 @@ If you are still on Tailwind CSS v3, use the plugin form.
 ### Basic setup
 
 ```ts
-import antdPlugin from '@antdv-next/tailwind'
+import antdPlugin from '@antdv-next/tailwind';
 
 export default {
   content: ['./src/**/*.{vue,js,ts,jsx,tsx}'],
   plugins: [antdPlugin],
-}
+};
 ```
 
 ### Custom setup
 
 ```ts
-import { createAntdPlugin } from '@antdv-next/tailwind'
+import { createAntdPlugin } from '@antdv-next/tailwind';
 
 export default {
   content: ['./src/**/*.{vue,js,ts,jsx,tsx}'],
@@ -135,7 +132,7 @@ export default {
       antPrefix: 'ant',
     }),
   ],
-}
+};
 ```
 
 ## Usage Example
@@ -153,9 +150,7 @@ export default {
   <!-- compat.css recommended writing (namespace-safe) -->
   <div class="bg-ant-primary text-ant-light-solid p-ant-lg rounded-ant-lg shadow-ant-card">
     <h1 class="text-ant-h1 color-ant-primary">Namespace safe</h1>
-    <p class="color-ant-text-secondary mt-ant-sm">
-      Doesn't collide with Tailwind built-in tokens
-    </p>
+    <p class="color-ant-text-secondary mt-ant-sm">Doesn't collide with Tailwind built-in tokens</p>
   </div>
 
   <!-- compat.css also emits a-* prefixed shortcuts -->
@@ -167,49 +162,49 @@ export default {
 
 ## Tailwind v4 Utility Mapping
 
-| Category | Classic `theme.css` | Recommended `compat.css` | Shortcut |
-| --- | --- | --- | --- |
-| Color | `bg-primary`, `text-blue-5` | `bg-ant-primary`, `text-ant-blue-5` | `a-bg-primary`, `a-c-primary` |
-| Padding | `p-lg`, `px-sm` | `p-ant-lg`, `px-ant-sm` | `a-p-lg`, `a-px-sm` |
-| Margin | `m-lg`, `my-sm` | `m-ant-lg`, `my-ant-sm` | `a-m-lg`, `a-my-sm` |
-| Radius | `rounded-lg` | `rounded-ant-lg` | `a-rounded-lg`, `a-rd-lg` |
-| Font size | `text-h1` | `text-ant-h1` | `a-text-h1` |
-| Shadow | `shadow-card` | `shadow-ant-card` | `a-shadow-card` |
+| Category  | Classic `theme.css`         | Recommended `compat.css`            | Shortcut                      |
+| --------- | --------------------------- | ----------------------------------- | ----------------------------- |
+| Color     | `bg-primary`, `text-blue-5` | `bg-ant-primary`, `text-ant-blue-5` | `a-bg-primary`, `a-c-primary` |
+| Padding   | `p-lg`, `px-sm`             | `p-ant-lg`, `px-ant-sm`             | `a-p-lg`, `a-px-sm`           |
+| Margin    | `m-lg`, `my-sm`             | `m-ant-lg`, `my-ant-sm`             | `a-m-lg`, `a-my-sm`           |
+| Radius    | `rounded-lg`                | `rounded-ant-lg`                    | `a-rounded-lg`, `a-rd-lg`     |
+| Font size | `text-h1`                   | `text-ant-h1`                       | `a-text-h1`                   |
+| Shadow    | `shadow-card`               | `shadow-ant-card`                   | `a-shadow-card`               |
 
 ## Common Utility Reference
 
 ### Colors and Backgrounds
 
-| Classic `theme.css` | Namespace-safe `compat.css` | Description |
-| --- | --- | --- |
-| `bg-primary` | `bg-ant-primary` | Primary background color |
-| `text-primary` | `color-ant-primary` | Primary text color |
-| `bg-success` | `bg-ant-success` | Success background color |
-| `text-text-secondary` | `color-ant-text-secondary` | Secondary text color |
-| `bg-container` | `bg-ant-container` | Container background color |
-| `border-border` | `border-ant-border` | Default border color |
+| Classic `theme.css`   | Namespace-safe `compat.css` | Description                |
+| --------------------- | --------------------------- | -------------------------- |
+| `bg-primary`          | `bg-ant-primary`            | Primary background color   |
+| `text-primary`        | `color-ant-primary`         | Primary text color         |
+| `bg-success`          | `bg-ant-success`            | Success background color   |
+| `text-text-secondary` | `color-ant-text-secondary`  | Secondary text color       |
+| `bg-container`        | `bg-ant-container`          | Container background color |
+| `border-border`       | `border-ant-border`         | Default border color       |
 
 ### Spacing and Layout
 
-| Classic | Namespace-safe | Description |
-| --- | --- | --- |
-| `p-lg` | `p-ant-lg` | Large padding |
-| `px-md` | `px-ant-md` | Medium horizontal padding |
-| `py-sm` | `py-ant-sm` | Small vertical padding |
-| `m-md` | `m-ant-md` | Medium margin |
-| `mt-sm` | `mt-ant-sm` | Small top margin |
-| `rounded-lg` | `rounded-ant-lg` | Large border radius |
+| Classic      | Namespace-safe   | Description               |
+| ------------ | ---------------- | ------------------------- |
+| `p-lg`       | `p-ant-lg`       | Large padding             |
+| `px-md`      | `px-ant-md`      | Medium horizontal padding |
+| `py-sm`      | `py-ant-sm`      | Small vertical padding    |
+| `m-md`       | `m-ant-md`       | Medium margin             |
+| `mt-sm`      | `mt-ant-sm`      | Small top margin          |
+| `rounded-lg` | `rounded-ant-lg` | Large border radius       |
 
 ### Typography and Shadows
 
-| Classic | Namespace-safe | Description |
-| --- | --- | --- |
-| `text-h1` | `text-ant-h1` | H1 title size |
-| `text-lg` | `text-ant-lg` | Large text |
-| `text-sm` | `text-ant-sm` | Small text |
-| `shadow-card` | `shadow-ant-card` | Card shadow |
-| `shadow-sec` | `shadow-ant-sec` | Secondary shadow |
-| `shadow-ter` | `shadow-ant-ter` | Tertiary shadow |
+| Classic       | Namespace-safe    | Description      |
+| ------------- | ----------------- | ---------------- |
+| `text-h1`     | `text-ant-h1`     | H1 title size    |
+| `text-lg`     | `text-ant-lg`     | Large text       |
+| `text-sm`     | `text-ant-sm`     | Small text       |
+| `shadow-card` | `shadow-ant-card` | Card shadow      |
+| `shadow-sec`  | `shadow-ant-sec`  | Secondary shadow |
+| `shadow-ter`  | `shadow-ant-ter`  | Tertiary shadow  |
 
 ## Spacing Tokens (aligned with antdv 1.3.0)
 
@@ -236,7 +231,7 @@ The semantic token set is now fully aligned with antdv 1.3.0:
 
 ```vue
 <script setup lang="ts">
-import { ConfigProvider } from 'antdv-next'
+import { ConfigProvider } from 'antdv-next';
 </script>
 
 <template>

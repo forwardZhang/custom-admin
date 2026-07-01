@@ -2,15 +2,17 @@
 title: App
 description: Application wrapper for some global usages.
 ---
-## When To Use 
+
+## When To Use
+
 - Provide reset styles based on `.ant-app` element.
 - You could use static methods of `message/notification/Modal` form `useApp` without writing `contextHolder` manually.
 
 ## Demos
 
-| Demo | Path |
-| --- | --- |
-| Basic | demo/basic.md |
+| Demo         | Path           |
+| ------------ | -------------- |
+| Basic        | demo/basic.md  |
 | Hooks config | demo/config.md |
 
 ```html
@@ -52,7 +54,7 @@ description: Application wrapper for some global usages.
 ```html
 <!-- myPage2.vue -->
 <script setup lang="ts">
-  import { App } from 'antdv-next'
+  import { App } from 'antdv-next';
 
   const { message, modal, notification } = App.useApp();
 
@@ -70,15 +72,10 @@ description: Application wrapper for some global usages.
 
 <template>
   <a-space wrap>
-    <a-button type="primary" @click="showMessage">
-      Message for only one
-    </a-button>
-    <a-button type="primary" @click="showNotification">
-      Notification for bottomLeft
-    </a-button>
+    <a-button type="primary" @click="showMessage"> Message for only one </a-button>
+    <a-button type="primary" @click="showNotification"> Notification for bottomLeft </a-button>
   </a-space>
 </template>
-
 ```
 
 ## How to use
@@ -112,16 +109,18 @@ The App component can only use the token in the `ConfigProvider`, if you need to
 
 ## API
 
-### Property 
+### Property
+
 Common props ref：[Common props](../../docs/vue/common-props.md)
 
 | Property     | Description                                               | Type               | Default | Version | [Global Config](../config-provider/docs.md#component-config) |
-| ------------ | --------------------------------------------------------- | ------------------ | ------- | ------- | --- |
-| message      | Global config for Message                                 | MessageConfig      | -       |         | × |
-| notification | Global config for Notification                            | NotificationConfig | -       |         | × |
-| component    | Config render element, if`false` will not create DOM node | any                | div     |         | × |
+| ------------ | --------------------------------------------------------- | ------------------ | ------- | ------- | ------------------------------------------------------------ |
+| message      | Global config for Message                                 | MessageConfig      | -       |         | ×                                                            |
+| notification | Global config for Notification                            | NotificationConfig | -       |         | ×                                                            |
+| component    | Config render element, if`false` will not create DOM node | any                | div     |         | ×                                                            |
 
 ## FAQ
 
-### CSS Var doesn't work inside `<a-app :component="false">` 
+### CSS Var doesn't work inside `<a-app :component="false">`
+
 Make sure the App `component` is a valid html tag, so when you're turning on CSS variables, there's a container to hold the CSS class name. If not set, it defaults to the `div` tag. If set to `false`, no additional DOM nodes will be created, and no default styles will be provided.

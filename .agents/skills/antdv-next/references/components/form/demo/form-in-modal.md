@@ -8,37 +8,35 @@ Use form inside modal.
 
 ```vue
 <script setup lang="ts">
-import type { FormInstance } from 'antdv-next'
-import { reactive, ref, shallowRef } from 'vue'
+import type { FormInstance } from 'antdv-next';
+import { reactive, ref, shallowRef } from 'vue';
 
 interface Values {
-  title?: string
-  description?: string
-  modifier?: string
+  title?: string;
+  description?: string;
+  modifier?: string;
 }
 
-const formRef = shallowRef<FormInstance>()
-const open = ref(false)
-const formValues = ref<Values>()
+const formRef = shallowRef<FormInstance>();
+const open = ref(false);
+const formValues = ref<Values>();
 
 const model = reactive({
   title: '',
   description: '',
   modifier: 'public',
-})
+});
 
 function handleCreate(values: Values) {
-  console.log('Received values of form: ', values)
-  formValues.value = values
-  open.value = false
+  console.log('Received values of form: ', values);
+  formValues.value = values;
+  open.value = false;
 }
 </script>
 
 <template>
   <a-space direction="vertical" style="width: 100%">
-    <a-button type="primary" @click="open = true">
-      New Collection
-    </a-button>
+    <a-button type="primary" @click="open = true"> New Collection </a-button>
     <pre>{{ JSON.stringify(formValues, null, 2) }}</pre>
   </a-space>
 
@@ -71,12 +69,8 @@ function handleCreate(values: Values) {
       </a-form-item>
       <a-form-item name="modifier" class="collection-create-form_last-form-item">
         <a-radio-group v-model:value="model.modifier">
-          <a-radio value="public">
-            Public
-          </a-radio>
-          <a-radio value="private">
-            Private
-          </a-radio>
+          <a-radio value="public"> Public </a-radio>
+          <a-radio value="private"> Private </a-radio>
         </a-radio-group>
       </a-form-item>
     </a-form>

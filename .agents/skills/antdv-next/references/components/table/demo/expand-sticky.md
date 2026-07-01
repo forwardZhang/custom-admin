@@ -8,16 +8,16 @@ Use `expandedRowOffset` to customize the offset of the expanded sub-table column
 
 ```vue
 <script setup lang="ts">
-import type { TableProps } from 'antdv-next'
-import { Table } from 'antdv-next'
+import type { TableProps } from 'antdv-next';
+import { Table } from 'antdv-next';
 
 interface DataType {
-  key: number
-  team: string
-  name: string
-  age: number
-  address: string
-  description: string
+  key: number;
+  team: string;
+  name: string;
+  age: number;
+  address: string;
+  description: string;
 }
 
 const columns: TableProps['columns'] = [
@@ -33,7 +33,7 @@ const columns: TableProps['columns'] = [
   { title: 'Age', dataIndex: 'age', key: 'age' },
   { title: 'Address', dataIndex: 'address', key: 'address' },
   { title: 'Action', dataIndex: '', key: 'x' },
-]
+];
 
 const dataSource: DataType[] = [
   {
@@ -68,7 +68,7 @@ const dataSource: DataType[] = [
     address: 'Sydney No. 1 Lake Park',
     description: 'My name is Joe Black, I am 32 years old, living in Sydney No. 1 Lake Park.',
   },
-]
+];
 </script>
 
 <template>

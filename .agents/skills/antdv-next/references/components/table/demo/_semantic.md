@@ -1,15 +1,15 @@
-# _semantic
+# \_semantic
 
 ## Source
 
 ```vue
 <script setup lang="ts">
-import { computed } from 'vue'
-import { SemanticPreview } from '@/components/semantic'
-import { useComponentLocale } from '@/composables/use-locale'
-import { locales } from '../locales'
+import { computed } from 'vue';
+import { SemanticPreview } from '@/components/semantic';
+import { useComponentLocale } from '@/composables/use-locale';
+import { locales } from '../locales';
 
-const { t } = useComponentLocale(locales)
+const { t } = useComponentLocale(locales);
 
 const semantics = computed(() => [
   { name: 'root', desc: t('root') },
@@ -25,7 +25,7 @@ const semantics = computed(() => [
   { name: 'footer', desc: t('footer') },
   { name: 'pagination.root', desc: t('pagination.root') },
   { name: 'pagination.item', desc: t('pagination.item') },
-])
+]);
 
 const columns = [
   {
@@ -36,7 +36,7 @@ const columns = [
     ],
   },
   { title: 'Address', dataIndex: 'address' },
-]
+];
 
 const data = [
   { key: '1', name: 'thinkasany', age: 24, address: 'New York No. 1 Lake Park' },
@@ -45,14 +45,11 @@ const data = [
   { key: '4', name: 'Joe Black', age: 32, address: 'Sydney No. 1 Lake Park' },
   { key: '5', name: 'Joe Black', age: 32, address: 'Sydney No. 1 Lake Park' },
   { key: '6', name: 'Joe Black', age: 32, address: 'Sydney No. 1 Lake Park' },
-]
+];
 </script>
 
 <template>
-  <SemanticPreview
-    component-name="Table"
-    :semantics="semantics"
-  >
+  <SemanticPreview component-name="Table" :semantics="semantics">
     <template #default="{ classes }">
       <a-table
         bordered
@@ -63,12 +60,8 @@ const data = [
         :pagination="{ pageSize: 3 }"
         :classes="classes"
       >
-        <template #title>
-          table title
-        </template>
-        <template #footer>
-          table footer
-        </template>
+        <template #title> table title </template>
+        <template #footer> table footer </template>
       </a-table>
     </template>
   </SemanticPreview>

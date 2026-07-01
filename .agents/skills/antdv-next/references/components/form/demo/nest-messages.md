@@ -8,7 +8,7 @@ Nested fields with custom validation messages.
 
 ```vue
 <script setup lang="ts">
-import { reactive } from 'vue'
+import { reactive } from 'vue';
 
 const model = reactive({
   user: {
@@ -18,7 +18,7 @@ const model = reactive({
     website: '',
     introduction: '',
   },
-})
+});
 
 const validateMessages = {
   required: '${label} is required!',
@@ -29,10 +29,10 @@ const validateMessages = {
   number: {
     range: '${label} must be between ${min} and ${max}',
   },
-}
+};
 
 function handleFinish(values: any) {
-  console.log(values)
+  console.log(values);
 }
 </script>
 
@@ -62,9 +62,7 @@ function handleFinish(values: any) {
       <a-textarea v-model:value="model.user.introduction" />
     </a-form-item>
     <a-form-item :label="null">
-      <a-button type="primary" html-type="submit">
-        Submit
-      </a-button>
+      <a-button type="primary" html-type="submit"> Submit </a-button>
     </a-form-item>
   </a-form>
 </template>

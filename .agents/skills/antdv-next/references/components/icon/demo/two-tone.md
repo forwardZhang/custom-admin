@@ -8,7 +8,7 @@ You can set the `twoToneColor` prop to a specific primary color for two-tone ico
 
 ```vue
 <script setup lang="ts">
-import { CheckCircleTwoTone, HeartTwoTone, SmileTwoTone } from '@antdv-next/icons'
+import { CheckCircleTwoTone, HeartTwoTone, SmileTwoTone } from '@antdv-next/icons';
 </script>
 
 <template>

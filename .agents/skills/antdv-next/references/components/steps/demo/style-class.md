@@ -6,14 +6,14 @@
 
 ```vue
 <script setup lang="ts">
-import type { StepsProps } from 'antdv-next'
-import { theme } from 'antdv-next'
+import type { StepsProps } from 'antdv-next';
+import { theme } from 'antdv-next';
 
-const { token } = theme.useToken()
+const { token } = theme.useToken();
 
 const classes: StepsProps['classes'] = {
   root: 'steps-demo-root',
-}
+};
 
 const stylesObject: StepsProps['styles'] = {
   itemIcon: {
@@ -22,7 +22,7 @@ const stylesObject: StepsProps['styles'] = {
   itemContent: {
     fontStyle: 'italic',
   },
-}
+};
 
 const stylesFn: StepsProps['styles'] = (info) => {
   if (info?.props?.type === 'navigation') {
@@ -30,28 +30,22 @@ const stylesFn: StepsProps['styles'] = (info) => {
       root: {
         borderColor: '#1890ff',
       },
-    }
+    };
   }
-  return {}
-}
+  return {};
+};
 
 const items: StepsProps['items'] = [
   { title: 'Finished', content: 'This is a content.' },
   { title: 'In Progress', content: 'This is a content.' },
   { title: 'Waiting', content: 'This is a content.' },
-]
+];
 </script>
 
 <template>
   <a-flex vertical gap="middle">
     <a-steps :items="items" :current="1" :classes="classes" :styles="stylesObject" />
-    <a-steps
-      :items="items"
-      :current="1"
-      type="navigation"
-      :classes="classes"
-      :styles="stylesFn"
-    />
+    <a-steps :items="items" :current="1" type="navigation" :classes="classes" :styles="stylesFn" />
   </a-flex>
 </template>
 

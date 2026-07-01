@@ -8,10 +8,10 @@ There are three sizes of an Input box: `large` (40px), `default` (32px) and `sma
 
 ```vue
 <script setup lang="ts">
-import { UserOutlined } from '@antdv-next/icons'
-import { ref } from 'vue'
+import { UserOutlined } from '@antdv-next/icons';
+import { ref } from 'vue';
 
-const value = ref()
+const value = ref();
 </script>
 
 <template>

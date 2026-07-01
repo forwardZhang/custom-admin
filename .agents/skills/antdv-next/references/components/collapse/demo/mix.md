@@ -8,14 +8,14 @@
 
 ```vue
 <script setup lang="ts">
-import { Collapse } from 'antdv-next'
-import { h } from 'vue'
+import { Collapse } from 'antdv-next';
+import { h } from 'vue';
 
 const text = `
   A dog is a type of domesticated animal.
   Known for its loyalty and faithfulness,
   it can be found as a welcome guest in many households across the world.
-`
+`;
 
 const itemsNest = [
   {
@@ -23,7 +23,7 @@ const itemsNest = [
     label: 'This is panel nest panel',
     content: h('p', text),
   },
-]
+];
 
 const items = [
   {
@@ -41,10 +41,10 @@ const items = [
     label: 'This is panel header 3',
     content: h('p', text),
   },
-]
+];
 
 function onChange(key: string[]) {
-  console.log(key)
+  console.log(key);
 }
 </script>
 

@@ -15,23 +15,23 @@ Select different settings to see the result.
 
 ```vue
 <script setup lang="ts">
-import type { TableProps } from 'antdv-next'
-import { DownOutlined } from '@antdv-next/icons'
-import { computed, ref } from 'vue'
+import type { TableProps } from 'antdv-next';
+import { DownOutlined } from '@antdv-next/icons';
+import { computed, ref } from 'vue';
 
 interface DataType {
-  key: number
-  name: string
-  age: number
-  address: string
-  description: string
+  key: number;
+  name: string;
+  age: number;
+  address: string;
+  description: string;
 }
 
-type SizeType = TableProps['size']
-type TablePagination = NonNullable<Exclude<TableProps['pagination'], boolean>>
-type TablePaginationPlacement = NonNullable<TablePagination['placement']>[number]
-type ExpandableConfig = TableProps['expandable']
-type TableRowSelection = TableProps['rowSelection']
+type SizeType = TableProps['size'];
+type TablePagination = NonNullable<Exclude<TableProps['pagination'], boolean>>;
+type TablePaginationPlacement = NonNullable<TablePagination['placement']>[number];
+type ExpandableConfig = TableProps['expandable'];
+type TableRowSelection = TableProps['rowSelection'];
 
 const columns: TableProps['columns'] = [
   {
@@ -57,7 +57,7 @@ const columns: TableProps['columns'] = [
     key: 'action',
     sorter: true,
   },
-]
+];
 
 const dataSource = Array.from({ length: 10 }).map<DataType>((_, i) => ({
   key: i,
@@ -65,67 +65,67 @@ const dataSource = Array.from({ length: 10 }).map<DataType>((_, i) => ({
   age: Number(`${i}2`),
   address: `New York No. ${i} Lake Park`,
   description: `My name is John Brown, I am ${i}2 years old, living in New York No. ${i} Lake Park.`,
-}))
+}));
 
 const defaultExpandable: ExpandableConfig = {
-  expandedRowRender: record => record.description,
-}
+  expandedRowRender: (record) => record.description,
+};
 
-const bordered = ref(false)
-const loading = ref(false)
-const size = ref<SizeType>('large')
-const expandableEnabled = ref(true)
-const showTitle = ref(false)
-const showHeader = ref(true)
-const showFooter = ref(true)
-const rowSelectionEnabled = ref(true)
-const hasData = ref(true)
-const tableLayout = ref<'unset' | 'fixed'>('unset')
-const top = ref<TablePaginationPlacement>('none')
-const bottom = ref<TablePaginationPlacement>('bottomEnd')
-const ellipsis = ref(false)
-const yScroll = ref(false)
-const xScroll = ref<'unset' | 'scroll' | 'fixed'>('unset')
+const bordered = ref(false);
+const loading = ref(false);
+const size = ref<SizeType>('large');
+const expandableEnabled = ref(true);
+const showTitle = ref(false);
+const showHeader = ref(true);
+const showFooter = ref(true);
+const rowSelectionEnabled = ref(true);
+const hasData = ref(true);
+const tableLayout = ref<'unset' | 'fixed'>('unset');
+const top = ref<TablePaginationPlacement>('none');
+const bottom = ref<TablePaginationPlacement>('bottomEnd');
+const ellipsis = ref(false);
+const yScroll = ref(false);
+const xScroll = ref<'unset' | 'scroll' | 'fixed'>('unset');
 
 const scroll = computed(() => {
-  const next: { x?: number | string, y?: number | string } = {}
+  const next: { x?: number | string; y?: number | string } = {};
   if (yScroll.value) {
-    next.y = 240
+    next.y = 240;
   }
   if (xScroll.value !== 'unset') {
-    next.x = '120vw'
+    next.x = '120vw';
   }
-  return next
-})
+  return next;
+});
 
 const tableColumns = computed<TableProps['columns']>(() => {
-  const next = columns.map(column => ({
+  const next = columns.map((column) => ({
     ...column,
     ellipsis: ellipsis.value,
-  }))
+  }));
 
   if (xScroll.value === 'fixed') {
     if (next[0]) {
-      next[0].fixed = true
+      next[0].fixed = true;
     }
     if (next.length > 0) {
-      next[next.length - 1]!.fixed = 'right'
+      next[next.length - 1]!.fixed = 'right';
     }
   }
 
-  return next as TableProps['columns']
-})
+  return next as TableProps['columns'];
+});
 
-const expandable = computed<ExpandableConfig | undefined>(() => (
-  expandableEnabled.value ? defaultExpandable : undefined
-))
-const rowSelection = computed<TableRowSelection | undefined>(() => (
-  rowSelectionEnabled.value ? {} : undefined
-))
-const tableData = computed(() => (hasData.value ? dataSource : []))
+const expandable = computed<ExpandableConfig | undefined>(() =>
+  expandableEnabled.value ? defaultExpandable : undefined,
+);
+const rowSelection = computed<TableRowSelection | undefined>(() =>
+  rowSelectionEnabled.value ? {} : undefined,
+);
+const tableData = computed(() => (hasData.value ? dataSource : []));
 const pagination = computed<TableProps['pagination']>(() => ({
   placement: [top.value, bottom.value],
-}))
+}));
 
 function handleAction() {}
 </script>
@@ -164,70 +164,38 @@ function handleAction() {}
     </a-form-item>
     <a-form-item label="Size">
       <a-radio-group v-model:value="size">
-        <a-radio-button value="large">
-          Large
-        </a-radio-button>
-        <a-radio-button value="middle">
-          Middle
-        </a-radio-button>
-        <a-radio-button value="small">
-          Small
-        </a-radio-button>
+        <a-radio-button value="large"> Large </a-radio-button>
+        <a-radio-button value="middle"> Middle </a-radio-button>
+        <a-radio-button value="small"> Small </a-radio-button>
       </a-radio-group>
     </a-form-item>
     <a-form-item label="Table Scroll">
       <a-radio-group v-model:value="xScroll">
-        <a-radio-button value="unset">
-          Unset
-        </a-radio-button>
-        <a-radio-button value="scroll">
-          Scroll
-        </a-radio-button>
-        <a-radio-button value="fixed">
-          Fixed Columns
-        </a-radio-button>
+        <a-radio-button value="unset"> Unset </a-radio-button>
+        <a-radio-button value="scroll"> Scroll </a-radio-button>
+        <a-radio-button value="fixed"> Fixed Columns </a-radio-button>
       </a-radio-group>
     </a-form-item>
     <a-form-item label="Table Layout">
       <a-radio-group v-model:value="tableLayout">
-        <a-radio-button value="unset">
-          Unset
-        </a-radio-button>
-        <a-radio-button value="fixed">
-          Fixed
-        </a-radio-button>
+        <a-radio-button value="unset"> Unset </a-radio-button>
+        <a-radio-button value="fixed"> Fixed </a-radio-button>
       </a-radio-group>
     </a-form-item>
     <a-form-item label="Pagination Top">
       <a-radio-group v-model:value="top">
-        <a-radio-button value="topStart">
-          TopStart
-        </a-radio-button>
-        <a-radio-button value="topCenter">
-          TopCenter
-        </a-radio-button>
-        <a-radio-button value="topEnd">
-          TopEnd
-        </a-radio-button>
-        <a-radio-button value="none">
-          None
-        </a-radio-button>
+        <a-radio-button value="topStart"> TopStart </a-radio-button>
+        <a-radio-button value="topCenter"> TopCenter </a-radio-button>
+        <a-radio-button value="topEnd"> TopEnd </a-radio-button>
+        <a-radio-button value="none"> None </a-radio-button>
       </a-radio-group>
     </a-form-item>
     <a-form-item label="Pagination Bottom">
       <a-radio-group v-model:value="bottom">
-        <a-radio-button value="bottomStart">
-          BottomStart
-        </a-radio-button>
-        <a-radio-button value="bottomCenter">
-          BottomCenter
-        </a-radio-button>
-        <a-radio-button value="bottomEnd">
-          BottomEnd
-        </a-radio-button>
-        <a-radio-button value="none">
-          None
-        </a-radio-button>
+        <a-radio-button value="bottomStart"> BottomStart </a-radio-button>
+        <a-radio-button value="bottomCenter"> BottomCenter </a-radio-button>
+        <a-radio-button value="bottomEnd"> BottomEnd </a-radio-button>
+        <a-radio-button value="none"> None </a-radio-button>
       </a-radio-group>
     </a-form-item>
   </a-form>
@@ -244,9 +212,7 @@ function handleAction() {}
     :data-source="tableData"
     :pagination="pagination"
   >
-    <template v-if="showTitle" #title>
-      Here is title
-    </template>
+    <template v-if="showTitle" #title> Here is title </template>
     <template #bodyCell="{ column }">
       <template v-if="column.key === 'action'">
         <a-space size="middle">
@@ -260,9 +226,7 @@ function handleAction() {}
         </a-space>
       </template>
     </template>
-    <template v-if="showFooter" #footer>
-      Here is footer
-    </template>
+    <template v-if="showFooter" #footer> Here is footer </template>
   </a-table>
 </template>
 ```

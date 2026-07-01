@@ -8,53 +8,57 @@ Customize each Transfer Item, allowing you to render a complex datasource.
 
 ```vue
 <script setup lang="ts">
-import type { TransferEmits, TransferProps } from 'antdv-next'
-import { h, onMounted, ref } from 'vue'
+import type { TransferEmits, TransferProps } from 'antdv-next';
+import { h, onMounted, ref } from 'vue';
 
 interface RecordType {
-  key: string
-  title: string
-  description: string
-  chosen: boolean
+  key: string;
+  title: string;
+  description: string;
+  chosen: boolean;
 }
 
-const mockData = ref<RecordType[]>([])
-const targetKeys = ref<TransferProps['targetKeys']>([])
+const mockData = ref<RecordType[]>([]);
+const targetKeys = ref<TransferProps['targetKeys']>([]);
 
 function getMock() {
-  const tempTargetKeys: string[] = []
-  const tempMockData: RecordType[] = []
+  const tempTargetKeys: string[] = [];
+  const tempMockData: RecordType[] = [];
   for (let i = 0; i < 20; i++) {
     const data = {
       key: i.toString(),
       title: `content${i + 1}`,
       description: `description of content${i + 1}`,
       chosen: i % 2 === 0,
-    }
+    };
     if (data.chosen) {
-      tempTargetKeys.push(data.key)
+      tempTargetKeys.push(data.key);
     }
-    tempMockData.push(data)
+    tempMockData.push(data);
   }
-  mockData.value = tempMockData
-  targetKeys.value = tempTargetKeys
+  mockData.value = tempMockData;
+  targetKeys.value = tempTargetKeys;
 }
 
 onMounted(() => {
-  getMock()
-})
+  getMock();
+});
 
 const handleChange: TransferEmits['change'] = (newTargetKeys, direction, moveKeys) => {
-  console.log(newTargetKeys, direction, moveKeys)
-  targetKeys.value = newTargetKeys
-}
+  console.log(newTargetKeys, direction, moveKeys);
+  targetKeys.value = newTargetKeys;
+};
 
 function renderItem(item: RecordType) {
-  const customLabel = h('span', { class: 'transfer-custom-item' }, `${item.title} - ${item.description}`)
+  const customLabel = h(
+    'span',
+    { class: 'transfer-custom-item' },
+    `${item.title} - ${item.description}`,
+  );
   return {
     label: customLabel,
     value: item.title,
-  }
+  };
 }
 
 const panelStyles: TransferProps['styles'] = {
@@ -62,7 +66,7 @@ const panelStyles: TransferProps['styles'] = {
     width: '300px',
     height: '300px',
   },
-}
+};
 </script>
 
 <template>

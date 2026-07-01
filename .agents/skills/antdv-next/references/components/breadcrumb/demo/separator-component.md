@@ -8,7 +8,7 @@ Customize separator for each other.
 
 ```vue
 <script setup lang="ts">
-import type { BreadcrumbItemType } from 'antdv-next'
+import type { BreadcrumbItemType } from 'antdv-next';
 
 const items: BreadcrumbItemType[] = [
   {
@@ -35,7 +35,7 @@ const items: BreadcrumbItemType[] = [
   {
     title: 'An Application',
   },
-]
+];
 </script>
 
 <template>

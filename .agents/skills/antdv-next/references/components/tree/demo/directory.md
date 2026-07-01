@@ -8,7 +8,7 @@ Built-in directory tree. `multiple` support `ctrl(Windows)` / `command(Mac)` sel
 
 ```vue
 <script setup lang="ts">
-import type { TreeDataNode, TreeEmits } from 'antdv-next'
+import type { TreeDataNode, TreeEmits } from 'antdv-next';
 
 const treeData: TreeDataNode[] = [
   {
@@ -27,15 +27,15 @@ const treeData: TreeDataNode[] = [
       { title: 'leaf 1-1', key: '0-1-1', isLeaf: true },
     ],
   },
-]
+];
 
 const onSelect: TreeEmits['select'] = (keys, info) => {
-  console.log('Trigger Select', keys, info)
-}
+  console.log('Trigger Select', keys, info);
+};
 
 const onExpand: TreeEmits['expand'] = (keys, info) => {
-  console.log('Trigger Expand', keys, info)
-}
+  console.log('Trigger Expand', keys, info);
+};
 </script>
 
 <template>

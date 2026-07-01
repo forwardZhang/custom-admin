@@ -8,17 +8,12 @@ Show all configured prop.
 
 ```vue
 <script setup lang="ts">
-import type { PaginationProps } from 'antdv-next'
+import type { PaginationProps } from 'antdv-next';
 
-const showTotal: PaginationProps['showTotal'] = total => `Total ${total} items`
+const showTotal: PaginationProps['showTotal'] = (total) => `Total ${total} items`;
 </script>
 
 <template>
-  <a-pagination
-    :total="85"
-    show-size-changer
-    show-quick-jumper
-    :show-total="showTotal"
-  />
+  <a-pagination :total="85" show-size-changer show-quick-jumper :show-total="showTotal" />
 </template>
 ```

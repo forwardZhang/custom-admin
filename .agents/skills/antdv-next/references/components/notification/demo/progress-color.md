@@ -8,11 +8,11 @@ Customize the progress bar color by configuring the component token.
 
 ```vue
 <script setup lang="ts">
-import { notification } from 'antdv-next'
+import { notification } from 'antdv-next';
 
-const COLOR_BG = 'linear-gradient(135deg, #6253e1, #04befe)'
+const COLOR_BG = 'linear-gradient(135deg, #6253e1, #04befe)';
 
-const [api, ContextHolder] = notification.useNotification()
+const [api, ContextHolder] = notification.useNotification();
 
 function openNotification() {
   api.open({
@@ -20,7 +20,7 @@ function openNotification() {
     description: 'You can use component token to customize the progress bar color',
     showProgress: true,
     duration: 20,
-  })
+  });
 }
 </script>
 

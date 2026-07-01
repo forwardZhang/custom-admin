@@ -8,9 +8,9 @@ Navigation steps.
 
 ```vue
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref } from 'vue';
 
-const current = ref(0)
+const current = ref(0);
 
 const itemsWithContent = [
   {
@@ -31,7 +31,7 @@ const itemsWithContent = [
     status: 'wait' as const,
     content: 'This is a content.',
   },
-]
+];
 
 const itemsBasic = [
   {
@@ -50,7 +50,7 @@ const itemsBasic = [
     status: 'wait' as const,
     title: 'Step 4',
   },
-]
+];
 
 const itemsWithDisabled = [
   {
@@ -70,11 +70,11 @@ const itemsWithDisabled = [
     title: 'wait',
     disabled: true,
   },
-]
+];
 
 function handleChange(value: number) {
-  console.log('onChange:', value)
-  current.value = value
+  console.log('onChange:', value);
+  current.value = value;
 }
 </script>
 

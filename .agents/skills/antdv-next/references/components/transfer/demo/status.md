@@ -8,7 +8,7 @@ Add status to Transfer with `status`, which could be `error` or `warning`.
 
 ```vue
 <script setup lang="ts">
-const emptyData: any[] = []
+const emptyData: any[] = [];
 </script>
 
 <template>

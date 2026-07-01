@@ -8,14 +8,14 @@ Limit the range of available dates by using `minDate` and `maxDate`.
 
 ```vue
 <script setup lang="ts">
-import dayjs from 'dayjs'
-import customParseFormat from 'dayjs/plugin/customParseFormat'
-import { shallowRef } from 'vue'
+import dayjs from 'dayjs';
+import customParseFormat from 'dayjs/plugin/customParseFormat';
+import { shallowRef } from 'vue';
 
-dayjs.extend(customParseFormat)
+dayjs.extend(customParseFormat);
 
-const dateFormat = 'YYYY-MM-DD'
-const value = shallowRef(dayjs('2019-09-03', dateFormat))
+const dateFormat = 'YYYY-MM-DD';
+const value = shallowRef(dayjs('2019-09-03', dateFormat));
 </script>
 
 <template>

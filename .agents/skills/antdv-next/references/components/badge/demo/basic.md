@@ -8,7 +8,7 @@ Simplest Usage. Badge will be hidden when `count` is `0`, but we can use `showZe
 
 ```vue
 <script setup lang="ts">
-import { ClockCircleOutlined } from '@antdv-next/icons'
+import { ClockCircleOutlined } from '@antdv-next/icons';
 </script>
 
 <template>

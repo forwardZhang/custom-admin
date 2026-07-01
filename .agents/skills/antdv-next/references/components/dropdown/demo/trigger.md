@@ -8,8 +8,8 @@ The default trigger mode is `hover`, you can change it to `click`.
 
 ```vue
 <script setup lang="ts">
-import type { MenuItemType } from 'antdv-next'
-import { DownOutlined } from '@antdv-next/icons'
+import type { MenuItemType } from 'antdv-next';
+import { DownOutlined } from '@antdv-next/icons';
 
 const items: MenuItemType[] = [
   {
@@ -27,12 +27,12 @@ const items: MenuItemType[] = [
     label: '3rd menu item',
     key: '3',
   },
-]
+];
 
 const href: Record<string, string> = {
   0: 'https://www.antgroup.com',
   1: 'https://www.aliyun.com',
-}
+};
 </script>
 
 <template>

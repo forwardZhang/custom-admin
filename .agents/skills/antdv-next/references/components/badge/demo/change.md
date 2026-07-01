@@ -8,27 +8,27 @@ The count will be animated as it changes.
 
 ```vue
 <script setup lang="ts">
-import { MinusOutlined, PlusOutlined, QuestionOutlined } from '@antdv-next/icons'
-import { ref } from 'vue'
+import { MinusOutlined, PlusOutlined, QuestionOutlined } from '@antdv-next/icons';
+import { ref } from 'vue';
 
-const count = ref(5)
-const show = ref(true)
+const count = ref(5);
+const show = ref(true);
 
 function increase() {
-  count.value++
+  count.value++;
 }
 
 function decline() {
-  let newCount = count.value - 1
+  let newCount = count.value - 1;
   if (newCount < 0) {
-    newCount = 0
+    newCount = 0;
   }
-  count.value = newCount
+  count.value = newCount;
 }
 
 function random() {
-  const newCount = Math.floor(Math.random() * 100)
-  count.value = newCount
+  const newCount = Math.floor(Math.random() * 100);
+  count.value = newCount;
 }
 </script>
 

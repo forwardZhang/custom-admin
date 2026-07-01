@@ -8,7 +8,7 @@ Configure Tooltip unique display through [ConfigProvider global configuration](#
 
 ```vue
 <script lang="ts" setup>
-import SharedButton from './components/shared-button.vue'
+import SharedButton from './components/shared-button.vue';
 </script>
 
 <template>

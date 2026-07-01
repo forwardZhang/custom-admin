@@ -10,56 +10,54 @@ Click to upload user's avatar, and validate size and format of picture with `bef
 
 ```vue
 <script setup lang="ts">
-import type { UploadEmits, UploadProps } from 'antdv-next'
-import { LoadingOutlined, PlusOutlined } from '@antdv-next/icons'
-import { message } from 'antdv-next'
-import { ref } from 'vue'
+import type { UploadEmits, UploadProps } from 'antdv-next';
+import { LoadingOutlined, PlusOutlined } from '@antdv-next/icons';
+import { message } from 'antdv-next';
+import { ref } from 'vue';
 
-type FileType = Parameters<NonNullable<UploadProps['beforeUpload']>>[0]
+type FileType = Parameters<NonNullable<UploadProps['beforeUpload']>>[0];
 
-const loading = ref(false)
-const imageUrl = ref('')
+const loading = ref(false);
+const imageUrl = ref('');
 
 function getBase64(img: FileType) {
   return new Promise<string>((resolve, reject) => {
-    const reader = new FileReader()
-    reader.readAsDataURL(img)
-    reader.onload = () => resolve(reader.result as string)
-    reader.onerror = error => reject(error)
-  })
+    const reader = new FileReader();
+    reader.readAsDataURL(img);
+    reader.onload = () => resolve(reader.result as string);
+    reader.onerror = (error) => reject(error);
+  });
 }
 
 const beforeUpload: UploadProps['beforeUpload'] = (file) => {
-  const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png'
+  const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
   if (!isJpgOrPng) {
-    message.error('You can only upload JPG/PNG file!')
+    message.error('You can only upload JPG/PNG file!');
   }
-  const isLt2M = file.size / 1024 / 1024 < 2
+  const isLt2M = file.size / 1024 / 1024 < 2;
   if (!isLt2M) {
-    message.error('Image must smaller than 2MB!')
+    message.error('Image must smaller than 2MB!');
   }
-  return isJpgOrPng && isLt2M
-}
+  return isJpgOrPng && isLt2M;
+};
 
 const handleChange: UploadEmits['change'] = async (info) => {
   if (info.file?.status === 'uploading') {
-    loading.value = true
-    return
+    loading.value = true;
+    return;
   }
   if (info.file?.status === 'done') {
     try {
       if (info.file.originFileObj) {
-        imageUrl.value = await getBase64(info.file.originFileObj as FileType)
+        imageUrl.value = await getBase64(info.file.originFileObj as FileType);
       }
+    } finally {
+      loading.value = false;
     }
-    finally {
-      loading.value = false
-    }
+  } else {
+    loading.value = false;
   }
-  else {
-    loading.value = false
-  }
-}
+};
 </script>
 
 <template>
@@ -73,19 +71,11 @@ const handleChange: UploadEmits['change'] = async (info) => {
       :before-upload="beforeUpload"
       @change="handleChange"
     >
-      <img
-        v-if="imageUrl"
-        :src="imageUrl"
-        alt="avatar"
-        :draggable="false"
-        style="width: 100%"
-      >
+      <img v-if="imageUrl" :src="imageUrl" alt="avatar" :draggable="false" style="width: 100%" />
       <button v-else style="border: 0; background: none" type="button">
         <LoadingOutlined v-if="loading" />
         <PlusOutlined v-else />
-        <div style="margin-top: 8px">
-          Upload
-        </div>
+        <div style="margin-top: 8px">Upload</div>
       </button>
     </a-upload>
 
@@ -98,19 +88,11 @@ const handleChange: UploadEmits['change'] = async (info) => {
       :before-upload="beforeUpload"
       @change="handleChange"
     >
-      <img
-        v-if="imageUrl"
-        :src="imageUrl"
-        alt="avatar"
-        :draggable="false"
-        style="width: 100%"
-      >
+      <img v-if="imageUrl" :src="imageUrl" alt="avatar" :draggable="false" style="width: 100%" />
       <button v-else style="border: 0; background: none" type="button">
         <LoadingOutlined v-if="loading" />
         <PlusOutlined v-else />
-        <div style="margin-top: 8px">
-          Upload
-        </div>
+        <div style="margin-top: 8px">Upload</div>
       </button>
     </a-upload>
   </a-flex>

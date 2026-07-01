@@ -8,13 +8,13 @@ By setting `type="dashboard"`, you can get a dashboard style of progress easily.
 
 ```vue
 <script setup lang="ts">
-import type { ProgressProps } from 'antdv-next'
-import { ref } from 'vue'
+import type { ProgressProps } from 'antdv-next';
+import { ref } from 'vue';
 
-type GapPlacement = NonNullable<ProgressProps['gapPlacement']>
+type GapPlacement = NonNullable<ProgressProps['gapPlacement']>;
 
-const gapPlacement = ref<GapPlacement>('bottom')
-const gapDegree = ref<number>(50)
+const gapPlacement = ref<GapPlacement>('bottom');
+const gapDegree = ref<number>(50);
 </script>
 
 <template>
@@ -41,7 +41,12 @@ const gapDegree = ref<number>(50)
         ]"
       />
     </div>
-    <a-progress type="dashboard" :gap-degree="gapDegree" :percent="30" :gap-placement="gapPlacement" />
+    <a-progress
+      type="dashboard"
+      :gap-degree="gapDegree"
+      :percent="30"
+      :gap-placement="gapPlacement"
+    />
   </a-flex>
 </template>
 ```

@@ -34,7 +34,7 @@ export default defineNuxtConfig({
   antd: {
     icon: true,
   },
-})
+});
 ```
 
 The module config key is `antd`.
@@ -57,30 +57,27 @@ Add reset styles:
 ```ts
 export default defineNuxtConfig({
   css: ['antdv-next/dist/reset.css'],
-})
+});
 ```
 
 If you use zero-runtime theme mode (recommended), also include:
 
 ```ts
 export default defineNuxtConfig({
-  css: [
-    'antdv-next/dist/reset.css',
-    'antdv-next/dist/antd.css',
-  ],
-})
+  css: ['antdv-next/dist/reset.css', 'antdv-next/dist/antd.css'],
+});
 ```
 
 ## Options
 
-| Option | Type | Default | Description |
-| --- | --- | --- | --- |
-| `icon` | `boolean` | `false` | Enable auto-registration for `@antdv-next/icons`. |
-| `prefix` | `string` | `'A'` | Prefix for all auto-registered components. |
-| `include` | `ComponentName[]` | `undefined` | Only register listed components. Higher priority than `exclude`. |
-| `exclude` | `ComponentName[]` | `undefined` | Exclude listed components when `include` is not set. |
-| `includeIcons` | `IconName[]` | `undefined` | Only register listed icons. Higher priority than `excludeIcons`. |
-| `excludeIcons` | `IconName[]` | `undefined` | Exclude listed icons when `includeIcons` is not set. |
+| Option         | Type              | Default     | Description                                                      |
+| -------------- | ----------------- | ----------- | ---------------------------------------------------------------- |
+| `icon`         | `boolean`         | `false`     | Enable auto-registration for `@antdv-next/icons`.                |
+| `prefix`       | `string`          | `'A'`       | Prefix for all auto-registered components.                       |
+| `include`      | `ComponentName[]` | `undefined` | Only register listed components. Higher priority than `exclude`. |
+| `exclude`      | `ComponentName[]` | `undefined` | Exclude listed components when `include` is not set.             |
+| `includeIcons` | `IconName[]`      | `undefined` | Only register listed icons. Higher priority than `excludeIcons`. |
+| `excludeIcons` | `IconName[]`      | `undefined` | Exclude listed icons when `includeIcons` is not set.             |
 
 Notes:
 
@@ -92,8 +89,7 @@ Notes:
 `assets/entry.css`
 
 ```css
-@import "antdv-next/dist/reset.css";
-
+@import 'antdv-next/dist/reset.css';
 ```
 
 ```ts
@@ -106,5 +102,5 @@ export default defineNuxtConfig({
     include: ['Button', 'Table', 'QRCode'],
     includeIcons: ['HomeOutlined', 'SearchOutlined'],
   },
-})
+});
 ```

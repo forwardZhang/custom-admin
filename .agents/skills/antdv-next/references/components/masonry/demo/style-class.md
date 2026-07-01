@@ -8,11 +8,11 @@ Customize semantic structure styles and class names. Supports both object and fu
 
 ```vue
 <script setup lang="ts">
-import type { MasonryProps } from 'antdv-next'
+import type { MasonryProps } from 'antdv-next';
 
 interface MasonryItemType<T = any> {
-  key: string
-  data: T
+  key: string;
+  data: T;
 }
 
 const items = [120, 80, 100, 60, 140, 90, 110, 70].map<MasonryItemType<number>>(
@@ -20,12 +20,12 @@ const items = [120, 80, 100, 60, 140, 90, 110, 70].map<MasonryItemType<number>>(
     key: `item-${index}`,
     data: height,
   }),
-)
+);
 
 const classes = {
   root: 'custom-masonry-root',
   item: 'custom-masonry-item',
-}
+};
 
 const styles: MasonryProps['styles'] = {
   root: {
@@ -39,10 +39,10 @@ const styles: MasonryProps['styles'] = {
     transition: 'transform 0.2s ease',
     border: '1px solid #ccc',
   },
-}
+};
 
 const stylesFn: MasonryProps['styles'] = (info) => {
-  const { props } = info
+  const { props } = info;
   return {
     root: {
       border: `2px solid ${typeof props.columns === 'number' && props.columns > 2 ? '#1890ff' : '#52c41a'}`,
@@ -54,23 +54,15 @@ const stylesFn: MasonryProps['styles'] = (info) => {
       boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
       border: '1px solid #1890ff',
     },
-  } satisfies MasonryProps['styles']
-}
+  } satisfies MasonryProps['styles'];
+};
 </script>
 
 <template>
   <a-flex vertical :gap="24">
     <div>
-      <a-typography-title :level="4">
-        classNames and styles Object
-      </a-typography-title>
-      <a-masonry
-        :columns="4"
-        :gutter="16"
-        :items="items"
-        :classes="classes"
-        :styles="styles"
-      >
+      <a-typography-title :level="4"> classNames and styles Object </a-typography-title>
+      <a-masonry :columns="4" :gutter="16" :items="items" :classes="classes" :styles="styles">
         <template #itemRender="{ data, index }">
           <a-card size="small" :style="{ height: `${data}px` }">
             {{ index + 1 }}
@@ -80,9 +72,7 @@ const stylesFn: MasonryProps['styles'] = (info) => {
     </div>
     <a-divider />
     <div>
-      <a-typography-title :level="4">
-        classNames and styles Function
-      </a-typography-title>
+      <a-typography-title :level="4"> classNames and styles Function </a-typography-title>
       <a-masonry
         :columns="3"
         :gutter="12"

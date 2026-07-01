@@ -8,13 +8,13 @@ You can manually specify the position of the popup via `placement`.
 
 ```vue
 <script setup lang="ts">
-import type { TreeSelectProps } from 'antdv-next'
-import { ref, shallowRef } from 'vue'
+import type { TreeSelectProps } from 'antdv-next';
+import { ref, shallowRef } from 'vue';
 
-type Placement = NonNullable<TreeSelectProps['placement']>
+type Placement = NonNullable<TreeSelectProps['placement']>;
 
-const placement = shallowRef<Placement>('topLeft')
-const value = ref<string>()
+const placement = shallowRef<Placement>('topLeft');
+const value = ref<string>();
 
 const treeData = [
   {
@@ -47,26 +47,18 @@ const treeData = [
       },
     ],
   },
-]
+];
 </script>
 
 <template>
   <a-radio-group v-model:value="placement">
-    <a-radio-button value="topLeft">
-      topLeft
-    </a-radio-button>
-    <a-radio-button value="topRight">
-      topRight
-    </a-radio-button>
-    <a-radio-button value="bottomLeft">
-      bottomLeft
-    </a-radio-button>
-    <a-radio-button value="bottomRight">
-      bottomRight
-    </a-radio-button>
+    <a-radio-button value="topLeft"> topLeft </a-radio-button>
+    <a-radio-button value="topRight"> topRight </a-radio-button>
+    <a-radio-button value="bottomLeft"> bottomLeft </a-radio-button>
+    <a-radio-button value="bottomRight"> bottomRight </a-radio-button>
   </a-radio-group>
-  <br>
-  <br>
+  <br />
+  <br />
   <a-tree-select
     v-model:value="value"
     show-search

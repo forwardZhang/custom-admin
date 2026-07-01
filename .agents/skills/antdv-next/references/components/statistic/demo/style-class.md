@@ -6,15 +6,15 @@
 
 ```vue
 <script setup lang="ts">
-import type { StatisticProps } from 'antdv-next'
-import { ArrowDownOutlined, ArrowUpOutlined } from '@antdv-next/icons'
+import type { StatisticProps } from 'antdv-next';
+import { ArrowDownOutlined, ArrowUpOutlined } from '@antdv-next/icons';
 
 const classes = {
   root: 'custom-statistic-root',
-}
+};
 const styleFn: StatisticProps['styles'] = ({ props }) => {
-  const numValue = Number(props.value ?? 0)
-  const isNegative = Number.isFinite(numValue) && numValue < 0
+  const numValue = Number(props.value ?? 0);
+  const isNegative = Number.isFinite(numValue) && numValue < 0;
   if (isNegative) {
     return {
       title: {
@@ -23,10 +23,10 @@ const styleFn: StatisticProps['styles'] = ({ props }) => {
       content: {
         color: '#ff7875',
       },
-    } satisfies StatisticProps['styles']
+    } satisfies StatisticProps['styles'];
   }
-  return {}
-}
+  return {};
+};
 </script>
 
 <template>

@@ -43,26 +43,31 @@ const items = [
     label: 'Hardware Info',
     span: { xs: 1, sm: 2, md: 3, lg: 3, xl: 2, xxl: 2 },
   },
-]
+];
 </script>
 
 <template>
-  <a-descriptions title="Responsive Descriptions" bordered :column="{ xs: 1, sm: 2, md: 3, lg: 3, xl: 4, xxl: 4 }" :items="items">
+  <a-descriptions
+    title="Responsive Descriptions"
+    bordered
+    :column="{ xs: 1, sm: 2, md: 3, lg: 3, xl: 4, xxl: 4 }"
+    :items="items"
+  >
     <template #contentRender="{ item }">
       <template v-if="item.label === 'Config Info'">
         Data disk type: MongoDB
-        <br>
+        <br />
         Database version: 3.4
-        <br>
+        <br />
         Package: dds.mongo.mid
       </template>
       <template v-else-if="item.label === 'Hardware Info'">
         CPU: 6 Core 3.5 GHz
-        <br>
+        <br />
         Storage space: 10 GB
-        <br>
+        <br />
         Replication factor: 3
-        <br>
+        <br />
         Region: East China 1
       </template>
     </template>

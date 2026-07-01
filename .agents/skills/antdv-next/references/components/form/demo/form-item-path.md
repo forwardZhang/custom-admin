@@ -8,7 +8,7 @@ Use nested paths for field names.
 
 ```vue
 <script setup lang="ts">
-import { reactive } from 'vue'
+import { reactive } from 'vue';
 
 const model = reactive({
   user: {
@@ -17,10 +17,8 @@ const model = reactive({
       email: '',
     },
   },
-  addresses: [
-    { city: '', street: '' },
-  ],
-})
+  addresses: [{ city: '', street: '' }],
+});
 </script>
 
 <template>

@@ -9,22 +9,25 @@
     "build": "pnpm --filter adp build",
     "preview": "pnpm --filter adp preview",
     "typecheck": "pnpm -r typecheck",
-    "lint": "eslint . && stylelint \"**/*.{css,vue}\" --ignore-pattern dist --allow-empty-input",
-    "lint:fix": "eslint . --fix && stylelint \"**/*.{css,vue}\" --ignore-pattern dist --fix --allow-empty-input",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
     "format": "prettier . --check",
     "format:fix": "prettier . --write",
-    "adp": "pnpm --filter adp dev"
+    "adp": "pnpm --filter adp dev",
+    "prepare": "simple-git-hooks"
   },
   "dependencies": {
     "@antdv-next/icons": "^1.0.8",
     "antdv-next": "^1.3.7",
     "axios": "^1.18.1",
+    "dayjs": "^1.11.21",
     "es-toolkit": "^1.49.0",
     "pinia": "^3.0.4",
     "vue": "^3.5.39",
     "vue-router": "^5.1.0"
   },
   "devDependencies": {
+    "@antdv-next/auto-import-resolver": "^1.1.0",
     "@eslint/js": "^10.0.1",
     "@tailwindcss/vite": "^4.3.1",
     "@types/node": "^26.0.1",
@@ -34,15 +37,15 @@
     "eslint": "^10.5.0",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-vue": "^10.9.2",
-    "lefthook": "^2.1.9",
     "prettier": "^3.8.4",
-    "stylelint": "^17.14.0",
-    "stylelint-config-recess-order": "^7.7.0",
-    "stylelint-config-recommended-vue": "^1.6.1",
-    "stylelint-config-standard": "^40.0.0",
+    "simple-git-hooks": "^2.13.1",
     "tailwindcss": "^4.3.1",
     "typescript": "^6.0.3",
+    "unplugin-vue-components": "^32.1.0",
     "vite": "^8.1.0",
     "vue-tsc": "^3.3.5"
+  },
+  "simple-git-hooks": {
+    "pre-commit": "pnpm lint:fix && pnpm format:fix"
   }
 }

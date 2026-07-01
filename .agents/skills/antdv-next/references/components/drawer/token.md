@@ -21,9 +21,9 @@ Use these variables through `theme.components.Drawer`. This document lists defin
 
 ## Token List
 
-| Token | Type | Description |
-| --- | --- | --- |
-| `zIndexPopup` | `number` | z-index of drawer |
-| `footerPaddingBlock` | `number` | Vertical padding of footer |
+| Token                 | Type     | Description                  |
+| --------------------- | -------- | ---------------------------- |
+| `zIndexPopup`         | `number` | z-index of drawer            |
+| `footerPaddingBlock`  | `number` | Vertical padding of footer   |
 | `footerPaddingInline` | `number` | Horizontal padding of footer |
-| `draggerSize` | `number` | Size of resize handle |
+| `draggerSize`         | `number` | Size of resize handle        |

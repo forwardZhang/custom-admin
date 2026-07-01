@@ -8,16 +8,14 @@ Static methods cannot consume Context provided by `ConfigProvider`. When enable 
 
 ```vue
 <script setup lang="ts">
-import { message } from 'antdv-next'
+import { message } from 'antdv-next';
 
 function info() {
-  message.info('This is an info message')
+  message.info('This is an info message');
 }
 </script>
 
 <template>
-  <a-button type="primary" @click="info">
-    Static Method
-  </a-button>
+  <a-button type="primary" @click="info"> Static Method </a-button>
 </template>
 ```

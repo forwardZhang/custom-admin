@@ -10,14 +10,14 @@ Load options lazily with `loadData`.
 
 ```vue
 <script setup lang="ts">
-import type { CascaderEmits } from 'antdv-next'
-import { ref } from 'vue'
+import type { CascaderEmits } from 'antdv-next';
+import { ref } from 'vue';
 
 interface Option {
-  value?: string | number | null
-  label: string
-  children?: Option[]
-  isLeaf?: boolean
+  value?: string | number | null;
+  label: string;
+  children?: Option[];
+  isLeaf?: boolean;
 }
 
 const optionLists: Option[] = [
@@ -31,16 +31,16 @@ const optionLists: Option[] = [
     label: 'Jiangsu',
     isLeaf: false,
   },
-]
+];
 
-const options = ref<Option[]>(optionLists)
+const options = ref<Option[]>(optionLists);
 
 const onChange: CascaderEmits['change'] = (value, selectedOptions) => {
-  console.log(value, selectedOptions)
-}
+  console.log(value, selectedOptions);
+};
 
 function loadData(selectedOptions: Option[]) {
-  const targetOption = selectedOptions[selectedOptions.length - 1]
+  const targetOption = selectedOptions[selectedOptions.length - 1];
 
   setTimeout(() => {
     targetOption.children = [
@@ -52,18 +52,13 @@ function loadData(selectedOptions: Option[]) {
         label: `${targetOption.label} Dynamic 2`,
         value: 'dynamic2',
       },
-    ]
-    options.value = [...options.value]
-  }, 1000)
+    ];
+    options.value = [...options.value];
+  }, 1000);
 }
 </script>
 
 <template>
-  <a-cascader
-    :options="options"
-    :load-data="loadData"
-    change-on-select
-    @change="onChange"
-  />
+  <a-cascader :options="options" :load-data="loadData" change-on-select @change="onChange" />
 </template>
 ```

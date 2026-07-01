@@ -8,21 +8,19 @@ Drawer with closable placement, customize the close placement to the `end`, defa
 
 ```vue
 <script setup lang="ts">
-import { shallowRef } from 'vue'
+import { shallowRef } from 'vue';
 
-const open = shallowRef(false)
+const open = shallowRef(false);
 function showDrawer() {
-  open.value = true
+  open.value = true;
 }
 function onClose() {
-  open.value = false
+  open.value = false;
 }
 </script>
 
 <template>
-  <a-button type="primary" @click="showDrawer">
-    Open
-  </a-button>
+  <a-button type="primary" @click="showDrawer"> Open </a-button>
   <a-drawer
     v-model:open="open"
     title="Drawer Closable Placement"

@@ -8,7 +8,7 @@ This will simply display a red badge, without a specific count. If count equals 
 
 ```vue
 <script setup lang="ts">
-import { NotificationOutlined } from '@antdv-next/icons'
+import { NotificationOutlined } from '@antdv-next/icons';
 </script>
 
 <template>

@@ -8,54 +8,55 @@ Add and remove form items dynamically.
 
 ```vue
 <script setup lang="ts">
-import { MinusCircleOutlined, PlusOutlined } from '@antdv-next/icons'
-import { reactive } from 'vue'
+import { MinusCircleOutlined, PlusOutlined } from '@antdv-next/icons';
+import { reactive } from 'vue';
 
 const model = reactive({
   names: [''],
-})
+});
 
 const formItemLayout = {
   labelCol: { xs: { span: 24 }, sm: { span: 4 } },
   wrapperCol: { xs: { span: 24 }, sm: { span: 20 } },
-}
+};
 
 const formItemLayoutWithoutLabel = {
   wrapperCol: { xs: { span: 24, offset: 0 }, sm: { span: 20, offset: 4 } },
-}
+};
 
 function addField(value = '') {
-  model.names.push(value)
+  model.names.push(value);
 }
 
 function addFieldAtHead() {
-  model.names.unshift('The head item')
+  model.names.unshift('The head item');
 }
 
 function removeField(index: number) {
-  model.names.splice(index, 1)
+  model.names.splice(index, 1);
 }
 
 function handleFinish(values: any) {
-  console.log('Received values of form:', values)
+  console.log('Received values of form:', values);
 }
 </script>
 
 <template>
-  <a-form
-    name="dynamic_form_item"
-    :model="model"
-    style="max-width: 600px"
-    @finish="handleFinish"
-  >
+  <a-form name="dynamic_form_item" :model="model" style="max-width: 600px" @finish="handleFinish">
     <template v-for="(item, index) in model.names" :key="`passenger-${index}`">
       <a-form-item
         v-bind="index === 0 ? formItemLayout : formItemLayoutWithoutLabel"
         :label="index === 0 ? 'Passengers' : ''"
         :name="['names', index]"
-        :rules="[{ required: true, message: 'Please input passenger\'s name or delete this field.' }]"
+        :rules="[
+          { required: true, message: 'Please input passenger\'s name or delete this field.' },
+        ]"
       >
-        <a-input v-model:value="model.names[index]" placeholder="passenger name" style="width: 60%" />
+        <a-input
+          v-model:value="model.names[index]"
+          placeholder="passenger name"
+          style="width: 60%"
+        />
         <MinusCircleOutlined
           v-if="model.names.length > 1"
           class="dynamic-delete-button"
@@ -83,9 +84,7 @@ function handleFinish(values: any) {
     </a-form-item>
 
     <a-form-item v-bind="formItemLayoutWithoutLabel">
-      <a-button type="primary" html-type="submit">
-        Submit
-      </a-button>
+      <a-button type="primary" html-type="submit"> Submit </a-button>
     </a-form-item>
   </a-form>
 </template>

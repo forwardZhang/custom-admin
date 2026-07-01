@@ -8,17 +8,24 @@ A notification box can appear from the `top` `bottom` `topLeft` `topRight` `bott
 
 ```vue
 <script lang="ts" setup>
-import { BorderBottomOutlined, BorderTopOutlined, RadiusBottomleftOutlined, RadiusBottomrightOutlined, RadiusUpleftOutlined, RadiusUprightOutlined } from '@antdv-next/icons'
-import { notification } from 'antdv-next'
+import {
+  BorderBottomOutlined,
+  BorderTopOutlined,
+  RadiusBottomleftOutlined,
+  RadiusBottomrightOutlined,
+  RadiusUpleftOutlined,
+  RadiusUprightOutlined,
+} from '@antdv-next/icons';
+import { notification } from 'antdv-next';
 
-const [api, ContextHolder] = notification.useNotification()
+const [api, ContextHolder] = notification.useNotification();
 
 function openNotification(placement: string) {
   api.info({
     title: `Notification ${placement}`,
     description: 'This is the content of the notification.',
     placement: placement as any,
-  })
+  });
 }
 </script>
 

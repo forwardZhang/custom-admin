@@ -8,8 +8,8 @@ The default trigger mode is `hover`, you can change it to `contextMenu`. The pop
 
 ```vue
 <script setup lang="ts">
-import type { MenuItemType } from 'antdv-next'
-import { theme } from 'antdv-next'
+import type { MenuItemType } from 'antdv-next';
+import { theme } from 'antdv-next';
 
 const items: MenuItemType[] = [
   {
@@ -24,9 +24,9 @@ const items: MenuItemType[] = [
     label: '3rd menu item',
     key: '3',
   },
-]
+];
 
-const { token } = theme.useToken()
+const { token } = theme.useToken();
 </script>
 
 <template>

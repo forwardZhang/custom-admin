@@ -8,35 +8,31 @@ Use virtual list through `height` prop.
 
 ```vue
 <script setup lang="ts">
-import type { TreeDataNode } from 'antdv-next'
+import type { TreeDataNode } from 'antdv-next';
 
 function dig(path = '0', level = 3) {
-  const list: TreeDataNode[] = []
+  const list: TreeDataNode[] = [];
   for (let i = 0; i < 10; i += 1) {
-    const key = `${path}-${i}`
+    const key = `${path}-${i}`;
     const treeNode: TreeDataNode = {
       title: key,
       key,
-    }
+    };
 
     if (level > 0) {
-      treeNode.children = dig(key, level - 1)
+      treeNode.children = dig(key, level - 1);
     }
 
-    list.push(treeNode)
+    list.push(treeNode);
   }
-  return list
+  return list;
 }
 
-const treeData = dig()
+const treeData = dig();
 </script>
 
 <template>
-  <a-tree
-    :tree-data="treeData"
-    :height="233"
-    default-expand-all
-  >
+  <a-tree :tree-data="treeData" :height="233" default-expand-all>
     <template #titleRender="{ title }">
       <a-tooltip :title="title as any">
         {{ title }}

@@ -8,42 +8,45 @@ Coordinate data between multiple forms.
 
 ```vue
 <script setup lang="ts">
-import type { FormInstance } from 'antdv-next'
-import { SmileOutlined, UserOutlined } from '@antdv-next/icons'
-import { reactive, ref, shallowRef } from 'vue'
+import type { FormInstance } from 'antdv-next';
+import { SmileOutlined, UserOutlined } from '@antdv-next/icons';
+import { reactive, ref, shallowRef } from 'vue';
 
-interface UserType { name: string, age: number }
+interface UserType {
+  name: string;
+  age: number;
+}
 
-const open = ref(false)
-const users = ref<UserType[]>([])
+const open = ref(false);
+const users = ref<UserType[]>([]);
 
 const mainForm = reactive({
   group: '',
-})
+});
 
 const userForm = reactive({
   name: '',
   age: undefined as number | undefined,
-})
+});
 
-const userFormRef = shallowRef<FormInstance>()
+const userFormRef = shallowRef<FormInstance>();
 
 function showUserModal() {
-  open.value = true
+  open.value = true;
 }
 
 function hideUserModal() {
-  open.value = false
-  userFormRef.value?.resetFields?.()
+  open.value = false;
+  userFormRef.value?.resetFields?.();
 }
 
 function handleUserFinish(values: any) {
-  users.value = [...users.value, values as UserType]
-  hideUserModal()
+  users.value = [...users.value, values as UserType];
+  hideUserModal();
 }
 
 function handleFinish(values: any) {
-  console.log('Finish:', values)
+  console.log('Finish:', values);
 }
 </script>
 
@@ -75,9 +78,7 @@ function handleFinish(values: any) {
     </a-form-item>
 
     <a-form-item :wrapper-col="{ offset: 8, span: 16 }">
-      <a-button html-type="submit" type="primary">
-        Submit
-      </a-button>
+      <a-button html-type="submit" type="primary"> Submit </a-button>
       <a-button html-type="button" style="margin-left: 8px" @click="showUserModal">
         Add User
       </a-button>
@@ -92,7 +93,13 @@ function handleFinish(values: any) {
     @cancel="hideUserModal"
     @ok="userFormRef?.submit?.()"
   >
-    <a-form ref="userFormRef" layout="vertical" name="userForm" :model="userForm" @finish="handleUserFinish">
+    <a-form
+      ref="userFormRef"
+      layout="vertical"
+      name="userForm"
+      :model="userForm"
+      @finish="handleUserFinish"
+    >
       <a-form-item name="name" label="User Name" :rules="[{ required: true }]">
         <a-input v-model:value="userForm.name" />
       </a-form-item>

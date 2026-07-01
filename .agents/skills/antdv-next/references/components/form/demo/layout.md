@@ -8,13 +8,13 @@ Switch between horizontal, vertical, and inline layouts.
 
 ```vue
 <script setup lang="ts">
-import { reactive } from 'vue'
+import { reactive } from 'vue';
 
 const model = reactive({
   layout: 'horizontal',
   fieldA: '',
   fieldB: '',
-})
+});
 </script>
 
 <template>
@@ -25,15 +25,9 @@ const model = reactive({
   >
     <a-form-item label="Form Layout" name="layout">
       <a-radio-group v-model:value="model.layout">
-        <a-radio-button value="horizontal">
-          Horizontal
-        </a-radio-button>
-        <a-radio-button value="vertical">
-          Vertical
-        </a-radio-button>
-        <a-radio-button value="inline">
-          Inline
-        </a-radio-button>
+        <a-radio-button value="horizontal"> Horizontal </a-radio-button>
+        <a-radio-button value="vertical"> Vertical </a-radio-button>
+        <a-radio-button value="inline"> Inline </a-radio-button>
       </a-radio-group>
     </a-form-item>
     <a-form-item label="Field A" name="fieldA">
@@ -43,9 +37,7 @@ const model = reactive({
       <a-input v-model:value="model.fieldB" placeholder="input placeholder" />
     </a-form-item>
     <a-form-item :label="null">
-      <a-button type="primary">
-        Submit
-      </a-button>
+      <a-button type="primary"> Submit </a-button>
     </a-form-item>
   </a-form>
 </template>

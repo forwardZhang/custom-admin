@@ -8,22 +8,22 @@ Customize Input Component
 
 ```vue
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref } from 'vue';
 
-const options = ref<{ value: string }[]>([])
+const options = ref<{ value: string }[]>([]);
 
 function handleSearch(value: string) {
   options.value = value
     ? [{ value }, { value: value + value }, { value: value + value + value }]
-    : []
+    : [];
 }
 
 function handleKeyPress(ev: KeyboardEvent) {
-  console.log('handleKeyPress', ev.key)
+  console.log('handleKeyPress', ev.key);
 }
 
 function handleSelect(value: string) {
-  console.log('onSelect', value)
+  console.log('onSelect', value);
 }
 </script>
 

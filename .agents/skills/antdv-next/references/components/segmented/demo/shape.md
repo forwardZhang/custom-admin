@@ -8,14 +8,14 @@ Round shape of Segmented.
 
 ```vue
 <script setup lang="ts">
-import { MoonOutlined, SunOutlined } from '@antdv-next/icons'
-import { shallowRef } from 'vue'
+import { MoonOutlined, SunOutlined } from '@antdv-next/icons';
+import { shallowRef } from 'vue';
 
-const size = shallowRef<any>('middle')
+const size = shallowRef<any>('middle');
 const iconObj: Record<string, any> = {
   light: SunOutlined,
   dark: MoonOutlined,
-}
+};
 </script>
 
 <template>

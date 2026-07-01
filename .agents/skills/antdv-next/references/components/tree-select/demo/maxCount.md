@@ -8,12 +8,12 @@ You can set the `maxCount` prop to control the max number of items can be select
 
 ```vue
 <script setup lang="ts">
-import { DownOutlined } from '@antdv-next/icons'
-import { TreeSelect } from 'antdv-next'
-import { ref } from 'vue'
+import { DownOutlined } from '@antdv-next/icons';
+import { TreeSelect } from 'antdv-next';
+import { ref } from 'vue';
 
-const MAX_COUNT = 3
-const SHOW_CHILD = TreeSelect.SHOW_CHILD
+const MAX_COUNT = 3;
+const SHOW_CHILD = TreeSelect.SHOW_CHILD;
 
 const treeData = [
   {
@@ -44,9 +44,9 @@ const treeData = [
       },
     ],
   },
-]
+];
 
-const value = ref<string[]>(['child1-1'])
+const value = ref<string[]>(['child1-1']);
 </script>
 
 <template>

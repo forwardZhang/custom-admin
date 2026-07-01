@@ -16,15 +16,12 @@ For clipped containers or non-uniform radii, the `outset` prop controls how far 
         :styles="{ body: { display: 'flex', flexDirection: 'column', gap: '16px' } }"
       >
         <a-typography-text type="secondary">
-          Use a multi-value <code>border-radius</code> like <code>20px 20px 0 0</code> to keep the beam aligned with non-uniform corners.
+          Use a multi-value <code>border-radius</code> like <code>20px 20px 0 0</code> to keep the
+          beam aligned with non-uniform corners.
         </a-typography-text>
         <a-flex align="center" justify="space-between">
-          <a-typography-text strong>
-            12 running jobs
-          </a-typography-text>
-          <a-button type="primary">
-            View queue
-          </a-button>
+          <a-typography-text strong> 12 running jobs </a-typography-text>
+          <a-button type="primary"> View queue </a-button>
         </a-flex>
       </a-card>
     </a-border-beam>

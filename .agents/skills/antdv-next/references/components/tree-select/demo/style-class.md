@@ -6,11 +6,11 @@
 
 ```vue
 <script setup lang="ts">
-import type { TreeSelectProps } from 'antdv-next'
+import type { TreeSelectProps } from 'antdv-next';
 
 const classes: TreeSelectProps['classes'] = {
   root: 'custom-tree-select',
-}
+};
 
 const stylesObject: TreeSelectProps['styles'] = {
   input: {
@@ -24,7 +24,7 @@ const stylesObject: TreeSelectProps['styles'] = {
       border: '1px solid #1890ff',
     },
   },
-}
+};
 
 const stylesFn: TreeSelectProps['styles'] = (info) => {
   if (info.props.size === 'middle') {
@@ -37,10 +37,10 @@ const stylesFn: TreeSelectProps['styles'] = (info) => {
           color: '#722ed1',
         },
       },
-    }
+    };
   }
-  return {}
-}
+  return {};
+};
 
 const treeData: TreeSelectProps['treeData'] = [
   {
@@ -73,7 +73,7 @@ const treeData: TreeSelectProps['treeData'] = [
       },
     ],
   },
-]
+];
 </script>
 
 <template>

@@ -14,7 +14,7 @@ import {
   SettingFilled,
   SmileOutlined,
   SyncOutlined,
-} from '@antdv-next/icons'
+} from '@antdv-next/icons';
 </script>
 
 <template>

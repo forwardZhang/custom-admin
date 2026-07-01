@@ -9,10 +9,10 @@ For instance, add an external link after the selected value.
 ```vue
 <script setup lang="ts">
 interface Option {
-  value: string
-  label: string
-  children?: Option[]
-  code?: number
+  value: string;
+  label: string;
+  children?: Option[];
+  code?: number;
 }
 
 const options: Option[] = [
@@ -50,15 +50,15 @@ const options: Option[] = [
       },
     ],
   },
-]
+];
 
 function handleAreaClick(e: MouseEvent, label: string, option: Option) {
-  e.stopPropagation()
-  console.log('clicked', label, option)
+  e.stopPropagation();
+  console.log('clicked', label, option);
 }
 
 function getSelectedOption(selectedOptions: Option[] | undefined, index: number) {
-  return selectedOptions?.[index]
+  return selectedOptions?.[index];
 }
 
 function handleLastClick(
@@ -67,15 +67,15 @@ function handleLastClick(
   selectedOptions: Option[] | undefined,
   index: number,
 ) {
-  const option = selectedOptions?.[index]
+  const option = selectedOptions?.[index];
   if (!option) {
-    return
+    return;
   }
-  handleAreaClick(e, label, option)
+  handleAreaClick(e, label, option);
 }
 
 function getLabelKey(label: string, selectedOptions: Option[] | undefined, index: number) {
-  return getSelectedOption(selectedOptions, index)?.value ?? label
+  return getSelectedOption(selectedOptions, index)?.value ?? label;
 }
 </script>
 
@@ -86,22 +86,21 @@ function getLabelKey(label: string, selectedOptions: Option[] | undefined, index
     style="width: 100%"
   >
     <template #displayRender="{ labels, selectedOptions }">
-      <span v-for="(label, index) in labels" :key="getLabelKey(String(label), selectedOptions as any, index)">
+      <span
+        v-for="(label, index) in labels"
+        :key="getLabelKey(String(label), selectedOptions as any, index)"
+      >
         <template v-if="index === labels.length - 1">
           {{ label }}
           <template v-if="getSelectedOption(selectedOptions as any, index)?.code !== undefined">
             (
-            <a
-              @click="(e) => handleLastClick(e, String(label), selectedOptions as any, index)"
-            >
+            <a @click="(e) => handleLastClick(e, String(label), selectedOptions as any, index)">
               {{ getSelectedOption(selectedOptions as any, index)?.code }}
             </a>
             )
           </template>
         </template>
-        <template v-else>
-          {{ label }} /
-        </template>
+        <template v-else> {{ label }} / </template>
       </span>
     </template>
     <template #optionRender="option">

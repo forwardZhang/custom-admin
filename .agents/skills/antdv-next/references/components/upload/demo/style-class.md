@@ -8,12 +8,12 @@ You can customize the [semantic dom](#semantic-upload) style of Upload component
 
 ```vue
 <script setup lang="ts">
-import type { UploadEmits, UploadFile, UploadProps } from 'antdv-next'
-import { UploadOutlined } from '@antdv-next/icons'
+import type { UploadEmits, UploadFile, UploadProps } from 'antdv-next';
+import { UploadOutlined } from '@antdv-next/icons';
 
 const classes: UploadProps['classes'] = {
   root: 'upload-demo-root',
-}
+};
 
 const stylesObject: UploadProps['styles'] = {
   item: {
@@ -21,7 +21,7 @@ const stylesObject: UploadProps['styles'] = {
     backgroundColor: 'rgba(5, 5, 5, 0.06)',
     height: '30px',
   },
-}
+};
 
 const stylesFn: UploadProps['styles'] = (info) => {
   if (info.props.multiple) {
@@ -32,10 +32,10 @@ const stylesFn: UploadProps['styles'] = (info) => {
         backgroundColor: 'rgba(5, 5, 5, 0.06)',
         height: '30px',
       },
-    }
+    };
   }
-  return {}
-}
+  return {};
+};
 
 const defaultFileList: UploadFile[] = [
   {
@@ -58,13 +58,13 @@ const defaultFileList: UploadFile[] = [
     response: 'Server Error 500',
     url: 'http://www.baidu.com/zzz.png',
   },
-]
+];
 
 const handleChange: UploadEmits['change'] = ({ file, fileList }) => {
   if (file?.status !== 'uploading') {
-    console.log(file, fileList)
+    console.log(file, fileList);
   }
-}
+};
 </script>
 
 <template>

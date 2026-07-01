@@ -8,18 +8,18 @@ Skeleton Button, Avatar, Input, Image and Node.
 
 ```vue
 <script setup lang="ts">
-import { DotChartOutlined } from '@antdv-next/icons'
-import { ref } from 'vue'
+import { DotChartOutlined } from '@antdv-next/icons';
+import { ref } from 'vue';
 
-type SizeType = 'large' | 'medium' | 'small'
-type ButtonShapeType = 'circle' | 'square' | 'round' | 'default'
-type AvatarShapeType = 'circle' | 'square'
+type SizeType = 'large' | 'medium' | 'small';
+type ButtonShapeType = 'circle' | 'square' | 'round' | 'default';
+type AvatarShapeType = 'circle' | 'square';
 
-const active = ref(false)
-const block = ref(false)
-const size = ref<SizeType>('medium')
-const buttonShape = ref<ButtonShapeType>('default')
-const avatarShape = ref<AvatarShapeType>('circle')
+const active = ref(false);
+const block = ref(false);
+const size = ref<SizeType>('medium');
+const buttonShape = ref<ButtonShapeType>('default');
+const avatarShape = ref<AvatarShapeType>('circle');
 </script>
 
 <template>
@@ -49,41 +49,23 @@ const avatarShape = ref<AvatarShapeType>('circle')
         </a-form-item>
         <a-form-item label="Size">
           <a-radio-group v-model:value="size">
-            <a-radio-button value="large">
-              Large
-            </a-radio-button>
-            <a-radio-button value="medium">
-              Medium
-            </a-radio-button>
-            <a-radio-button value="small">
-              Small
-            </a-radio-button>
+            <a-radio-button value="large"> Large </a-radio-button>
+            <a-radio-button value="medium"> Medium </a-radio-button>
+            <a-radio-button value="small"> Small </a-radio-button>
           </a-radio-group>
         </a-form-item>
         <a-form-item label="Button Shape">
           <a-radio-group v-model:value="buttonShape">
-            <a-radio-button value="default">
-              Default
-            </a-radio-button>
-            <a-radio-button value="square">
-              Square
-            </a-radio-button>
-            <a-radio-button value="round">
-              Round
-            </a-radio-button>
-            <a-radio-button value="circle">
-              Circle
-            </a-radio-button>
+            <a-radio-button value="default"> Default </a-radio-button>
+            <a-radio-button value="square"> Square </a-radio-button>
+            <a-radio-button value="round"> Round </a-radio-button>
+            <a-radio-button value="circle"> Circle </a-radio-button>
           </a-radio-group>
         </a-form-item>
         <a-form-item label="Avatar Shape">
           <a-radio-group v-model:value="avatarShape">
-            <a-radio-button value="square">
-              Square
-            </a-radio-button>
-            <a-radio-button value="circle">
-              Circle
-            </a-radio-button>
+            <a-radio-button value="square"> Square </a-radio-button>
+            <a-radio-button value="circle"> Circle </a-radio-button>
           </a-radio-group>
         </a-form-item>
       </a-space>

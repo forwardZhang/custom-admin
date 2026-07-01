@@ -8,7 +8,7 @@ You can select and upload a whole directory. [Can still select files when upload
 
 ```vue
 <script setup lang="ts">
-import { UploadOutlined } from '@antdv-next/icons'
+import { UploadOutlined } from '@antdv-next/icons';
 </script>
 
 <template>

@@ -8,16 +8,16 @@ Change form size for built-in controls.
 
 ```vue
 <script setup lang="ts">
-import { reactive } from 'vue'
+import { reactive } from 'vue';
 
 const model = reactive({
   size: 'middle',
   input: '',
   select: undefined as string | undefined,
   switch: true,
-})
+});
 
-const selectOptions = [{ label: 'Demo', value: 'demo' }]
+const selectOptions = [{ label: 'Demo', value: 'demo' }];
 </script>
 
 <template>
@@ -31,15 +31,9 @@ const selectOptions = [{ label: 'Demo', value: 'demo' }]
   >
     <a-form-item label="Form Size" name="size">
       <a-radio-group v-model:value="model.size">
-        <a-radio-button value="small">
-          Small
-        </a-radio-button>
-        <a-radio-button value="middle">
-          Middle
-        </a-radio-button>
-        <a-radio-button value="large">
-          Large
-        </a-radio-button>
+        <a-radio-button value="small"> Small </a-radio-button>
+        <a-radio-button value="middle"> Middle </a-radio-button>
+        <a-radio-button value="large"> Large </a-radio-button>
       </a-radio-group>
     </a-form-item>
     <a-form-item label="Input" name="input">

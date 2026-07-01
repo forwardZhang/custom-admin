@@ -8,7 +8,7 @@ Time-related controls with validation and submit.
 
 ```vue
 <script setup lang="ts">
-import { reactive } from 'vue'
+import { reactive } from 'vue';
 
 const model = reactive({
   datePicker: null as any,
@@ -17,14 +17,14 @@ const model = reactive({
   rangePicker: [] as any[],
   rangeTimePicker: [] as any[],
   timePicker: null as any,
-})
+});
 
-const itemRules = [{ type: 'object' as const, required: true, message: 'Please select time!' }]
-const rangeRules = [{ type: 'array' as const, required: true, message: 'Please select time!' }]
+const itemRules = [{ type: 'object' as const, required: true, message: 'Please select time!' }];
+const rangeRules = [{ type: 'array' as const, required: true, message: 'Please select time!' }];
 
 function handleFinish(values: any) {
-  const rangeValue = values.rangePicker || []
-  const rangeTimeValue = values.rangeTimePicker || []
+  const rangeValue = values.rangePicker || [];
+  const rangeTimeValue = values.rangeTimePicker || [];
   const result = {
     ...values,
     datePicker: values.datePicker?.format('YYYY-MM-DD'),
@@ -33,8 +33,8 @@ function handleFinish(values: any) {
     rangePicker: rangeValue.map((v: any) => v.format('YYYY-MM-DD')),
     rangeTimePicker: rangeTimeValue.map((v: any) => v.format('YYYY-MM-DD HH:mm:ss')),
     timePicker: values.timePicker?.format('HH:mm:ss'),
-  }
-  console.log('Received values of form: ', result)
+  };
+  console.log('Received values of form: ', result);
 }
 </script>
 
@@ -51,7 +51,12 @@ function handleFinish(values: any) {
       <a-date-picker v-model:value="model.datePicker" style="width: 100%" />
     </a-form-item>
     <a-form-item name="dateTimePicker" label="DatePicker[showTime]" :rules="itemRules">
-      <a-date-picker v-model:value="model.dateTimePicker" show-time format="YYYY-MM-DD HH:mm:ss" style="width: 100%" />
+      <a-date-picker
+        v-model:value="model.dateTimePicker"
+        show-time
+        format="YYYY-MM-DD HH:mm:ss"
+        style="width: 100%"
+      />
     </a-form-item>
     <a-form-item name="monthPicker" label="MonthPicker" :rules="itemRules">
       <a-date-picker v-model:value="model.monthPicker" picker="month" style="width: 100%" />
@@ -60,15 +65,18 @@ function handleFinish(values: any) {
       <a-range-picker v-model:value="model.rangePicker" style="width: 100%" />
     </a-form-item>
     <a-form-item name="rangeTimePicker" label="RangePicker[showTime]" :rules="rangeRules">
-      <a-range-picker v-model:value="model.rangeTimePicker" show-time format="YYYY-MM-DD HH:mm:ss" style="width: 100%" />
+      <a-range-picker
+        v-model:value="model.rangeTimePicker"
+        show-time
+        format="YYYY-MM-DD HH:mm:ss"
+        style="width: 100%"
+      />
     </a-form-item>
     <a-form-item name="timePicker" label="TimePicker" :rules="itemRules">
       <a-time-picker v-model:value="model.timePicker" style="width: 100%" />
     </a-form-item>
     <a-form-item :label="null">
-      <a-button type="primary" html-type="submit">
-        Submit
-      </a-button>
+      <a-button type="primary" html-type="submit"> Submit </a-button>
     </a-form-item>
   </a-form>
 </template>

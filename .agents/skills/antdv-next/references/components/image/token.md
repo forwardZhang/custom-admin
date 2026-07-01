@@ -21,10 +21,10 @@ Use these variables through `theme.components.Image`. This document lists defini
 
 ## Token List
 
-| Token | Type | Description |
-| --- | --- | --- |
-| `zIndexPopup` | `number` | z-index of preview popup |
-| `previewOperationSize` | `number` | Size of preview operation icon |
-| `previewOperationColor` | `string` | Color of preview operation icon |
-| `previewOperationHoverColor` | `string` | Color of hovered preview operation icon |
+| Token                           | Type     | Description                              |
+| ------------------------------- | -------- | ---------------------------------------- |
+| `zIndexPopup`                   | `number` | z-index of preview popup                 |
+| `previewOperationSize`          | `number` | Size of preview operation icon           |
+| `previewOperationColor`         | `string` | Color of preview operation icon          |
+| `previewOperationHoverColor`    | `string` | Color of hovered preview operation icon  |
 | `previewOperationColorDisabled` | `string` | Disabled color of preview operation icon |

@@ -8,17 +8,15 @@ Use `width` to set the width of the modal dialog.
 
 ```vue
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref } from 'vue';
 
-const open = ref(false)
-const openResponsive = ref(false)
+const open = ref(false);
+const openResponsive = ref(false);
 </script>
 
 <template>
   <a-flex vertical gap="middle" align="flex-start">
-    <a-button type="primary" @click="open = true">
-      Open Modal of 1000px width
-    </a-button>
+    <a-button type="primary" @click="open = true"> Open Modal of 1000px width </a-button>
     <a-modal
       v-model:open="open"
       title="Modal 1000px width"

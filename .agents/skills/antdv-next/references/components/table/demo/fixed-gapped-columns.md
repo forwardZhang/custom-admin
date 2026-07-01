@@ -8,13 +8,13 @@ Fixed column only when scroll some distance, and scroll to stack other columns. 
 
 ```vue
 <script setup lang="ts">
-import type { TableProps } from 'antdv-next'
+import type { TableProps } from 'antdv-next';
 
 interface DataType {
-  key: string
-  name: string
-  age: number
-  address: string
+  key: string;
+  name: string;
+  age: number;
+  address: string;
 }
 
 const columns: TableProps['columns'] = [
@@ -43,12 +43,12 @@ const columns: TableProps['columns'] = [
   { title: 'Action 1', key: 'action1', fixed: 'end', width: 90 },
   { title: 'Action 2', key: 'action2', width: 90 },
   { title: 'Action 3', key: 'action3', fixed: 'end', width: 90 },
-]
+];
 
 const dataSource: DataType[] = [
   { key: '1', name: 'Olivia', age: 32, address: 'New York Park' },
   { key: '2', name: 'Ethan', age: 40, address: 'London Park' },
-]
+];
 </script>
 
 <template>
@@ -60,7 +60,9 @@ const dataSource: DataType[] = [
     :pagination="false"
   >
     <template #bodyCell="{ column }">
-      <template v-if="column.key === 'action1' || column.key === 'action2' || column.key === 'action3'">
+      <template
+        v-if="column.key === 'action1' || column.key === 'action2' || column.key === 'action3'"
+      >
         <a>action</a>
       </template>
     </template>

@@ -8,15 +8,13 @@ Horizontal spacing between adjacent components.
 
 ```vue
 <script setup lang="ts">
-import { UploadOutlined } from '@antdv-next/icons'
+import { UploadOutlined } from '@antdv-next/icons';
 </script>
 
 <template>
   <a-space>
     Space
-    <a-button type="primary">
-      Button
-    </a-button>
+    <a-button type="primary"> Button </a-button>
     <a-upload>
       <a-button>
         <template #icon>
@@ -27,9 +25,7 @@ import { UploadOutlined } from '@antdv-next/icons'
     </a-upload>
 
     <a-popconfirm title="Are you sure delete this task?" ok-text="Yes" cancel-text="No">
-      <a-button>
-        Confirm
-      </a-button>
+      <a-button> Confirm </a-button>
     </a-popconfirm>
   </a-space>
 </template>

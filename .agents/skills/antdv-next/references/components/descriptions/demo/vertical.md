@@ -35,7 +35,7 @@ const items = [
     label: 'Remark',
     content: 'empty',
   },
-]
+];
 </script>
 
 <template>

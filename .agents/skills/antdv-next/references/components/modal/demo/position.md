@@ -8,10 +8,10 @@ You can use `centered`, `style.top` or other styles to set position of modal dia
 
 ```vue
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref } from 'vue';
 
-const modalTopOpen = ref(false)
-const modalCenterOpen = ref(false)
+const modalTopOpen = ref(false);
+const modalCenterOpen = ref(false);
 </script>
 
 <template>

@@ -9,12 +9,12 @@ This property provides an additional time selection. When `showTime` is an Objec
 ```vue
 <script setup lang="ts">
 function handleOk(value: any) {
-  console.log('onOk: ', value)
+  console.log('onOk: ', value);
 }
 
 function handleChange(value: any, dateString: string | string[]) {
-  console.log('Selected Time: ', value)
-  console.log('Formatted Selected Time: ', dateString)
+  console.log('Selected Time: ', value);
+  console.log('Formatted Selected Time: ', dateString);
 }
 </script>
 

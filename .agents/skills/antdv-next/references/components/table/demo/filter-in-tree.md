@@ -10,13 +10,13 @@ You can use `filterMode` to change default filter interface, options: `menu`(def
 
 ```vue
 <script setup lang="ts">
-import type { TableEmits, TableProps } from 'antdv-next'
+import type { TableEmits, TableProps } from 'antdv-next';
 
 interface DataType {
-  key: string
-  name: string
-  age: number
-  address: string
+  key: string;
+  name: string;
+  age: number;
+  address: string;
 }
 
 const columns: TableProps['columns'] = [
@@ -66,18 +66,18 @@ const columns: TableProps['columns'] = [
     filterSearch: true,
     width: '40%',
   },
-]
+];
 
 const dataSource: DataType[] = [
   { key: '1', name: 'John Brown', age: 32, address: 'New York No. 1 Lake Park' },
   { key: '2', name: 'Jim Green', age: 42, address: 'London No. 1 Lake Park' },
   { key: '3', name: 'Joe Black', age: 32, address: 'Sydney No. 1 Lake Park' },
   { key: '4', name: 'Jim Red', age: 32, address: 'London No. 2 Lake Park' },
-]
+];
 
 const handleChange: TableEmits['change'] = (pagination, filters, sorter, extra) => {
-  console.log('params', pagination, filters, sorter, extra)
-}
+  console.log('params', pagination, filters, sorter, extra);
+};
 </script>
 
 <template>

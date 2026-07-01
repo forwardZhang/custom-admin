@@ -8,16 +8,16 @@ Controlled mode, for example, to work with `Form`.
 
 ```vue
 <script setup lang="ts">
-import type { FormInstance } from 'antdv-next'
-import { Mentions } from 'antdv-next'
-import { reactive, shallowRef } from 'vue'
+import type { FormInstance } from 'antdv-next';
+import { Mentions } from 'antdv-next';
+import { reactive, shallowRef } from 'vue';
 
 const model = reactive({
   coders: '',
   bio: '',
-})
+});
 
-const formRef = shallowRef<FormInstance>()
+const formRef = shallowRef<FormInstance>();
 
 const options = [
   {
@@ -32,24 +32,24 @@ const options = [
     value: 'yesmeck',
     label: 'yesmeck',
   },
-]
+];
 
 function handleFinish(values: any) {
-  console.log('Submit:', values)
+  console.log('Submit:', values);
 }
 
 function handleFinishFailed(errorInfo: any) {
-  console.log('Error:', errorInfo)
+  console.log('Error:', errorInfo);
 }
 
 function handleReset() {
-  formRef.value?.resetFields?.()
+  formRef.value?.resetFields?.();
 }
 
 async function checkMention(_rule: any, value: string) {
-  const mentions = Mentions.getMentions(value || '')
+  const mentions = Mentions.getMentions(value || '');
   if (mentions.length < 2) {
-    throw new Error('More than one must be selected!')
+    throw new Error('More than one must be selected!');
   }
 }
 </script>
@@ -66,7 +66,11 @@ async function checkMention(_rule: any, value: string) {
     <a-form-item name="coders" label="Top coders" :rules="[{ validator: checkMention }]">
       <a-mentions v-model:value="model.coders" :rows="1" :options="options" />
     </a-form-item>
-    <a-form-item name="bio" label="Bio" :rules="[{ required: true, message: 'Please enter your bio!' }]">
+    <a-form-item
+      name="bio"
+      label="Bio"
+      :rules="[{ required: true, message: 'Please enter your bio!' }]"
+    >
       <a-mentions
         v-model:value="model.bio"
         :rows="3"
@@ -76,12 +80,8 @@ async function checkMention(_rule: any, value: string) {
     </a-form-item>
     <a-form-item :label="null">
       <a-space wrap>
-        <a-button type="primary" html-type="submit">
-          Submit
-        </a-button>
-        <a-button html-type="button" @click="handleReset">
-          Reset
-        </a-button>
+        <a-button type="primary" html-type="submit"> Submit </a-button>
+        <a-button html-type="button" @click="handleReset"> Reset </a-button>
       </a-space>
     </a-form-item>
   </a-form>

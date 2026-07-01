@@ -8,7 +8,7 @@ A Card that supports `cover`, `avatar`, `title` and `description`.
 
 ```vue
 <script setup lang="ts">
-import { EditOutlined, EllipsisOutlined, SettingOutlined } from '@antdv-next/icons'
+import { EditOutlined, EllipsisOutlined, SettingOutlined } from '@antdv-next/icons';
 </script>
 
 <template>
@@ -18,7 +18,7 @@ import { EditOutlined, EllipsisOutlined, SettingOutlined } from '@antdv-next/ico
         draggable="false"
         alt="example"
         src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
-      >
+      />
     </template>
     <template #actions>
       <SettingOutlined key="setting" />

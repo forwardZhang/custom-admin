@@ -8,13 +8,13 @@ Set the component to controlled mode. Will lock the display color if controlled 
 
 ```vue
 <script setup lang="ts">
-import type { Color, ColorValueType } from 'antdv-next'
-import { shallowRef } from 'vue'
+import type { Color, ColorValueType } from 'antdv-next';
+import { shallowRef } from 'vue';
 
-const color = shallowRef<ColorValueType>('#1677ff')
+const color = shallowRef<ColorValueType>('#1677ff');
 
 function handleChangeComplete(value: Color) {
-  color.value = value
+  color.value = value;
 }
 </script>
 

@@ -8,29 +8,29 @@ mask effect, default `blur`.
 
 ```vue
 <script setup lang="ts">
-import { shallowRef } from 'vue'
+import { shallowRef } from 'vue';
 
-type MaskType = 'blur' | 'dimmed' | 'none'
+type MaskType = 'blur' | 'dimmed' | 'none';
 interface DrawerConfig {
-  type: MaskType
-  mask: boolean | { blur: boolean }
-  title: string
+  type: MaskType;
+  mask: boolean | { blur: boolean };
+  title: string;
 }
 
 const drawerList: DrawerConfig[] = [
   { type: 'blur', mask: true, title: 'Default blur' },
   { type: 'dimmed', mask: { blur: false }, title: 'Dimmed mask' },
   { type: 'none', mask: false, title: 'No mask' },
-]
+];
 
-const open = shallowRef<false | MaskType>(false)
+const open = shallowRef<false | MaskType>(false);
 
 function showDrawer(type: MaskType) {
-  open.value = type
+  open.value = type;
 }
 
 function onClose() {
-  open.value = false
+  open.value = false;
 }
 </script>
 

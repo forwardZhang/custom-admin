@@ -8,8 +8,8 @@ When dealing with long content, a sticky sider can provide a better user experie
 
 ```vue
 <script setup lang="ts">
-import type { MenuItemType } from 'antdv-next'
-import type { CSSProperties } from 'vue'
+import type { MenuItemType } from 'antdv-next';
+import type { CSSProperties } from 'vue';
 import {
   AppstoreOutlined,
   BarChartOutlined,
@@ -19,11 +19,11 @@ import {
   UploadOutlined,
   UserOutlined,
   VideoCameraOutlined,
-} from '@antdv-next/icons'
-import { theme } from 'antdv-next'
+} from '@antdv-next/icons';
+import { theme } from 'antdv-next';
 
-const { token } = theme.useToken()
-const year = new Date().getFullYear()
+const { token } = theme.useToken();
+const year = new Date().getFullYear();
 
 const siderStyle: CSSProperties = {
   overflow: 'auto',
@@ -33,7 +33,7 @@ const siderStyle: CSSProperties = {
   top: 0,
   scrollbarWidth: 'thin',
   scrollbarGutter: 'stable',
-}
+};
 
 const items: MenuItemType[] = [
   UserOutlined,
@@ -48,19 +48,14 @@ const items: MenuItemType[] = [
   key: String(index + 1),
   icon,
   label: `nav ${index + 1}`,
-}))
+}));
 </script>
 
 <template>
   <a-layout :has-sider="true">
     <a-layout-sider :style="siderStyle">
       <div class="demo-logo-vertical" />
-      <a-menu
-        theme="dark"
-        mode="inline"
-        :default-selected-keys="['4']"
-        :items="items"
-      />
+      <a-menu theme="dark" mode="inline" :default-selected-keys="['4']" :items="items" />
     </a-layout-sider>
     <a-layout>
       <a-layout-header class="fixed-header" :style="{ background: token.colorBgContainer }" />
@@ -75,7 +70,7 @@ const items: MenuItemType[] = [
           <p>long content</p>
           <template v-for="index in 100" :key="index">
             {{ index % 20 === 0 && index !== 0 ? 'more' : '...' }}
-            <br>
+            <br />
           </template>
         </div>
       </a-layout-content>

@@ -8,18 +8,18 @@ The basic example supports the title and description props of confirmation.
 
 ```vue
 <script setup lang="ts">
-import { message } from 'antdv-next'
+import { message } from 'antdv-next';
 
-const [messageApi, ContextHolder] = message.useMessage()
+const [messageApi, ContextHolder] = message.useMessage();
 
 function confirm(e?: MouseEvent) {
-  console.log(e)
-  messageApi.success('Click on Yes')
+  console.log(e);
+  messageApi.success('Click on Yes');
 }
 
 function cancel(e?: MouseEvent) {
-  console.log(e)
-  messageApi.error('Click on No')
+  console.log(e);
+  messageApi.error('Click on No');
 }
 </script>
 
@@ -33,9 +33,7 @@ function cancel(e?: MouseEvent) {
     @confirm="confirm"
     @cancel="cancel"
   >
-    <a-button danger>
-      Delete
-    </a-button>
+    <a-button danger> Delete </a-button>
   </a-popconfirm>
 </template>
 ```

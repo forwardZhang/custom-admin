@@ -8,19 +8,19 @@ You could set custom `Option` label
 
 ```vue
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref } from 'vue';
 
-const options = ref<{ label: string, value: string }[]>([])
+const options = ref<{ label: string; value: string }[]>([]);
 
 function handleSearch(value: string) {
   if (!value || value.includes('@')) {
-    options.value = []
-    return
+    options.value = [];
+    return;
   }
-  options.value = ['gmail.com', '163.com', 'qq.com'].map(domain => ({
+  options.value = ['gmail.com', '163.com', 'qq.com'].map((domain) => ({
     label: `${value}@${domain}`,
     value: `${value}@${domain}`,
-  }))
+  }));
 }
 </script>
 

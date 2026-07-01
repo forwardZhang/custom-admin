@@ -9,7 +9,7 @@ Allow empty for the RangePicker. It's useful when you need to keep the "to date"
 ```vue
 <script setup lang="ts">
 function handleChange(date: any, dateString: string | string[]) {
-  console.log(date, dateString)
+  console.log(date, dateString);
 }
 </script>
 

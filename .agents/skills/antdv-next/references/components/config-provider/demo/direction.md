@@ -8,7 +8,7 @@ Components which support rtl direction are listed here, you can toggle the direc
 
 ```vue
 <script setup lang="ts">
-import type { ConfigProviderProps, TreeDataNode, TreeSelectEmits } from 'antdv-next'
+import type { ConfigProviderProps, TreeDataNode, TreeSelectEmits } from 'antdv-next';
 import {
   DownloadOutlined,
   LeftOutlined,
@@ -17,21 +17,23 @@ import {
   RightOutlined,
   SearchOutlined,
   SmileOutlined,
-} from '@antdv-next/icons'
-import { computed, ref } from 'vue'
+} from '@antdv-next/icons';
+import { computed, ref } from 'vue';
 
-type DirectionType = ConfigProviderProps['direction']
+type DirectionType = ConfigProviderProps['direction'];
 
-type Placement = 'bottomLeft' | 'bottomRight' | 'topLeft' | 'topRight'
+type Placement = 'bottomLeft' | 'bottomRight' | 'topLeft' | 'topRight';
 
-const direction = ref<DirectionType>('ltr')
-const placement = computed<Placement>(() => (direction.value === 'rtl' ? 'bottomRight' : 'bottomLeft'))
+const direction = ref<DirectionType>('ltr');
+const placement = computed<Placement>(() =>
+  direction.value === 'rtl' ? 'bottomRight' : 'bottomLeft',
+);
 
-const currentStep = ref(0)
-const rateValue = ref(2.5)
-const modalOpen = ref(false)
-const badgeCount = ref(5)
-const showBadge = ref(true)
+const currentStep = ref(0);
+const rateValue = ref(2.5);
+const modalOpen = ref(false);
+const badgeCount = ref(5);
+const showBadge = ref(true);
 
 const cascaderOptions = [
   {
@@ -82,7 +84,7 @@ const cascaderOptions = [
       },
     ],
   },
-]
+];
 
 const treeData: TreeDataNode[] = [
   {
@@ -112,7 +114,7 @@ const treeData: TreeDataNode[] = [
       },
     ],
   },
-]
+];
 
 const treeSelectData = [
   {
@@ -145,66 +147,60 @@ const treeSelectData = [
       },
     ],
   },
-]
+];
 
-const treeSelectValue = ref()
+const treeSelectValue = ref();
 
 function cascaderFilter(inputValue: string, path: { label: string }[]) {
-  return path.some(option => option.label.toLowerCase().includes(inputValue.toLowerCase()))
+  return path.some((option) => option.label.toLowerCase().includes(inputValue.toLowerCase()));
 }
 
 function onCascaderChange(value: any) {
-  console.log(value)
+  console.log(value);
 }
 
 function showModal() {
-  modalOpen.value = true
+  modalOpen.value = true;
 }
 
 function handleModalOk() {
-  modalOpen.value = false
+  modalOpen.value = false;
 }
 
 function handleModalCancel() {
-  modalOpen.value = false
+  modalOpen.value = false;
 }
 
 function onStepsChange(nextStep: number) {
-  currentStep.value = nextStep
+  currentStep.value = nextStep;
 }
 
 function increaseBadge() {
-  badgeCount.value += 1
+  badgeCount.value += 1;
 }
 
 function declineBadge() {
-  badgeCount.value = Math.max(badgeCount.value - 1, 0)
+  badgeCount.value = Math.max(badgeCount.value - 1, 0);
 }
 
 const handleTreeSelectScroll: TreeSelectEmits['popupScroll'] = (e) => {
-  console.log('popup scroll', e)
-}
+  console.log('popup scroll', e);
+};
 </script>
 
 <template>
   <div style="margin-bottom: 16px;">
     <span style="margin-inline-end: 16px;">Change direction of components:</span>
     <a-radio-group v-model:value="direction">
-      <a-radio-button value="ltr">
-        LTR
-      </a-radio-button>
-      <a-radio-button value="rtl">
-        RTL
-      </a-radio-button>
+      <a-radio-button value="ltr"> LTR </a-radio-button>
+      <a-radio-button value="rtl"> RTL </a-radio-button>
     </a-radio-group>
   </div>
   <a-config-provider :direction="direction">
     <div class="direction-components">
       <a-row>
         <a-col :span="24">
-          <a-divider title-placement="start">
-            Cascader example
-          </a-divider>
+          <a-divider title-placement="start"> Cascader example </a-divider>
           <a-cascader
             :options="cascaderOptions"
             placeholder="یک مورد انتخاب کنید"
@@ -229,12 +225,10 @@ const handleTreeSelectScroll: TreeSelectEmits['popupScroll'] = (e) => {
           </a-cascader>
         </a-col>
       </a-row>
-      <br>
+      <br />
       <a-row>
         <a-col :span="12">
-          <a-divider title-placement="start">
-            Switch example
-          </a-divider>
+          <a-divider title-placement="start"> Switch example </a-divider>
           &nbsp;&nbsp;
           <a-switch default-checked />
           &nbsp;&nbsp;
@@ -243,31 +237,19 @@ const handleTreeSelectScroll: TreeSelectEmits['popupScroll'] = (e) => {
           <a-switch loading size="small" />
         </a-col>
         <a-col :span="12">
-          <a-divider title-placement="start">
-            Radio Group example
-          </a-divider>
+          <a-divider title-placement="start"> Radio Group example </a-divider>
           <a-radio-group default-value="c" button-style="solid">
-            <a-radio-button value="a">
-              تهران
-            </a-radio-button>
-            <a-radio-button value="b" disabled>
-              اصفهان
-            </a-radio-button>
-            <a-radio-button value="c">
-              فارس
-            </a-radio-button>
-            <a-radio-button value="d">
-              خوزستان
-            </a-radio-button>
+            <a-radio-button value="a"> تهران </a-radio-button>
+            <a-radio-button value="b" disabled> اصفهان </a-radio-button>
+            <a-radio-button value="c"> فارس </a-radio-button>
+            <a-radio-button value="d"> خوزستان </a-radio-button>
           </a-radio-group>
         </a-col>
       </a-row>
-      <br>
+      <br />
       <a-row>
         <a-col :span="12">
-          <a-divider title-placement="start">
-            Button example
-          </a-divider>
+          <a-divider title-placement="start"> Button example </a-divider>
           <div class="button-demo">
             <a-button type="primary">
               <template #icon>
@@ -296,7 +278,7 @@ const handleTreeSelectScroll: TreeSelectEmits['popupScroll'] = (e) => {
               </template>
               Download
             </a-button>
-            <br>
+            <br />
             <a-space-compact>
               <a-button type="primary">
                 <template #icon>
@@ -311,18 +293,12 @@ const handleTreeSelectScroll: TreeSelectEmits['popupScroll'] = (e) => {
                 Forward
               </a-button>
             </a-space-compact>
-            <a-button type="primary" loading>
-              Loading
-            </a-button>
-            <a-button type="primary" size="small" loading>
-              Loading
-            </a-button>
+            <a-button type="primary" loading> Loading </a-button>
+            <a-button type="primary" size="small" loading> Loading </a-button>
           </div>
         </a-col>
         <a-col :span="12">
-          <a-divider title-placement="start">
-            Tree example
-          </a-divider>
+          <a-divider title-placement="start"> Tree example </a-divider>
           <a-tree
             show-line
             checkable
@@ -339,22 +315,20 @@ const handleTreeSelectScroll: TreeSelectEmits['popupScroll'] = (e) => {
           </a-tree>
         </a-col>
       </a-row>
-      <br>
+      <br />
       <a-row>
         <a-col :span="24">
-          <a-divider title-placement="start">
-            Input (Space.Compact) example
-          </a-divider>
+          <a-divider title-placement="start"> Input (Space.Compact) example </a-divider>
           <a-space-compact size="large">
             <a-input style="width: 120px" default-value="0571" />
             <a-input style="width: 200px" default-value="26888888" />
           </a-space-compact>
-          <br>
+          <br />
           <a-space-compact>
             <a-input style="width: 20%" default-value="0571" />
             <a-input style="width: 30%" default-value="26888888" />
           </a-space-compact>
-          <br>
+          <br />
           <a-space-compact>
             <a-select
               default-value="Option1"
@@ -366,10 +340,10 @@ const handleTreeSelectScroll: TreeSelectEmits['popupScroll'] = (e) => {
             <a-input style="width: 50%" default-value="input content" />
             <a-input-number />
           </a-space-compact>
-          <br>
+          <br />
           <a-input-search placeholder="input search text" enter-button="Search" size="large" />
-          <br>
-          <br>
+          <br />
+          <br />
           <div style="margin-bottom: 16px">
             <a-space-compact>
               <a-select
@@ -393,12 +367,10 @@ const handleTreeSelectScroll: TreeSelectEmits['popupScroll'] = (e) => {
               />
             </a-space-compact>
           </div>
-          <br>
+          <br />
           <a-row>
             <a-col :span="12">
-              <a-divider title-placement="start">
-                Select example
-              </a-divider>
+              <a-divider title-placement="start"> Select example </a-divider>
               <a-space wrap>
                 <a-select
                   mode="multiple"
@@ -436,9 +408,7 @@ const handleTreeSelectScroll: TreeSelectEmits['popupScroll'] = (e) => {
               </a-space>
             </a-col>
             <a-col :span="12">
-              <a-divider title-placement="start">
-                TreeSelect example
-              </a-divider>
+              <a-divider title-placement="start"> TreeSelect example </a-divider>
               <a-tree-select
                 v-model:value="treeSelectValue"
                 show-search
@@ -462,15 +432,11 @@ const handleTreeSelectScroll: TreeSelectEmits['popupScroll'] = (e) => {
               </a-tree-select>
             </a-col>
           </a-row>
-          <br>
+          <br />
           <a-row>
             <a-col :span="24">
-              <a-divider title-placement="start">
-                Modal example
-              </a-divider>
-              <a-button type="primary" @click="showModal">
-                Open Modal
-              </a-button>
+              <a-divider title-placement="start"> Modal example </a-divider>
+              <a-button type="primary" @click="showModal"> Open Modal </a-button>
               <a-modal
                 v-model:open="modalOpen"
                 title="پنچره ساده"
@@ -483,12 +449,10 @@ const handleTreeSelectScroll: TreeSelectEmits['popupScroll'] = (e) => {
               </a-modal>
             </a-col>
           </a-row>
-          <br>
+          <br />
           <a-row>
             <a-col :span="24">
-              <a-divider title-placement="start">
-                Steps example
-              </a-divider>
+              <a-divider title-placement="start"> Steps example </a-divider>
               <a-steps
                 type="dot"
                 :current="currentStep"
@@ -498,7 +462,7 @@ const handleTreeSelectScroll: TreeSelectEmits['popupScroll'] = (e) => {
                   { title: 'Waiting', content: 'This is a description.' },
                 ]"
               />
-              <br>
+              <br />
               <a-steps
                 :current="currentStep"
                 :items="[
@@ -510,23 +474,21 @@ const handleTreeSelectScroll: TreeSelectEmits['popupScroll'] = (e) => {
               />
             </a-col>
           </a-row>
-          <br>
+          <br />
           <a-row>
             <a-col :span="12">
-              <a-divider title-placement="start">
-                Rate example
-              </a-divider>
+              <a-divider title-placement="start"> Rate example </a-divider>
               <a-rate v-model:value="rateValue" allow-half />
-              <br>
+              <br />
               <strong>* Note:</strong> Half star not implemented in RTL direction, it will be
               supported after
-              <a href="https://github.com/react-component/rate" target="_blank" rel="noreferrer">rc-rate</a>
+              <a href="https://github.com/react-component/rate" target="_blank" rel="noreferrer"
+                >rc-rate</a
+              >
               implement rtl support.
             </a-col>
             <a-col :span="12">
-              <a-divider title-placement="start">
-                Badge example
-              </a-divider>
+              <a-divider title-placement="start"> Badge example </a-divider>
               <a-badge :count="badgeCount">
                 <a href="#" class="head-example" />
               </a-badge>
@@ -552,22 +514,18 @@ const handleTreeSelectScroll: TreeSelectEmits['popupScroll'] = (e) => {
           </a-row>
         </a-col>
       </a-row>
-      <br>
-      <br>
+      <br />
+      <br />
       <a-row>
         <a-col :span="24">
-          <a-divider title-placement="start">
-            Pagination example
-          </a-divider>
+          <a-divider title-placement="start"> Pagination example </a-divider>
           <a-pagination :default-current="3" :total="500" show-size-changer />
         </a-col>
       </a-row>
-      <br>
+      <br />
       <a-row>
         <a-col :span="24">
-          <a-divider title-placement="start">
-            Grid System example
-          </a-divider>
+          <a-divider title-placement="start"> Grid System example </a-divider>
           <div class="grid-demo">
             <div class="code-box-demo">
               <p>
@@ -575,33 +533,19 @@ const handleTreeSelectScroll: TreeSelectEmits['popupScroll'] = (e) => {
                 (offset, push, etc.)
               </p>
               <a-row>
-                <a-col :span="8">
-                  col-8
-                </a-col>
-                <a-col :span="8" :offset="8">
-                  col-8
-                </a-col>
+                <a-col :span="8"> col-8 </a-col>
+                <a-col :span="8" :offset="8"> col-8 </a-col>
               </a-row>
               <a-row>
-                <a-col :span="6" :offset="6">
-                  col-6 col-offset-6
-                </a-col>
-                <a-col :span="6" :offset="6">
-                  col-6 col-offset-6
-                </a-col>
+                <a-col :span="6" :offset="6"> col-6 col-offset-6 </a-col>
+                <a-col :span="6" :offset="6"> col-6 col-offset-6 </a-col>
               </a-row>
               <a-row>
-                <a-col :span="12" :offset="6">
-                  col-12 col-offset-6
-                </a-col>
+                <a-col :span="12" :offset="6"> col-12 col-offset-6 </a-col>
               </a-row>
               <a-row>
-                <a-col :span="18" :push="6">
-                  col-18 col-push-6
-                </a-col>
-                <a-col :span="6" :pull="18">
-                  col-6 col-pull-18
-                </a-col>
+                <a-col :span="18" :push="6"> col-18 col-push-6 </a-col>
+                <a-col :span="6" :pull="18"> col-6 col-pull-18 </a-col>
               </a-row>
             </div>
           </div>

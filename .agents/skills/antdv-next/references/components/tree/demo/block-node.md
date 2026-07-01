@@ -8,8 +8,8 @@ Make tree nodes fill the remaining horizontal space.
 
 ```vue
 <script setup lang="ts">
-import type { TreeDataNode } from 'antdv-next'
-import { ref } from 'vue'
+import type { TreeDataNode } from 'antdv-next';
+import { ref } from 'vue';
 
 const treeData: TreeDataNode[] = [
   {
@@ -28,9 +28,9 @@ const treeData: TreeDataNode[] = [
       },
     ],
   },
-]
+];
 
-const selectedKeys = ref(['0-1'])
+const selectedKeys = ref(['0-1']);
 </script>
 
 <template>

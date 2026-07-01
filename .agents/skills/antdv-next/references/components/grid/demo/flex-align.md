@@ -8,81 +8,51 @@ Child elements vertically aligned.
 
 ```vue
 <template>
-  <a-divider title-placement="left">
-    Align Top
-  </a-divider>
+  <a-divider title-placement="left"> Align Top </a-divider>
   <a-row justify="center" align="top" class="row-demo">
     <a-col :span="4">
-      <div class="demo-box height-100">
-        col-4
-      </div>
+      <div class="demo-box height-100">col-4</div>
     </a-col>
     <a-col :span="4">
-      <div class="demo-box height-50">
-        col-4
-      </div>
+      <div class="demo-box height-50">col-4</div>
     </a-col>
     <a-col :span="4">
-      <div class="demo-box height-120">
-        col-4
-      </div>
+      <div class="demo-box height-120">col-4</div>
     </a-col>
     <a-col :span="4">
-      <div class="demo-box height-80">
-        col-4
-      </div>
+      <div class="demo-box height-80">col-4</div>
     </a-col>
   </a-row>
 
-  <a-divider title-placement="left">
-    Align Middle
-  </a-divider>
+  <a-divider title-placement="left"> Align Middle </a-divider>
   <a-row justify="space-around" align="middle" class="row-demo">
     <a-col :span="4">
-      <div class="demo-box height-100">
-        col-4
-      </div>
+      <div class="demo-box height-100">col-4</div>
     </a-col>
     <a-col :span="4">
-      <div class="demo-box height-50">
-        col-4
-      </div>
+      <div class="demo-box height-50">col-4</div>
     </a-col>
     <a-col :span="4">
-      <div class="demo-box height-120">
-        col-4
-      </div>
+      <div class="demo-box height-120">col-4</div>
     </a-col>
     <a-col :span="4">
-      <div class="demo-box height-80">
-        col-4
-      </div>
+      <div class="demo-box height-80">col-4</div>
     </a-col>
   </a-row>
 
-  <a-divider title-placement="left">
-    Align Bottom
-  </a-divider>
+  <a-divider title-placement="left"> Align Bottom </a-divider>
   <a-row justify="space-between" align="bottom" class="row-demo">
     <a-col :span="4">
-      <div class="demo-box height-100">
-        col-4
-      </div>
+      <div class="demo-box height-100">col-4</div>
     </a-col>
     <a-col :span="4">
-      <div class="demo-box height-50">
-        col-4
-      </div>
+      <div class="demo-box height-50">col-4</div>
     </a-col>
     <a-col :span="4">
-      <div class="demo-box height-120">
-        col-4
-      </div>
+      <div class="demo-box height-120">col-4</div>
     </a-col>
     <a-col :span="4">
-      <div class="demo-box height-80">
-        col-4
-      </div>
+      <div class="demo-box height-80">col-4</div>
     </a-col>
   </a-row>
 </template>

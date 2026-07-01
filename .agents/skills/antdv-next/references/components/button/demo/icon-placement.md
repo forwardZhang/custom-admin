@@ -8,26 +8,20 @@ You can set the position of a button's icon by setting the `iconPlacement` to `s
 
 ```vue
 <script setup lang="ts">
-import { SearchOutlined } from '@antdv-next/icons'
-import { ref } from 'vue'
+import { SearchOutlined } from '@antdv-next/icons';
+import { ref } from 'vue';
 
-const position = ref<'start' | 'end'>('end')
+const position = ref<'start' | 'end'>('end');
 </script>
 
 <template>
   <a-space>
     <a-radio-group v-model:value="position">
-      <a-radio-button value="start">
-        start
-      </a-radio-button>
-      <a-radio-button value="end">
-        end
-      </a-radio-button>
+      <a-radio-button value="start"> start </a-radio-button>
+      <a-radio-button value="end"> end </a-radio-button>
     </a-radio-group>
   </a-space>
-  <a-divider title-placement="start" plain>
-    Preview
-  </a-divider>
+  <a-divider title-placement="start" plain> Preview </a-divider>
   <a-flex gap="small" vertical>
     <a-flex wrap gap="small">
       <a-tooltip title="search">
@@ -37,9 +31,7 @@ const position = ref<'start' | 'end'>('end')
           </template>
         </a-button>
       </a-tooltip>
-      <a-button type="primary" shape="circle">
-        A
-      </a-button>
+      <a-button type="primary" shape="circle"> A </a-button>
       <a-button type="primary" :icon-placement="position">
         <template #icon>
           <SearchOutlined />
@@ -87,18 +79,12 @@ const position = ref<'start' | 'end'>('end')
         </template>
         Search
       </a-button>
-      <a-button
-        href="https://www.google.com"
-        target="_blank"
-        :icon-placement="position"
-      >
+      <a-button href="https://www.google.com" target="_blank" :icon-placement="position">
         <template #icon>
           <SearchOutlined />
         </template>
       </a-button>
-      <a-button type="primary" loading :icon-placement="position">
-        Loading
-      </a-button>
+      <a-button type="primary" loading :icon-placement="position"> Loading </a-button>
     </a-flex>
   </a-flex>
 </template>

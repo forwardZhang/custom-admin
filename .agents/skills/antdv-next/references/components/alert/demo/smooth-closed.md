@@ -8,12 +8,12 @@ Smoothly unmount Alert upon close.
 
 ```vue
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref } from 'vue';
 
-const visible = ref(true)
+const visible = ref(true);
 
 function handleAfterClose() {
-  visible.value = false
+  visible.value = false;
 }
 </script>
 

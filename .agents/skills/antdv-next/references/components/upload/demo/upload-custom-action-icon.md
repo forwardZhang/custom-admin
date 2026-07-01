@@ -8,9 +8,9 @@ Use `showUploadList` for custom action icons and extra information of files.
 
 ```vue
 <script setup lang="ts">
-import type { UploadEmits, UploadFile, UploadProps } from 'antdv-next'
-import { StarOutlined, UploadOutlined } from '@antdv-next/icons'
-import { h } from 'vue'
+import type { UploadEmits, UploadFile, UploadProps } from 'antdv-next';
+import { StarOutlined, UploadOutlined } from '@antdv-next/icons';
+import { h } from 'vue';
 
 const defaultFileList: UploadFile[] = [
   {
@@ -36,17 +36,17 @@ const defaultFileList: UploadFile[] = [
     response: 'Server Error 500',
     url: 'http://www.baidu.com/zzz.png',
   },
-]
+];
 
 const handleChange: UploadEmits['change'] = ({ file, fileList }) => {
   if (file?.status !== 'uploading') {
-    console.log(file, fileList)
+    console.log(file, fileList);
   }
-}
+};
 
 const showUploadList: UploadProps['showUploadList'] = {
   extra: ({ size = 0 }) => {
-    return h('span', { style: { color: '#cccccc' } }, `(${(size / 1024 / 1024).toFixed(2)}MB)`)
+    return h('span', { style: { color: '#cccccc' } }, `(${(size / 1024 / 1024).toFixed(2)}MB)`);
   },
   showDownloadIcon: true,
   downloadIcon: 'Download',
@@ -54,7 +54,7 @@ const showUploadList: UploadProps['showUploadList'] = {
   removeIcon: h(StarOutlined, {
     onClick: (event: MouseEvent) => console.log(event, 'custom removeIcon event'),
   }),
-}
+};
 </script>
 
 <template>

@@ -21,16 +21,16 @@ Use these variables through `theme.components.Steps`. This document lists defini
 
 ## Token List
 
-| Token | Type | Description |
-| --- | --- | --- |
-| `customIconSize` | `number` | Size of custom icon container |
-| `customIconTop` | `number` | Top of custom icon |
-| `customIconFontSize` | `number` | Font size of custom icon |
-| `iconSize` | `number` | Size of icon container |
-| `iconTop` | `number` | Top of icon |
-| `iconFontSize` | `number` | Size of icon |
-| `dotSize` | `number` | Size of dot |
-| `dotCurrentSize` | `number` | Current size of dot |
-| `navArrowColor` | `string` | Color of arrow in nav |
-| `navContentMaxWidth` | `CSSProperties` | Max width of nav content |
-| `iconSizeSM` | `string \| number` | Size of small steps icon |
+| Token                | Type               | Description                   |
+| -------------------- | ------------------ | ----------------------------- |
+| `customIconSize`     | `number`           | Size of custom icon container |
+| `customIconTop`      | `number`           | Top of custom icon            |
+| `customIconFontSize` | `number`           | Font size of custom icon      |
+| `iconSize`           | `number`           | Size of icon container        |
+| `iconTop`            | `number`           | Top of icon                   |
+| `iconFontSize`       | `number`           | Size of icon                  |
+| `dotSize`            | `number`           | Size of dot                   |
+| `dotCurrentSize`     | `number`           | Current size of dot           |
+| `navArrowColor`      | `string`           | Color of arrow in nav         |
+| `navContentMaxWidth` | `CSSProperties`    | Max width of nav content      |
+| `iconSizeSM`         | `string \| number` | Size of small steps icon      |

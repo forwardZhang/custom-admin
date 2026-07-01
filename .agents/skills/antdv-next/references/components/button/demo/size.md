@@ -10,43 +10,27 @@ If a large or small button is desired, set the `size` property to either `large`
 
 ```vue
 <script setup lang="ts">
-import type { SizeType } from 'antdv-next'
-import { DownloadOutlined } from '@antdv-next/icons'
-import { ref } from 'vue'
+import type { SizeType } from 'antdv-next';
+import { DownloadOutlined } from '@antdv-next/icons';
+import { ref } from 'vue';
 
-const size = ref<SizeType>('large')
+const size = ref<SizeType>('large');
 </script>
 
 <template>
   <a-radio-group v-model:value="size">
-    <a-radio-button value="large">
-      Large
-    </a-radio-button>
-    <a-radio-button value="default">
-      Default
-    </a-radio-button>
-    <a-radio-button value="small">
-      Small
-    </a-radio-button>
+    <a-radio-button value="large"> Large </a-radio-button>
+    <a-radio-button value="default"> Default </a-radio-button>
+    <a-radio-button value="small"> Small </a-radio-button>
   </a-radio-group>
-  <a-divider title-placement="start" plain>
-    Preview
-  </a-divider>
+  <a-divider title-placement="start" plain> Preview </a-divider>
   <a-flex gap="small" align="flex-start" vertical>
     <a-flex gap="small" wrap>
-      <a-button type="primary" :size="size">
-        Primary
-      </a-button>
-      <a-button :size="size">
-        Default
-      </a-button>
-      <a-button type="dashed" :size="size">
-        Dashed
-      </a-button>
+      <a-button type="primary" :size="size"> Primary </a-button>
+      <a-button :size="size"> Default </a-button>
+      <a-button type="dashed" :size="size"> Dashed </a-button>
     </a-flex>
-    <a-button type="link" :size="size">
-      Link
-    </a-button>
+    <a-button type="link" :size="size"> Link </a-button>
     <a-flex gap="small" wrap>
       <a-button type="primary" :size="size">
         <template #icon>

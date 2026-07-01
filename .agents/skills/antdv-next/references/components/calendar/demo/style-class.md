@@ -6,19 +6,19 @@
 
 ```vue
 <script setup lang="ts">
-import type { CalendarProps } from 'antdv-next'
-import type { Dayjs } from 'dayjs'
+import type { CalendarProps } from 'antdv-next';
+import type { Dayjs } from 'dayjs';
 
 const classes = {
   root: 'custom-calendar-root',
-}
+};
 
 const stylesObject: CalendarProps<Dayjs>['styles'] = {
   root: {
     borderRadius: '8px',
     width: '600px',
   },
-}
+};
 
 const stylesFunction: CalendarProps<Dayjs>['styles'] = (info) => {
   if (info.props.fullscreen) {
@@ -28,9 +28,9 @@ const stylesFunction: CalendarProps<Dayjs>['styles'] = (info) => {
         borderRadius: '10px',
         backgroundColor: 'rgba(189,227,195, 0.3)',
       },
-    } satisfies CalendarProps<Dayjs>['styles']
+    } satisfies CalendarProps<Dayjs>['styles'];
   }
-}
+};
 </script>
 
 <template>

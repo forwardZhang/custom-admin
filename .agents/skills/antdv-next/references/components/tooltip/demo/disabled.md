@@ -8,12 +8,12 @@ The Tooltip can be disabled by setting `:title="null"` or `title=""`.
 
 ```vue
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref } from 'vue';
 
-const disabled = ref(true)
+const disabled = ref(true);
 
 function toggleDisabled() {
-  disabled.value = !disabled.value
+  disabled.value = !disabled.value;
 }
 </script>
 

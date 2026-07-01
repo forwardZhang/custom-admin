@@ -8,30 +8,20 @@ Allows for custom rendering of tags.
 
 ```vue
 <script setup lang="ts">
-import { shallowRef } from 'vue'
+import { shallowRef } from 'vue';
 
-const options = [
-  { value: 'gold' },
-  { value: 'lime' },
-  { value: 'green' },
-  { value: 'cyan' },
-]
+const options = [{ value: 'gold' }, { value: 'lime' }, { value: 'green' }, { value: 'cyan' }];
 
-const value = shallowRef(['gold', 'cyan'])
+const value = shallowRef(['gold', 'cyan']);
 
 function onPreventMouseDown(event: MouseEvent) {
-  event.preventDefault()
-  event.stopPropagation()
+  event.preventDefault();
+  event.stopPropagation();
 }
 </script>
 
 <template>
-  <a-select
-    v-model:value="value"
-    mode="multiple"
-    style="width: 100%"
-    :options="options"
-  >
+  <a-select v-model:value="value" mode="multiple" style="width: 100%" :options="options">
     <template #tagRender="{ label, value: tagValue, closable, onClose }">
       <a-tag
         :color="tagValue"

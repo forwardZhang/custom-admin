@@ -8,15 +8,15 @@ You can control the order of the expand and select columns by using `Table.EXPAN
 
 ```vue
 <script setup lang="ts">
-import type { TableProps } from 'antdv-next'
-import { Table } from 'antdv-next'
+import type { TableProps } from 'antdv-next';
+import { Table } from 'antdv-next';
 
 interface DataType {
-  key: number
-  name: string
-  age: number
-  address: string
-  description: string
+  key: number;
+  name: string;
+  age: number;
+  address: string;
+  description: string;
 }
 
 const columns: TableProps['columns'] = [
@@ -25,7 +25,7 @@ const columns: TableProps['columns'] = [
   { title: 'Age', dataIndex: 'age', key: 'age' },
   Table.SELECTION_COLUMN,
   { title: 'Address', dataIndex: 'address', key: 'address' },
-]
+];
 
 const dataSource: DataType[] = [
   {
@@ -56,14 +56,14 @@ const dataSource: DataType[] = [
     address: 'Sydney No. 1 Lake Park',
     description: 'My name is Joe Black, I am 32 years old, living in Sydney No. 1 Lake Park.',
   },
-]
+];
 </script>
 
 <template>
   <a-table
     :columns="columns"
     :row-selection="{}"
-    :expandable="{ expandedRowRender: record => record.description }"
+    :expandable="{ expandedRowRender: (record) => record.description }"
     :data-source="dataSource"
   />
 </template>

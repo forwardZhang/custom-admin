@@ -8,17 +8,17 @@ The vertical Slider.
 
 ```vue
 <script setup lang="ts">
-import { h, ref } from 'vue'
+import { h, ref } from 'vue';
 
-const value = ref(30)
-const valueRange = ref([20, 50])
-const valueMarks = ref([26, 37])
+const value = ref(30);
+const valueRange = ref([20, 50]);
+const valueMarks = ref([26, 37]);
 
 const style = {
   display: 'inline-block',
   height: '300px',
   marginInlineStart: '70px',
-}
+};
 
 const marks = {
   0: '0°C',
@@ -28,7 +28,7 @@ const marks = {
     style: { color: '#f50' },
     label: h('strong', '100°C'),
   },
-}
+};
 </script>
 
 <template>

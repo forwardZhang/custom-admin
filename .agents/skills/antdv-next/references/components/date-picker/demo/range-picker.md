@@ -8,13 +8,13 @@ Set range picker type by `picker` prop.
 
 ```vue
 <script lang="ts" setup>
-import { shallowRef } from 'vue'
+import { shallowRef } from 'vue';
 
-const date = shallowRef()
-const week = shallowRef()
-const month = shallowRef()
-const quarter = shallowRef()
-const year = shallowRef()
+const date = shallowRef();
+const week = shallowRef();
+const month = shallowRef();
+const quarter = shallowRef();
+const year = shallowRef();
 </script>
 
 <template>
@@ -28,12 +28,16 @@ const year = shallowRef()
       :id="{ start: 'startInput', end: 'endInput' }"
       v-model:value="year"
       picker="year"
-      @focus="(_, info) => {
-        console.log('Focus:', info.range)
-      }"
-      @blur="(_, info) => {
-        console.log('Blur:', info.range)
-      }"
+      @focus="
+        (_, info) => {
+          console.log('Focus:', info.range);
+        }
+      "
+      @blur="
+        (_, info) => {
+          console.log('Blur:', info.range);
+        }
+      "
     />
   </a-space>
 </template>

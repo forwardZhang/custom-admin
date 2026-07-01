@@ -8,22 +8,22 @@ Sticky Header is generally used to fix the top navigation to facilitate page swi
 
 ```vue
 <script setup lang="ts">
-import type { BreadcrumbItemType, MenuItemType } from 'antdv-next'
-import { theme } from 'antdv-next'
+import type { BreadcrumbItemType, MenuItemType } from 'antdv-next';
+import { theme } from 'antdv-next';
 
-const { token } = theme.useToken()
-const year = new Date().getFullYear()
+const { token } = theme.useToken();
+const year = new Date().getFullYear();
 
 const items: MenuItemType[] = Array.from({ length: 3 }).map((_, index) => ({
   key: String(index + 1),
   label: `nav ${index + 1}`,
-}))
+}));
 
 const breadcrumbItems: BreadcrumbItemType[] = [
   { title: 'Home' },
   { title: 'List' },
   { title: 'App' },
-]
+];
 </script>
 
 <template>

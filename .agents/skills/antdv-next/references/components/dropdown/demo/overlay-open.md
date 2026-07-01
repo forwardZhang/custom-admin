@@ -8,11 +8,11 @@ The default is to close the menu when you click on menu items, this feature can 
 
 ```vue
 <script setup lang="ts">
-import type { MenuItemType } from 'antdv-next'
-import { DownOutlined } from '@antdv-next/icons'
-import { ref } from 'vue'
+import type { MenuItemType } from 'antdv-next';
+import { DownOutlined } from '@antdv-next/icons';
+import { ref } from 'vue';
 
-const open = ref(false)
+const open = ref(false);
 
 const items: MenuItemType[] = [
   {
@@ -27,17 +27,17 @@ const items: MenuItemType[] = [
     label: 'Clicking me will close the menu.',
     key: '3',
   },
-]
+];
 
 function handleMenuClick(info: { key: string }) {
   if (info.key === '3') {
-    open.value = false
+    open.value = false;
   }
 }
 
 function handleOpenChange(nextOpen: boolean, info: { source: 'trigger' | 'menu' }) {
   if (info.source === 'trigger' || nextOpen) {
-    open.value = nextOpen
+    open.value = nextOpen;
   }
 }
 </script>

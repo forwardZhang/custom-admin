@@ -10,7 +10,7 @@ const sharedProps = {
   src: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
   width: 160,
   alt: '示例图片',
-}
+};
 
 const imageStyles = {
   root: {
@@ -21,7 +21,7 @@ const imageStyles = {
   image: {
     borderRadius: '4px',
   },
-}
+};
 
 const previewImageStyles = {
   root: {
@@ -34,7 +34,7 @@ const previewImageStyles = {
     borderRadius: '4px',
     filter: 'grayscale(50%)',
   },
-}
+};
 </script>
 
 <template>

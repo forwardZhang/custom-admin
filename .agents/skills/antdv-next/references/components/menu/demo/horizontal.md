@@ -8,15 +8,15 @@ Horizontal top navigation menu.
 
 ```vue
 <script setup lang="ts">
-import type { MenuItemType } from 'antdv-next'
-import { AppstoreOutlined, MailOutlined, SettingOutlined } from '@antdv-next/icons'
-import { h, ref } from 'vue'
+import type { MenuItemType } from 'antdv-next';
+import { AppstoreOutlined, MailOutlined, SettingOutlined } from '@antdv-next/icons';
+import { h, ref } from 'vue';
 
-const current = ref('mail')
+const current = ref('mail');
 
 function handleClick(e: any) {
-  console.log('click ', e)
-  current.value = e.key
+  console.log('click ', e);
+  current.value = e.key;
 }
 
 const items: MenuItemType[] = [
@@ -66,15 +66,10 @@ const items: MenuItemType[] = [
       'Navigation Four - Link',
     ),
   },
-]
+];
 </script>
 
 <template>
-  <a-menu
-    :selected-keys="[current]"
-    mode="horizontal"
-    :items="items"
-    @click="handleClick"
-  />
+  <a-menu :selected-keys="[current]" mode="horizontal" :items="items" @click="handleClick" />
 </template>
 ```

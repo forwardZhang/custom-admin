@@ -21,7 +21,7 @@ Use these variables through `theme.components.Space`. This document lists defini
 
 ## Token List
 
-| Token | Type | Description |
-| --- | --- | --- |
+| Token                | Type                            | Description                                                            |
+| -------------------- | ------------------------------- | ---------------------------------------------------------------------- |
 | `addonPaddingInline` | `string \| number \| undefined` | Inline padding for Space.Addon cells.<br />ant-design 6.4.0 PR #56915. |
-| `addonPaddingBlock` | `string \| number \| undefined` | Block padding for Space.Addon cells.<br />ant-design 6.4.0 PR #56915. |
+| `addonPaddingBlock`  | `string \| number \| undefined` | Block padding for Space.Addon cells.<br />ant-design 6.4.0 PR #56915.  |

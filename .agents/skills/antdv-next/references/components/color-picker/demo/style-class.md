@@ -6,12 +6,12 @@
 
 ```vue
 <script setup lang="ts">
-import { shallowRef } from 'vue'
+import { shallowRef } from 'vue';
 
-const classes = { root: 'custom-color-picker' }
+const classes = { root: 'custom-color-picker' };
 
-const color = shallowRef('#1677ff')
-const colorLarge = shallowRef('#722ed1')
+const color = shallowRef('#1677ff');
+const colorLarge = shallowRef('#722ed1');
 
 const stylesObject = {
   popup: {
@@ -19,7 +19,7 @@ const stylesObject = {
       border: '1px solid #fff',
     },
   },
-}
+};
 
 function stylesFn(info: any) {
   if (info?.props?.size === 'large') {
@@ -29,9 +29,9 @@ function stylesFn(info: any) {
           border: '1px solid #722ed1',
         },
       },
-    }
+    };
   }
-  return {}
+  return {};
 }
 </script>
 

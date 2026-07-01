@@ -8,14 +8,12 @@ Basic usage of checkbox.
 
 ```vue
 <script setup lang="ts">
-import { shallowRef } from 'vue'
+import { shallowRef } from 'vue';
 
-const checked = shallowRef(false)
+const checked = shallowRef(false);
 </script>
 
 <template>
-  <a-checkbox v-model:checked="checked">
-    Checkbox
-  </a-checkbox>
+  <a-checkbox v-model:checked="checked"> Checkbox </a-checkbox>
 </template>
 ```

@@ -8,23 +8,23 @@ Use `confirm()` to show a confirmation modal dialog. Let onCancel/onOk function 
 
 ```vue
 <script setup lang="ts">
-import { ExclamationCircleFilled } from '@antdv-next/icons'
-import { Modal } from 'antdv-next'
-import { h } from 'vue'
+import { ExclamationCircleFilled } from '@antdv-next/icons';
+import { Modal } from 'antdv-next';
+import { h } from 'vue';
 
-const confirm = Modal.confirm
+const confirm = Modal.confirm;
 function showConfirm() {
   confirm({
     title: 'Do you want to delete these items?',
     icon: h(ExclamationCircleFilled),
     content: 'Some descriptions',
     onOk() {
-      console.log('OK')
+      console.log('OK');
     },
     onCancel() {
-      console.log('Cancel')
+      console.log('Cancel');
     },
-  })
+  });
 }
 
 function showPromiseConfirm() {
@@ -34,11 +34,11 @@ function showPromiseConfirm() {
     content: 'When clicked the OK button, this dialog will be closed after 1 second',
     onOk() {
       return new Promise((resolve, reject) => {
-        setTimeout(Math.random() > 0.5 ? resolve : reject, 1000)
-      }).catch(() => console.log('Oops errors!'))
+        setTimeout(Math.random() > 0.5 ? resolve : reject, 1000);
+      }).catch(() => console.log('Oops errors!'));
     },
     onCancel() {},
-  })
+  });
 }
 
 function showDeleteConfirm() {
@@ -50,12 +50,12 @@ function showDeleteConfirm() {
     okType: 'danger',
     cancelText: 'No',
     onOk() {
-      console.log('OK')
+      console.log('OK');
     },
     onCancel() {
-      console.log('Cancel')
+      console.log('Cancel');
     },
-  })
+  });
 }
 
 function showPropsConfirm() {
@@ -70,29 +70,21 @@ function showPropsConfirm() {
     },
     cancelText: 'No',
     onOk() {
-      console.log('OK')
+      console.log('OK');
     },
     onCancel() {
-      console.log('Cancel')
+      console.log('Cancel');
     },
-  })
+  });
 }
 </script>
 
 <template>
   <a-space wrap>
-    <a-button @click="showConfirm">
-      Confirm
-    </a-button>
-    <a-button @click="showPromiseConfirm">
-      With Confirm
-    </a-button>
-    <a-button type="dashed" @click="showDeleteConfirm">
-      Delete
-    </a-button>
-    <a-button type="dashed" @click="showPropsConfirm">
-      With extra props
-    </a-button>
+    <a-button @click="showConfirm"> Confirm </a-button>
+    <a-button @click="showPromiseConfirm"> With Confirm </a-button>
+    <a-button type="dashed" @click="showDeleteConfirm"> Delete </a-button>
+    <a-button type="dashed" @click="showPropsConfirm"> With extra props </a-button>
   </a-space>
 </template>
 ```

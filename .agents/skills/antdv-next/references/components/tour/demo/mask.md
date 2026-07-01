@@ -8,21 +8,21 @@ Custom mask style.
 
 ```vue
 <script setup lang="ts">
-import type { TourStepItem } from 'antdv-next'
-import { EllipsisOutlined } from '@antdv-next/icons'
-import { shallowRef } from 'vue'
+import type { TourStepItem } from 'antdv-next';
+import { EllipsisOutlined } from '@antdv-next/icons';
+import { shallowRef } from 'vue';
 
-const ref1 = shallowRef()
-const ref2 = shallowRef()
-const ref3 = shallowRef()
-const open = shallowRef(false)
+const ref1 = shallowRef();
+const ref2 = shallowRef();
+const ref3 = shallowRef();
+const open = shallowRef(false);
 
 const mask = {
   style: {
     boxShadow: 'inset 0 0 15px #333',
   },
   color: 'rgba(80, 255, 255, .4)',
-}
+};
 
 const steps: TourStepItem[] = [
   {
@@ -47,21 +47,15 @@ const steps: TourStepItem[] = [
     target: ref3,
     mask: false,
   },
-]
+];
 </script>
 
 <template>
-  <a-button type="primary" @click="open = true">
-    Begin Tour
-  </a-button>
+  <a-button type="primary" @click="open = true"> Begin Tour </a-button>
   <a-divider />
   <a-space>
-    <a-button ref="ref1">
-      Upload
-    </a-button>
-    <a-button ref="ref2" type="primary">
-      Save
-    </a-button>
+    <a-button ref="ref1"> Upload </a-button>
+    <a-button ref="ref2" type="primary"> Save </a-button>
     <a-button ref="ref3">
       <template #icon>
         <EllipsisOutlined />
@@ -75,7 +69,7 @@ const steps: TourStepItem[] = [
           draggable="false"
           alt="tour.png"
           src="https://user-images.githubusercontent.com/5378891/197385811-55df8480-7ff4-44bd-9d43-a7dade598d70.png"
-        >
+        />
       </template>
     </template>
   </a-tour>

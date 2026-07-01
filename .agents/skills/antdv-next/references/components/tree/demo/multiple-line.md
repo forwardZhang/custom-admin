@@ -8,8 +8,8 @@ Multiple line tree node.
 
 ```vue
 <script setup lang="ts">
-import type { TreeDataNode, TreeEmits } from 'antdv-next'
-import { ref } from 'vue'
+import type { TreeDataNode, TreeEmits } from 'antdv-next';
+import { ref } from 'vue';
 
 const treeData: TreeDataNode[] = [
   {
@@ -39,19 +39,19 @@ const treeData: TreeDataNode[] = [
       },
     ],
   },
-]
+];
 
-const expandedKeys = ref(['0-0-0', '0-0-1'])
-const selectedKeys = ref(['0-0-1'])
-const checkedKeys = ref(['0-0-0', '0-0-1'])
+const expandedKeys = ref(['0-0-0', '0-0-1']);
+const selectedKeys = ref(['0-0-1']);
+const checkedKeys = ref(['0-0-0', '0-0-1']);
 
 const onSelect: TreeEmits['select'] = (selectedKeys, info) => {
-  console.log('selected', selectedKeys, info)
-}
+  console.log('selected', selectedKeys, info);
+};
 
 const onCheck: TreeEmits['check'] = (checkedKeys, info) => {
-  console.log('onCheck', checkedKeys, info)
-}
+  console.log('onCheck', checkedKeys, info);
+};
 </script>
 
 <template>

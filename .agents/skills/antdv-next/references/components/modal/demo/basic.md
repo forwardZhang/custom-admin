@@ -8,20 +8,18 @@ Basic modal.
 
 ```vue
 <script setup lang="ts">
-import { shallowRef } from 'vue'
+import { shallowRef } from 'vue';
 
-const open = shallowRef(false)
+const open = shallowRef(false);
 
 function handleOk() {
-  open.value = false
+  open.value = false;
 }
 </script>
 
 <template>
   <a-flex gap="small">
-    <a-button type="primary" @click="open = true">
-      Open Modal
-    </a-button>
+    <a-button type="primary" @click="open = true"> Open Modal </a-button>
   </a-flex>
   <a-modal
     v-model:open="open"

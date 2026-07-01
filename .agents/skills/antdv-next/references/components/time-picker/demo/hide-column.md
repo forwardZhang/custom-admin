@@ -8,10 +8,10 @@ While part of `format` is omitted, the corresponding column in panel will disapp
 
 ```vue
 <script setup lang="ts">
-import dayjs from 'dayjs'
+import dayjs from 'dayjs';
 
-const format = 'HH:mm'
-const defaultValue = dayjs('12:08', format)
+const format = 'HH:mm';
+const defaultValue = dayjs('12:08', format);
 </script>
 
 <template>

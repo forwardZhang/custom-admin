@@ -8,10 +8,10 @@ Use `valueFormat` to define the time value format. With it, `v-model:value` can 
 
 ```vue
 <script setup lang="ts">
-import { shallowRef } from 'vue'
+import { shallowRef } from 'vue';
 
-const singleValue = shallowRef<string | null>('12:08:23')
-const rangeValue = shallowRef<[string | null, string | null] | null>(['09:30:00', '18:00:00'])
+const singleValue = shallowRef<string | null>('12:08:23');
+const rangeValue = shallowRef<[string | null, string | null] | null>(['09:30:00', '18:00:00']);
 </script>
 
 <template>

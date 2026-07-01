@@ -7,8 +7,7 @@ Nested Splitter for complex layout.
 ## Source
 
 ```vue
-<script setup lang="ts">
-</script>
+<script setup lang="ts"></script>
 
 <template>
   <a-splitter style="height: 300px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1)">

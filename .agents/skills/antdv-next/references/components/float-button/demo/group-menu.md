@@ -8,7 +8,7 @@ Open menu mode with `trigger`, which could be `hover` or `click`.
 
 ```vue
 <script setup lang="ts">
-import { CommentOutlined, CustomerServiceOutlined } from '@antdv-next/icons'
+import { CommentOutlined, CustomerServiceOutlined } from '@antdv-next/icons';
 </script>
 
 <template>
@@ -29,11 +29,7 @@ import { CommentOutlined, CustomerServiceOutlined } from '@antdv-next/icons'
     </a-float-button>
   </a-float-button-group>
 
-  <a-float-button-group
-    trigger="hover"
-    type="primary"
-    style="inset-inline-end: 94px"
-  >
+  <a-float-button-group trigger="hover" type="primary" style="inset-inline-end: 94px">
     <template #icon>
       <CustomerServiceOutlined />
     </template>
@@ -46,7 +42,5 @@ import { CommentOutlined, CustomerServiceOutlined } from '@antdv-next/icons'
   </a-float-button-group>
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>
 ```

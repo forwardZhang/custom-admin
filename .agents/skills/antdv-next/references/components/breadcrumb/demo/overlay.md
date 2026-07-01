@@ -8,22 +8,34 @@ Breadcrumbs support drop down menu.
 
 ```vue
 <script setup lang="ts">
-import { h } from 'vue'
+import { h } from 'vue';
 
 const menuItems = [
   {
     key: '1',
-    label: h('a', { target: '_blank', rel: 'noopener noreferrer', href: 'http://www.alipay.com/' }, 'General'),
+    label: h(
+      'a',
+      { target: '_blank', rel: 'noopener noreferrer', href: 'http://www.alipay.com/' },
+      'General',
+    ),
   },
   {
     key: '2',
-    label: h('a', { target: '_blank', rel: 'noopener noreferrer', href: 'http://www.taobao.com/' }, 'Layout'),
+    label: h(
+      'a',
+      { target: '_blank', rel: 'noopener noreferrer', href: 'http://www.taobao.com/' },
+      'Layout',
+    ),
   },
   {
     key: '3',
-    label: h('a', { target: '_blank', rel: 'noopener noreferrer', href: 'http://www.tmall.com/' }, 'Navigation'),
+    label: h(
+      'a',
+      { target: '_blank', rel: 'noopener noreferrer', href: 'http://www.tmall.com/' },
+      'Navigation',
+    ),
   },
-]
+];
 
 const items = [
   {
@@ -41,7 +53,7 @@ const items = [
   {
     title: 'Button',
   },
-]
+];
 </script>
 
 <template>

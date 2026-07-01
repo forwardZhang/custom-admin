@@ -8,13 +8,13 @@ Allow label text to wrap.
 
 ```vue
 <script setup lang="ts">
-import { reactive } from 'vue'
+import { reactive } from 'vue';
 
 const model = reactive({
   username: '',
   password: '',
   password1: '',
-})
+});
 </script>
 
 <template>
@@ -41,9 +41,7 @@ const model = reactive({
     </a-form-item>
 
     <a-form-item label=" ">
-      <a-button type="primary" html-type="submit">
-        Submit
-      </a-button>
+      <a-button type="primary" html-type="submit"> Submit </a-button>
     </a-form-item>
   </a-form>
 </template>

@@ -8,18 +8,18 @@ Group table head with `columns[n].children`.
 
 ```vue
 <script setup lang="ts">
-import type { TableProps } from 'antdv-next'
+import type { TableProps } from 'antdv-next';
 
 interface DataType {
-  key: string
-  name: string
-  age: number
-  street: string
-  building: string
-  number: number
-  companyAddress: string
-  companyName: string
-  gender: string
+  key: string;
+  name: string;
+  age: number;
+  street: string;
+  building: string;
+  number: number;
+  companyAddress: string;
+  companyName: string;
+  gender: string;
 }
 
 const columns: TableProps['columns'] = [
@@ -83,7 +83,7 @@ const columns: TableProps['columns'] = [
     width: 80,
     fixed: 'end',
   },
-]
+];
 
 const dataSource: DataType[] = Array.from({ length: 100 }).map((_, i) => ({
   key: String(i),
@@ -95,7 +95,7 @@ const dataSource: DataType[] = Array.from({ length: 100 }).map((_, i) => ({
   companyAddress: 'Lake Street 42',
   companyName: 'SoftLake Co',
   gender: 'M',
-}))
+}));
 </script>
 
 <template>

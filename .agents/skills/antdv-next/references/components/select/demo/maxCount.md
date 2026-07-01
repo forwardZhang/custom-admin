@@ -8,12 +8,12 @@ You can set the `maxCount` prop to control the max number of items can be select
 
 ```vue
 <script setup lang="ts">
-import { DownOutlined } from '@antdv-next/icons'
-import { shallowRef } from 'vue'
+import { DownOutlined } from '@antdv-next/icons';
+import { shallowRef } from 'vue';
 
-const MAX_COUNT = 3
+const MAX_COUNT = 3;
 
-const value = shallowRef<string[]>(['Ava Swift'])
+const value = shallowRef<string[]>(['Ava Swift']);
 
 const options = [
   { value: 'Ava Swift', label: 'Ava Swift' },
@@ -25,7 +25,7 @@ const options = [
   { value: 'Zoe Fox', label: 'Zoe Fox' },
   { value: 'Alex Grey', label: 'Alex Grey' },
   { value: 'Elle Blair', label: 'Elle Blair' },
-]
+];
 </script>
 
 <template>

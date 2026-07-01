@@ -1,20 +1,20 @@
-# _semantic
+# \_semantic
 
 ## Source
 
 ```vue
 <script setup lang="ts">
-import { MailOutlined } from '@antdv-next/icons'
-import { computed, h, ref } from 'vue'
-import { SemanticPreview } from '@/components/semantic'
-import { useComponentLocale } from '@/composables/use-locale'
-import { locales } from '../locales'
+import { MailOutlined } from '@antdv-next/icons';
+import { computed, h, ref } from 'vue';
+import { SemanticPreview } from '@/components/semantic';
+import { useComponentLocale } from '@/composables/use-locale';
+import { locales } from '../locales';
 
-const { t } = useComponentLocale(locales)
+const { t } = useComponentLocale(locales);
 
-const mode = ref<'horizontal' | 'vertical' | 'inline'>('horizontal')
-const current = ref('mail')
-const divRef = ref<HTMLDivElement | null>(null)
+const mode = ref<'horizontal' | 'vertical' | 'inline'>('horizontal');
+const current = ref('mail');
+const divRef = ref<HTMLDivElement | null>(null);
 
 const semantics = computed(() => {
   const baseLocale = [
@@ -22,24 +22,25 @@ const semantics = computed(() => {
     { name: 'item', desc: t('item') },
     { name: 'itemIcon', desc: t('itemIcon') },
     { name: 'itemContent', desc: t('itemContent') },
-  ]
+  ];
   const subMenuLocale = [
     { name: 'subMenu.itemTitle', desc: t('subMenu.itemTitle') },
     { name: 'subMenu.list', desc: t('subMenu.list') },
     { name: 'subMenu.item', desc: t('subMenu.item') },
     { name: 'subMenu.itemIcon', desc: t('subMenu.itemIcon') },
     { name: 'subMenu.itemContent', desc: t('subMenu.itemContent') },
-  ]
+  ];
   const groupLocale = [
     { name: 'itemTitle', desc: t('itemTitle') },
     { name: 'list', desc: t('list') },
-  ]
+  ];
 
-  const additionalPopupLocale = mode.value !== 'inline' ? [{ name: 'popup', desc: t('popup') }] : []
-  const additionalGroupLocale = mode.value !== 'horizontal' ? groupLocale : []
+  const additionalPopupLocale =
+    mode.value !== 'inline' ? [{ name: 'popup', desc: t('popup') }] : [];
+  const additionalGroupLocale = mode.value !== 'horizontal' ? groupLocale : [];
 
-  return [...baseLocale, ...additionalGroupLocale, ...additionalPopupLocale, ...subMenuLocale]
-})
+  return [...baseLocale, ...additionalGroupLocale, ...additionalPopupLocale, ...subMenuLocale];
+});
 
 const items = [
   { label: 'Navigation One', key: 'mail', icon: h(MailOutlined) },
@@ -59,7 +60,7 @@ const items = [
       },
     ],
   },
-]
+];
 
 const groupItem = [
   {
@@ -71,28 +72,25 @@ const groupItem = [
       { key: '14', label: 'Option 14' },
     ],
   },
-]
+];
 
 const itemList = computed(() => {
-  return mode.value === 'horizontal' ? items : [...items, ...groupItem]
-})
+  return mode.value === 'horizontal' ? items : [...items, ...groupItem];
+});
 
 function onClick(e: { key: string }) {
-  current.value = e.key
+  current.value = e.key;
 }
 </script>
 
 <template>
-  <SemanticPreview
-    component-name="Menu"
-    :semantics="semantics"
-  >
+  <SemanticPreview component-name="Menu" :semantics="semantics">
     <template #default="{ classes }">
       <a-flex ref="divRef" vertical gap="middle" align="center">
         <a-segmented
           :options="['horizontal', 'vertical', 'inline']"
           :value="mode"
-          @change="(val: 'horizontal' | 'vertical' | 'inline') => mode = val"
+          @change="(val: 'horizontal' | 'vertical' | 'inline') => (mode = val)"
         />
         <div :style="{ height: '360px' }">
           <a-menu

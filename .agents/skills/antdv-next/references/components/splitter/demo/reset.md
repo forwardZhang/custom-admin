@@ -8,17 +8,17 @@ Double-click the dragger to reset the Splitter.Panel to its default size.
 
 ```vue
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref } from 'vue';
 
-const defaultSizes = ['30%', '40%', '30%']
-const sizes = ref<(number | string)[]>([...defaultSizes])
+const defaultSizes = ['30%', '40%', '30%'];
+const sizes = ref<(number | string)[]>([...defaultSizes]);
 
 function handleResize(newSizes: number[]) {
-  sizes.value = newSizes
+  sizes.value = newSizes;
 }
 
 function handleDoubleClick() {
-  sizes.value = [...defaultSizes]
+  sizes.value = [...defaultSizes];
 }
 </script>
 

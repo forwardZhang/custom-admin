@@ -8,9 +8,9 @@ Custom sizes to fit in a variety of containers.
 
 ```vue
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref } from 'vue';
 
-const size = ref<'default' | 'middle' | 'small'>('default')
+const size = ref<'default' | 'middle' | 'small'>('default');
 const borderItems = [
   {
     key: '1',
@@ -62,7 +62,7 @@ const borderItems = [
     key: '10',
     label: 'Config Info',
   },
-]
+];
 
 const items = [
   {
@@ -95,23 +95,17 @@ const items = [
     label: 'Official',
     content: '$60.00',
   },
-]
+];
 </script>
 
 <template>
   <a-radio-group v-model:value="size">
-    <a-radio value="default">
-      default
-    </a-radio>
-    <a-radio value="middle">
-      middle
-    </a-radio>
-    <a-radio value="small">
-      small
-    </a-radio>
+    <a-radio value="default"> default </a-radio>
+    <a-radio value="middle"> middle </a-radio>
+    <a-radio value="small"> small </a-radio>
   </a-radio-group>
-  <br>
-  <br>
+  <br />
+  <br />
   <a-descriptions title="User Info" :items="borderItems" bordered :size="size">
     <template #contentRender="{ index, item }">
       <template v-if="index === 5">
@@ -119,27 +113,25 @@ const items = [
       </template>
       <template v-if="item.key === '10'">
         Data disk type: MongoDB
-        <br>
+        <br />
         Database version: 3.4
-        <br>
+        <br />
         Package: dds.mongo.mid
-        <br>
+        <br />
         Storage space: 10 GB
-        <br>
+        <br />
         Replication factor: 3
-        <br>
+        <br />
         Region: East China 1
-        <br>
+        <br />
       </template>
     </template>
   </a-descriptions>
-  <br>
-  <br>
+  <br />
+  <br />
   <a-descriptions title="Custom Size" :items="items" :size="size">
     <template #extra>
-      <a-button type="primary">
-        Edit
-      </a-button>
+      <a-button type="primary"> Edit </a-button>
     </template>
   </a-descriptions>
 </template>

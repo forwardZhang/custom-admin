@@ -21,9 +21,9 @@ Use these variables through `theme.components.Spin`. This document lists definit
 
 ## Token List
 
-| Token | Type | Description |
-| --- | --- | --- |
-| `contentHeight` | `string \| number` | Height of content area |
-| `dotSize` | `number` | Loading icon size |
-| `dotSizeSM` | `number` | Small loading icon size |
-| `dotSizeLG` | `number` | Large loading icon size |
+| Token           | Type               | Description             |
+| --------------- | ------------------ | ----------------------- |
+| `contentHeight` | `string \| number` | Height of content area  |
+| `dotSize`       | `number`           | Loading icon size       |
+| `dotSizeSM`     | `number`           | Small loading icon size |
+| `dotSizeLG`     | `number`           | Large loading icon size |

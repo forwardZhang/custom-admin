@@ -8,9 +8,9 @@ Tree with connected line between nodes, turn on by `showLine`, customize the pre
 
 ```vue
 <script lang="ts" setup>
-import type { TreeDataNode, TreeEmits } from 'antdv-next'
-import { CarryOutOutlined, CheckOutlined, FormOutlined } from '@antdv-next/icons'
-import { h, ref } from 'vue'
+import type { TreeDataNode, TreeEmits } from 'antdv-next';
+import { CarryOutOutlined, CheckOutlined, FormOutlined } from '@antdv-next/icons';
+import { h, ref } from 'vue';
 
 const treeData: TreeDataNode[] = [
   {
@@ -69,43 +69,43 @@ const treeData: TreeDataNode[] = [
       },
     ],
   },
-]
+];
 
-const showLine = ref(true)
-const showIcon = ref(false)
-const showLeafIcon = ref<boolean | ReturnType<typeof h>>(true)
+const showLine = ref(true);
+const showIcon = ref(false);
+const showLeafIcon = ref<boolean | ReturnType<typeof h>>(true);
 
 const onSelect: TreeEmits['select'] = (selectedKeys, info) => {
-  console.log('selected', selectedKeys, info)
-}
+  console.log('selected', selectedKeys, info);
+};
 
 function handleLeafIconChange(value: 'true' | 'false' | 'custom') {
   if (value === 'custom') {
-    showLeafIcon.value = h(CheckOutlined)
-    return
+    showLeafIcon.value = h(CheckOutlined);
+    return;
   }
 
   if (value === 'true') {
-    showLeafIcon.value = true
-    return
+    showLeafIcon.value = true;
+    return;
   }
 
-  showLeafIcon.value = false
+  showLeafIcon.value = false;
 }
 
-const expandedKeys = ref(['0-0-0'])
-const leafSelectVal = ref('true')
+const expandedKeys = ref(['0-0-0']);
+const leafSelectVal = ref('true');
 </script>
 
 <template>
   <div>
     <div class="mb-16px">
       showLine: <a-switch v-model:checked="showLine" />
-      <br>
-      <br>
+      <br />
+      <br />
       showIcon: <a-switch v-model:checked="showIcon" />
-      <br>
-      <br>
+      <br />
+      <br />
       showLeafIcon:
       <a-select
         v-model:value="leafSelectVal"

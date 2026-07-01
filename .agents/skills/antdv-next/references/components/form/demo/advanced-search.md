@@ -8,15 +8,15 @@ Advanced search form with expand/collapse.
 
 ```vue
 <script setup lang="ts">
-import type { FormInstance } from 'antdv-next'
-import { DownOutlined } from '@antdv-next/icons'
-import { computed, reactive, ref, shallowRef } from 'vue'
+import type { FormInstance } from 'antdv-next';
+import { DownOutlined } from '@antdv-next/icons';
+import { computed, reactive, ref, shallowRef } from 'vue';
 
-const formRef = shallowRef<FormInstance>()
-const expand = ref(false)
-const model = reactive<Record<string, string>>({})
+const formRef = shallowRef<FormInstance>();
+const expand = ref(false);
+const model = reactive<Record<string, string>>({});
 
-const fieldCount = computed(() => (expand.value ? 10 : 6))
+const fieldCount = computed(() => (expand.value ? 10 : 6));
 
 const selectOptions = [
   {
@@ -27,14 +27,14 @@ const selectOptions = [
     value: '2',
     label: '222',
   },
-]
+];
 
 function handleFinish(values: any) {
-  console.log('Received values of form:', values)
+  console.log('Received values of form:', values);
 }
 
 function handleReset() {
-  formRef.value?.resetFields?.()
+  formRef.value?.resetFields?.();
 }
 </script>
 
@@ -73,12 +73,8 @@ function handleReset() {
 
     <div style="text-align: end">
       <a-space size="small">
-        <a-button type="primary" html-type="submit">
-          Search
-        </a-button>
-        <a-button html-type="button" @click="handleReset">
-          Clear
-        </a-button>
+        <a-button type="primary" html-type="submit"> Search </a-button>
+        <a-button html-type="button" @click="handleReset"> Clear </a-button>
         <a-button type="link" size="small" @click="expand = !expand">
           <DownOutlined :style="{ transform: expand ? 'rotate(180deg)' : undefined }" />
           {{ expand ? 'Collapse' : 'Expand' }}
@@ -87,7 +83,9 @@ function handleReset() {
     </div>
   </a-form>
 
-  <div style="line-height: 200px; text-align: center; background: #fafafa; border-radius: 8px; margin-top: 16px">
+  <div
+    style="line-height: 200px; text-align: center; background: #fafafa; border-radius: 8px; margin-top: 16px"
+  >
     Search Result List
   </div>
 </template>

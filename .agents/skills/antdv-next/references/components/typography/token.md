@@ -21,7 +21,7 @@ Use these variables through `theme.components.Typography`. This document lists d
 
 ## Token List
 
-| Token | Type | Description |
-| --- | --- | --- |
-| `titleMarginTop` | `string \| number` | Margin top of title |
+| Token               | Type               | Description            |
+| ------------------- | ------------------ | ---------------------- |
+| `titleMarginTop`    | `string \| number` | Margin top of title    |
 | `titleMarginBottom` | `string \| number` | Margin bottom of title |

@@ -10,12 +10,12 @@ Asynchronously close a popconfirm when the OK button is pressed. For example, yo
 <script setup lang="ts">
 function confirm() {
   return new Promise((resolve) => {
-    setTimeout(() => resolve(null), 3000)
-  })
+    setTimeout(() => resolve(null), 3000);
+  });
 }
 
 function handleOpenChange() {
-  console.log('open change')
+  console.log('open change');
 }
 </script>
 
@@ -26,9 +26,7 @@ function handleOpenChange() {
     @confirm="confirm"
     @open-change="handleOpenChange"
   >
-    <a-button type="primary">
-      Open Popconfirm with Promise
-    </a-button>
+    <a-button type="primary"> Open Popconfirm with Promise </a-button>
   </a-popconfirm>
 </template>
 ```

@@ -1,16 +1,16 @@
-# _semantic
+# \_semantic
 
 ## Source
 
 ```vue
 <script setup lang="ts">
-import { EditOutlined, UserOutlined } from '@antdv-next/icons'
-import { computed } from 'vue'
-import { SemanticPreview } from '@/components/semantic'
-import { useComponentLocale } from '@/composables/use-locale'
-import { locales } from '../locales'
+import { EditOutlined, UserOutlined } from '@antdv-next/icons';
+import { computed } from 'vue';
+import { SemanticPreview } from '@/components/semantic';
+import { useComponentLocale } from '@/composables/use-locale';
+import { locales } from '../locales';
 
-const { t } = useComponentLocale(locales)
+const { t } = useComponentLocale(locales);
 
 const semantics = computed(() => [
   { name: 'root', desc: t('root') },
@@ -19,22 +19,14 @@ const semantics = computed(() => [
   { name: 'suffix', desc: t('suffix') },
   { name: 'count', desc: t('count') },
   { name: 'clear', desc: t('clear'), version: '1.3.0' },
-])
+]);
 </script>
 
 <template>
-  <SemanticPreview
-    component-name="Input"
-    :semantics="semantics"
-  >
+  <SemanticPreview component-name="Input" :semantics="semantics">
     <template #default="{ classes }">
       <div style="width: 100%">
-        <a-input
-          default-value="Hello, Antdv-Next"
-          show-count
-          allow-clear
-          :classes="classes"
-        >
+        <a-input default-value="Hello, Antdv-Next" show-count allow-clear :classes="classes">
           <template #prefix>
             <UserOutlined />
           </template>

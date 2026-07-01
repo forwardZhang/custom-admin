@@ -6,14 +6,14 @@
 
 ```vue
 <script setup lang="ts">
-import type { TableProps } from 'antdv-next'
+import type { TableProps } from 'antdv-next';
 
 interface DataType {
-  key?: string
-  name?: string
-  age?: number
-  address?: string
-  description?: string
+  key?: string;
+  name?: string;
+  age?: number;
+  address?: string;
+  description?: string;
 }
 
 const columns: TableProps['columns'] = [
@@ -21,7 +21,7 @@ const columns: TableProps['columns'] = [
   { title: 'Age', dataIndex: 'age', key: 'age' },
   { title: 'Address', dataIndex: 'address', key: 'address' },
   { title: 'Description', dataIndex: 'description', key: 'description' },
-]
+];
 
 const dataSource: DataType[] = [
   {
@@ -52,11 +52,11 @@ const dataSource: DataType[] = [
     address: 'Sydney No. 2 Lake Park',
     description: 'This user is disabled.',
   },
-]
+];
 
 const classes: TableProps['classes'] = {
   root: 'custom-table-root',
-}
+};
 
 const styles: TableProps['styles'] = {
   root: {
@@ -76,7 +76,7 @@ const styles: TableProps['styles'] = {
       outline: '1px dashed rgba(226, 225, 225, 0.1)',
     },
   },
-}
+};
 
 const stylesFn: TableProps['styles'] = (info) => {
   if (info?.props?.size === 'middle') {
@@ -113,10 +113,10 @@ const stylesFn: TableProps['styles'] = (info) => {
           color: '#b8bdfd',
         },
       },
-    } as TableProps['styles']
+    } as TableProps['styles'];
   }
-  return {} as any
-}
+  return {} as any;
+};
 </script>
 
 <template>
@@ -131,12 +131,8 @@ const stylesFn: TableProps['styles'] = (info) => {
       virtual
       :scroll="{ y: 300 }"
     >
-      <template #title>
-        Table Object Styles
-      </template>
-      <template #footer>
-        Table Object Footer
-      </template>
+      <template #title> Table Object Styles </template>
+      <template #footer> Table Object Footer </template>
     </a-table>
     <a-table
       :columns="columns"
@@ -146,12 +142,8 @@ const stylesFn: TableProps['styles'] = (info) => {
       :styles="stylesFn"
       size="middle"
     >
-      <template #title>
-        Table Function Styles
-      </template>
-      <template #footer>
-        Table Function Styles
-      </template>
+      <template #title> Table Function Styles </template>
+      <template #footer> Table Function Styles </template>
     </a-table>
   </a-flex>
 </template>

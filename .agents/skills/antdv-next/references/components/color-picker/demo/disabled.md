@@ -8,9 +8,9 @@ Set to disabled state.
 
 ```vue
 <script setup lang="ts">
-import { shallowRef } from 'vue'
+import { shallowRef } from 'vue';
 
-const color = shallowRef('#1677ff')
+const color = shallowRef('#1677ff');
 </script>
 
 <template>

@@ -8,29 +8,24 @@ Switch variants for inputs inside form.
 
 ```vue
 <script setup lang="ts">
-import { reactive } from 'vue'
+import { reactive } from 'vue';
 
 const model = reactive({
   variant: 'outlined',
   username: '',
   password: '',
-})
+});
 
 const variantOptions = [
   { label: 'outlined', value: 'outlined' },
   { label: 'filled', value: 'filled' },
   { label: 'borderless', value: 'borderless' },
   { label: 'underlined', value: 'underlined' },
-]
+];
 </script>
 
 <template>
-  <a-form
-    :model="model"
-    layout="vertical"
-    :variant="model.variant as any"
-    style="max-width: 600px"
-  >
+  <a-form :model="model" layout="vertical" :variant="model.variant as any" style="max-width: 600px">
     <a-form-item label="Variant" name="variant">
       <a-radio-group v-model:value="model.variant">
         <a-radio-button v-for="item in variantOptions" :key="item.value" :value="item.value">

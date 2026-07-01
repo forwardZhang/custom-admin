@@ -1,15 +1,15 @@
-# _semantic
+# \_semantic
 
 ## Source
 
 ```vue
 <script setup lang="ts">
-import { computed, ref } from 'vue'
-import { SemanticPreview } from '@/components/semantic'
-import { useComponentLocale } from '@/composables/use-locale'
-import { locales } from '../locales'
+import { computed, ref } from 'vue';
+import { SemanticPreview } from '@/components/semantic';
+import { useComponentLocale } from '@/composables/use-locale';
+import { locales } from '../locales';
 
-const { t } = useComponentLocale(locales)
+const { t } = useComponentLocale(locales);
 
 const semantics = computed(() => [
   { name: 'root', desc: t('root'), version: '1.0.0' },
@@ -24,10 +24,10 @@ const semantics = computed(() => [
   { name: 'indicators', desc: t('indicators'), version: '1.0.0' },
   { name: 'indicator', desc: t('indicator'), version: '1.0.0' },
   { name: 'close', desc: t('close'), version: '1.3.0' },
-])
+]);
 
-const open = ref(true)
-const createBtnRef = ref<HTMLButtonElement | null>(null)
+const open = ref(true);
+const createBtnRef = ref<HTMLButtonElement | null>(null);
 
 const steps = [
   {
@@ -41,14 +41,11 @@ const steps = [
     description: 'Save your changes.',
     target: () => createBtnRef.value!,
   },
-]
+];
 </script>
 
 <template>
-  <SemanticPreview
-    component-name="Tour"
-    :semantics="semantics"
-  >
+  <SemanticPreview component-name="Tour" :semantics="semantics">
     <template #default="{ classes }">
       <div
         :style="{
@@ -61,9 +58,7 @@ const steps = [
           overflow: 'hidden',
         }"
       >
-        <a-button ref="createBtnRef" @click="open = true">
-          Show
-        </a-button>
+        <a-button ref="createBtnRef" @click="open = true"> Show </a-button>
         <a-tour
           v-model:open="open"
           :z-index="1"
@@ -74,7 +69,10 @@ const steps = [
         >
           <template #coverRender="{ index }">
             <template v-if="index === 0">
-              <img src="https://user-images.githubusercontent.com/5378891/197385811-55df8480-7ff4-44bd-9d43-a7dade598d70.png" alt="img">
+              <img
+                src="https://user-images.githubusercontent.com/5378891/197385811-55df8480-7ff4-44bd-9d43-a7dade598d70.png"
+                alt="img"
+              />
             </template>
           </template>
         </a-tour>

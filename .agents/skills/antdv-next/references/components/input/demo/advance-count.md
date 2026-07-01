@@ -8,37 +8,34 @@ It is necessary to customize the counting ability in some scenarios (such as emo
 
 ```vue
 <script setup lang="ts">
-import { ref } from 'vue'
-import runes from './advance-count-runes'
+import { ref } from 'vue';
+import runes from './advance-count-runes';
 
-const value1 = ref('Hello, antdv!')
-const value2 = ref('🔥🔥🔥')
-const value3 = ref('🔥antdv')
+const value1 = ref('Hello, antdv!');
+const value2 = ref('🔥🔥🔥');
+const value3 = ref('🔥antdv');
 </script>
 
 <template>
   <a-flex vertical gap="16">
     <div>
       <a-typography>
-        <a-typography-title :level="5">
-          Exceed Max
-        </a-typography-title>
+        <a-typography-title :level="5"> Exceed Max </a-typography-title>
       </a-typography>
       <a-input v-model:value="value1" :count="{ show: true, max: 10 }" />
     </div>
     <div>
       <a-typography>
-        <a-typography-title :level="5">
-          Exceed Max
-        </a-typography-title>
+        <a-typography-title :level="5"> Exceed Max </a-typography-title>
       </a-typography>
-      <a-input v-model:value="value2" :count="{ show: true, strategy: (txt) => runes(txt).length }" />
+      <a-input
+        v-model:value="value2"
+        :count="{ show: true, strategy: (txt) => runes(txt).length }"
+      />
     </div>
     <div>
       <a-typography>
-        <a-typography-title :level="5">
-          Exceed Max
-        </a-typography-title>
+        <a-typography-title :level="5"> Exceed Max </a-typography-title>
       </a-typography>
       <a-input
         v-model:value="value3"

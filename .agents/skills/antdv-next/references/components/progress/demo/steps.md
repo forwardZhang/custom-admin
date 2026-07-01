@@ -8,7 +8,7 @@ A progress bar with steps.
 
 ```vue
 <script setup lang="ts">
-import { green, red } from '@ant-design/colors'
+import { green, red } from '@ant-design/colors';
 </script>
 
 <template>

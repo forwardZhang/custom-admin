@@ -8,85 +8,86 @@ Resizable column width.
 
 ```vue
 <script setup lang="ts">
-import type { TableProps } from 'antdv-next'
-import { computed, defineComponent, h, onBeforeUnmount, ref } from 'vue'
+import type { TableProps } from 'antdv-next';
+import { computed, defineComponent, h, onBeforeUnmount, ref } from 'vue';
 
 interface DataType {
-  key: number
-  date: string
-  amount: number
-  type: string
-  note: string
+  key: number;
+  date: string;
+  amount: number;
+  type: string;
+  note: string;
 }
 
 interface ResizeInfo {
   size: {
-    width: number
-  }
+    width: number;
+  };
 }
 
 interface ResizableTitleProps {
-  width?: number
-  onResize?: (event: MouseEvent, info: ResizeInfo) => void
+  width?: number;
+  onResize?: (event: MouseEvent, info: ResizeInfo) => void;
 }
 
-type ColumnsType = NonNullable<TableProps['columns']>
+type ColumnsType = NonNullable<TableProps['columns']>;
 
 const ResizableTitle = defineComponent<ResizableTitleProps>({
   name: 'ResizableTitle',
   inheritAttrs: false,
   props: ['width', 'onResize'] as any,
   setup(props, { slots, attrs }) {
-    const dragging = ref(false)
-    const stopNextClick = ref(false)
-    let startX = 0
-    let startWidth = 0
+    const dragging = ref(false);
+    const stopNextClick = ref(false);
+    let startX = 0;
+    let startWidth = 0;
 
     const onMouseMove = (event: MouseEvent) => {
       if (!dragging.value) {
-        return
+        return;
       }
-      stopNextClick.value = true
-      const nextWidth = Math.max(startWidth + event.clientX - startX, 40)
-      props.onResize?.(event, { size: { width: nextWidth } })
-    }
+      stopNextClick.value = true;
+      const nextWidth = Math.max(startWidth + event.clientX - startX, 40);
+      props.onResize?.(event, { size: { width: nextWidth } });
+    };
 
     const onMouseUp = () => {
-      dragging.value = false
-      document.removeEventListener('mousemove', onMouseMove)
-      document.removeEventListener('mouseup', onMouseUp)
+      dragging.value = false;
+      document.removeEventListener('mousemove', onMouseMove);
+      document.removeEventListener('mouseup', onMouseUp);
       setTimeout(() => {
-        stopNextClick.value = false
-      }, 0)
-    }
+        stopNextClick.value = false;
+      }, 0);
+    };
 
     const onMouseDown = (event: MouseEvent) => {
-      event.preventDefault()
-      event.stopPropagation()
-      dragging.value = true
-      stopNextClick.value = false
-      startX = event.clientX
-      startWidth = props.width || (event.currentTarget as HTMLElement).parentElement?.offsetWidth || 0
-      document.addEventListener('mousemove', onMouseMove)
-      document.addEventListener('mouseup', onMouseUp)
-    }
+      event.preventDefault();
+      event.stopPropagation();
+      dragging.value = true;
+      stopNextClick.value = false;
+      startX = event.clientX;
+      startWidth =
+        props.width || (event.currentTarget as HTMLElement).parentElement?.offsetWidth || 0;
+      document.addEventListener('mousemove', onMouseMove);
+      document.addEventListener('mouseup', onMouseUp);
+    };
 
     const onClickCapture = (event: MouseEvent) => {
       if (stopNextClick.value) {
-        event.stopPropagation()
-        event.preventDefault()
-        stopNextClick.value = false
+        event.stopPropagation();
+        event.preventDefault();
+        stopNextClick.value = false;
       }
-    }
+    };
 
     onBeforeUnmount(() => {
-      document.removeEventListener('mousemove', onMouseMove)
-      document.removeEventListener('mouseup', onMouseUp)
-    })
+      document.removeEventListener('mousemove', onMouseMove);
+      document.removeEventListener('mouseup', onMouseUp);
+    });
 
     return () => {
       if (!props.width) {
-        return h('th', attrs, slots.default?.())
+        return h('th', attrs, slots.default?.());
       }
 
       return h(
@@ -104,10 +105,10 @@ const ResizableTitle = defineComponent<ResizableTitleProps>({
             onMousedown: onMouseDown,
           }),
         ],
-      )
-    }
+      );
+    };
   },
-})
+});
 
 const columns = ref<ColumnsType>([
   {
@@ -135,7 +136,7 @@ const columns = ref<ColumnsType>([
     title: 'Action',
     key: 'action',
   },
-])
+]);
 
 const dataSource: DataType[] = [
   {
@@ -159,14 +160,14 @@ const dataSource: DataType[] = [
     type: 'income',
     note: 'transfer',
   },
-]
+];
 
 function handleResize(index: number) {
   return (_event: MouseEvent, { size }: ResizeInfo) => {
     columns.value = columns.value.map((col, colIndex) =>
       colIndex === index ? { ...col, width: size.width } : col,
-    )
-  }
+    );
+  };
 }
 
 const mergedColumns = computed<TableProps['columns']>(() =>
@@ -177,22 +178,17 @@ const mergedColumns = computed<TableProps['columns']>(() =>
       onResize: handleResize(index),
     }),
   })),
-)
+);
 
 const components = {
   header: {
     cell: ResizableTitle,
   },
-}
+};
 </script>
 
 <template>
-  <a-table
-    bordered
-    :components="components"
-    :columns="mergedColumns"
-    :data-source="dataSource"
-  >
+  <a-table bordered :components="components" :columns="mergedColumns" :data-source="dataSource">
     <template #bodyCell="{ column }">
       <template v-if="column.key === 'action'">
         <a>Delete</a>

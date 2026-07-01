@@ -10,23 +10,23 @@ Table cell supports `colSpan` and `rowSpan` that set in onCell return object. Wh
 
 ```vue
 <script setup lang="ts">
-import type { TableProps } from 'antdv-next'
-import { h } from 'vue'
+import type { TableProps } from 'antdv-next';
+import { h } from 'vue';
 
 interface DataType {
-  key: string
-  name: string
-  age: number
-  tel: string
-  phone: number
-  address: string
+  key: string;
+  name: string;
+  age: number;
+  tel: string;
+  phone: number;
+  address: string;
 }
 
 function sharedOnCell(_: any, index?: number) {
   if (index === 1) {
-    return { colSpan: 0 }
+    return { colSpan: 0 };
   }
-  return {}
+  return {};
 }
 
 const columns: TableProps['columns'] = [
@@ -38,7 +38,7 @@ const columns: TableProps['columns'] = [
   {
     title: 'Name',
     dataIndex: 'name',
-    render: text => h('a', text),
+    render: (text) => h('a', text),
     onCell: (_, index) => ({
       colSpan: index === 1 ? 5 : 1,
     }),
@@ -54,15 +54,15 @@ const columns: TableProps['columns'] = [
     dataIndex: 'tel',
     onCell: (_, index) => {
       if (index === 3) {
-        return { rowSpan: 2 }
+        return { rowSpan: 2 };
       }
       if (index === 4) {
-        return { rowSpan: 0 }
+        return { rowSpan: 0 };
       }
       if (index === 1) {
-        return { colSpan: 0 }
+        return { colSpan: 0 };
       }
-      return {}
+      return {};
     },
   },
   {
@@ -76,7 +76,7 @@ const columns: TableProps['columns'] = [
     dataIndex: 'address',
     onCell: sharedOnCell,
   },
-]
+];
 
 const dataSource: DataType[] = [
   {
@@ -119,7 +119,7 @@ const dataSource: DataType[] = [
     phone: 18900010002,
     address: 'Dublin No. 2 Lake Park',
   },
-]
+];
 </script>
 
 <template>

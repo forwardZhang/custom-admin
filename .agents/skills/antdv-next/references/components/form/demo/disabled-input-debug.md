@@ -8,18 +8,18 @@ Disabled state debug.
 
 ```vue
 <script setup lang="ts">
-import { reactive } from 'vue'
+import { reactive } from 'vue';
 
 const model = reactive({
   username: 'Antdv Next',
   level: 'normal',
   count: 2,
-})
+});
 
 const levelOptions = [
   { label: 'Normal', value: 'normal' },
   { label: 'Admin', value: 'admin' },
-]
+];
 </script>
 
 <template>

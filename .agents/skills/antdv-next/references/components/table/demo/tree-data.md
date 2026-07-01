@@ -10,22 +10,22 @@ You can control the indent width by setting `indentSize`.
 
 ```vue
 <script setup lang="ts">
-import type { TableProps } from 'antdv-next'
-import { computed, ref } from 'vue'
+import type { TableProps } from 'antdv-next';
+import { computed, ref } from 'vue';
 
 interface DataType {
-  key: number
-  name: string
-  age: number
-  address: string
-  children?: DataType[]
+  key: number;
+  name: string;
+  age: number;
+  address: string;
+  children?: DataType[];
 }
 
 const columns: TableProps['columns'] = [
   { title: 'Name', dataIndex: 'name', key: 'name' },
   { title: 'Age', dataIndex: 'age', key: 'age', width: '12%' },
   { title: 'Address', dataIndex: 'address', key: 'address', width: '30%' },
-]
+];
 
 const dataSource: DataType[] = [
   {
@@ -90,9 +90,9 @@ const dataSource: DataType[] = [
     age: 32,
     address: 'Sydney No. 1 Lake Park',
   },
-]
+];
 
-const checkStrictly = ref(false)
+const checkStrictly = ref(false);
 
 const rowSelection = computed<TableProps['rowSelection']>(() => ({
   checkStrictly: checkStrictly.value,
@@ -103,12 +103,12 @@ const rowSelection = computed<TableProps['rowSelection']>(() => ({
       selectedRows,
       'info',
       info,
-    )
+    );
   },
   onSelect: (record, selected, selectedRows) => {
-    console.log(record, selected, selectedRows)
+    console.log(record, selected, selectedRows);
   },
-}))
+}));
 </script>
 
 <template>

@@ -6,14 +6,14 @@
 
 ```vue
 <script setup lang="ts">
-import type { AlertProps } from 'antdv-next'
-import { theme } from 'antdv-next'
+import type { AlertProps } from 'antdv-next';
+import { theme } from 'antdv-next';
 
-const { token } = theme.useToken()
+const { token } = theme.useToken();
 
 const classes: AlertProps['classes'] = {
   root: 'demo-alert-root',
-}
+};
 
 const stylesObject: AlertProps['styles'] = {
   icon: {
@@ -22,7 +22,7 @@ const stylesObject: AlertProps['styles'] = {
   section: {
     fontWeight: 500,
   },
-}
+};
 
 const stylesFn: AlertProps['styles'] = (info) => {
   if (info?.props?.type === 'success') {
@@ -34,7 +34,7 @@ const stylesFn: AlertProps['styles'] = (info) => {
       icon: {
         color: '#52c41a',
       },
-    }
+    };
   }
   if (info?.props?.type === 'warning') {
     return {
@@ -45,25 +45,17 @@ const stylesFn: AlertProps['styles'] = (info) => {
       icon: {
         color: '#faad14',
       },
-    }
+    };
   }
-  return {}
-}
+  return {};
+};
 </script>
 
 <template>
   <a-flex vertical gap="small">
-    <a-alert
-      title="Object styles"
-      type="info"
-      show-icon
-      :classes="classes"
-      :styles="stylesObject"
-    >
+    <a-alert title="Object styles" type="info" show-icon :classes="classes" :styles="stylesObject">
       <template #action>
-        <a-button size="small">
-          Action
-        </a-button>
+        <a-button size="small"> Action </a-button>
       </template>
     </a-alert>
     <a-alert

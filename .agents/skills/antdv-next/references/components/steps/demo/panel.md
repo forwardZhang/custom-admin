@@ -8,9 +8,9 @@ Panel style steps.
 
 ```vue
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref } from 'vue';
 
-const current = ref(0)
+const current = ref(0);
 
 const items = [
   {
@@ -27,22 +27,17 @@ const items = [
     title: 'Step 3',
     content: 'This is a content.',
   },
-]
+];
 
 function handleChange(value: number) {
-  console.log('onChange:', value)
-  current.value = value
+  console.log('onChange:', value);
+  current.value = value;
 }
 </script>
 
 <template>
   <a-flex vertical gap="middle">
-    <a-steps
-      v-model:current="current"
-      type="panel"
-      :items="items"
-      @change="handleChange"
-    />
+    <a-steps v-model:current="current" type="panel" :items="items" @change="handleChange" />
     <a-steps
       v-model:current="current"
       type="panel"

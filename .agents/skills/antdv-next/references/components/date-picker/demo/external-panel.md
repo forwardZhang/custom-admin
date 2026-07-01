@@ -8,38 +8,38 @@ Custom menu, external selection panel.
 
 ```vue
 <script setup lang="ts">
-import type { MenuItemType } from 'antdv-next'
-import type { Dayjs } from 'dayjs'
-import { DownOutlined } from '@antdv-next/icons'
-import dayjs from 'dayjs'
-import { computed, h, ref, resolveComponent } from 'vue'
+import type { MenuItemType } from 'antdv-next';
+import type { Dayjs } from 'dayjs';
+import { DownOutlined } from '@antdv-next/icons';
+import dayjs from 'dayjs';
+import { computed, h, ref, resolveComponent } from 'vue';
 
-const dateDropdownOpen = ref(false)
-const datePanelOpen = ref(false)
-const dateValue = ref<Dayjs | null>(dayjs())
+const dateDropdownOpen = ref(false);
+const datePanelOpen = ref(false);
+const dateValue = ref<Dayjs | null>(dayjs());
 
-const rangeDropdownOpen = ref(false)
-const rangePanelOpen = ref(false)
-const rangeValue = ref<[Dayjs, Dayjs] | null>([dayjs(), dayjs().add(1, 'day')])
+const rangeDropdownOpen = ref(false);
+const rangePanelOpen = ref(false);
+const rangeValue = ref<[Dayjs, Dayjs] | null>([dayjs(), dayjs().add(1, 'day')]);
 
-const DatePicker = resolveComponent('a-date-picker') as any
-const RangePicker = resolveComponent('a-range-picker') as any
+const DatePicker = resolveComponent('a-date-picker') as any;
+const RangePicker = resolveComponent('a-range-picker') as any;
 
 const dateMenuItems = computed<MenuItemType[]>(() => [
   {
     key: 'today',
     label: 'Today',
     onClick() {
-      dateValue.value = dayjs()
-      dateDropdownOpen.value = false
+      dateValue.value = dayjs();
+      dateDropdownOpen.value = false;
     },
   },
   {
     key: 'tomorrow',
     label: 'Tomorrow',
     onClick() {
-      dateValue.value = dayjs().add(1, 'day')
-      dateDropdownOpen.value = false
+      dateValue.value = dayjs().add(1, 'day');
+      dateDropdownOpen.value = false;
     },
   },
   {
@@ -49,8 +49,8 @@ const dateMenuItems = computed<MenuItemType[]>(() => [
       {
         style: { position: 'relative', overflow: 'hidden' },
         onClick: (event: MouseEvent) => {
-          event.stopPropagation()
-          datePanelOpen.value = true
+          event.stopPropagation();
+          datePanelOpen.value = true;
         },
       },
       [
@@ -59,7 +59,7 @@ const dateMenuItems = computed<MenuItemType[]>(() => [
           'div',
           {
             onClick: (event: MouseEvent) => {
-              event.stopPropagation()
+              event.stopPropagation();
             },
           },
           [
@@ -75,9 +75,9 @@ const dateMenuItems = computed<MenuItemType[]>(() => [
                 },
               },
               onChange: (value: Dayjs | null) => {
-                dateValue.value = value
-                dateDropdownOpen.value = false
-                datePanelOpen.value = false
+                dateValue.value = value;
+                dateDropdownOpen.value = false;
+                datePanelOpen.value = false;
               },
             }),
           ],
@@ -85,23 +85,23 @@ const dateMenuItems = computed<MenuItemType[]>(() => [
       ],
     ),
   },
-])
+]);
 
 const rangeMenuItems = computed<MenuItemType[]>(() => [
   {
     key: '7',
     label: '7 days',
     onClick() {
-      rangeValue.value = [dayjs(), dayjs().add(7, 'day')]
-      rangeDropdownOpen.value = false
+      rangeValue.value = [dayjs(), dayjs().add(7, 'day')];
+      rangeDropdownOpen.value = false;
     },
   },
   {
     key: '30',
     label: '30 days',
     onClick() {
-      rangeValue.value = [dayjs(), dayjs().add(30, 'day')]
-      rangeDropdownOpen.value = false
+      rangeValue.value = [dayjs(), dayjs().add(30, 'day')];
+      rangeDropdownOpen.value = false;
     },
   },
   {
@@ -111,8 +111,8 @@ const rangeMenuItems = computed<MenuItemType[]>(() => [
       {
         style: { position: 'relative', overflow: 'hidden' },
         onClick: (event: MouseEvent) => {
-          event.stopPropagation()
-          rangePanelOpen.value = true
+          event.stopPropagation();
+          rangePanelOpen.value = true;
         },
       },
       [
@@ -121,7 +121,7 @@ const rangeMenuItems = computed<MenuItemType[]>(() => [
           'div',
           {
             onClick: (event: MouseEvent) => {
-              event.stopPropagation()
+              event.stopPropagation();
             },
           },
           [
@@ -138,13 +138,12 @@ const rangeMenuItems = computed<MenuItemType[]>(() => [
               },
               onChange: (ranges: [Dayjs, Dayjs] | null) => {
                 if (ranges?.[0] && ranges?.[1]) {
-                  rangeValue.value = [ranges[0], ranges[1]]
+                  rangeValue.value = [ranges[0], ranges[1]];
+                } else {
+                  rangeValue.value = null;
                 }
-                else {
-                  rangeValue.value = null
-                }
-                rangeDropdownOpen.value = false
-                rangePanelOpen.value = false
+                rangeDropdownOpen.value = false;
+                rangePanelOpen.value = false;
               },
             }),
           ],
@@ -152,22 +151,22 @@ const rangeMenuItems = computed<MenuItemType[]>(() => [
       ],
     ),
   },
-])
+]);
 
-const dateMenu = computed(() => ({ items: dateMenuItems.value }))
-const rangeMenu = computed(() => ({ items: rangeMenuItems.value }))
+const dateMenu = computed(() => ({ items: dateMenuItems.value }));
+const rangeMenu = computed(() => ({ items: rangeMenuItems.value }));
 
 function handleDateOpenChange(nextOpen: boolean) {
-  dateDropdownOpen.value = nextOpen
+  dateDropdownOpen.value = nextOpen;
   if (!nextOpen) {
-    datePanelOpen.value = false
+    datePanelOpen.value = false;
   }
 }
 
 function handleRangeOpenChange(nextOpen: boolean) {
-  rangeDropdownOpen.value = nextOpen
+  rangeDropdownOpen.value = nextOpen;
   if (!nextOpen) {
-    rangePanelOpen.value = false
+    rangePanelOpen.value = false;
   }
 }
 </script>
@@ -175,9 +174,7 @@ function handleRangeOpenChange(nextOpen: boolean) {
 <template>
   <div style="display: flex; gap: 20%;">
     <div>
-      <div style="margin-bottom: 12px;">
-        DatePicker
-      </div>
+      <div style="margin-bottom: 12px;">DatePicker</div>
       <a-dropdown
         arrow
         :open="dateDropdownOpen"
@@ -196,9 +193,7 @@ function handleRangeOpenChange(nextOpen: boolean) {
     </div>
 
     <div>
-      <div style="margin-bottom: 12px;">
-        RangePicker
-      </div>
+      <div style="margin-bottom: 12px;">RangePicker</div>
       <a-dropdown
         arrow
         :open="rangeDropdownOpen"

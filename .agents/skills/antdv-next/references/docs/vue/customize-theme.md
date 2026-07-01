@@ -168,7 +168,8 @@ onBeforeUnmount(() => {
 
 ## Advanced
 
-### Zero Runtime 
+### Zero Runtime
+
 We provide `zeroRuntime` mode to further improve application performance. When enabled, Antdv Next will no longer generate component styles at runtime, so you need to manually import the style files.
 
 :::warning Notice
@@ -178,10 +179,11 @@ This configuration is static and cannot be dynamically configured through `Confi
 Import the style file in `main.ts`:
 
 ```ts
-import 'antdv-next/dist/antd.css'
+import 'antdv-next/dist/antd.css';
 ```
 
 Configure the theme in `App.vue`:
+
 ```vue
 <template>
   <a-config-provider :theme="{ zeroRuntime: true }">
@@ -272,7 +274,8 @@ import { theme } from 'antdv-next' // or ant-design-vue
 const { useToken } = theme
 const { token } = useToken()
 </script>
-```
+
+````
 
 ### Static Consume (e.g. Atomic CSS)
 
@@ -284,19 +287,18 @@ npm install -D @antdv-next/unocss
 # or
 pnpm add -D @antdv-next/unocss
 
-```
+````
 
 #### Configuration
 
 Import the plugin in `uno.config.ts`:
+
 ```ts
-import { presetAntd } from '@antdv-next/unocss'
+import { presetAntd } from '@antdv-next/unocss';
 
 export default defineConfig({
-  presets: [
-    presetAntd(),
-  ]
-})
+  presets: [presetAntd()],
+});
 ```
 
 #### Usage
@@ -307,10 +309,8 @@ By default, we have added some configurations on top of `unocss`. If you want to
 
 ```vue
 <template>
-  <div class="a-c-primary">
-  </div>
-  <div class="c-primary">
-  </div>
+  <div class="a-c-primary"></div>
+  <div class="c-primary"></div>
 </template>
 ```
 
@@ -327,7 +327,7 @@ const theme = {
   token: {
     colorPrimary: '#1890ff',
   },
-}
+};
 ```
 
 ### Map Token
@@ -339,7 +339,7 @@ const theme = {
   token: {
     colorPrimaryBg: '#e6f7ff',
   },
-}
+};
 ```
 
 ### Alias Token
@@ -351,7 +351,7 @@ const theme = {
   token: {
     colorLink: '#1890ff',
   },
-}
+};
 ```
 
 ### Algorithm
@@ -359,41 +359,42 @@ const theme = {
 The basic algorithm is used to expand the Seed Token into a Map Token, such as calculating a gradient color palette from a basic color, or calculating rounded corners of various sizes from a basic rounded corner. Algorithms can be used alone or in any combination, for example, dark and compact algorithms can be combined to get a dark and compact theme.
 
 ```tsx
-import { theme } from 'antdv-next'
+import { theme } from 'antdv-next';
 
-const { darkAlgorithm, compactAlgorithm } = theme
+const { darkAlgorithm, compactAlgorithm } = theme;
 
 const theme = {
   algorithm: [darkAlgorithm, compactAlgorithm],
-}
+};
 ```
 
 ## API
 
 ### Theme
 
-| Property | Description | Type | Default | Version |
-| --- | --- | --- | --- |----|
-| inherit | Inherit theme configured in upper ConfigProvider | boolean | true |    |
-| algorithm | Modify the algorithms of theme | `(token: SeedToken) => MapToken` \| `((token: SeedToken) => MapToken)[]` | `defaultAlgorithm` |    |
-| components | Modify Component Token and Alias Token applied to components | `ComponentsConfig` | - |    |
-| cssVar | CSS Variables Configuration | [cssVar](#css-var) | - |    |
-| hashed | Style patch on the hash className | boolean | true |    |
-| zeroRuntime | Enable zero-runtime mode, which will not generate style at runtime, need to import additional CSS file | boolean | true | -  |
+| Property    | Description                                                                                            | Type                                                                     | Default            | Version |
+| ----------- | ------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------ | ------------------ | ------- |
+| inherit     | Inherit theme configured in upper ConfigProvider                                                       | boolean                                                                  | true               |         |
+| algorithm   | Modify the algorithms of theme                                                                         | `(token: SeedToken) => MapToken` \| `((token: SeedToken) => MapToken)[]` | `defaultAlgorithm` |         |
+| components  | Modify Component Token and Alias Token applied to components                                           | `ComponentsConfig`                                                       | -                  |         |
+| cssVar      | CSS Variables Configuration                                                                            | [cssVar](#css-var)                                                       | -                  |         |
+| hashed      | Style patch on the hash className                                                                      | boolean                                                                  | true               |         |
+| zeroRuntime | Enable zero-runtime mode, which will not generate style at runtime, need to import additional CSS file | boolean                                                                  | true               | -       |
 
 ### ComponentsConfig
 
-| Property | Description | Type | Default |
-| --- | --- | --- | --- |
-| `Component` (Can be any antd Component name like `Button`) | Modify Component Token or override Component used Alias Token | `ComponentToken & AliasToken & { algorithm: boolean \| (token: SeedToken) => MapToken` \| `((token: SeedToken) => MapToken)[]}` | - |
+| Property                                                   | Description                                                   | Type                                                                                                                            | Default |
+| ---------------------------------------------------------- | ------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------- | ------- |
+| `Component` (Can be any antd Component name like `Button`) | Modify Component Token or override Component used Alias Token | `ComponentToken & AliasToken & { algorithm: boolean \| (token: SeedToken) => MapToken` \| `((token: SeedToken) => MapToken)[]}` | -       |
 
 > `algorithm` of component is `false` by default, which means tokens of component will only override global token. When it is set with `true`, the algorithm will be the same as global. You can also pass algorithm or Array of algorithm, and it will override algorithm of global.
 
-### cssVar 
-| Property | Description | Type | Default              | Version |
-| --- | --- | --- |----------------------| --- |
-| prefix | Prefix of CSS variables, same as `prefixCls` configured on ConfigProvider by default | string | `ant`                |  |
-| key | Unique key for current theme, filled with `useId` by default | string | `useId` in Vue 3 |  |
+### cssVar
+
+| Property | Description                                                                          | Type   | Default          | Version |
+| -------- | ------------------------------------------------------------------------------------ | ------ | ---------------- | ------- |
+| prefix   | Prefix of CSS variables, same as `prefixCls` configured on ConfigProvider by default | string | `ant`            |         |
+| key      | Unique key for current theme, filled with `useId` by default                         | string | `useId` in Vue 3 |         |
 
 ### SeedToken
 

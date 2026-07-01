@@ -8,36 +8,36 @@ Test col 24 usage.
 
 ```vue
 <script setup lang="ts">
-import { reactive } from 'vue'
+import { reactive } from 'vue';
 
 const modelA = reactive({
   username: '',
   password: '',
   select: ['bamboo'],
-})
+});
 
 const modelB = reactive({
   username: '',
   password: '',
-})
+});
 
 const modelC = reactive({
   select: ['bamboo'],
   col12: '',
-})
+});
 
 const selectOptions = [
   { label: 'Bamboo', value: 'bamboo' },
   { label: 'Little', value: 'little' },
   { label: 'Light', value: 'light' },
-]
+];
 
 function handleFinish(values: any) {
-  console.log('Success:', values)
+  console.log('Success:', values);
 }
 
 function handleFinishFailed(errorInfo: any) {
-  console.log('Failed:', errorInfo)
+  console.log('Failed:', errorInfo);
 }
 </script>
 
@@ -68,13 +68,16 @@ function handleFinishFailed(errorInfo: any) {
     </a-form-item>
 
     <a-form-item label="Select" name="select" style="box-shadow: 0 0 3px red">
-      <a-select v-model:value="modelA.select" mode="multiple" style="width: 70%" :options="selectOptions" />
+      <a-select
+        v-model:value="modelA.select"
+        mode="multiple"
+        style="width: 70%"
+        :options="selectOptions"
+      />
     </a-form-item>
 
     <a-form-item>
-      <a-button type="primary" html-type="submit">
-        Submit
-      </a-button>
+      <a-button type="primary" html-type="submit"> Submit </a-button>
     </a-form-item>
   </a-form>
 
@@ -103,9 +106,7 @@ function handleFinishFailed(errorInfo: any) {
     </a-form-item>
 
     <a-form-item>
-      <a-button type="primary" html-type="submit">
-        Submit
-      </a-button>
+      <a-button type="primary" html-type="submit"> Submit </a-button>
     </a-form-item>
   </a-form>
 
@@ -113,7 +114,12 @@ function handleFinishFailed(errorInfo: any) {
 
   <a-form layout="vertical" :model="modelC">
     <a-form-item label="Select" name="select" style="box-shadow: 0 0 3px red">
-      <a-select v-model:value="modelC.select" mode="multiple" style="width: 70%" :options="selectOptions" />
+      <a-select
+        v-model:value="modelC.select"
+        mode="multiple"
+        style="width: 70%"
+        :options="selectOptions"
+      />
     </a-form-item>
 
     <a-form-item label="col12" name="col12" :label-col="{ span: 12 }" :wrapper-col="{ span: 12 }">

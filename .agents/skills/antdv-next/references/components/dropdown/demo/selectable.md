@@ -8,8 +8,8 @@ Configure the `selectable` property in `menu` to enable selectable ability.
 
 ```vue
 <script setup lang="ts">
-import type { MenuItemType } from 'antdv-next'
-import { DownOutlined } from '@antdv-next/icons'
+import type { MenuItemType } from 'antdv-next';
+import { DownOutlined } from '@antdv-next/icons';
 
 const items: MenuItemType[] = [
   {
@@ -24,7 +24,7 @@ const items: MenuItemType[] = [
     key: '3',
     label: 'Item 3',
   },
-]
+];
 </script>
 
 <template>

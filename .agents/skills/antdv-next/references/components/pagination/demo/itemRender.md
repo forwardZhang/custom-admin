@@ -8,18 +8,18 @@ Use text link for prev and next button.
 
 ```vue
 <script setup lang="ts">
-import type { PaginationProps } from 'antdv-next'
-import { h } from 'vue'
+import type { PaginationProps } from 'antdv-next';
+import { h } from 'vue';
 
 const itemRender: PaginationProps['itemRender'] = (_, type, originalElement) => {
   if (type === 'prev') {
-    return h('a', 'Previous')
+    return h('a', 'Previous');
   }
   if (type === 'next') {
-    return h('a', 'Next')
+    return h('a', 'Next');
   }
-  return originalElement
-}
+  return originalElement;
+};
 </script>
 
 <template>

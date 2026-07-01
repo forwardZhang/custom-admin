@@ -21,7 +21,7 @@ Use these variables through `theme.components.Popover`. This document lists defi
 
 ## Token List
 
-| Token | Type | Description |
-| --- | --- | --- |
+| Token           | Type               | Description                |
+| --------------- | ------------------ | -------------------------- |
 | `titleMinWidth` | `string \| number` | Min width of Popover title |
-| `zIndexPopup` | `number` | z-index of Popover |
+| `zIndexPopup`   | `number`           | z-index of Popover         |

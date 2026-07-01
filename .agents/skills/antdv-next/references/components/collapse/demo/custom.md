@@ -8,26 +8,26 @@ Customize the background, border, margin styles and icon for each panel.
 
 ```vue
 <script setup lang="ts">
-import type { CollapseProps } from 'antdv-next'
-import type { CSSProperties } from 'vue'
-import { CaretRightOutlined } from '@antdv-next/icons'
-import { theme } from 'antdv-next'
-import { computed, h } from 'vue'
+import type { CollapseProps } from 'antdv-next';
+import type { CSSProperties } from 'vue';
+import { CaretRightOutlined } from '@antdv-next/icons';
+import { theme } from 'antdv-next';
+import { computed, h } from 'vue';
 
 const text = `
   A dog is a type of domesticated animal.
   Known for its loyalty and faithfulness,
   it can be found as a welcome guest in many households across the world.
-`
+`;
 
-const { token } = theme.useToken()
+const { token } = theme.useToken();
 
 const panelStyle = computed<CSSProperties>(() => ({
   marginBottom: '24px',
   background: token.colorFillAlter,
   borderRadius: token.borderRadiusLG,
   border: 'none',
-}))
+}));
 
 const items = computed(() => [
   {
@@ -48,11 +48,11 @@ const items = computed(() => [
     content: h('p', text),
     style: panelStyle.value,
   },
-])
+]);
 
 const expandIcon: CollapseProps['expandIcon'] = (panelProps) => {
-  return h(CaretRightOutlined, { rotate: panelProps.isActive ? 90 : 0 })
-}
+  return h(CaretRightOutlined, { rotate: panelProps.isActive ? 90 : 0 });
+};
 </script>
 
 <template>

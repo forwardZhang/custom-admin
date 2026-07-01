@@ -25,18 +25,18 @@ const imageList = [
   'https://images.unsplash.com/photo-1731901245099-20ac7f85dbaa',
   'https://images.unsplash.com/photo-1617694455303-59af55af7e58',
   'https://images.unsplash.com/photo-1709198165282-1dab551df890',
-]
+];
 
 const items = imageList.map((img, index) => ({
   key: `item-${index}`,
   data: img,
-}))
+}));
 </script>
 
 <template>
   <a-masonry :columns="4" :gutter="16" :items="items">
     <template #itemRender="{ data }">
-      <img :src="`${data}?w=523&auto=format`" alt="sample" style="width: 100%">
+      <img :src="`${data}?w=523&auto=format`" alt="sample" style="width: 100%" />
     </template>
   </a-masonry>
 </template>

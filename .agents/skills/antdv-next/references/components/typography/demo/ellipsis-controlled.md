@@ -8,15 +8,18 @@ Controlled multi line text omission.
 
 ```vue
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref } from 'vue';
 
-const rows = ref(2)
-const expanded = ref(false)
+const rows = ref(2);
+const expanded = ref(false);
 
-const text = 'Antdv Next, a design language for background applications, is refined by Ant UED Team.'.repeat(20)
+const text =
+  'Antdv Next, a design language for background applications, is refined by Ant UED Team.'.repeat(
+    20,
+  );
 
 function handleExpand(_: MouseEvent, info: { expanded: boolean }) {
-  expanded.value = info.expanded
+  expanded.value = info.expanded;
 }
 </script>
 

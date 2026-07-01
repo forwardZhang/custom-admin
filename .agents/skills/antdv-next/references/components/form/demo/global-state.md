@@ -10,14 +10,14 @@ The `fieldsChange` event returns a flat `FieldData[]`. When a field uses an arra
 
 ```vue
 <script setup lang="ts">
-import { reactive, shallowRef } from 'vue'
+import { reactive, shallowRef } from 'vue';
 
 interface FieldData {
-  name: string | number | (string | number)[]
-  value?: unknown
-  touched?: boolean
-  validating?: boolean
-  errors?: string[]
+  name: string | number | (string | number)[];
+  value?: unknown;
+  touched?: boolean;
+  validating?: boolean;
+  errors?: string[];
 }
 
 const model = reactive({
@@ -25,12 +25,12 @@ const model = reactive({
   profile: {
     email: 'antdv@example.com',
   },
-})
+});
 
-const fields = shallowRef<FieldData[]>([])
+const fields = shallowRef<FieldData[]>([]);
 
 function onFieldsChange(_: FieldData[], allFields: FieldData[]) {
-  fields.value = allFields
+  fields.value = allFields;
 }
 </script>
 

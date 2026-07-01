@@ -8,12 +8,12 @@ With text and icon.
 
 ```vue
 <script setup lang="ts">
-import { CheckOutlined, CloseOutlined } from '@antdv-next/icons'
-import { shallowRef } from 'vue'
+import { CheckOutlined, CloseOutlined } from '@antdv-next/icons';
+import { shallowRef } from 'vue';
 
-const checked = shallowRef(true)
-const checked1 = shallowRef(false)
-const checked2 = shallowRef(true)
+const checked = shallowRef(true);
+const checked1 = shallowRef(false);
+const checked2 = shallowRef(true);
 </script>
 
 <template>

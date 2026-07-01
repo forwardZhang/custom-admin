@@ -8,12 +8,12 @@ Vertical menu with inline submenus.
 
 ```vue
 <script setup lang="ts">
-import type { MenuItemType } from 'antdv-next'
-import { AppstoreOutlined, MailOutlined, SettingOutlined } from '@antdv-next/icons'
-import { ref } from 'vue'
+import type { MenuItemType } from 'antdv-next';
+import { AppstoreOutlined, MailOutlined, SettingOutlined } from '@antdv-next/icons';
+import { ref } from 'vue';
 
 function handleClick(e: any) {
-  console.log('click ', e)
+  console.log('click ', e);
 }
 
 const items: MenuItemType[] = [
@@ -82,9 +82,9 @@ const items: MenuItemType[] = [
       { key: '14', label: 'Option 14' },
     ],
   },
-]
-const openKeys = ref(['sub1'])
-const selectedKeys = ref(['1'])
+];
+const openKeys = ref(['sub1']);
+const selectedKeys = ref(['1']);
 </script>
 
 <template>

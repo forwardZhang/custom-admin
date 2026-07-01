@@ -8,15 +8,15 @@ Control the display of collapsible icon with `showCollapsibleIcon`.
 
 ```vue
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref } from 'vue';
 
-const showIconMode = ref<'auto' | boolean>(true)
+const showIconMode = ref<'auto' | boolean>(true);
 
 const options = [
   { label: 'Auto', value: 'auto' },
   { label: 'True', value: true },
   { label: 'False', value: false },
-]
+];
 </script>
 
 <template>

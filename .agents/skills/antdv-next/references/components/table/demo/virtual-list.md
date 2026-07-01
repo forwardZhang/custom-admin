@@ -8,17 +8,17 @@ Set `virtual` to enable virtual scroll, and `scroll.x` and `scroll.y` must be se
 
 ```vue
 <script setup lang="ts">
-import type { TableProps } from 'antdv-next'
-import { computed, ref } from 'vue'
+import type { TableProps } from 'antdv-next';
+import { computed, ref } from 'vue';
 
 interface RecordType {
-  id: number
-  firstName: string
-  lastName: string
-  age: number
-  address1: string
-  address2: string
-  address3: string
+  id: number;
+  firstName: string;
+  lastName: string;
+  age: number;
+  address1: string;
+  address2: string;
+  address3: string;
 }
 
 const fixedColumns: TableProps['columns'] = [
@@ -45,7 +45,7 @@ const fixedColumns: TableProps['columns'] = [
     key: 'group',
     width: 120,
     render: (_text, record) => `Group ${Math.floor(record.id / 4)}`,
-    onCell: record => ({
+    onCell: (record) => ({
       rowSpan: record.id % 4 === 0 ? 4 : 0,
     }),
   },
@@ -53,14 +53,14 @@ const fixedColumns: TableProps['columns'] = [
     title: 'Age',
     dataIndex: 'age',
     width: 100,
-    onCell: record => ({
+    onCell: (record) => ({
       colSpan: record.id % 4 === 0 ? 2 : 1,
     }),
   },
   {
     title: 'Address 1',
     dataIndex: 'address1',
-    onCell: record => ({
+    onCell: (record) => ({
       colSpan: record.id % 4 === 0 ? 0 : 1,
     }),
   },
@@ -78,7 +78,7 @@ const fixedColumns: TableProps['columns'] = [
     width: 150,
     fixed: 'end',
   },
-]
+];
 
 const columns: TableProps['columns'] = [
   {
@@ -95,20 +95,20 @@ const columns: TableProps['columns'] = [
     title: 'LastName',
     dataIndex: 'lastName',
   },
-]
+];
 
-const fixed = ref(true)
-const bordered = ref(true)
-const expanded = ref(false)
-const empty = ref(false)
-const count = ref(10000)
-const tableRef = ref<any>(null)
+const fixed = ref(true);
+const bordered = ref(true);
+const expanded = ref(false);
+const empty = ref(false);
+const count = ref(10000);
+const tableRef = ref<any>(null);
 
 const countOptions = [
   { label: 'None', value: 0 },
   { label: 'Less', value: 4 },
   { label: 'Lot', value: 10000 },
-]
+];
 
 function getData(length: number) {
   return Array.from({ length }).map<RecordType>((_, index) => ({
@@ -119,37 +119,37 @@ function getData(length: number) {
     address1: `New York No. ${index} Lake Park`,
     address2: `London No. ${index} Lake Park`,
     address3: `Sydney No. ${index} Lake Park`,
-  }))
+  }));
 }
 
-const data = computed(() => getData(count.value))
+const data = computed(() => getData(count.value));
 
 const mergedColumns = computed<TableProps['columns']>(() => {
   if (!fixed.value) {
-    return columns
+    return columns;
   }
 
   if (!expanded.value) {
-    return fixedColumns
+    return fixedColumns;
   }
 
-  return fixedColumns.map(column => ({ ...column, onCell: undefined }))
-})
+  return fixedColumns.map((column) => ({ ...column, onCell: undefined }));
+});
 
 const expandableProps = computed<TableProps['expandable']>(() => {
   if (!expanded.value) {
-    return undefined
+    return undefined;
   }
   return {
     columnWidth: 48,
-    rowExpandable: record => record.id % 2 === 0,
-  }
-})
+    rowExpandable: (record) => record.id % 2 === 0,
+  };
+});
 
-const tableData = computed(() => (empty.value ? [] : data.value))
+const tableData = computed(() => (empty.value ? [] : data.value));
 
 function scrollToIndex() {
-  tableRef.value?.scrollTo?.({ index: 999 })
+  tableRef.value?.scrollTo?.({ index: 999 });
 }
 </script>
 
@@ -162,25 +162,15 @@ function scrollToIndex() {
           checked-children="Bordered"
           un-checked-children="Bordered"
         />
-        <a-switch
-          v-model:checked="fixed"
-          checked-children="Fixed"
-          un-checked-children="Fixed"
-        />
+        <a-switch v-model:checked="fixed" checked-children="Fixed" un-checked-children="Fixed" />
         <a-switch
           v-model:checked="expanded"
           checked-children="Expandable"
           un-checked-children="Expandable"
         />
-        <a-switch
-          v-model:checked="empty"
-          checked-children="Empty"
-          un-checked-children="Empty"
-        />
+        <a-switch v-model:checked="empty" checked-children="Empty" un-checked-children="Empty" />
         <a-segmented v-model:value="count" :options="countOptions" />
-        <a-button v-if="data.length >= 999" @click="scrollToIndex">
-          Scroll To index 999
-        </a-button>
+        <a-button v-if="data.length >= 999" @click="scrollToIndex"> Scroll To index 999 </a-button>
       </a-space>
       <a-table
         ref="tableRef"
@@ -188,7 +178,7 @@ function scrollToIndex() {
         :bordered="bordered"
         :columns="mergedColumns"
         :scroll="{ x: 2000, y: 400 }"
-        :row-key="record => record.id"
+        :row-key="(record) => record.id"
         :data-source="tableData"
         :pagination="false"
         :row-selection="expanded ? undefined : { type: 'radio', columnWidth: 48 }"
@@ -203,9 +193,7 @@ function scrollToIndex() {
           </template>
         </template>
         <template v-if="expanded" #expandedRowRender="{ record }">
-          <p style="margin: 0">
-            🎉 Expanded {{ record.address1 }}
-          </p>
+          <p style="margin: 0">🎉 Expanded {{ record.address1 }}</p>
         </template>
       </a-table>
     </a-space>

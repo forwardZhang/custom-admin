@@ -34,7 +34,7 @@ const items = [
     label: 'Address',
     content: 'No. 18, Wantang Road, Xihu District, Hangzhou, Zhejiang, China',
   },
-]
+];
 </script>
 
 <template>

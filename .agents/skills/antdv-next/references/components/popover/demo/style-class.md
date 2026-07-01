@@ -6,14 +6,14 @@
 
 ```vue
 <script setup lang="ts">
-import type { PopoverProps } from 'antdv-next'
-import { theme } from 'antdv-next'
+import type { PopoverProps } from 'antdv-next';
+import { theme } from 'antdv-next';
 
-const { token } = theme.useToken()
+const { token } = theme.useToken();
 
 const classes: PopoverProps['classes'] = {
   container: 'demo-popover-container',
-}
+};
 
 const stylesObject: PopoverProps['styles'] = {
   container: {
@@ -26,7 +26,7 @@ const stylesObject: PopoverProps['styles'] = {
   content: {
     color: '#262626',
   },
-}
+};
 
 const stylesFn: PopoverProps['styles'] = (info) => {
   if (info?.props?.arrow === false) {
@@ -42,31 +42,19 @@ const stylesFn: PopoverProps['styles'] = (info) => {
       content: {
         color: '#fff',
       },
-    }
+    };
   }
-  return {}
-}
+  return {};
+};
 </script>
 
 <template>
   <a-flex gap="middle">
-    <a-popover
-      content="Object text"
-      :classes="classes"
-      :styles="stylesObject"
-      :arrow="false"
-    >
+    <a-popover content="Object text" :classes="classes" :styles="stylesObject" :arrow="false">
       <a-button>Object Style</a-button>
     </a-popover>
-    <a-popover
-      content="Function text"
-      :classes="classes"
-      :styles="stylesFn"
-      :arrow="false"
-    >
-      <a-button type="primary">
-        Function Style
-      </a-button>
+    <a-popover content="Function text" :classes="classes" :styles="stylesFn" :arrow="false">
+      <a-button type="primary"> Function Style </a-button>
     </a-popover>
   </a-flex>
 </template>

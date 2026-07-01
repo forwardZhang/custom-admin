@@ -8,7 +8,7 @@ Change the type of the FloatButton with the `type` property.
 
 ```vue
 <script setup lang="ts">
-import { QuestionCircleOutlined } from '@antdv-next/icons'
+import { QuestionCircleOutlined } from '@antdv-next/icons';
 </script>
 
 <template>

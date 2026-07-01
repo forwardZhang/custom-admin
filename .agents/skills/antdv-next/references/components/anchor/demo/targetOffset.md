@@ -8,10 +8,10 @@ Anchor target scroll to screen center.
 
 ```vue
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
+import { onMounted, ref } from 'vue';
 
-const topRef = ref<HTMLDivElement>()
-const targetOffset = ref<number>()
+const topRef = ref<HTMLDivElement>();
+const targetOffset = ref<number>();
 
 const style = {
   height: '30vh',
@@ -21,29 +21,22 @@ const style = {
   insetInlineStart: 0,
   width: '75%',
   color: '#fff',
-} as const
+} as const;
 
 onMounted(() => {
-  targetOffset.value = topRef.value?.clientHeight
-})
+  targetOffset.value = topRef.value?.clientHeight;
+});
 </script>
 
 <template>
   <div>
     <a-row>
       <a-col :span="18">
-        <div
-          id="part-1"
-          style="height: 100vh; background: rgba(255, 0, 0, 0.02); margin-top: 30vh"
-        >
+        <div id="part-1" style="height: 100vh; background: rgba(255, 0, 0, 0.02); margin-top: 30vh">
           Part 1
         </div>
-        <div id="part-2" style="height: 100vh; background: rgba(0, 255, 0, 0.02)">
-          Part 2
-        </div>
-        <div id="part-3" style="height: 100vh; background: rgba(0, 0, 255, 0.02)">
-          Part 3
-        </div>
+        <div id="part-2" style="height: 100vh; background: rgba(0, 255, 0, 0.02)">Part 2</div>
+        <div id="part-3" style="height: 100vh; background: rgba(0, 0, 255, 0.02)">Part 3</div>
       </a-col>
       <a-col :span="6">
         <a-anchor

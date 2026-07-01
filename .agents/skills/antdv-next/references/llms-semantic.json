@@ -1,358 +1,235 @@
 {
   "componentIndex": {
     "alert": {
-      "keys": [
-        "alert"
-      ],
+      "keys": ["alert"],
       "leafCount": 7
     },
     "anchor": {
-      "keys": [
-        "anchor"
-      ],
+      "keys": ["anchor"],
       "leafCount": 4
     },
     "auto-complete": {
-      "keys": [
-        "autoComplete"
-      ],
+      "keys": ["autoComplete"],
       "leafCount": 9
     },
     "badge": {
-      "keys": [
-        "badge",
-        "ribbon"
-      ],
+      "keys": ["badge", "ribbon"],
       "leafCount": 5
     },
     "breadcrumb": {
-      "keys": [
-        "breadcrumb"
-      ],
+      "keys": ["breadcrumb"],
       "leafCount": 3
     },
     "button": {
-      "keys": [
-        "button"
-      ],
+      "keys": ["button"],
       "leafCount": 3
     },
     "calendar": {
-      "keys": [
-        "calendar"
-      ],
+      "keys": ["calendar"],
       "leafCount": 6
     },
     "card": {
-      "keys": [
-        "card"
-      ],
+      "keys": ["card"],
       "leafCount": 7
     },
     "cascader": {
-      "keys": [
-        "cascader"
-      ],
+      "keys": ["cascader"],
       "leafCount": 13
     },
     "checkbox": {
-      "keys": [
-        "checkbox"
-      ],
+      "keys": ["checkbox"],
       "leafCount": 3
     },
     "collapse": {
-      "keys": [
-        "collapse"
-      ],
+      "keys": ["collapse"],
       "leafCount": 5
     },
     "color-picker": {
-      "keys": [
-        "colorPicker"
-      ],
+      "keys": ["colorPicker"],
       "leafCount": 5
     },
     "date-picker": {
-      "keys": [
-        "datePicker"
-      ],
+      "keys": ["datePicker"],
       "leafCount": 11
     },
     "descriptions": {
-      "keys": [
-        "descriptions"
-      ],
+      "keys": ["descriptions"],
       "leafCount": 6
     },
     "divider": {
-      "keys": [
-        "divider"
-      ],
+      "keys": ["divider"],
       "leafCount": 3
     },
     "drawer": {
-      "keys": [
-        "drawer"
-      ],
+      "keys": ["drawer"],
       "leafCount": 10
     },
     "dropdown": {
-      "keys": [
-        "dropdown"
-      ],
+      "keys": ["dropdown"],
       "leafCount": 5
     },
     "empty": {
-      "keys": [
-        "empty"
-      ],
+      "keys": ["empty"],
       "leafCount": 4
     },
     "float-button": {
-      "keys": [
-        "floatButton",
-        "floatButtonGroup"
-      ],
+      "keys": ["floatButton", "floatButtonGroup"],
       "leafCount": 11
     },
     "form": {
-      "keys": [
-        "form"
-      ],
+      "keys": ["form"],
       "leafCount": 6
     },
     "image": {
-      "keys": [
-        "image"
-      ],
+      "keys": ["image"],
       "leafCount": 9
     },
     "input": {
-      "keys": [
-        "input",
-        "input:password",
-        "inputSearch",
-        "otp",
-        "textArea"
-      ],
+      "keys": ["input", "input:password", "inputSearch", "otp", "textArea"],
       "leafCount": 25
     },
     "input-number": {
-      "keys": [
-        "inputNumber"
-      ],
+      "keys": ["inputNumber"],
       "leafCount": 6
     },
     "masonry": {
-      "keys": [
-        "masonry"
-      ],
+      "keys": ["masonry"],
       "leafCount": 2
     },
     "mentions": {
-      "keys": [
-        "mentions"
-      ],
+      "keys": ["mentions"],
       "leafCount": 4
     },
     "menu": {
-      "keys": [
-        "menu"
-      ],
+      "keys": ["menu"],
       "leafCount": 12
     },
     "message": {
-      "keys": [
-        "message"
-      ],
+      "keys": ["message"],
       "leafCount": 6
     },
     "modal": {
-      "keys": [
-        "modal"
-      ],
+      "keys": ["modal"],
       "leafCount": 9
     },
     "notification": {
-      "keys": [
-        "notification"
-      ],
+      "keys": ["notification"],
       "leafCount": 11
     },
     "pagination": {
-      "keys": [
-        "pagination"
-      ],
+      "keys": ["pagination"],
       "leafCount": 2
     },
     "popconfirm": {
-      "keys": [
-        "popconfirm"
-      ],
+      "keys": ["popconfirm"],
       "leafCount": 6
     },
     "popover": {
-      "keys": [
-        "popover"
-      ],
+      "keys": ["popover"],
       "leafCount": 5
     },
     "progress": {
-      "keys": [
-        "progress"
-      ],
+      "keys": ["progress"],
       "leafCount": 5
     },
     "qr-code": {
-      "keys": [
-        "qrCode"
-      ],
+      "keys": ["qrCode"],
       "leafCount": 2
     },
     "radio": {
-      "keys": [
-        "radio"
-      ],
+      "keys": ["radio"],
       "leafCount": 3
     },
     "result": {
-      "keys": [
-        "result"
-      ],
+      "keys": ["result"],
       "leafCount": 6
     },
     "segmented": {
-      "keys": [
-        "segmented"
-      ],
+      "keys": ["segmented"],
       "leafCount": 4
     },
     "select": {
-      "keys": [
-        "select"
-      ],
+      "keys": ["select"],
       "leafCount": 13
     },
     "skeleton": {
-      "keys": [
-        "skeleton",
-        "skeleton:element"
-      ],
+      "keys": ["skeleton", "skeleton:element"],
       "leafCount": 8
     },
     "slider": {
-      "keys": [
-        "slider"
-      ],
+      "keys": ["slider"],
       "leafCount": 5
     },
     "space": {
-      "keys": [
-        "space"
-      ],
+      "keys": ["space"],
       "leafCount": 3
     },
     "spin": {
-      "keys": [
-        "spin"
-      ],
+      "keys": ["spin"],
       "leafCount": 2
     },
     "splitter": {
-      "keys": [
-        "splitter"
-      ],
+      "keys": ["splitter"],
       "leafCount": 3
     },
     "statistic": {
-      "keys": [
-        "statistic"
-      ],
+      "keys": ["statistic"],
       "leafCount": 7
     },
     "steps": {
-      "keys": [
-        "steps"
-      ],
+      "keys": ["steps"],
       "leafCount": 10
     },
     "switch": {
-      "keys": [
-        "switch"
-      ],
+      "keys": ["switch"],
       "leafCount": 3
     },
     "table": {
-      "keys": [
-        "table"
-      ],
+      "keys": ["table"],
       "leafCount": 13
     },
     "tabs": {
-      "keys": [
-        "tabs"
-      ],
+      "keys": ["tabs"],
       "leafCount": 6
     },
     "tag": {
-      "keys": [
-        "tag"
-      ],
+      "keys": ["tag"],
       "leafCount": 4
     },
     "time-picker": {
-      "keys": [
-        "timePicker"
-      ],
+      "keys": ["timePicker"],
       "leafCount": 9
     },
     "timeline": {
-      "keys": [
-        "timeline"
-      ],
+      "keys": ["timeline"],
       "leafCount": 9
     },
     "tooltip": {
-      "keys": [
-        "tooltip"
-      ],
+      "keys": ["tooltip"],
       "leafCount": 3
     },
     "tour": {
-      "keys": [
-        "tour"
-      ],
+      "keys": ["tour"],
       "leafCount": 12
     },
     "transfer": {
-      "keys": [
-        "transfer"
-      ],
+      "keys": ["transfer"],
       "leafCount": 13
     },
     "tree": {
-      "keys": [
-        "tree"
-      ],
+      "keys": ["tree"],
       "leafCount": 5
     },
     "tree-select": {
-      "keys": [
-        "treeSelect"
-      ],
+      "keys": ["treeSelect"],
       "leafCount": 13
     },
     "typography": {
-      "keys": [
-        "typography"
-      ],
+      "keys": ["typography"],
       "leafCount": 4
     },
     "upload": {
-      "keys": [
-        "upload"
-      ],
+      "keys": ["upload"],
       "leafCount": 3
     }
   },

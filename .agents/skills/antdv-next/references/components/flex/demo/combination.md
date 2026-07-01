@@ -8,15 +8,15 @@ Nesting can achieve more complex layouts.
 
 ```vue
 <script setup lang="ts">
-import type { CSSProperties } from 'vue'
+import type { CSSProperties } from 'vue';
 
 const cardStyle: CSSProperties = {
   width: '620px',
-}
+};
 const imgStyle: CSSProperties = {
   display: 'block',
   width: '273px',
-}
+};
 </script>
 
 <template>
@@ -26,16 +26,14 @@ const imgStyle: CSSProperties = {
         alt="avatar"
         src="https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png"
         :style="imgStyle"
-      >
+      />
       <a-flex vertical align="flex-end" justify="space-between" :style="{ padding: '32px' }">
         <a-typography>
           <a-typography-title :level="3">
             “antd is an enterprise-class UI design language and Vue UI library.”
           </a-typography-title>
         </a-typography>
-        <a-button type="primary" href="https://antdv.com" target="_blank">
-          Get Start
-        </a-button>
+        <a-button type="primary" href="https://antdv.com" target="_blank"> Get Start </a-button>
       </a-flex>
     </a-flex>
   </a-card>

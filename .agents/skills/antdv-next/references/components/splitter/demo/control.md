@@ -8,17 +8,17 @@ Control panel size with `size` and `onResize`.
 
 ```vue
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref } from 'vue';
 
-const sizes = ref<(number | string)[]>(['50%', '50%'])
-const enabled = ref(true)
+const sizes = ref<(number | string)[]>(['50%', '50%']);
+const enabled = ref(true);
 
 function handleResize(newSizes: number[]) {
-  sizes.value = newSizes
+  sizes.value = newSizes;
 }
 
 function handleReset() {
-  sizes.value = ['50%', '50%']
+  sizes.value = ['50%', '50%'];
 }
 </script>
 
@@ -49,9 +49,7 @@ function handleReset() {
         checked-children="Enabled"
         un-checked-children="Disabled"
       />
-      <a-button @click="handleReset">
-        Reset
-      </a-button>
+      <a-button @click="handleReset"> Reset </a-button>
     </a-flex>
   </a-flex>
 </template>

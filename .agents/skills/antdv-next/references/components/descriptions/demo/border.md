@@ -59,7 +59,7 @@ const items = [
     key: '10',
     label: 'Config Info',
   },
-]
+];
 </script>
 
 <template>
@@ -70,17 +70,17 @@ const items = [
       </template>
       <template v-if="item.key === '10'">
         Data disk type: MongoDB
-        <br>
+        <br />
         Database version: 3.4
-        <br>
+        <br />
         Package: dds.mongo.mid
-        <br>
+        <br />
         Storage space: 10 GB
-        <br>
+        <br />
         Replication factor: 3
-        <br>
+        <br />
         Region: East China 1
-        <br>
+        <br />
       </template>
     </template>
   </a-descriptions>

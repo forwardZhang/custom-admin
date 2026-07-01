@@ -8,12 +8,12 @@ Use `stringMode` to support high precision decimals support. `onChange` will ret
 
 ```vue
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref } from 'vue';
 
 function onChange(value: string) {
-  console.log('changed', value)
+  console.log('changed', value);
 }
-const value = ref(1)
+const value = ref(1);
 </script>
 
 <template>

@@ -8,7 +8,7 @@ Display of the entire line.
 
 ```vue
 <script setup lang="ts">
-import type { DescriptionsItemType } from 'antdv-next'
+import type { DescriptionsItemType } from 'antdv-next';
 
 const items: DescriptionsItemType[] = [
   {
@@ -30,7 +30,7 @@ const items: DescriptionsItemType[] = [
     span: 1, // span will be 3 and warning for span is not align to the end
     content: 'No. 18, Wantang Road, Xihu District, Hangzhou, Zhejiang, China',
   },
-]
+];
 </script>
 
 <template>

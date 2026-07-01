@@ -8,25 +8,25 @@ Disable specific dates and times by using `disabledDate` and `disabledTime` resp
 
 ```vue
 <script setup lang="ts">
-import dayjs from 'dayjs'
-import customParseFormat from 'dayjs/plugin/customParseFormat'
+import dayjs from 'dayjs';
+import customParseFormat from 'dayjs/plugin/customParseFormat';
 
-dayjs.extend(customParseFormat)
+dayjs.extend(customParseFormat);
 
 function range(start: number, end: number) {
-  const result: number[] = []
+  const result: number[] = [];
   for (let i = start; i < end; i++) {
-    result.push(i)
+    result.push(i);
   }
-  return result
+  return result;
 }
 
 function disabledDate(current: any) {
-  return current && current < dayjs().endOf('day')
+  return current && current < dayjs().endOf('day');
 }
 
 function disabledDateForMonth(current: any) {
-  return current && current < dayjs().startOf('month')
+  return current && current < dayjs().startOf('month');
 }
 
 function disabledDateTime() {
@@ -34,7 +34,7 @@ function disabledDateTime() {
     disabledHours: () => range(0, 24).splice(4, 20),
     disabledMinutes: () => range(30, 60),
     disabledSeconds: () => [55, 56],
-  }
+  };
 }
 
 function disabledRangeTime(_: any, type: 'start' | 'end') {
@@ -43,13 +43,13 @@ function disabledRangeTime(_: any, type: 'start' | 'end') {
       disabledHours: () => range(0, 60).splice(4, 20),
       disabledMinutes: () => range(30, 60),
       disabledSeconds: () => [55, 56],
-    }
+    };
   }
   return {
     disabledHours: () => range(0, 60).splice(20, 4),
     disabledMinutes: () => range(0, 31),
     disabledSeconds: () => [55, 56],
-  }
+  };
 }
 </script>
 
@@ -68,10 +68,7 @@ function disabledRangeTime(_: any, type: 'start' | 'end') {
       :disabled-time="disabledRangeTime"
       :show-time="{
         hideDisabledOptions: true,
-        defaultOpenValue: [
-          dayjs('00:00:00', 'HH:mm:ss'),
-          dayjs('11:59:59', 'HH:mm:ss'),
-        ],
+        defaultOpenValue: [dayjs('00:00:00', 'HH:mm:ss'), dayjs('11:59:59', 'HH:mm:ss')],
       }"
       format="YYYY-MM-DD HH:mm:ss"
     />

@@ -8,7 +8,7 @@ Add a prefix or suffix inside input.
 
 ```vue
 <script setup lang="ts">
-import { UserOutlined } from '@antdv-next/icons'
+import { UserOutlined } from '@antdv-next/icons';
 </script>
 
 <template>

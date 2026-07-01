@@ -8,16 +8,21 @@ A group of radio components.
 
 ```vue
 <script setup lang="ts">
-import type { RadioOptionType } from 'antdv-next'
-import { BarChartOutlined, DotChartOutlined, LineChartOutlined, PieChartOutlined } from '@antdv-next/icons'
-import { shallowRef } from 'vue'
+import type { RadioOptionType } from 'antdv-next';
+import {
+  BarChartOutlined,
+  DotChartOutlined,
+  LineChartOutlined,
+  PieChartOutlined,
+} from '@antdv-next/icons';
+import { shallowRef } from 'vue';
 
 const iconsMap: any = {
   1: LineChartOutlined,
   2: DotChartOutlined,
   3: BarChartOutlined,
   4: PieChartOutlined,
-}
+};
 const options: RadioOptionType[] = [
   {
     value: 1,
@@ -39,8 +44,8 @@ const options: RadioOptionType[] = [
     class: 'option-4',
     label: 'PieChart',
   },
-]
-const val = shallowRef(1)
+];
+const val = shallowRef(1);
 </script>
 
 <template>

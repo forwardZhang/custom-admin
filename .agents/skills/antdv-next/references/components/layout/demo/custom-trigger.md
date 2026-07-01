@@ -8,29 +8,29 @@ If you want to use a customized trigger, you can hide the default one.
 
 ```vue
 <script setup lang="ts">
-import type { MenuItemType } from 'antdv-next'
+import type { MenuItemType } from 'antdv-next';
 import {
   MenuFoldOutlined,
   MenuUnfoldOutlined,
   UploadOutlined,
   UserOutlined,
   VideoCameraOutlined,
-} from '@antdv-next/icons'
-import { theme } from 'antdv-next'
-import { ref } from 'vue'
+} from '@antdv-next/icons';
+import { theme } from 'antdv-next';
+import { ref } from 'vue';
 
-const { token } = theme.useToken()
+const { token } = theme.useToken();
 
-const collapsed = ref(false)
+const collapsed = ref(false);
 
 const items: MenuItemType[] = [
   { key: '1', icon: UserOutlined, label: 'nav 1' },
   { key: '2', icon: VideoCameraOutlined, label: 'nav 2' },
   { key: '3', icon: UploadOutlined, label: 'nav 3' },
-]
+];
 
 function toggleCollapsed() {
-  collapsed.value = !collapsed.value
+  collapsed.value = !collapsed.value;
 }
 </script>
 
@@ -38,12 +38,7 @@ function toggleCollapsed() {
   <a-layout>
     <a-layout-sider v-model:collapsed="collapsed" collapsible>
       <div class="demo-logo-vertical" />
-      <a-menu
-        theme="dark"
-        mode="inline"
-        :default-selected-keys="['1']"
-        :items="items"
-      />
+      <a-menu theme="dark" mode="inline" :default-selected-keys="['1']" :items="items" />
     </a-layout-sider>
     <a-layout>
       <a-layout-header class="custom-header" :style="{ background: token.colorBgContainer }">

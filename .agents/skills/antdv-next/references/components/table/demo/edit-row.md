@@ -3,6 +3,7 @@
 ## Description (en-US)
 
 Table with editable rows.
+
 > For all editable tables, do not use `v-model:value="record.xxx"` for two-way data binding, which may cause data anomalies.
 > It is recommended to use forms to collect and validate data.
 
@@ -10,14 +11,14 @@ Table with editable rows.
 
 ```vue
 <script setup lang="ts">
-import type { FormInstance, TableProps } from 'antdv-next'
-import { ref } from 'vue'
+import type { FormInstance, TableProps } from 'antdv-next';
+import { ref } from 'vue';
 
 interface DataType {
-  key: string
-  name: string
-  age: number
-  address: string
+  key: string;
+  name: string;
+  age: number;
+  address: string;
 }
 
 const originData = Array.from({ length: 100 }).map<DataType>((_, i) => ({
@@ -25,53 +26,51 @@ const originData = Array.from({ length: 100 }).map<DataType>((_, i) => ({
   name: `Edward ${i}`,
   age: 32,
   address: `London Park no. ${i}`,
-}))
+}));
 
-const dataSource = ref<DataType[]>(originData)
-const formRef = ref<FormInstance | null>(null)
-const formModel = ref<Record<string, any>>({ name: '', age: 0, address: '' })
-const editingKey = ref('')
+const dataSource = ref<DataType[]>(originData);
+const formRef = ref<FormInstance | null>(null);
+const formModel = ref<Record<string, any>>({ name: '', age: 0, address: '' });
+const editingKey = ref('');
 
-const editableColumns = new Set(['name', 'age', 'address'])
+const editableColumns = new Set(['name', 'age', 'address']);
 const columns: TableProps['columns'] = [
   { title: 'Name', dataIndex: 'name', key: 'name', width: '25%' },
   { title: 'Age', dataIndex: 'age', key: 'age', width: '15%' },
   { title: 'Address', dataIndex: 'address', key: 'address', width: '40%' },
   { title: 'Operation', key: 'operation' },
-]
+];
 
-const isEditing = (record: Record<string, any>) => record.key === editingKey.value
+const isEditing = (record: Record<string, any>) => record.key === editingKey.value;
 
 function edit(record: Record<string, any>) {
-  formModel.value = { name: record.name, age: record.age, address: record.address }
-  editingKey.value = record.key
+  formModel.value = { name: record.name, age: record.age, address: record.address };
+  editingKey.value = record.key;
 }
 
 async function save(key: string) {
   try {
-    const values = await formRef.value?.validateFields()
+    const values = await formRef.value?.validateFields();
     if (!values) {
-      return
+      return;
     }
-    const newData = [...dataSource.value]
-    const index = newData.findIndex(item => item.key === key)
+    const newData = [...dataSource.value];
+    const index = newData.findIndex((item) => item.key === key);
     if (index > -1) {
-      const item = newData[index]
-      newData.splice(index, 1, { ...item, ...values } as DataType)
+      const item = newData[index];
+      newData.splice(index, 1, { ...item, ...values } as DataType);
+    } else {
+      newData.push({ key, ...values } as DataType);
     }
-    else {
-      newData.push({ key, ...values } as DataType)
-    }
-    dataSource.value = newData
-    editingKey.value = ''
-  }
-  catch (err) {
-    console.log('Validate Failed:', err)
+    dataSource.value = newData;
+    editingKey.value = '';
+  } catch (err) {
+    console.log('Validate Failed:', err);
   }
 }
 
 function cancel() {
-  editingKey.value = ''
+  editingKey.value = '';
 }
 </script>
 
@@ -112,10 +111,7 @@ function cancel() {
                 v-if="column.dataIndex === 'age'"
                 v-model:value="formModel[column.dataIndex as string]"
               />
-              <a-input
-                v-else
-                v-model:value="formModel[column.dataIndex as string]"
-              />
+              <a-input v-else v-model:value="formModel[column.dataIndex as string]" />
             </a-form-item>
           </template>
           <template v-else>

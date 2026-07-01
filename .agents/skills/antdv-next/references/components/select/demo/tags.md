@@ -8,17 +8,17 @@ Allow user to select tags from list or input custom tag.
 
 ```vue
 <script setup lang="ts">
-import { shallowRef } from 'vue'
+import { shallowRef } from 'vue';
 
 const options = Array.from({ length: 26 }, (_, i) => {
-  const value = (i + 10).toString(36) + (i + 10)
-  return { value, label: value }
-})
+  const value = (i + 10).toString(36) + (i + 10);
+  return { value, label: value };
+});
 
-const value = shallowRef<string[]>([])
+const value = shallowRef<string[]>([]);
 
 function handleChange(val: string[]) {
-  console.log(`selected ${val}`)
+  console.log(`selected ${val}`);
 }
 </script>
 

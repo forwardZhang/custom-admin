@@ -8,9 +8,9 @@ Use `optionRender` to customize the rendering dropdown options.
 
 ```vue
 <script setup lang="ts">
-import { shallowRef } from 'vue'
+import { shallowRef } from 'vue';
 
-const value = shallowRef(['china'])
+const value = shallowRef(['china']);
 
 const options = [
   {
@@ -37,10 +37,10 @@ const options = [
     emoji: '🇰🇷',
     desc: 'Korea (韩国)',
   },
-]
+];
 
 function handleChange(val: string[]) {
-  console.log(`selected ${val}`)
+  console.log(`selected ${val}`);
 }
 </script>
 

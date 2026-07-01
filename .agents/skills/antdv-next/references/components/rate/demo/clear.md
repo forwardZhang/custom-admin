@@ -8,10 +8,10 @@ Support set allow to clear star when click again.
 
 ```vue
 <script lang="ts" setup>
-import { ref } from 'vue'
+import { ref } from 'vue';
 
-const val = ref(3)
-const val1 = ref(3)
+const val = ref(3);
+const val1 = ref(3);
 </script>
 
 <template>

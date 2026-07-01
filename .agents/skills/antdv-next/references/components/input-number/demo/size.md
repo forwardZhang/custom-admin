@@ -8,15 +8,15 @@ There are three sizes available to a numeric input box. By default, the size is 
 
 ```vue
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref } from 'vue';
 
 function onChange(value: number | null) {
-  console.log('changed', value)
+  console.log('changed', value);
 }
 
-const value1 = ref(3)
-const value2 = ref(3)
-const value3 = ref(3)
+const value1 = ref(3);
+const value2 = ref(3);
+const value3 = ref(3);
 </script>
 
 <template>

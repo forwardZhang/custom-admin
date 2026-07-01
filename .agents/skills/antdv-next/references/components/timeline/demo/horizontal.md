@@ -21,7 +21,7 @@ const items = [
   {
     content: 'Complete',
   },
-]
+];
 </script>
 
 <template>

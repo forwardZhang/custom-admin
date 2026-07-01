@@ -8,14 +8,11 @@ There are 12 `placement` options available.
 
 ```vue
 <script setup lang="ts">
-import { h } from 'vue'
+import { h } from 'vue';
 
-const title = 'Title'
-const content = h('div', [
-  h('p', 'Content'),
-  h('p', 'Content'),
-])
-const buttonWidth = 80
+const title = 'Title';
+const content = h('div', [h('p', 'Content'), h('p', 'Content')]);
+const buttonWidth = 80;
 </script>
 
 <template>
@@ -32,7 +29,11 @@ const buttonWidth = 80
           <a-button>TR</a-button>
         </a-popover>
       </a-flex>
-      <a-flex :style="{ width: `${buttonWidth * 5 + 32}px` }" justify="space-between" align="center">
+      <a-flex
+        :style="{ width: `${buttonWidth * 5 + 32}px` }"
+        justify="space-between"
+        align="center"
+      >
         <a-flex align="center" vertical>
           <a-popover placement="leftTop" :title="title" :content="content">
             <a-button>LT</a-button>

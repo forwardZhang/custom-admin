@@ -8,12 +8,12 @@ Replace the default star to other character like alphabet, digit, iconfont or ev
 
 ```vue
 <script lang="ts" setup>
-import { HeartOutlined } from '@antdv-next/icons'
-import { h, ref } from 'vue'
+import { HeartOutlined } from '@antdv-next/icons';
+import { h, ref } from 'vue';
 
-const value1 = ref(0)
-const value2 = ref(0)
-const value3 = ref(0)
+const value1 = ref(0);
+const value2 = ref(0);
+const value3 = ref(0);
 </script>
 
 <template>

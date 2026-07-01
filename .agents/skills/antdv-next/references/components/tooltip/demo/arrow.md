@@ -8,20 +8,19 @@ Support show, hide or keep arrow in the center.
 
 ```vue
 <script setup lang="ts">
-import type { TooltipProps } from 'antdv-next'
-import { computed, shallowRef } from 'vue'
+import type { TooltipProps } from 'antdv-next';
+import { computed, shallowRef } from 'vue';
 
-const buttonWidth = shallowRef(80)
-const arrow = shallowRef<'Show' | 'Hide' | 'Center'>('Show')
+const buttonWidth = shallowRef(80);
+const arrow = shallowRef<'Show' | 'Hide' | 'Center'>('Show');
 const mergedArrow = computed<TooltipProps['arrow']>(() => {
   if (arrow.value === 'Show') {
-    return true
+    return true;
+  } else if (arrow.value === 'Hide') {
+    return false;
   }
-  else if (arrow.value === 'Hide') {
-    return false
-  }
-  return { pointAtCenter: true }
-})
+  return { pointAtCenter: true };
+});
 </script>
 
 <template>
@@ -43,7 +42,11 @@ const mergedArrow = computed<TooltipProps['arrow']>(() => {
           <a-button>TR</a-button>
         </a-tooltip>
       </a-flex>
-      <a-flex :style="{ width: `${buttonWidth * 5 + 32}px` }" justify="space-between" align="center">
+      <a-flex
+        :style="{ width: `${buttonWidth * 5 + 32}px` }"
+        justify="space-between"
+        align="center"
+      >
         <a-flex align="center" vertical>
           <a-tooltip placement="leftTop" title="prompt text" :arrow="mergedArrow">
             <a-button>LT</a-button>

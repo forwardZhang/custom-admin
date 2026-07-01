@@ -8,11 +8,11 @@ Change `pageSize`.
 
 ```vue
 <script setup lang="ts">
-import type { PaginationEmits } from 'antdv-next'
+import type { PaginationEmits } from 'antdv-next';
 
 const handleShowSizeChange: PaginationEmits['showSizeChange'] = (current, pageSize) => {
-  console.log(current, pageSize)
-}
+  console.log(current, pageSize);
+};
 </script>
 
 <template>

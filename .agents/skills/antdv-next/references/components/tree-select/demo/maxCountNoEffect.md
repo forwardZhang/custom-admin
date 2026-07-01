@@ -8,12 +8,12 @@ When `showCheckedStrategy=SHOW_PARENT` or `showCheckedStrategy=SHOW_ALL` and `tr
 
 ```vue
 <script setup lang="ts">
-import { DownOutlined } from '@antdv-next/icons'
-import { TreeSelect } from 'antdv-next'
-import { ref } from 'vue'
+import { DownOutlined } from '@antdv-next/icons';
+import { TreeSelect } from 'antdv-next';
+import { ref } from 'vue';
 
-const MAX_COUNT = 2
-const SHOW_PARENT = TreeSelect.SHOW_PARENT
+const MAX_COUNT = 2;
+const SHOW_PARENT = TreeSelect.SHOW_PARENT;
 
 const treeData = [
   {
@@ -50,9 +50,9 @@ const treeData = [
       },
     ],
   },
-]
+];
 
-const value = ref<string[]>([])
+const value = ref<string[]>([]);
 </script>
 
 <template>

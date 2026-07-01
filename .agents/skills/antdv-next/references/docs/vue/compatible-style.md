@@ -6,10 +6,10 @@ title: CSS Compatible
 
 Antdv Next supports the [last 2 versions of modern browsers](https://browsersl.ist/#q=defaults). By default, we use some modern CSS features to improve style maintainability and extensibility. These features may not be supported in older browsers, but we can solve this through some compatibility solutions.
 
-| Feature | antdv-next version | Compatibility | Minimum Chrome Version | Compatibility workaround |
-| --- |-------------------| --- | --- | --- |
-| [:where Selector](https://developer.mozilla.org/en-US/docs/Web/CSS/:where) | `>=1.0.0`         | [caniuse](https://caniuse.com/?search=%3Awhere) | Chrome 88 | `<StyleProvider hashPriority="high">` |
-| [CSS Logical Properties](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Logical_Properties) | `>=1.0.0`         | [caniuse](https://caniuse.com/css-logical-props) | Chrome 89 | `<StyleProvider transformers={[legacyLogicalPropertiesTransformer]}>` |
+| Feature                                                                                           | antdv-next version | Compatibility                                    | Minimum Chrome Version | Compatibility workaround                                              |
+| ------------------------------------------------------------------------------------------------- | ------------------ | ------------------------------------------------ | ---------------------- | --------------------------------------------------------------------- |
+| [:where Selector](https://developer.mozilla.org/en-US/docs/Web/CSS/:where)                        | `>=1.0.0`          | [caniuse](https://caniuse.com/?search=%3Awhere)  | Chrome 88              | `<StyleProvider hashPriority="high">`                                 |
+| [CSS Logical Properties](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Logical_Properties) | `>=1.0.0`          | [caniuse](https://caniuse.com/css-logical-props) | Chrome 89              | `<StyleProvider transformers={[legacyLogicalPropertiesTransformer]}>` |
 
 If you need to support older browsers, please use `@antdv-next/cssinjs` [StyleProvider](https://github.com/ant-design/cssinjs#styleprovider) for degradation handling according to your actual requirements.
 
@@ -69,7 +69,7 @@ To unify LTR and RTL styles, Antdv Next uses CSS logical properties. For example
 
 ```vue
 <script lang="ts" setup>
-import { legacyLogicalPropertiesTransformer } from '@antdv-next/cssinjs'
+import { legacyLogicalPropertiesTransformer } from '@antdv-next/cssinjs';
 </script>
 
 <template>
@@ -152,7 +152,7 @@ Some styles rely on browser prefixes for compatibility. The `autoPrefixer` trans
 
 ```vue
 <script lang="ts" setup>
-import { autoPrefixTransformer } from '@antdv-next/cssinjs'
+import { autoPrefixTransformer } from '@antdv-next/cssinjs';
 </script>
 
 <template>
@@ -180,11 +180,11 @@ In responsive web development, there is a need for a convenient and flexible way
 
 ```vue
 <script lang="ts" setup>
-import { px2remTransformer } from '@antdv-next/cssinjs'
+import { px2remTransformer } from '@antdv-next/cssinjs';
 
 const px2rem = px2remTransformer({
   rootValue: 32, // 32px = 1rem; @default 16
-})
+});
 </script>
 
 <template>
@@ -231,19 +231,19 @@ For more details, please refer to: [px2rem.ts#Options](https://github.com/ant-de
 Since `<style />` tag insertion is different from normal DOM in Shadow DOM scenario, you need to use `StyleProvider` of `@antdv-next/cssinjs` to configure the `container` property to set the insertion position:
 
 ```tsx
-import { StyleProvider } from '@antdv-next/cssinjs'
-import { render } from 'vue'
+import { StyleProvider } from '@antdv-next/cssinjs';
+import { render } from 'vue';
 
-const shadowRoot = someEle.attachShadow({ mode: 'open' })
-const container = document.createElement('div')
-shadowRoot.appendChild(container)
+const shadowRoot = someEle.attachShadow({ mode: 'open' });
+const container = document.createElement('div');
+shadowRoot.appendChild(container);
 
 render(
   <StyleProvider container={shadowRoot}>
     <MyApp />
   </StyleProvider>,
-  container
-)
+  container,
+);
 ```
 
 ## Compatible with Third-party Style Libraries

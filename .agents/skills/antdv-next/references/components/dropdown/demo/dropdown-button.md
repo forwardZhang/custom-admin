@@ -8,20 +8,20 @@ A button is on the left, and a related functional menu is on the right. You can 
 
 ```vue
 <script setup lang="ts">
-import type { MenuItemType } from 'antdv-next'
-import { DownOutlined, EllipsisOutlined, UserOutlined } from '@antdv-next/icons'
-import { message } from 'antdv-next'
+import type { MenuItemType } from 'antdv-next';
+import { DownOutlined, EllipsisOutlined, UserOutlined } from '@antdv-next/icons';
+import { message } from 'antdv-next';
 
-const [messageApi, ContextHolder] = message.useMessage()
+const [messageApi, ContextHolder] = message.useMessage();
 
 function handleButtonClick(e: MouseEvent) {
-  messageApi.info('Click on left button.')
-  console.log('click left button', e)
+  messageApi.info('Click on left button.');
+  console.log('click left button', e);
 }
 
 function handleMenuClick(e: any) {
-  messageApi.info('Click on menu item.')
-  console.log('click', e)
+  messageApi.info('Click on menu item.');
+  console.log('click', e);
 }
 
 const items: MenuItemType[] = [
@@ -48,21 +48,19 @@ const items: MenuItemType[] = [
     danger: true,
     disabled: true,
   },
-]
+];
 
 const menuProps = {
   items,
   onClick: handleMenuClick,
-}
+};
 </script>
 
 <template>
   <ContextHolder />
   <a-space wrap>
     <a-space-compact>
-      <a-button @click="handleButtonClick">
-        Dropdown
-      </a-button>
+      <a-button @click="handleButtonClick"> Dropdown </a-button>
       <a-dropdown :menu="menuProps" placement="bottomRight">
         <a-button>
           <template #icon>
@@ -73,9 +71,7 @@ const menuProps = {
     </a-space-compact>
 
     <a-space-compact>
-      <a-button @click="handleButtonClick">
-        Dropdown
-      </a-button>
+      <a-button @click="handleButtonClick"> Dropdown </a-button>
       <a-dropdown :menu="menuProps" placement="bottomRight">
         <a-button>
           <template #icon>
@@ -86,9 +82,7 @@ const menuProps = {
     </a-space-compact>
 
     <a-space-compact>
-      <a-button disabled @click="handleButtonClick">
-        Dropdown
-      </a-button>
+      <a-button disabled @click="handleButtonClick"> Dropdown </a-button>
       <a-dropdown :menu="menuProps" placement="bottomRight" disabled>
         <a-button disabled>
           <template #icon>
@@ -100,9 +94,7 @@ const menuProps = {
 
     <a-space-compact>
       <a-tooltip title="tooltip">
-        <a-button @click="handleButtonClick">
-          With Tooltip
-        </a-button>
+        <a-button @click="handleButtonClick"> With Tooltip </a-button>
       </a-tooltip>
       <a-dropdown :menu="menuProps" placement="bottomRight">
         <a-button loading />
@@ -119,9 +111,7 @@ const menuProps = {
     </a-dropdown>
 
     <a-space-compact>
-      <a-button danger @click="handleButtonClick">
-        Danger
-      </a-button>
+      <a-button danger @click="handleButtonClick"> Danger </a-button>
       <a-dropdown :menu="menuProps" placement="bottomRight">
         <a-button danger>
           <template #icon>

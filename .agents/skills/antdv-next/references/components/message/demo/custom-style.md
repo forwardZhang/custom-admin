@@ -8,9 +8,9 @@ The `style` and `class` are available to customize Message.
 
 ```vue
 <script setup lang="ts">
-import { message } from 'antdv-next'
+import { message } from 'antdv-next';
 
-const [messageApi, ContextHolder] = message.useMessage()
+const [messageApi, ContextHolder] = message.useMessage();
 
 function success() {
   messageApi.open({
@@ -20,14 +20,12 @@ function success() {
     style: {
       marginTop: '20vh',
     },
-  })
+  });
 }
 </script>
 
 <template>
   <ContextHolder />
-  <a-button @click="success">
-    Customized style
-  </a-button>
+  <a-button @click="success"> Customized style </a-button>
 </template>
 ```

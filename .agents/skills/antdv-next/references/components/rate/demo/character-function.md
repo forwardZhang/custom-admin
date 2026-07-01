@@ -8,8 +8,8 @@ Can customize each character using `(RateProps) => ReactNode`.
 
 ```vue
 <script lang="ts" setup>
-import { FrownOutlined, MehOutlined, SmileOutlined } from '@antdv-next/icons'
-import { h, ref } from 'vue'
+import { FrownOutlined, MehOutlined, SmileOutlined } from '@antdv-next/icons';
+import { h, ref } from 'vue';
 
 const customIcons: Record<number, any> = {
   1: h(FrownOutlined),
@@ -17,9 +17,9 @@ const customIcons: Record<number, any> = {
   3: h(MehOutlined),
   4: h(SmileOutlined),
   5: h(SmileOutlined),
-}
-const value = ref(2)
-const value2 = ref(3)
+};
+const value = ref(2);
+const value2 = ref(3);
 </script>
 
 <template>

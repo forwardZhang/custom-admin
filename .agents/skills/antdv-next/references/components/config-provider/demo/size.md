@@ -8,23 +8,23 @@ Config component default size.
 
 ```vue
 <script setup lang="ts">
-import type { ConfigProviderProps, TableProps } from 'antdv-next'
-import { ref } from 'vue'
+import type { ConfigProviderProps, TableProps } from 'antdv-next';
+import { ref } from 'vue';
 
-type SizeType = ConfigProviderProps['componentSize']
+type SizeType = ConfigProviderProps['componentSize'];
 
-const componentSize = ref<SizeType>('small')
+const componentSize = ref<SizeType>('small');
 
 const columns: TableProps['columns'] = [
   { title: 'Name', dataIndex: 'name' },
   { title: 'Age', dataIndex: 'age' },
-]
+];
 
 const dataSource = [
   { key: '1', name: 'John Brown', age: 32 },
   { key: '2', name: 'Jim Green', age: 42 },
   { key: '3', name: 'Joe Black', age: 32 },
-]
+];
 
 const tabItems = [
   {
@@ -42,20 +42,14 @@ const tabItems = [
     key: '3',
     children: 'Content of Tab Pane 3',
   },
-]
+];
 </script>
 
 <template>
   <a-radio-group v-model:value="componentSize">
-    <a-radio-button value="small">
-      Small
-    </a-radio-button>
-    <a-radio-button value="middle">
-      Middle
-    </a-radio-button>
-    <a-radio-button value="large">
-      Large
-    </a-radio-button>
+    <a-radio-button value="small"> Small </a-radio-button>
+    <a-radio-button value="middle"> Middle </a-radio-button>
+    <a-radio-button value="large"> Large </a-radio-button>
   </a-radio-group>
   <a-divider />
   <a-config-provider :component-size="componentSize">

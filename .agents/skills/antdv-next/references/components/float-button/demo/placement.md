@@ -8,41 +8,47 @@ Customize animation placement, providing four preset placement: `top`, `right`, 
 
 ```vue
 <script setup lang="ts">
-import type { CSSProperties } from 'vue'
-import { CommentOutlined, DownOutlined, LeftOutlined, RightOutlined, UpOutlined } from '@antdv-next/icons'
+import type { CSSProperties } from 'vue';
+import {
+  CommentOutlined,
+  DownOutlined,
+  LeftOutlined,
+  RightOutlined,
+  UpOutlined,
+} from '@antdv-next/icons';
 
-const BOX_SIZE = 100
-const BUTTON_SIZE = 40
+const BOX_SIZE = 100;
+const BUTTON_SIZE = 40;
 
 const wrapperStyle: CSSProperties = {
   width: '100%',
   height: '100vh',
   overflow: 'hidden',
   position: 'relative',
-}
+};
 
 const boxStyle: CSSProperties = {
   width: `${BOX_SIZE}px`,
   height: `${BOX_SIZE}px`,
   position: 'relative',
-}
+};
 
 const insetInlineEnd = [
   (BOX_SIZE - BUTTON_SIZE) / 2,
   -(BUTTON_SIZE / 2),
   (BOX_SIZE - BUTTON_SIZE) / 2,
   BOX_SIZE - BUTTON_SIZE / 2,
-]
+];
 
 const bottom = [
   BOX_SIZE - BUTTON_SIZE / 2,
   (BOX_SIZE - BUTTON_SIZE) / 2,
   -BUTTON_SIZE / 2,
   (BOX_SIZE - BUTTON_SIZE) / 2,
-]
+];
 
-const placements = ['top', 'right', 'bottom', 'left'] as const
-const icons = [UpOutlined, RightOutlined, DownOutlined, LeftOutlined]
+const placements = ['top', 'right', 'bottom', 'left'] as const;
+const icons = [UpOutlined, RightOutlined, DownOutlined, LeftOutlined];
 </script>
 
 <template>

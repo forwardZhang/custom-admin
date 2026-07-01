@@ -8,14 +8,14 @@ Use Drawer to quickly preview details of an object, such as those in a list.
 
 ```vue
 <script setup lang="ts">
-import { defineComponent, h, ref } from 'vue'
+import { defineComponent, h, ref } from 'vue';
 
-const open = ref(false)
+const open = ref(false);
 
 const users = [
   { id: 1, name: 'Lily', description: 'Progresser XTech' },
   { id: 2, name: 'Lily', description: 'Progresser XTech' },
-]
+];
 
 const DescriptionItem = defineComponent({
   name: 'DescriptionItem',
@@ -26,12 +26,13 @@ const DescriptionItem = defineComponent({
     },
   },
   setup(props, { slots }) {
-    return () => h('div', { class: 'site-description-item-profile-wrapper' }, [
-      h('p', { class: 'site-description-item-profile-p-label' }, `${props.title}:`),
-      slots.default?.(),
-    ])
+    return () =>
+      h('div', { class: 'site-description-item-profile-wrapper' }, [
+        h('p', { class: 'site-description-item-profile-p-label' }, `${props.title}:`),
+        slots.default?.(),
+      ]);
   },
-})
+});
 </script>
 
 <template>
@@ -48,9 +49,7 @@ const DescriptionItem = defineComponent({
           </div>
         </div>
       </div>
-      <a-button type="link" @click="open = true">
-        View Profile
-      </a-button>
+      <a-button type="link" @click="open = true"> View Profile </a-button>
     </li>
   </ul>
 
@@ -61,46 +60,30 @@ const DescriptionItem = defineComponent({
     :closable="false"
     @close="open = false"
   >
-    <p class="site-description-item-profile-p" style="margin-bottom: 24px;">
-      User Profile
-    </p>
-    <p class="site-description-item-profile-p">
-      Personal
-    </p>
+    <p class="site-description-item-profile-p" style="margin-bottom: 24px;">User Profile</p>
+    <p class="site-description-item-profile-p">Personal</p>
     <a-row>
       <a-col :span="12">
-        <DescriptionItem title="Full Name">
-          Lily
-        </DescriptionItem>
+        <DescriptionItem title="Full Name"> Lily </DescriptionItem>
       </a-col>
       <a-col :span="12">
-        <DescriptionItem title="Account">
-          AntDesign@example.com
-        </DescriptionItem>
+        <DescriptionItem title="Account"> AntDesign@example.com </DescriptionItem>
       </a-col>
     </a-row>
     <a-row>
       <a-col :span="12">
-        <DescriptionItem title="City">
-          HangZhou
-        </DescriptionItem>
+        <DescriptionItem title="City"> HangZhou </DescriptionItem>
       </a-col>
       <a-col :span="12">
-        <DescriptionItem title="Country">
-          China
-        </DescriptionItem>
+        <DescriptionItem title="Country"> China </DescriptionItem>
       </a-col>
     </a-row>
     <a-row>
       <a-col :span="12">
-        <DescriptionItem title="Birthday">
-          February 2, 1900
-        </DescriptionItem>
+        <DescriptionItem title="Birthday"> February 2, 1900 </DescriptionItem>
       </a-col>
       <a-col :span="12">
-        <DescriptionItem title="Website">
-          -
-        </DescriptionItem>
+        <DescriptionItem title="Website"> - </DescriptionItem>
       </a-col>
     </a-row>
     <a-row>
@@ -113,32 +96,22 @@ const DescriptionItem = defineComponent({
 
     <a-divider />
 
-    <p class="site-description-item-profile-p">
-      Company
-    </p>
+    <p class="site-description-item-profile-p">Company</p>
     <a-row>
       <a-col :span="12">
-        <DescriptionItem title="Position">
-          Programmer
-        </DescriptionItem>
+        <DescriptionItem title="Position"> Programmer </DescriptionItem>
       </a-col>
       <a-col :span="12">
-        <DescriptionItem title="Responsibilities">
-          Coding
-        </DescriptionItem>
+        <DescriptionItem title="Responsibilities"> Coding </DescriptionItem>
       </a-col>
     </a-row>
     <a-row>
       <a-col :span="12">
-        <DescriptionItem title="Department">
-          XTech
-        </DescriptionItem>
+        <DescriptionItem title="Department"> XTech </DescriptionItem>
       </a-col>
       <a-col :span="12">
         <DescriptionItem title="Supervisor">
-          <a href="https://ant.design">
-            Lin
-          </a>
+          <a href="https://ant.design"> Lin </a>
         </DescriptionItem>
       </a-col>
     </a-row>
@@ -154,19 +127,13 @@ const DescriptionItem = defineComponent({
 
     <a-divider />
 
-    <p class="site-description-item-profile-p">
-      Contacts
-    </p>
+    <p class="site-description-item-profile-p">Contacts</p>
     <a-row>
       <a-col :span="12">
-        <DescriptionItem title="Email">
-          AntDesign@example.com
-        </DescriptionItem>
+        <DescriptionItem title="Email"> AntDesign@example.com </DescriptionItem>
       </a-col>
       <a-col :span="12">
-        <DescriptionItem title="Phone Number">
-          +86 181 0000 0000
-        </DescriptionItem>
+        <DescriptionItem title="Phone Number"> +86 181 0000 0000 </DescriptionItem>
       </a-col>
     </a-row>
     <a-row>

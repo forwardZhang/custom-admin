@@ -6,17 +6,17 @@
 
 ```vue
 <script setup lang="ts">
-import type { SpinProps } from 'antdv-next'
+import type { SpinProps } from 'antdv-next';
 
 const classes: SpinProps['classes'] = {
   root: 'demo-spin-root',
-}
+};
 
 const stylesObject: SpinProps['styles'] = {
   indicator: {
     color: '#00d4ff',
   },
-}
+};
 
 const stylesFn: SpinProps['styles'] = (info) => {
   if (info?.props?.size === 'small') {
@@ -24,16 +24,16 @@ const stylesFn: SpinProps['styles'] = (info) => {
       indicator: {
         color: '#722ed1',
       },
-    }
+    };
   }
-  return {}
-}
+  return {};
+};
 
 const sharedProps: SpinProps = {
   spinning: true,
   percent: 0,
   classes,
-}
+};
 </script>
 
 <template>

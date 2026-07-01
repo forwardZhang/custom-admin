@@ -6,21 +6,21 @@
 
 ```vue
 <script setup lang="ts">
-import type { TimePickerProps } from 'antdv-next'
-import { theme } from 'antdv-next'
+import type { TimePickerProps } from 'antdv-next';
+import { theme } from 'antdv-next';
 
-const { useToken } = theme
-const { token } = useToken()
+const { useToken } = theme;
+const { token } = useToken();
 
 const customClasses = {
   root: 'custom-timepicker-root',
-}
+};
 
 const stylesObject: TimePickerProps['styles'] = {
   root: {
     borderColor: '#d9d9d9',
   },
-}
+};
 
 const stylesFn: TimePickerProps['styles'] = (info) => {
   if (info.props.size === 'large') {
@@ -34,16 +34,21 @@ const stylesFn: TimePickerProps['styles'] = (info) => {
       popup: {
         container: { border: '1px solid #722ed1', borderRadius: '8px' },
       },
-    }
+    };
   }
-  return {}
-}
+  return {};
+};
 </script>
 
 <template>
   <a-flex vertical gap="middle">
     <a-time-picker :classes="customClasses" :styles="stylesObject" placeholder="Object" />
-    <a-time-picker :classes="customClasses" :styles="stylesFn" placeholder="Function" size="large" />
+    <a-time-picker
+      :classes="customClasses"
+      :styles="stylesFn"
+      placeholder="Function"
+      size="large"
+    />
   </a-flex>
 </template>
 

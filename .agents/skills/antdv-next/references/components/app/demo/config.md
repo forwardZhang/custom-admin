@@ -8,7 +8,7 @@ Config for `message`, `notification`.
 
 ```vue
 <script setup lang="ts">
-import MyPage2 from './myPage2.vue'
+import MyPage2 from './myPage2.vue';
 </script>
 
 <template>

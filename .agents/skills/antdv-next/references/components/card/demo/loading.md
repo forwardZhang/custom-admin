@@ -8,15 +8,15 @@ Shows a loading indicator while the contents of the card is being fetched.
 
 ```vue
 <script setup lang="ts">
-import { EditOutlined, EllipsisOutlined, SettingOutlined } from '@antdv-next/icons'
-import { ref } from 'vue'
+import { EditOutlined, EllipsisOutlined, SettingOutlined } from '@antdv-next/icons';
+import { ref } from 'vue';
 
-const loading = ref(true)
+const loading = ref(true);
 </script>
 
 <template>
   <a-flex gap="middle" align="start" vertical>
-    <a-switch :checked="!loading" @change="(checked: boolean) => loading = !checked" />
+    <a-switch :checked="!loading" @change="(checked: boolean) => (loading = !checked)" />
     <a-card :loading="loading" style="min-width: 300px">
       <template #actions>
         <EditOutlined key="edit" />

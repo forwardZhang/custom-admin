@@ -8,9 +8,9 @@ Search the options with sorting.
 
 ```vue
 <script setup lang="ts">
-import { shallowRef } from 'vue'
+import { shallowRef } from 'vue';
 
-const value = shallowRef<string>()
+const value = shallowRef<string>();
 
 const options = [
   { value: '1', label: 'Not Identified' },
@@ -19,10 +19,10 @@ const options = [
   { value: '4', label: 'Identified' },
   { value: '5', label: 'Resolved' },
   { value: '6', label: 'Cancelled' },
-]
+];
 
 function filterSort(optionA: { label?: string }, optionB: { label?: string }) {
-  return (optionA?.label ?? '').toLowerCase().localeCompare((optionB?.label ?? '').toLowerCase())
+  return (optionA?.label ?? '').toLowerCase().localeCompare((optionB?.label ?? '').toLowerCase());
 }
 </script>
 

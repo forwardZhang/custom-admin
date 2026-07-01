@@ -18,67 +18,73 @@ Note:
 
 ```vue
 <script setup lang="ts">
-import type { TransferEmits } from 'antdv-next'
-import { DoubleLeftOutlined, DoubleRightOutlined } from '@antdv-next/icons'
-import { Button, message } from 'antdv-next'
-import { computed, h, ref } from 'vue'
+import type { TransferEmits } from 'antdv-next';
+import { DoubleLeftOutlined, DoubleRightOutlined } from '@antdv-next/icons';
+import { Button, message } from 'antdv-next';
+import { computed, h, ref } from 'vue';
 
 interface RecordType {
-  key: string
-  title: string
-  description: string
+  key: string;
+  title: string;
+  description: string;
 }
 
 const mockData = Array.from({ length: 20 }).map<RecordType>((_, i) => ({
   key: i.toString(),
   title: `Content ${i + 1}`,
   description: `Description ${i + 1}`,
-}))
+}));
 
-const initialTargetKeys = mockData.filter(item => Number(item.key) > 10).map(item => item.key)
+const initialTargetKeys = mockData.filter((item) => Number(item.key) > 10).map((item) => item.key);
 
-const targetKeys = ref<string[]>(initialTargetKeys)
-const selectedKeys = ref<string[]>([])
-const loadingRight = ref(false)
-const loadingLeft = ref(false)
+const targetKeys = ref<string[]>(initialTargetKeys);
+const selectedKeys = ref<string[]>([]);
+const loadingRight = ref(false);
+const loadingLeft = ref(false);
 
 const handleChange: TransferEmits['change'] = (newTargetKeys, direction, moveKeys) => {
-  targetKeys.value = newTargetKeys as string[]
+  targetKeys.value = newTargetKeys as string[];
 
   if (direction === 'right') {
-    loadingRight.value = true
+    loadingRight.value = true;
     setTimeout(() => {
-      loadingRight.value = false
-      message.success(`Successfully added ${moveKeys.length} items to the right`)
-    }, 1000)
-  }
-  else {
-    loadingLeft.value = true
+      loadingRight.value = false;
+      message.success(`Successfully added ${moveKeys.length} items to the right`);
+    }, 1000);
+  } else {
+    loadingLeft.value = true;
     setTimeout(() => {
-      loadingLeft.value = false
-      message.success(`Successfully added ${moveKeys.length} items to the left`)
-    }, 1000)
+      loadingLeft.value = false;
+      message.success(`Successfully added ${moveKeys.length} items to the left`);
+    }, 1000);
   }
-}
+};
 
-const handleSelectChange: TransferEmits['selectChange'] = (sourceSelectedKeys, targetSelectedKeys) => {
-  selectedKeys.value = [...sourceSelectedKeys, ...targetSelectedKeys] as string[]
-}
+const handleSelectChange: TransferEmits['selectChange'] = (
+  sourceSelectedKeys,
+  targetSelectedKeys,
+) => {
+  selectedKeys.value = [...sourceSelectedKeys, ...targetSelectedKeys] as string[];
+};
 
-const rightButtonDisabled = computed(() =>
-  selectedKeys.value.length === 0 || selectedKeys.value.every(key => targetKeys.value.includes(key)),
-)
+const rightButtonDisabled = computed(
+  () =>
+    selectedKeys.value.length === 0 ||
+    selectedKeys.value.every((key) => targetKeys.value.includes(key)),
+);
 
-const leftButtonDisabled = computed(() =>
-  selectedKeys.value.length === 0 || selectedKeys.value.every(key => !targetKeys.value.includes(key)),
-)
+const leftButtonDisabled = computed(
+  () =>
+    selectedKeys.value.length === 0 ||
+    selectedKeys.value.every((key) => !targetKeys.value.includes(key)),
+);
 
 function handleRightButtonClick(event: MouseEvent) {
-  console.log('Right button clicked', event)
+  console.log('Right button clicked', event);
 }
 
 function handleLeftButtonClick(event: MouseEvent) {
-  console.log('Left button clicked', event)
+  console.log('Left button clicked', event);
 }
 
 const actions = computed(() => [
@@ -104,7 +110,7 @@ const actions = computed(() => [
     },
     { default: () => 'Move To Left' },
   ),
-])
+]);
 </script>
 
 <template>

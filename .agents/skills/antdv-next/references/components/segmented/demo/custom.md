@@ -8,9 +8,9 @@ Custom each Segmented Item.
 
 ```vue
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref } from 'vue';
 
-const spring = ref('spring')
+const spring = ref('spring');
 </script>
 
 <template>
@@ -51,8 +51,8 @@ const spring = ref('spring')
       </template>
     </template>
   </a-segmented>
-  <br>
-  <br>
+  <br />
+  <br />
   <a-segmented
     v-model:value="spring"
     :options="[

@@ -8,30 +8,30 @@ Showing more detailed info of every row.
 
 ```vue
 <script setup lang="ts">
-import type { TableProps } from 'antdv-next'
-import { DownOutlined } from '@antdv-next/icons'
+import type { TableProps } from 'antdv-next';
+import { DownOutlined } from '@antdv-next/icons';
 
 interface ExpandedDataType {
-  key: string
-  date: string
-  name: string
-  upgradeNum: string
+  key: string;
+  date: string;
+  name: string;
+  upgradeNum: string;
 }
 
 interface DataType {
-  key: string
-  name: string
-  platform: string
-  version: string
-  upgradeNum: number
-  creator: string
-  createdAt: string
+  key: string;
+  name: string;
+  platform: string;
+  version: string;
+  upgradeNum: number;
+  creator: string;
+  createdAt: string;
 }
 
 const items = [
   { key: '1', label: 'Action 1' },
   { key: '2', label: 'Action 2' },
-]
+];
 
 const expandColumns: TableProps['columns'] = [
   { title: 'Date', dataIndex: 'date', key: 'date' },
@@ -39,7 +39,7 @@ const expandColumns: TableProps['columns'] = [
   { title: 'Status', key: 'state' },
   { title: 'Upgrade Status', dataIndex: 'upgradeNum', key: 'upgradeNum' },
   { title: 'Action', key: 'operation' },
-]
+];
 
 const columns: TableProps['columns'] = [
   { title: 'Name', dataIndex: 'name', key: 'name' },
@@ -49,14 +49,14 @@ const columns: TableProps['columns'] = [
   { title: 'Creator', dataIndex: 'creator', key: 'creator' },
   { title: 'Date', dataIndex: 'createdAt', key: 'createdAt' },
   { title: 'Action', key: 'operation' },
-]
+];
 
 const expandDataSource: ExpandedDataType[] = Array.from({ length: 3 }).map((_, i) => ({
   key: String(i),
   date: '2014-12-24 23:12:00',
   name: 'This is production name',
   upgradeNum: 'Upgraded: 56',
-}))
+}));
 
 const dataSource: DataType[] = Array.from({ length: 3 }).map((_, i) => ({
   key: String(i),
@@ -66,25 +66,17 @@ const dataSource: DataType[] = Array.from({ length: 3 }).map((_, i) => ({
   upgradeNum: 500,
   creator: 'Jack',
   createdAt: '2014-12-24 23:12:00',
-}))
+}));
 
 const expandable = {
   defaultExpandedRowKeys: ['0'],
-}
+};
 </script>
 
 <template>
-  <a-table
-    :columns="columns"
-    :data-source="dataSource"
-    :expandable="expandable"
-  >
+  <a-table :columns="columns" :data-source="dataSource" :expandable="expandable">
     <template #expandedRowRender>
-      <a-table
-        :columns="expandColumns"
-        :data-source="expandDataSource"
-        :pagination="false"
-      >
+      <a-table :columns="expandColumns" :data-source="expandDataSource" :pagination="false">
         <template #bodyCell="{ column }">
           <template v-if="column.key === 'state'">
             <a-badge status="success" text="Finished" />
@@ -110,18 +102,9 @@ const expandable = {
       </template>
     </template>
   </a-table>
-  <a-table
-    :columns="columns"
-    :data-source="dataSource"
-    :expandable="expandable"
-    size="middle"
-  >
+  <a-table :columns="columns" :data-source="dataSource" :expandable="expandable" size="middle">
     <template #expandedRowRender>
-      <a-table
-        :columns="expandColumns"
-        :data-source="expandDataSource"
-        :pagination="false"
-      >
+      <a-table :columns="expandColumns" :data-source="expandDataSource" :pagination="false">
         <template #bodyCell="{ column }">
           <template v-if="column.key === 'state'">
             <a-badge status="success" text="Finished" />
@@ -147,18 +130,9 @@ const expandable = {
       </template>
     </template>
   </a-table>
-  <a-table
-    :columns="columns"
-    :data-source="dataSource"
-    :expandable="expandable"
-    size="small"
-  >
+  <a-table :columns="columns" :data-source="dataSource" :expandable="expandable" size="small">
     <template #expandedRowRender>
-      <a-table
-        :columns="expandColumns"
-        :data-source="expandDataSource"
-        :pagination="false"
-      >
+      <a-table :columns="expandColumns" :data-source="expandDataSource" :pagination="false">
         <template #bodyCell="{ column }">
           <template v-if="column.key === 'state'">
             <a-badge status="success" text="Finished" />

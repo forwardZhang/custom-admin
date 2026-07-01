@@ -17,9 +17,7 @@ mask effect, default `blur`.
     }"
   >
     <template #cover>
-      <a-space vertical align="center">
-        Default blur
-      </a-space>
+      <a-space vertical align="center"> Default blur </a-space>
     </template>
   </a-image>
   <a-image
@@ -31,9 +29,7 @@ mask effect, default `blur`.
     }"
   >
     <template #cover>
-      <a-space vertical align="center">
-        Dimmed mask
-      </a-space>
+      <a-space vertical align="center"> Dimmed mask </a-space>
     </template>
   </a-image>
   <a-image
@@ -45,9 +41,7 @@ mask effect, default `blur`.
     }"
   >
     <template #cover>
-      <a-space vertical align="center">
-        No mask
-      </a-space>
+      <a-space vertical align="center"> No mask </a-space>
     </template>
   </a-image>
 </template>

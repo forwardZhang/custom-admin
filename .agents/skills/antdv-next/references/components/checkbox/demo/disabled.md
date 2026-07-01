@@ -8,18 +8,18 @@ Disabled checkbox.
 
 ```vue
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref } from 'vue';
 
-const checked1 = ref(false)
-const checked2 = ref(false)
-const checked3 = ref(true)
+const checked1 = ref(false);
+const checked2 = ref(false);
+const checked3 = ref(true);
 </script>
 
 <template>
   <a-checkbox v-model:checked="checked1" disabled />
-  <br>
+  <br />
   <a-checkbox v-model:checked="checked2" disabled indeterminate />
-  <br>
+  <br />
   <a-checkbox v-model:checked="checked3" disabled />
 </template>
 ```

@@ -6,12 +6,12 @@
 
 ```vue
 <script setup lang="ts">
-import type { CascaderEmits, CascaderProps } from 'antdv-next'
+import type { CascaderEmits, CascaderProps } from 'antdv-next';
 
 interface Option {
-  value: string
-  label: string
-  children?: Option[]
+  value: string;
+  label: string;
+  children?: Option[];
 }
 
 const options: Option[] = [
@@ -47,11 +47,11 @@ const options: Option[] = [
       },
     ],
   },
-]
+];
 
 const classes: CascaderProps['classes'] = {
   root: 'cascader-demo-root',
-}
+};
 
 const stylesObject: CascaderProps['styles'] = {
   prefix: {
@@ -60,7 +60,7 @@ const stylesObject: CascaderProps['styles'] = {
   suffix: {
     color: '#ccc',
   },
-}
+};
 
 const stylesFn: CascaderProps['styles'] = ({ props }) => {
   if (props.variant === 'filled') {
@@ -76,14 +76,14 @@ const stylesFn: CascaderProps['styles'] = ({ props }) => {
           color: '#1890ff',
         },
       },
-    }
+    };
   }
-  return {}
-}
+  return {};
+};
 
 const onChange: CascaderEmits['change'] = (value) => {
-  console.log(value)
-}
+  console.log(value);
+};
 </script>
 
 <template>

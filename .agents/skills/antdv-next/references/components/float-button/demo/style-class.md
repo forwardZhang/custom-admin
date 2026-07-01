@@ -6,22 +6,22 @@
 
 ```vue
 <script setup lang="ts">
-import type { FloatButtonProps } from 'antdv-next'
-import { QuestionCircleOutlined } from '@antdv-next/icons'
-import { theme } from 'antdv-next'
+import type { FloatButtonProps } from 'antdv-next';
+import { QuestionCircleOutlined } from '@antdv-next/icons';
+import { theme } from 'antdv-next';
 
-const { token } = theme.useToken()
+const { token } = theme.useToken();
 
 const classes: FloatButtonProps['classes'] = {
   root: 'demo-float-button-root',
   content: 'demo-float-button-content',
-}
+};
 
 const stylesObject: FloatButtonProps['styles'] = {
   root: {
     boxShadow: '0 1px 2px 0 rgba(0,0,0,0.05)',
   },
-}
+};
 
 const stylesFn: FloatButtonProps['styles'] = (info) => {
   if (info?.props?.type === 'primary') {
@@ -32,10 +32,10 @@ const stylesFn: FloatButtonProps['styles'] = (info) => {
       content: {
         color: '#fff',
       },
-    }
+    };
   }
-  return {}
-}
+  return {};
+};
 </script>
 
 <template>
@@ -50,11 +50,7 @@ const stylesFn: FloatButtonProps['styles'] = (info) => {
         <div>custom style class</div>
       </template>
     </a-float-button>
-    <a-float-button
-      type="default"
-      :classes="classes"
-      :styles="stylesObject"
-    >
+    <a-float-button type="default" :classes="classes" :styles="stylesObject">
       <template #icon>
         <QuestionCircleOutlined />
       </template>

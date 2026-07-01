@@ -8,51 +8,51 @@ A simple playground for column count and gutter.
 
 ```vue
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+import { computed, ref } from 'vue';
 
-const gutterValues = [8, 16, 24, 32, 40, 48]
-const vGutterValues = [8, 16, 24, 32, 40, 48]
-const colCountValues = [2, 3, 4, 6, 8, 12]
+const gutterValues = [8, 16, 24, 32, 40, 48];
+const vGutterValues = [8, 16, 24, 32, 40, 48];
+const colCountValues = [2, 3, 4, 6, 8, 12];
 
-const gutterKey = ref(1)
-const vGutterKey = ref(1)
-const colCountKey = ref(2)
+const gutterKey = ref(1);
+const vGutterKey = ref(1);
+const colCountKey = ref(2);
 
 const gutterMarks = gutterValues.reduce<Record<number, number>>((acc, value, index) => {
-  acc[index] = value
-  return acc
-}, {})
+  acc[index] = value;
+  return acc;
+}, {});
 const vGutterMarks = vGutterValues.reduce<Record<number, number>>((acc, value, index) => {
-  acc[index] = value
-  return acc
-}, {})
+  acc[index] = value;
+  return acc;
+}, {});
 const colCountMarks = colCountValues.reduce<Record<number, number>>((acc, value, index) => {
-  acc[index] = value
-  return acc
-}, {})
+  acc[index] = value;
+  return acc;
+}, {});
 
-const gutterValue = computed(() => gutterValues[gutterKey.value])
-const vGutterValue = computed(() => vGutterValues[vGutterKey.value])
-const colCount = computed(() => colCountValues[colCountKey.value])
-const colSpan = computed(() => 24 / colCount.value!)
+const gutterValue = computed(() => gutterValues[gutterKey.value]);
+const vGutterValue = computed(() => vGutterValues[vGutterKey.value]);
+const colCount = computed(() => colCountValues[colCountKey.value]);
+const colSpan = computed(() => 24 / colCount.value!);
 
-const formatGutter = (value?: number) => gutterValues[value ?? 0]
-const formatVGutter = (value?: number) => vGutterValues[value ?? 0]
-const formatColCount = (value?: number) => colCountValues[value ?? 0]
+const formatGutter = (value?: number) => gutterValues[value ?? 0];
+const formatVGutter = (value?: number) => vGutterValues[value ?? 0];
+const formatColCount = (value?: number) => colCountValues[value ?? 0];
 
 const colSnippet = computed(() => {
   return Array.from({ length: colCount.value! })
     .map(() => `  <a-col :span="${colSpan.value}"><div>Column</div></a-col>`)
-    .join('\n')
-})
+    .join('\n');
+});
 
 const rowCode = computed(() => {
-  return `<a-row :gutter="[${gutterValue.value}, ${vGutterValue.value}]">\n${colSnippet.value}\n${colSnippet.value}\n</a-row>`
-})
+  return `<a-row :gutter="[${gutterValue.value}, ${vGutterValue.value}]">\n${colSnippet.value}\n${colSnippet.value}\n</a-row>`;
+});
 
 const rowCodeSingle = computed(() => {
-  return `<a-row :gutter="[${gutterValue.value}, ${vGutterValue.value}]">\n${colSnippet.value}\n</a-row>`
-})
+  return `<a-row :gutter="[${gutterValue.value}, ${vGutterValue.value}]">\n${colSnippet.value}\n</a-row>`;
+});
 </script>
 
 <template>
@@ -106,9 +106,7 @@ const rowCodeSingle = computed(() => {
       </template>
     </a-row>
 
-    <div class="row-label">
-      Another Row:
-    </div>
+    <div class="row-label">Another Row:</div>
     <a-row :gutter="[gutterValue, vGutterValue]">
       <template v-for="_index in colCount" :key="`row-c-${_index}`">
         <a-col :span="colSpan">

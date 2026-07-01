@@ -6,19 +6,19 @@
 
 ```vue
 <script setup lang="ts">
-import { theme } from 'antdv-next'
+import { theme } from 'antdv-next';
 
-const { token } = theme.useToken()
+const { token } = theme.useToken();
 
 const classes = {
   root: 'custom-switch-root',
-}
+};
 
 const stylesObject = {
   root: {
     backgroundColor: '#F5D2D2',
   },
-}
+};
 
 function stylesFn(info: any) {
   if (info.props.size === 'default') {
@@ -26,9 +26,9 @@ function stylesFn(info: any) {
       root: {
         backgroundColor: '#BDE3C3',
       },
-    }
+    };
   }
-  return {}
+  return {};
 }
 </script>
 

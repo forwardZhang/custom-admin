@@ -6,20 +6,20 @@
 
 ```vue
 <script setup lang="ts">
-import type { PaginationProps } from 'antdv-next'
-import { useCssModule } from 'vue'
+import type { PaginationProps } from 'antdv-next';
+import { useCssModule } from 'vue';
 
-const moduleStyles = useCssModule()
+const moduleStyles = useCssModule();
 
 const classes: PaginationProps['classes'] = {
   root: moduleStyles.root,
-}
+};
 
 const stylesObject: PaginationProps['styles'] = {
   item: {
     borderRadius: '999px',
   },
-}
+};
 
 const stylesFn: PaginationProps['styles'] = ({ props }) => {
   if (props.size === 'small') {
@@ -28,10 +28,10 @@ const stylesFn: PaginationProps['styles'] = ({ props }) => {
         backgroundColor: 'rgba(200, 200, 200, 0.3)',
         marginInlineEnd: '4px',
       },
-    }
+    };
   }
-  return {}
-}
+  return {};
+};
 </script>
 
 <template>

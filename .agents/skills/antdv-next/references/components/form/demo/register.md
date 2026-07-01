@@ -8,10 +8,10 @@ Registration form example.
 
 ```vue
 <script setup lang="ts">
-import type { FormInstance } from 'antdv-next'
-import { computed, reactive, ref, shallowRef, watch } from 'vue'
+import type { FormInstance } from 'antdv-next';
+import { computed, reactive, ref, shallowRef, watch } from 'vue';
 
-const formRef = shallowRef<FormInstance>()
+const formRef = shallowRef<FormInstance>();
 
 const model = reactive({
   email: '',
@@ -27,7 +27,7 @@ const model = reactive({
   intro: '',
   gender: 'male',
   agreement: false,
-})
+});
 
 const residences = [
   {
@@ -62,59 +62,59 @@ const residences = [
       },
     ],
   },
-]
+];
 
 const prefixOptions = [
   { label: '+86', value: '86' },
   { label: '+87', value: '87' },
-]
+];
 
 const donationOptions = [
   { label: '$', value: 'USD' },
   { label: '¥', value: 'CNY' },
-]
+];
 
 const genderOptions = [
   { label: 'Male', value: 'male' },
   { label: 'Female', value: 'female' },
   { label: 'Other', value: 'other' },
-]
+];
 
-const autoCompleteResult = ref<string[]>([])
+const autoCompleteResult = ref<string[]>([]);
 
 function onWebsiteChange(value: string) {
   autoCompleteResult.value = value
-    ? ['.com', '.org', '.net'].map(domain => `${value}${domain}`)
-    : []
+    ? ['.com', '.org', '.net'].map((domain) => `${value}${domain}`)
+    : [];
 }
 
 const websiteOptions = computed(() =>
-  autoCompleteResult.value.map(website => ({ value: website })),
-)
+  autoCompleteResult.value.map((website) => ({ value: website })),
+);
 
 watch(
   () => model.password,
   () => {
     if (model.confirm) {
-      formRef.value?.validateFields?.(['confirm'])
+      formRef.value?.validateFields?.(['confirm']);
     }
   },
-)
+);
 
 const confirmRules = [
   { required: true, message: 'Please confirm your password!' },
   {
     validator: async (_rule: any, value: string) => {
       if (!value || value === model.password) {
-        return Promise.resolve()
+        return Promise.resolve();
       }
-      return Promise.reject(new Error('The new password that you entered do not match!'))
+      return Promise.reject(new Error('The new password that you entered do not match!'));
     },
   },
-]
+];
 
 function handleFinish(values: any) {
-  console.log('Received values of form: ', values)
+  console.log('Received values of form: ', values);
 }
 </script>
 
@@ -170,21 +170,33 @@ function handleFinish(values: any) {
       <a-cascader v-model:value="model.residence" :options="residences" />
     </a-form-item>
 
-    <a-form-item name="phone" label="Phone Number" :rules="[{ required: true, message: 'Please input your phone number!' }]">
+    <a-form-item
+      name="phone"
+      label="Phone Number"
+      :rules="[{ required: true, message: 'Please input your phone number!' }]"
+    >
       <a-space-compact block>
         <a-select v-model:value="model.prefix" style="width: 70px" :options="prefixOptions" />
         <a-input v-model:value="model.phone" style="width: 100%" />
       </a-space-compact>
     </a-form-item>
 
-    <a-form-item name="donation" label="Donation" :rules="[{ required: true, message: 'Please input donation amount!' }]">
+    <a-form-item
+      name="donation"
+      label="Donation"
+      :rules="[{ required: true, message: 'Please input donation amount!' }]"
+    >
       <a-space-compact block>
         <a-input-number v-model:value="model.amount" style="width: 100%" />
         <a-select v-model:value="model.currency" style="width: 70px" :options="donationOptions" />
       </a-space-compact>
     </a-form-item>
 
-    <a-form-item name="website" label="Website" :rules="[{ required: true, message: 'Please input website!' }]">
+    <a-form-item
+      name="website"
+      label="Website"
+      :rules="[{ required: true, message: 'Please input website!' }]"
+    >
       <a-auto-complete
         v-model:value="model.website"
         placeholder="website"
@@ -201,8 +213,17 @@ function handleFinish(values: any) {
       <a-textarea show-count :max-length="100" />
     </a-form-item>
 
-    <a-form-item name="gender" :required="true" label="Gender" :rules="[{ required: true, message: 'Please select your gender' }]">
-      <a-select v-model:value="model.gender" placeholder="Please select gender!" :options="genderOptions" />
+    <a-form-item
+      name="gender"
+      :required="true"
+      label="Gender"
+      :rules="[{ required: true, message: 'Please select your gender' }]"
+    >
+      <a-select
+        v-model:value="model.gender"
+        placeholder="Please select gender!"
+        :options="genderOptions"
+      />
     </a-form-item>
 
     <a-form-item label="Captcha" extra="We must make sure that your are a human.">
@@ -222,16 +243,17 @@ function handleFinish(values: any) {
       </a-row>
     </a-form-item>
 
-    <a-form-item name="agreement" :wrapper-col="{ xs: { span: 24, offset: 0 }, sm: { span: 16, offset: 8 } }">
+    <a-form-item
+      name="agreement"
+      :wrapper-col="{ xs: { span: 24, offset: 0 }, sm: { span: 16, offset: 8 } }"
+    >
       <a-checkbox v-model:checked="model.agreement">
         I have read the <a href="">agreement</a>
       </a-checkbox>
     </a-form-item>
 
     <a-form-item :wrapper-col="{ xs: { span: 24, offset: 0 }, sm: { span: 16, offset: 8 } }">
-      <a-button type="primary" html-type="submit">
-        Register
-      </a-button>
+      <a-button type="primary" html-type="submit"> Register </a-button>
     </a-form-item>
   </a-form>
 </template>

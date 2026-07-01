@@ -6,10 +6,10 @@
 
 ```vue
 <script setup lang="ts">
-import type { CSSProperties } from 'vue'
-import { message } from 'antdv-next'
+import type { CSSProperties } from 'vue';
+import { message } from 'antdv-next';
 
-const [messageApi, ContextHolder] = message.useMessage()
+const [messageApi, ContextHolder] = message.useMessage();
 
 const defaultStyles: Record<string, CSSProperties> = {
   root: {
@@ -25,7 +25,7 @@ const defaultStyles: Record<string, CSSProperties> = {
     color: '#237804',
     fontWeight: 600,
   },
-}
+};
 
 function stylesFn(info: { props: any }): Record<string, CSSProperties> {
   if (info.props.type === 'error') {
@@ -43,9 +43,9 @@ function stylesFn(info: { props: any }): Record<string, CSSProperties> {
         color: '#cf1322',
         fontWeight: 600,
       },
-    }
+    };
   }
-  return defaultStyles
+  return defaultStyles;
 }
 
 function showObjectStyle() {
@@ -53,7 +53,7 @@ function showObjectStyle() {
     type: 'success',
     content: 'This is a message with object styles',
     styles: defaultStyles,
-  })
+  });
 }
 
 function showFunctionStyle() {
@@ -61,19 +61,15 @@ function showFunctionStyle() {
     type: 'error',
     content: 'This is a message with function styles',
     styles: stylesFn as any,
-  })
+  });
 }
 </script>
 
 <template>
   <ContextHolder />
   <a-space>
-    <a-button @click="showObjectStyle">
-      Object style
-    </a-button>
-    <a-button type="primary" @click="showFunctionStyle">
-      Function style
-    </a-button>
+    <a-button @click="showObjectStyle"> Object style </a-button>
+    <a-button type="primary" @click="showFunctionStyle"> Function style </a-button>
   </a-space>
 </template>
 ```

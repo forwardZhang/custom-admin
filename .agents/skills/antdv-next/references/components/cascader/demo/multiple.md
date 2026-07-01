@@ -8,13 +8,13 @@ Select multiple options. Disable the `checkbox` by adding the `disableCheckbox` 
 
 ```vue
 <script setup lang="ts">
-import type { CascaderEmits } from 'antdv-next'
+import type { CascaderEmits } from 'antdv-next';
 
 interface Option {
-  value: string | number
-  label: string
-  children?: Option[]
-  disableCheckbox?: boolean
+  value: string | number;
+  label: string;
+  children?: Option[];
+  disableCheckbox?: boolean;
 }
 
 const options: Option[] = [
@@ -51,11 +51,11 @@ const options: Option[] = [
       },
     ],
   },
-]
+];
 
 const onChange: CascaderEmits['change'] = (value) => {
-  console.log(value)
-}
+  console.log(value);
+};
 </script>
 
 <template>

@@ -1,18 +1,18 @@
-# _semantic
+# \_semantic
 
 ## Source
 
 ```vue
 <script setup lang="ts">
-import type { FormInstance } from 'antdv-next'
-import { computed, onMounted, shallowRef } from 'vue'
-import { SemanticPreview } from '@/components/semantic'
-import { useComponentLocale } from '@/composables/use-locale'
-import { locales } from '../locales'
+import type { FormInstance } from 'antdv-next';
+import { computed, onMounted, shallowRef } from 'vue';
+import { SemanticPreview } from '@/components/semantic';
+import { useComponentLocale } from '@/composables/use-locale';
+import { locales } from '../locales';
 
-const { t } = useComponentLocale(locales)
+const { t } = useComponentLocale(locales);
 
-const formRef = shallowRef<FormInstance>()
+const formRef = shallowRef<FormInstance>();
 
 const semantics = computed(() => [
   { name: 'root', desc: t('root'), version: '1.0.0' },
@@ -21,7 +21,7 @@ const semantics = computed(() => [
   { name: 'help', desc: t('help'), version: '1.3.0' },
   { name: 'helpItem', desc: t('helpItem'), version: '1.3.0' },
   { name: 'extra', desc: t('extra'), version: '1.3.0' },
-])
+]);
 
 onMounted(() => {
   formRef.value?.setFields?.([
@@ -29,15 +29,12 @@ onMounted(() => {
       name: 'password',
       errors: ['Please input your password!', 'Use at least 8 characters.'],
     },
-  ])
-})
+  ]);
+});
 </script>
 
 <template>
-  <SemanticPreview
-    component-name="Form"
-    :semantics="semantics"
-  >
+  <SemanticPreview component-name="Form" :semantics="semantics">
     <template #default="{ classes }">
       <a-form
         ref="formRef"

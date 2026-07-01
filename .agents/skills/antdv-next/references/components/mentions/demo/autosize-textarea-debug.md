@@ -8,7 +8,7 @@ autoSize debug
 
 ```vue
 <script setup lang="ts">
-import type { MentionsEmits, MentionsProps } from 'antdv-next'
+import type { MentionsEmits, MentionsProps } from 'antdv-next';
 
 const options: MentionsProps['options'] = [
   {
@@ -23,15 +23,15 @@ const options: MentionsProps['options'] = [
     value: 'yesmeck',
     label: 'yesmeck',
   },
-]
+];
 
 const handleChange: MentionsEmits['change'] = (value) => {
-  console.log('Change:', value)
-}
+  console.log('Change:', value);
+};
 
 const handleSelect: MentionsEmits['select'] = (option) => {
-  console.log('select', option)
-}
+  console.log('select', option);
+};
 </script>
 
 <template>

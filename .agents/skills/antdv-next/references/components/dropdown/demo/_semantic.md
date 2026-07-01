@@ -1,16 +1,16 @@
-# _semantic
+# \_semantic
 
 ## Source
 
 ```vue
 <script setup lang="ts">
-import { DeleteOutlined, DownOutlined, EditOutlined, SaveOutlined } from '@antdv-next/icons'
-import { computed, h, ref } from 'vue'
-import { SemanticPreview } from '@/components/semantic'
-import { useComponentLocale } from '@/composables/use-locale'
-import { locales } from '../locales'
+import { DeleteOutlined, DownOutlined, EditOutlined, SaveOutlined } from '@antdv-next/icons';
+import { computed, h, ref } from 'vue';
+import { SemanticPreview } from '@/components/semantic';
+import { useComponentLocale } from '@/composables/use-locale';
+import { locales } from '../locales';
 
-const { t } = useComponentLocale(locales)
+const { t } = useComponentLocale(locales);
 
 const semantics = computed(() => [
   { name: 'root', desc: t('root') },
@@ -18,9 +18,9 @@ const semantics = computed(() => [
   { name: 'item', desc: t('item') },
   { name: 'itemContent', desc: t('itemContent') },
   { name: 'itemIcon', desc: t('itemIcon') },
-])
+]);
 
-const divRef = ref<HTMLDivElement | null>(null)
+const divRef = ref<HTMLDivElement | null>(null);
 
 const items: any[] = [
   {
@@ -49,14 +49,11 @@ const items: any[] = [
   },
   { key: '3', type: 'divider' },
   { key: '4', label: 'Delete', icon: h(DeleteOutlined), danger: true },
-]
+];
 </script>
 
 <template>
-  <SemanticPreview
-    component-name="Dropdown"
-    :semantics="semantics"
-  >
+  <SemanticPreview component-name="Dropdown" :semantics="semantics">
     <template #default="{ classes }">
       <div ref="divRef" :style="{ height: '120px', position: 'absolute', top: '50px' }">
         <a-dropdown

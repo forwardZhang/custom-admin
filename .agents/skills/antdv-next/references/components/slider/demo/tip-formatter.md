@@ -8,13 +8,13 @@ Use `tooltip.formatter` to format content of `Tooltip`. If `tooltip.formatter` i
 
 ```vue
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref } from 'vue';
 
-const value = ref(30)
-const value2 = ref(30)
+const value = ref(30);
+const value2 = ref(30);
 
 function formatter(value: number) {
-  return `${value}%`
+  return `${value}%`;
 }
 </script>
 

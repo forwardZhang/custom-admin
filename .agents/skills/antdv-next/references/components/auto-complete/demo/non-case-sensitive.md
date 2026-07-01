@@ -12,13 +12,13 @@ const options = [
   { value: 'Burns Bay Road' },
   { value: 'Downing Street' },
   { value: 'Wall Street' },
-]
+];
 
 const showSearch = {
   filterOption: (inputValue: string, option?: { value?: string }) => {
-    return (option?.value ?? '').toUpperCase().includes(inputValue.toUpperCase())
+    return (option?.value ?? '').toUpperCase().includes(inputValue.toUpperCase());
   },
-}
+};
 </script>
 
 <template>

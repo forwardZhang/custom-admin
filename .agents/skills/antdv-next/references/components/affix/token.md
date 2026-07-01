@@ -21,6 +21,6 @@ Use these variables through `theme.components.Affix`. This document lists defini
 
 ## Token List
 
-| Token | Type | Description |
-| --- | --- | --- |
+| Token         | Type     | Description      |
+| ------------- | -------- | ---------------- |
 | `zIndexPopup` | `number` | z-index of popup |

@@ -1,19 +1,19 @@
-# _semantic_group
+# \_semantic_group
 
 ## Source
 
 ```vue
 <script setup lang="ts">
-import { AlertOutlined, BugOutlined, BulbOutlined } from '@antdv-next/icons'
-import { FloatButton } from 'antdv-next'
-import { computed, h } from 'vue'
-import { SemanticPreview } from '@/components/semantic'
-import { useComponentLocale } from '@/composables/use-locale'
-import { locales } from '../locales'
+import { AlertOutlined, BugOutlined, BulbOutlined } from '@antdv-next/icons';
+import { FloatButton } from 'antdv-next';
+import { computed, h } from 'vue';
+import { SemanticPreview } from '@/components/semantic';
+import { useComponentLocale } from '@/composables/use-locale';
+import { locales } from '../locales';
 
-const PurePanel = (FloatButton as any)._InternalPanelDoNotUseOrYouWillBeFired
+const PurePanel = (FloatButton as any)._InternalPanelDoNotUseOrYouWillBeFired;
 
-const { t } = useComponentLocale(locales)
+const { t } = useComponentLocale(locales);
 
 const semantics = computed(() => [
   { name: 'root', desc: t('group.root') },
@@ -24,7 +24,7 @@ const semantics = computed(() => [
   { name: 'trigger', desc: t('group.trigger') },
   { name: 'triggerIcon', desc: t('group.triggerIcon') },
   { name: 'triggerContent', desc: t('group.triggerContent') },
-])
+]);
 
 const items = [
   {
@@ -39,7 +39,7 @@ const items = [
     icon: h(BulbOutlined),
     content: 'idea',
   },
-]
+];
 </script>
 
 <template>

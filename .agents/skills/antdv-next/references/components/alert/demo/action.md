@@ -8,19 +8,12 @@ Custom action.
 
 ```vue
 <template>
-  <a-alert
-    title="Success Tips"
-    type="success"
-    show-icon
-    closable
-  >
+  <a-alert title="Success Tips" type="success" show-icon closable>
     <template #action>
-      <a-button type="text" size="small">
-        UNDO
-      </a-button>
+      <a-button type="text" size="small"> UNDO </a-button>
     </template>
   </a-alert>
-  <br>
+  <br />
   <a-alert
     title="Error Text"
     show-icon
@@ -28,24 +21,16 @@ Custom action.
     type="error"
   >
     <template #action>
-      <a-button size="small" danger>
-        Detail
-      </a-button>
+      <a-button size="small" danger> Detail </a-button>
     </template>
   </a-alert>
-  <br>
-  <a-alert
-    title="Warning Text"
-    type="warning"
-    closable
-  >
+  <br />
+  <a-alert title="Warning Text" type="warning" closable>
     <template #action>
-      <a-button size="small" type="text">
-        Done
-      </a-button>
+      <a-button size="small" type="text"> Done </a-button>
     </template>
   </a-alert>
-  <br>
+  <br />
   <a-alert
     title="Info Text"
     description="Info Description Info Description Info Description Info Description"
@@ -54,12 +39,8 @@ Custom action.
   >
     <template #action>
       <a-flex vertical gap="small" :style="{ minWidth: '80px' }">
-        <a-button size="small" type="primary" block>
-          Accept
-        </a-button>
-        <a-button size="small" danger ghost block>
-          Decline
-        </a-button>
+        <a-button size="small" type="primary" block> Accept </a-button>
+        <a-button size="small" danger ghost block> Decline </a-button>
       </a-flex>
     </template>
   </a-alert>

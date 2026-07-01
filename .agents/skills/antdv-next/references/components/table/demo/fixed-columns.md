@@ -12,13 +12,13 @@ To fix some columns and scroll inside other columns, and you must set `scroll.x`
 
 ```vue
 <script setup lang="ts">
-import type { TableProps } from 'antdv-next'
+import type { TableProps } from 'antdv-next';
 
 interface DataType {
-  key: string
-  name: string
-  age: number
-  address: string
+  key: string;
+  name: string;
+  age: number;
+  address: string;
 }
 
 const columns: TableProps['columns'] = [
@@ -45,12 +45,12 @@ const columns: TableProps['columns'] = [
   { title: 'Column 19', dataIndex: 'address', key: '19' },
   { title: 'Column 20', dataIndex: 'address', key: '20' },
   { title: 'Action', key: 'operation', fixed: 'end', width: 100 },
-]
+];
 
 const dataSource: DataType[] = [
   { key: '1', name: 'Olivia', age: 32, address: 'New York Park' },
   { key: '2', name: 'Ethan', age: 40, address: 'London Park' },
-]
+];
 </script>
 
 <template>

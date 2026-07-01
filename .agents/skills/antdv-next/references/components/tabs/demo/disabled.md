@@ -8,7 +8,7 @@ Disabled a tab.
 
 ```vue
 <script setup lang="ts">
-import type { TabsProps } from 'antdv-next'
+import type { TabsProps } from 'antdv-next';
 
 const items: TabsProps['items'] = [
   {
@@ -27,7 +27,7 @@ const items: TabsProps['items'] = [
     label: 'Tab 3',
     content: 'Tab 3',
   },
-]
+];
 </script>
 
 <template>

@@ -8,13 +8,13 @@ Customize the render list with a Tree component.
 
 ```vue
 <script setup lang="ts">
-import type { TransferEmits } from 'antdv-next'
-import { ref } from 'vue'
+import type { TransferEmits } from 'antdv-next';
+import { ref } from 'vue';
 
 interface TreeNode {
-  key: string
-  title: string
-  children?: TreeNode[]
+  key: string;
+  title: string;
+  children?: TreeNode[];
 }
 
 const treeData: TreeNode[] = [
@@ -30,38 +30,38 @@ const treeData: TreeNode[] = [
   { key: '0-2', title: '0-2' },
   { key: '0-3', title: '0-3' },
   { key: '0-4', title: '0-4' },
-]
+];
 
-const targetKeys = ref<string[]>([])
+const targetKeys = ref<string[]>([]);
 
 function flattenData(list: TreeNode[] = [], result: TreeNode[] = []) {
   list.forEach((item) => {
-    result.push(item)
+    result.push(item);
     if (item.children) {
-      flattenData(item.children, result)
+      flattenData(item.children, result);
     }
-  })
-  return result
+  });
+  return result;
 }
 
-const transferDataSource = flattenData(treeData, []).map(item => ({
+const transferDataSource = flattenData(treeData, []).map((item) => ({
   key: item.key,
   title: item.title,
-}))
+}));
 
-const isChecked = (selectedKeys: string[], eventKey: string) => selectedKeys.includes(eventKey)
+const isChecked = (selectedKeys: string[], eventKey: string) => selectedKeys.includes(eventKey);
 
 function generateTree(treeNodes: TreeNode[] = [], checkedKeys: string[] = []): TreeNode[] {
   return treeNodes.map(({ children, ...props }) => ({
     ...props,
     disabled: checkedKeys.includes(props.key),
     children: children ? generateTree(children, checkedKeys) : undefined,
-  }))
+  }));
 }
 
 const handleChange: TransferEmits['change'] = (keys) => {
-  targetKeys.value = keys as string[]
-}
+  targetKeys.value = keys as string[];
+};
 </script>
 
 <template>
@@ -82,8 +82,20 @@ const handleChange: TransferEmits['change'] = (keys) => {
           default-expand-all
           :checked-keys="[...selectedKeys, ...targetKeys]"
           :tree-data="generateTree(treeData, targetKeys)"
-          @check="(_, info) => onItemSelect(info.node.key, !isChecked([...selectedKeys, ...targetKeys], info.node.key))"
-          @select="(_, info) => onItemSelect(info.node.key, !isChecked([...selectedKeys, ...targetKeys], info.node.key))"
+          @check="
+            (_, info) =>
+              onItemSelect(
+                info.node.key,
+                !isChecked([...selectedKeys, ...targetKeys], info.node.key),
+              )
+          "
+          @select="
+            (_, info) =>
+              onItemSelect(
+                info.node.key,
+                !isChecked([...selectedKeys, ...targetKeys], info.node.key),
+              )
+          "
         />
       </div>
     </template>

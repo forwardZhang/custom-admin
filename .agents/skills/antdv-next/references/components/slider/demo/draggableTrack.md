@@ -8,9 +8,9 @@ Make range track draggable by setting `range.draggableTrack`.
 
 ```vue
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref } from 'vue';
 
-const value = ref([20, 50])
+const value = ref([20, 50]);
 </script>
 
 <template>

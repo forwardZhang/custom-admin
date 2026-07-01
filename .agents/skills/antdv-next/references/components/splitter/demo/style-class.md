@@ -8,12 +8,12 @@ Customize semantic structure styles and class names. Supports both object and fu
 
 ```vue
 <script setup lang="ts">
-import type { SplitterProps } from 'antdv-next'
+import type { SplitterProps } from 'antdv-next';
 
 const stylesObject: SplitterProps['styles'] = {
   root: { backgroundColor: '#fffbe6' },
   dragger: { backgroundColor: 'rgba(194,223,252,0.4)' },
-}
+};
 
 const stylesFn: SplitterProps['styles'] = ({ props }) => {
   if (props.orientation === 'horizontal') {
@@ -23,19 +23,15 @@ const stylesFn: SplitterProps['styles'] = ({ props }) => {
         borderStyle: 'dashed',
         marginBottom: '10px',
       },
-    }
+    };
   }
-  return {}
-}
+  return {};
+};
 </script>
 
 <template>
   <a-flex vertical gap="large">
-    <a-splitter
-      style="height: 200px"
-      root-class="shadow-secondary"
-      :styles="stylesObject"
-    >
+    <a-splitter style="height: 200px" root-class="shadow-secondary" :styles="stylesObject">
       <a-splitter-panel>
         <a-flex justify="center" align="center" style="height: 100%">
           <a-typography-title type="secondary" :level="5" style="color: #000">
@@ -51,23 +47,15 @@ const stylesFn: SplitterProps['styles'] = ({ props }) => {
         </a-flex>
       </a-splitter-panel>
     </a-splitter>
-    <a-splitter
-      style="height: 200px"
-      root-class="shadow-secondary"
-      :styles="stylesFn"
-    >
+    <a-splitter style="height: 200px" root-class="shadow-secondary" :styles="stylesFn">
       <a-splitter-panel>
         <a-flex justify="center" align="center" style="height: 100%">
-          <a-typography-title type="secondary" :level="5">
-            First
-          </a-typography-title>
+          <a-typography-title type="secondary" :level="5"> First </a-typography-title>
         </a-flex>
       </a-splitter-panel>
       <a-splitter-panel>
         <a-flex justify="center" align="center" style="height: 100%">
-          <a-typography-title type="secondary" :level="5">
-            Second
-          </a-typography-title>
+          <a-typography-title type="secondary" :level="5"> Second </a-typography-title>
         </a-flex>
       </a-splitter-panel>
     </a-splitter>

@@ -9,7 +9,7 @@ Listening for anchor link change.
 ```vue
 <script setup lang="ts">
 function onChange(link: string) {
-  console.log('Anchor:OnChange', link)
+  console.log('Anchor:OnChange', link);
 }
 </script>
 

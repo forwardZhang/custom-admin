@@ -21,7 +21,7 @@ const items = [
   {
     content: 'Network problems being solved 2015-09-01',
   },
-]
+];
 </script>
 
 <template>

@@ -8,26 +8,26 @@ Asynchronously close a popconfirm when a the OK button is pressed. For example, 
 
 ```vue
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref } from 'vue';
 
-const open = ref(false)
-const confirmLoading = ref(false)
+const open = ref(false);
+const confirmLoading = ref(false);
 
 function showPopconfirm() {
-  open.value = true
+  open.value = true;
 }
 
 function handleOk() {
-  confirmLoading.value = true
+  confirmLoading.value = true;
   setTimeout(() => {
-    open.value = false
-    confirmLoading.value = false
-  }, 2000)
+    open.value = false;
+    confirmLoading.value = false;
+  }, 2000);
 }
 
 function handleCancel() {
-  console.log('Clicked cancel button')
-  open.value = false
+  console.log('Clicked cancel button');
+  open.value = false;
 }
 </script>
 
@@ -40,9 +40,7 @@ function handleCancel() {
     @confirm="handleOk"
     @cancel="handleCancel"
   >
-    <a-button type="primary" @click="showPopconfirm">
-      Open Popconfirm with async logic
-    </a-button>
+    <a-button type="primary" @click="showPopconfirm"> Open Popconfirm with async logic </a-button>
   </a-popconfirm>
 </template>
 ```

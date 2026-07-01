@@ -8,19 +8,17 @@ Use `message.useMessage` to get `contextHolder` with context accessible issue. P
 
 ```vue
 <script setup lang="ts">
-import { message } from 'antdv-next'
+import { message } from 'antdv-next';
 
-const [messageApi, ContextHolder] = message.useMessage()
+const [messageApi, ContextHolder] = message.useMessage();
 
 function info() {
-  messageApi.info('Hello, Antdv Next!')
+  messageApi.info('Hello, Antdv Next!');
 }
 </script>
 
 <template>
   <ContextHolder />
-  <a-button type="primary" @click="info">
-    Display normal message
-  </a-button>
+  <a-button type="primary" @click="info"> Display normal message </a-button>
 </template>
 ```

@@ -15,18 +15,18 @@ description: Set components spacing.
 
 ## Demos
 
-| Demo | Path |
-| --- | --- |
-| Basic Usage | demo/basic.md |
-| Vertical Space | demo/vertical.md |
-| Space Size | demo/size.md |
-| Align | demo/align.md |
-| Wrap | demo/wrap.md |
-| Separator | demo/separator.md |
-| Compact Mode for form component | demo/compact.md |
-| Button Compact Mode | demo/compact-buttons.md |
-| Vertical Compact Mode | demo/compact-button-vertical.md |
-| Custom semantic dom styling | demo/style-class.md |
+| Demo                            | Path                            |
+| ------------------------------- | ------------------------------- |
+| Basic Usage                     | demo/basic.md                   |
+| Vertical Space                  | demo/vertical.md                |
+| Space Size                      | demo/size.md                    |
+| Align                           | demo/align.md                   |
+| Wrap                            | demo/wrap.md                    |
+| Separator                       | demo/separator.md               |
+| Compact Mode for form component | demo/compact.md                 |
+| Button Compact Mode             | demo/compact-buttons.md         |
+| Vertical Compact Mode           | demo/compact-button-vertical.md |
+| Custom semantic dom styling     | demo/style-class.md             |
 
 ## API
 
@@ -34,20 +34,22 @@ Common props ref：[Common props](../../docs/vue/common-props.md)
 
 ### Space
 
-#### Props 
-| Property | Description | Type | Default | Version | [Global Config](../config-provider/docs.md#component-config) |
-| --- | --- | --- | --- | --- | --- |
-| align | Align items | `start` \| `end` \| `center` \| `baseline` | - | 4.2.0 | × |
-| orientation | The space direction | `vertical` \| `horizontal` | `horizontal` | - | × |
-| separator | Set separator | VueNode | - | - | × |
-| size | The space size | [Size](#size) \| [[Size](#size), [Size](#size)] | `small` | 4.1.0 \| Array: 4.9.0 | ✓ |
-| vertical | Orientation, Simultaneously configure with `orientation` and prioritize `orientation` | boolean | false | - | × |
-| wrap | Auto wrap line, when `horizontal` effective | boolean | false | 4.9.0 | × |
+#### Props
 
-#### Slots 
-| Slot | Description | Type | Version |
-| --- | --- | --- | --- |
-| separator | Set separator | () =&gt; VueNode | - |
+| Property    | Description                                                                           | Type                                            | Default      | Version               | [Global Config](../config-provider/docs.md#component-config) |
+| ----------- | ------------------------------------------------------------------------------------- | ----------------------------------------------- | ------------ | --------------------- | ------------------------------------------------------------ |
+| align       | Align items                                                                           | `start` \| `end` \| `center` \| `baseline`      | -            | 4.2.0                 | ×                                                            |
+| orientation | The space direction                                                                   | `vertical` \| `horizontal`                      | `horizontal` | -                     | ×                                                            |
+| separator   | Set separator                                                                         | VueNode                                         | -            | -                     | ×                                                            |
+| size        | The space size                                                                        | [Size](#size) \| [[Size](#size), [Size](#size)] | `small`      | 4.1.0 \| Array: 4.9.0 | ✓                                                            |
+| vertical    | Orientation, Simultaneously configure with `orientation` and prioritize `orientation` | boolean                                         | false        | -                     | ×                                                            |
+| wrap        | Auto wrap line, when `horizontal` effective                                           | boolean                                         | false        | 4.9.0                 | ×                                                            |
+
+#### Slots
+
+| Slot      | Description   | Type             | Version |
+| --------- | ------------- | ---------------- | ------- |
+| separator | Set separator | () =&gt; VueNode | -       |
 
 ### Size
 
@@ -67,14 +69,15 @@ Use Space.Compact when child form components are compactly connected and the bor
 - TimePicker
 - TreeSelect
 
-#### Props 
-| Property | Description | Type | Default | Version |
-| --- | --- | --- | --- | --- |
-| block | Option to fit width to its parent's width | boolean | false | 4.24.0 |
-| orientation | Set direction of layout | `vertical` \| `horizontal` | `horizontal` | - |
-| size | Set child component size | `large` \| `middle` \| `small` | `middle` | 4.24.0 |
-| vertical | Orientation, Simultaneously configure with `orientation` and prioritize `orientation` | boolean | false | - |
+#### Props
+
+| Property    | Description                                                                           | Type                           | Default      | Version |
+| ----------- | ------------------------------------------------------------------------------------- | ------------------------------ | ------------ | ------- |
+| block       | Option to fit width to its parent's width                                             | boolean                        | false        | 4.24.0  |
+| orientation | Set direction of layout                                                               | `vertical` \| `horizontal`     | `horizontal` | -       |
+| size        | Set child component size                                                              | `large` \| `middle` \| `small` | `middle`     | 4.24.0  |
+| vertical    | Orientation, Simultaneously configure with `orientation` and prioritize `orientation` | boolean                        | false        | -       |
 
 ## Semantic DOM
 
-| _semantic | demo/_semantic.md |
+| \_semantic | demo/\_semantic.md |

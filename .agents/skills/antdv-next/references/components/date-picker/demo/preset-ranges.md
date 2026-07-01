@@ -8,34 +8,32 @@ We can set preset ranges to RangePicker to improve user experience. Since `5.8.0
 
 ```vue
 <script setup lang="ts">
-import type { RangePickerProps } from 'antdv-next'
-import type { Dayjs } from 'dayjs'
-import dayjs from 'dayjs'
-import { h } from 'vue'
+import type { RangePickerProps } from 'antdv-next';
+import type { Dayjs } from 'dayjs';
+import dayjs from 'dayjs';
+import { h } from 'vue';
 
 const rangePresets: RangePickerProps['presets'] = [
   { label: 'Last 7 Days', value: [dayjs().add(-7, 'd'), dayjs()] },
   { label: 'Last 14 Days', value: [dayjs().add(-14, 'd'), dayjs()] },
   { label: 'Last 30 Days', value: [dayjs().add(-30, 'd'), dayjs()] },
   { label: 'Last 90 Days', value: [dayjs().add(-90, 'd'), dayjs()] },
-]
+];
 
 function handleChange(date: Dayjs | null) {
   if (date) {
-    console.log('Date: ', date)
-  }
-  else {
-    console.log('Clear')
+    console.log('Date: ', date);
+  } else {
+    console.log('Clear');
   }
 }
 
 function handleRangeChange(dates: null | (Dayjs | null)[], dateStrings: string[]) {
   if (dates) {
-    console.log('From: ', dates[0], ', to: ', dates[1])
-    console.log('From: ', dateStrings[0], ', to: ', dateStrings[1])
-  }
-  else {
-    console.log('Clear')
+    console.log('From: ', dates[0], ', to: ', dates[1]);
+    console.log('From: ', dateStrings[0], ', to: ', dateStrings[1]);
+  } else {
+    console.log('Clear');
   }
 }
 </script>

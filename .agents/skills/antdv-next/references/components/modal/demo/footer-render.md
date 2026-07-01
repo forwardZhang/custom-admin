@@ -8,20 +8,20 @@ Customize the footer rendering function to support extensions on top of the orig
 
 ```vue
 <script setup lang="ts">
-import { Button, Modal } from 'antdv-next'
-import { h, ref } from 'vue'
+import { Button, Modal } from 'antdv-next';
+import { h, ref } from 'vue';
 
-const open = ref(false)
+const open = ref(false);
 
 function showModal() {
-  open.value = true
+  open.value = true;
 }
 
 function handleOk() {
-  open.value = false
+  open.value = false;
 }
 function handleCancel() {
-  open.value = false
+  open.value = false;
 }
 
 function handleConfirm() {
@@ -33,27 +33,18 @@ function handleConfirm() {
         h(Button, undefined, { default: () => 'Custom Button' }),
         h(extra.OkBtn),
         h(extra.CancelBtn),
-      ]
+      ];
     },
-  })
+  });
 }
 </script>
 
 <template>
   <a-space>
-    <a-button type="primary" @click="showModal">
-      Open Modal
-    </a-button>
-    <a-button type="primary" @click="handleConfirm">
-      Open Modal Confirm
-    </a-button>
+    <a-button type="primary" @click="showModal"> Open Modal </a-button>
+    <a-button type="primary" @click="handleConfirm"> Open Modal Confirm </a-button>
   </a-space>
-  <a-modal
-    v-model:open="open"
-    title="Title"
-    @ok="handleOk"
-    @cancel="handleCancel"
-  >
+  <a-modal v-model:open="open" title="Title" @ok="handleOk" @cancel="handleCancel">
     <template #footer="{ extra }">
       <a-button> Custom Button</a-button>
       <component :is="extra.CancelBtn" />

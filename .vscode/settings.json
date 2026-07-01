@@ -24,8 +24,7 @@
   // 3. ESLint / Stylelint 自动修复与校验
   // ==========================================
   "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": "explicit",
-    "source.fixAll.stylelint": "explicit"
+    "source.fixAll.eslint": "explicit"
   },
   // 启用 ESLint Flat Config 支持
   "eslint.enable": true,
@@ -39,10 +38,6 @@
     "html",
     "markdown"
   ],
-  // 启用 Stylelint 支持
-  "stylelint.enable": true,
-  "stylelint.validate": ["css", "less", "postcss", "vue"],
-  "stylelint.configFile": "${workspaceFolder}/stylelint.config.ts",
   "less.validate": false,
   "css.validate": false,
 

@@ -8,7 +8,7 @@ By using `status` of `Steps`, you can specify the state for current step.
 
 ```vue
 <script lang="ts" setup>
-const content = 'This is a content'
+const content = 'This is a content';
 const items = [
   {
     title: 'Finished',
@@ -22,7 +22,7 @@ const items = [
     title: 'Waiting',
     content,
   },
-]
+];
 </script>
 
 <template>

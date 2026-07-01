@@ -1,16 +1,16 @@
-# _semantic
+# \_semantic
 
 ## Source
 
 ```vue
 <script setup lang="ts">
-import { EditOutlined, EllipsisOutlined, SettingOutlined } from '@antdv-next/icons'
-import { computed } from 'vue'
-import { SemanticPreview } from '@/components/semantic'
-import { useComponentLocale } from '@/composables/use-locale'
-import { locales } from '../locales'
+import { EditOutlined, EllipsisOutlined, SettingOutlined } from '@antdv-next/icons';
+import { computed } from 'vue';
+import { SemanticPreview } from '@/components/semantic';
+import { useComponentLocale } from '@/composables/use-locale';
+import { locales } from '../locales';
 
-const { t } = useComponentLocale(locales)
+const { t } = useComponentLocale(locales);
 
 const semantics = computed(() => [
   { name: 'root', desc: t('root'), version: '1.0.0' },
@@ -20,38 +20,27 @@ const semantics = computed(() => [
   { name: 'cover', desc: t('cover'), version: '1.0.0' },
   { name: 'body', desc: t('body'), version: '1.0.0' },
   { name: 'actions', desc: t('actions'), version: '1.0.0' },
-])
+]);
 </script>
 
 <template>
-  <SemanticPreview
-    component-name="Card"
-    :semantics="semantics"
-  >
+  <SemanticPreview component-name="Card" :semantics="semantics">
     <template #default="{ classes }">
       <div :style="{ position: 'absolute' }">
-        <a-card
-          title="Card title"
-          extra="More"
-          :style="{ width: '300px' }"
-          :classes="classes"
-        >
+        <a-card title="Card title" extra="More" :style="{ width: '300px' }" :classes="classes">
           <template #cover>
             <img
               draggable="false"
               alt="example"
               src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
-            >
+            />
           </template>
           <template #actions>
             <SettingOutlined key="setting" />
             <EditOutlined key="edit" />
             <EllipsisOutlined key="ellipsis" />
           </template>
-          <a-card-meta
-            title="Card Meta title"
-            description="This is the description"
-          >
+          <a-card-meta title="Card Meta title" description="This is the description">
             <template #avatar>
               <a-avatar src="https://api.dicebear.com/7.x/miniavs/svg?seed=8" />
             </template>

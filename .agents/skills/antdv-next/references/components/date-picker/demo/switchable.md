@@ -8,11 +8,11 @@ Switch in different types of pickers by Select.
 
 ```vue
 <script setup lang="ts">
-import { shallowRef } from 'vue'
+import { shallowRef } from 'vue';
 
-type PickerType = 'time' | 'date' | 'week' | 'month' | 'quarter' | 'year'
+type PickerType = 'time' | 'date' | 'week' | 'month' | 'quarter' | 'year';
 
-const type = shallowRef<PickerType>('time')
+const type = shallowRef<PickerType>('time');
 
 const options = [
   { label: 'Time', value: 'time' },
@@ -21,10 +21,10 @@ const options = [
   { label: 'Month', value: 'month' },
   { label: 'Quarter', value: 'quarter' },
   { label: 'Year', value: 'year' },
-]
+];
 
 function handleChange(value: any) {
-  console.log(value)
+  console.log(value);
 }
 </script>
 

@@ -21,7 +21,7 @@ Use these variables through `theme.components.Upload`. This document lists defin
 
 ## Token List
 
-| Token | Type | Description |
-| --- | --- | --- |
-| `actionsColor` | `string` | Action button color |
+| Token             | Type     | Description                                                                    |
+| ----------------- | -------- | ------------------------------------------------------------------------------ |
+| `actionsColor`    | `string` | Action button color                                                            |
 | `pictureCardSize` | `number` | Size of list items in card type (affects both picture-card and picture-circle) |

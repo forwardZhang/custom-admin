@@ -6,11 +6,11 @@
 
 ```vue
 <script setup lang="ts">
-import type { PopconfirmProps } from 'antdv-next'
+import type { PopconfirmProps } from 'antdv-next';
 
 const classes: PopconfirmProps['classes'] = {
   container: 'demo-popconfirm-container',
-}
+};
 
 const stylesObject: PopconfirmProps['styles'] = {
   container: {
@@ -23,7 +23,7 @@ const stylesObject: PopconfirmProps['styles'] = {
   content: {
     color: '#262626',
   },
-}
+};
 
 const stylesFn: PopconfirmProps['styles'] = (info) => {
   if (info?.props?.arrow === false) {
@@ -39,10 +39,10 @@ const stylesFn: PopconfirmProps['styles'] = (info) => {
       content: {
         color: '#fff',
       },
-    }
+    };
   }
-  return {}
-}
+  return {};
+};
 </script>
 
 <template>
@@ -62,12 +62,20 @@ const stylesFn: PopconfirmProps['styles'] = (info) => {
       :classes="classes"
       :styles="stylesFn"
       :arrow="false"
-      :ok-button-props="{ styles: { root: { backgroundColor: 'rgba(53, 71, 125, 0.6)', color: '#fff' } } }"
-      :cancel-button-props="{ styles: { root: { borderColor: 'rgba(53, 71, 125, 0.6)', backgroundColor: '#fff', color: 'rgba(53, 71, 125, 0.8)' } } }"
+      :ok-button-props="{
+        styles: { root: { backgroundColor: 'rgba(53, 71, 125, 0.6)', color: '#fff' } },
+      }"
+      :cancel-button-props="{
+        styles: {
+          root: {
+            borderColor: 'rgba(53, 71, 125, 0.6)',
+            backgroundColor: '#fff',
+            color: 'rgba(53, 71, 125, 0.8)',
+          },
+        },
+      }"
     >
-      <a-button type="primary">
-        Function Style
-      </a-button>
+      <a-button type="primary"> Function Style </a-button>
     </a-popconfirm>
   </a-flex>
 </template>

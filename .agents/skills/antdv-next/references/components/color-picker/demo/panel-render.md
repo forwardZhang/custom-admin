@@ -8,30 +8,32 @@ Rendering of the free control panel via `panelRender`.
 
 ```vue
 <script setup lang="ts">
-import { cyan, generate, green, presetPalettes, red } from '@ant-design/colors'
-import { theme } from 'antdv-next'
-import { computed, shallowRef } from 'vue'
+import { cyan, generate, green, presetPalettes, red } from '@ant-design/colors';
+import { theme } from 'antdv-next';
+import { computed, shallowRef } from 'vue';
 
-const { useToken } = theme
-const { token } = useToken()
+const { useToken } = theme;
+const { token } = useToken();
 
-const color = shallowRef('#1677ff')
-const layoutColor = shallowRef(token.value.colorPrimary)
+const color = shallowRef('#1677ff');
+const layoutColor = shallowRef(token.value.colorPrimary);
 
 function genPresets(presets = presetPalettes) {
   return Object.entries(presets).map(([label, colors]) => ({
     label,
     colors,
     key: label,
-  }))
+  }));
 }
 
-const presets = computed<any[]>(() => genPresets({
-  primary: generate(token.value.colorPrimary),
-  red,
-  green,
-  cyan,
-}))
+const presets = computed<any[]>(() =>
+  genPresets({
+    primary: generate(token.value.colorPrimary),
+    red,
+    green,
+    cyan,
+  }),
+);
 </script>
 
 <template>
@@ -41,7 +43,9 @@ const presets = computed<any[]>(() => genPresets({
       <a-color-picker v-model:value="color">
         <template #panelRender="{ panel }">
           <div class="custom-panel">
-            <div style="font-size: 12px;color: rgba(0,0,0,.88);line-height: 20px;margin-bottom: 8px">
+            <div
+              style="font-size: 12px;color: rgba(0,0,0,.88);line-height: 20px;margin-bottom: 8px"
+            >
               Color Picker
             </div>
             <component :is="panel" />

@@ -8,33 +8,28 @@ Variants of Select, there are four variants: `outlined` `filled` `borderless` an
 
 ```vue
 <script setup lang="ts">
-import { shallowRef } from 'vue'
+import { shallowRef } from 'vue';
 
 const options = [
   { value: 'jack', label: 'Jack' },
   { value: 'lucy', label: 'Lucy' },
   { value: 'Yiminghe', label: 'yiminghe' },
-]
+];
 
-const value1 = shallowRef<string>()
-const value2 = shallowRef(['lucy'])
-const value3 = shallowRef<string>()
-const value4 = shallowRef(['lucy'])
-const value5 = shallowRef<string>()
-const value6 = shallowRef(['lucy'])
-const value7 = shallowRef<string>()
-const value8 = shallowRef(['lucy'])
+const value1 = shallowRef<string>();
+const value2 = shallowRef(['lucy']);
+const value3 = shallowRef<string>();
+const value4 = shallowRef(['lucy']);
+const value5 = shallowRef<string>();
+const value6 = shallowRef(['lucy']);
+const value7 = shallowRef<string>();
+const value8 = shallowRef(['lucy']);
 </script>
 
 <template>
   <a-flex :gap="12" vertical>
     <a-flex :gap="8">
-      <a-select
-        v-model:value="value1"
-        placeholder="Outlined"
-        style="flex: 1"
-        :options="options"
-      />
+      <a-select v-model:value="value1" placeholder="Outlined" style="flex: 1" :options="options" />
       <a-select
         v-model:value="value2"
         mode="multiple"

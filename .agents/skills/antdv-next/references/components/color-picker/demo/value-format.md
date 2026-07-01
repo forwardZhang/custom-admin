@@ -8,11 +8,11 @@ Use `valueFormat` to define the output value type of color, supporting `hex`, `r
 
 ```vue
 <script setup lang="ts">
-import { shallowRef } from 'vue'
+import { shallowRef } from 'vue';
 
-const hexValue = shallowRef('#1677ff')
-const rgbValue = shallowRef('rgb(22, 119, 255)')
-const hsbValue = shallowRef('hsb(215, 91%, 100%)')
+const hexValue = shallowRef('#1677ff');
+const rgbValue = shallowRef('rgb(22, 119, 255)');
+const hsbValue = shallowRef('hsb(215, 91%, 100%)');
 </script>
 
 <template>

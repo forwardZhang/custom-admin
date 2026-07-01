@@ -8,13 +8,13 @@ Configure `disabled` and `readOnly`.
 
 ```vue
 <script setup lang="ts">
-import type { MentionsProps } from 'antdv-next'
+import type { MentionsProps } from 'antdv-next';
 
-const options: MentionsProps['options'] = ['afc163', 'zombiej', 'yesmeck'].map(value => ({
+const options: MentionsProps['options'] = ['afc163', 'zombiej', 'yesmeck'].map((value) => ({
   value,
   key: value,
   label: value,
-}))
+}));
 </script>
 
 <template>

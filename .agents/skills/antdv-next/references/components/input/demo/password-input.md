@@ -8,10 +8,10 @@ Input type of password.
 
 ```vue
 <script setup lang="ts">
-import { EyeInvisibleOutlined, EyeTwoTone } from '@antdv-next/icons'
-import { ref } from 'vue'
+import { EyeInvisibleOutlined, EyeTwoTone } from '@antdv-next/icons';
+import { ref } from 'vue';
 
-const passwordVisible = ref(false)
+const passwordVisible = ref(false);
 </script>
 
 <template>
@@ -26,7 +26,10 @@ const passwordVisible = ref(false)
     <a-space>
       <a-input-password
         placeholder="input password"
-        :visibility-toggle="{ visible: passwordVisible, onVisibleChange: (v: boolean) => passwordVisible = v }"
+        :visibility-toggle="{
+          visible: passwordVisible,
+          onVisibleChange: (v: boolean) => (passwordVisible = v),
+        }"
       />
       <a-button style="width: 80px;" @click="passwordVisible = !passwordVisible">
         {{ passwordVisible ? 'Hide' : 'Show' }}

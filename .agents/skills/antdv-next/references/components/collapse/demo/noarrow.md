@@ -8,13 +8,13 @@ You can hide the arrow icon by passing `showArrow=false` to the panel.
 
 ```vue
 <script setup lang="ts">
-import { h } from 'vue'
+import { h } from 'vue';
 
 const text = `
   A dog is a type of domesticated animal.
   Known for its loyalty and faithfulness,
   it can be found as a welcome guest in many households across the world.
-`
+`;
 
 const items = [
   {
@@ -28,10 +28,10 @@ const items = [
     content: h('p', text),
     showArrow: false,
   },
-]
+];
 
 function onChange(key: string[]) {
-  console.log(key)
+  console.log(key);
 }
 </script>
 

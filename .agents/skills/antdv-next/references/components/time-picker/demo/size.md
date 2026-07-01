@@ -8,9 +8,9 @@ The input box comes in three sizes: large, middle and small. Large is used in th
 
 ```vue
 <script setup lang="ts">
-import dayjs from 'dayjs'
+import dayjs from 'dayjs';
 
-const defaultValue = dayjs('12:08:23', 'HH:mm:ss')
+const defaultValue = dayjs('12:08:23', 'HH:mm:ss');
 </script>
 
 <template>

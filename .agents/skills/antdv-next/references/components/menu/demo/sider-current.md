@@ -8,9 +8,9 @@ Click the menu and you will see that all the other menus gets collapsed to keep 
 
 ```vue
 <script setup lang="ts">
-import type { MenuItemType } from 'antdv-next'
-import { AppstoreOutlined, MailOutlined, SettingOutlined } from '@antdv-next/icons'
-import { ref } from 'vue'
+import type { MenuItemType } from 'antdv-next';
+import { AppstoreOutlined, MailOutlined, SettingOutlined } from '@antdv-next/icons';
+import { ref } from 'vue';
 
 const items: MenuItemType[] = [
   {
@@ -62,45 +62,44 @@ const items: MenuItemType[] = [
       { key: '34', label: 'Option 4' },
     ],
   },
-]
+];
 
 interface LevelKeysProps {
-  key?: string
-  children?: LevelKeysProps[]
+  key?: string;
+  children?: LevelKeysProps[];
 }
 
 function getLevelKeys(itemList: LevelKeysProps[]) {
-  const keyLevelMap: Record<string, number> = {}
+  const keyLevelMap: Record<string, number> = {};
   const func = (list: LevelKeysProps[], level = 1) => {
     list.forEach((item) => {
       if (item.key) {
-        keyLevelMap[item.key] = level
+        keyLevelMap[item.key] = level;
       }
       if (item.children) {
-        func(item.children, level + 1)
+        func(item.children, level + 1);
       }
-    })
-  }
-  func(itemList)
-  return keyLevelMap
+    });
+  };
+  func(itemList);
+  return keyLevelMap;
 }
 
-const levelKeys = getLevelKeys(items as LevelKeysProps[])
-const stateOpenKeys = ref<string[]>(['2', '23'])
+const levelKeys = getLevelKeys(items as LevelKeysProps[]);
+const stateOpenKeys = ref<string[]>(['2', '23']);
 
 function onOpenChange(openKeys: string[]) {
-  const currentOpenKey = openKeys.find(key => !stateOpenKeys.value.includes(key))
+  const currentOpenKey = openKeys.find((key) => !stateOpenKeys.value.includes(key));
   if (currentOpenKey !== undefined) {
     const repeatIndex = openKeys
-      .filter(key => key !== currentOpenKey)
-      .findIndex(key => levelKeys[key] === levelKeys[currentOpenKey])
+      .filter((key) => key !== currentOpenKey)
+      .findIndex((key) => levelKeys[key] === levelKeys[currentOpenKey]);
 
     stateOpenKeys.value = openKeys
       .filter((_, index) => index !== repeatIndex)
-      .filter(key => levelKeys[key]! <= levelKeys[currentOpenKey]!)
-  }
-  else {
-    stateOpenKeys.value = openKeys
+      .filter((key) => levelKeys[key]! <= levelKeys[currentOpenKey]!);
+  } else {
+    stateOpenKeys.value = openKeys;
   }
 }
 </script>

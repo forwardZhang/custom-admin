@@ -8,19 +8,19 @@ You can config SubMenu theme with `theme` prop to enable different theme color e
 
 ```vue
 <script setup lang="ts">
-import type { MenuItemType } from 'antdv-next'
-import { MailOutlined } from '@antdv-next/icons'
-import { computed, ref } from 'vue'
+import type { MenuItemType } from 'antdv-next';
+import { MailOutlined } from '@antdv-next/icons';
+import { computed, ref } from 'vue';
 
-const menuTheme = ref<'dark' | 'light'>('light')
-const current = ref('1')
+const menuTheme = ref<'dark' | 'light'>('light');
+const current = ref('1');
 
 function changeTheme(value: boolean) {
-  menuTheme.value = value ? 'dark' : 'light'
+  menuTheme.value = value ? 'dark' : 'light';
 }
 
 function onClick(e: any) {
-  current.value = e.key
+  current.value = e.key;
 }
 
 const items = computed<MenuItemType[]>(() => [
@@ -37,7 +37,7 @@ const items = computed<MenuItemType[]>(() => [
   },
   { key: '5', label: 'Option 5' },
   { key: '6', label: 'Option 6' },
-])
+]);
 </script>
 
 <template>
@@ -48,8 +48,8 @@ const items = computed<MenuItemType[]>(() => [
       un-checked-children="Light"
       @change="changeTheme"
     />
-    <br>
-    <br>
+    <br />
+    <br />
     <a-menu
       style="width: 256px"
       :open-keys="['sub1']"

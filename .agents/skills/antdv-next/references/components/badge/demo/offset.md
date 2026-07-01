@@ -7,8 +7,7 @@ Set offset of the badge dot, the format is `[left, top]`, which represents the o
 ## Source
 
 ```vue
-<script setup lang="ts">
-</script>
+<script setup lang="ts"></script>
 
 <template>
   <a-badge :count="5" :offset="[10, 10]">

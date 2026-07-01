@@ -8,24 +8,22 @@ Customize clear button
 
 ```vue
 <script setup lang="ts">
-import { CloseSquareFilled } from '@antdv-next/icons'
-import { h, ref } from 'vue'
+import { CloseSquareFilled } from '@antdv-next/icons';
+import { h, ref } from 'vue';
 
-const options = ref<{ value: string }[]>([])
+const options = ref<{ value: string }[]>([]);
 
-const mockVal = (str: string, repeat = 1) => ({ value: str.repeat(repeat) })
+const mockVal = (str: string, repeat = 1) => ({ value: str.repeat(repeat) });
 
 function getPanelValue(searchText: string) {
-  return searchText
-    ? [mockVal(searchText), mockVal(searchText, 2), mockVal(searchText, 3)]
-    : []
+  return searchText ? [mockVal(searchText), mockVal(searchText, 2), mockVal(searchText, 3)] : [];
 }
 
 function handleSearch(text: string) {
-  options.value = getPanelValue(text)
+  options.value = getPanelValue(text);
 }
 
-const clearIcon = h(CloseSquareFilled)
+const clearIcon = h(CloseSquareFilled);
 </script>
 
 <template>

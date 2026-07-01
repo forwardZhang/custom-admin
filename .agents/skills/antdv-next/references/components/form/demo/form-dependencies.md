@@ -8,35 +8,35 @@ Validate fields based on other field values.
 
 ```vue
 <script setup lang="ts">
-import type { FormInstance } from 'antdv-next'
-import { reactive, shallowRef, watch } from 'vue'
+import type { FormInstance } from 'antdv-next';
+import { reactive, shallowRef, watch } from 'vue';
 
-const formRef = shallowRef<FormInstance>()
+const formRef = shallowRef<FormInstance>();
 const model = reactive({
   password: '',
   password2: '',
-})
+});
 
 watch(
   () => model.password,
   () => {
     if (model.password2) {
-      formRef.value?.validateFields?.(['password2'])
+      formRef.value?.validateFields?.(['password2']);
     }
   },
-)
+);
 
 const confirmRules = [
   { required: true },
   {
     validator: async (_rule: any, value: string) => {
       if (!value || value === model.password) {
-        return Promise.resolve()
+        return Promise.resolve();
       }
-      return Promise.reject(new Error('The new password that you entered do not match!'))
+      return Promise.reject(new Error('The new password that you entered do not match!'));
     },
   },
-]
+];
 </script>
 
 <template>
@@ -59,9 +59,7 @@ const confirmRules = [
     </a-form-item>
 
     <a-typography>
-      <p>
-        Only update when <code>password2</code> changed:
-      </p>
+      <p>Only update when <code>password2</code> changed:</p>
       <pre>{{ JSON.stringify(model, null, 2) }}</pre>
     </a-typography>
   </a-form>

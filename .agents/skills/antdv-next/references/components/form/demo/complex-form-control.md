@@ -8,7 +8,7 @@ Combine multiple controls in one line.
 
 ```vue
 <script setup lang="ts">
-import { reactive } from 'vue'
+import { reactive } from 'vue';
 
 const model = reactive({
   username: '',
@@ -18,15 +18,15 @@ const model = reactive({
   },
   year: '',
   month: '',
-})
+});
 
 const provinceOptions = [
   { label: 'Zhejiang', value: 'Zhejiang' },
   { label: 'Jiangsu', value: 'Jiangsu' },
-]
+];
 
 function handleFinish(values: any) {
-  console.log('Received values of form: ', values)
+  console.log('Received values of form: ', values);
 }
 </script>
 
@@ -49,9 +49,7 @@ function handleFinish(values: any) {
           <a-input v-model:value="model.username" style="width: 160px" placeholder="Please input" />
         </a-form-item>
         <a-tooltip title="Useful information">
-          <a-typography-link href="#API">
-            Need Help?
-          </a-typography-link>
+          <a-typography-link href="#API"> Need Help? </a-typography-link>
         </a-tooltip>
       </a-space>
     </a-form-item>
@@ -63,14 +61,22 @@ function handleFinish(values: any) {
           no-style
           :rules="[{ required: true, message: 'Province is required' }]"
         >
-          <a-select v-model:value="model.address.province" placeholder="Select province" :options="provinceOptions" />
+          <a-select
+            v-model:value="model.address.province"
+            placeholder="Select province"
+            :options="provinceOptions"
+          />
         </a-form-item>
         <a-form-item
           :name="['address', 'street']"
           no-style
           :rules="[{ required: true, message: 'Street is required' }]"
         >
-          <a-input v-model:value="model.address.street" style="width: 50%" placeholder="Input street" />
+          <a-input
+            v-model:value="model.address.street"
+            style="width: 50%"
+            placeholder="Input street"
+          />
         </a-form-item>
       </a-space-compact>
     </a-form-item>
@@ -93,9 +99,7 @@ function handleFinish(values: any) {
     </a-form-item>
 
     <a-form-item :label="null">
-      <a-button type="primary" html-type="submit">
-        Submit
-      </a-button>
+      <a-button type="primary" html-type="submit"> Submit </a-button>
     </a-form-item>
   </a-form>
 </template>

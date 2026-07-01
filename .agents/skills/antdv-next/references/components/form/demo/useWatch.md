@@ -8,24 +8,24 @@ Watch form values with Vue reactivity.
 
 ```vue
 <script setup lang="ts">
-import { computed, reactive, watch } from 'vue'
+import { computed, reactive, watch } from 'vue';
 
 const model = reactive({
   username: 'Antdv Next',
   age: 18,
-})
+});
 
 const watched = computed(() => ({
   username: model.username,
   age: model.age,
-}))
+}));
 
 watch(
   () => ({ ...model }),
   (val) => {
-    console.log('form values changed:', val)
+    console.log('form values changed:', val);
   },
-)
+);
 </script>
 
 <template>

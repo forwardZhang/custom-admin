@@ -8,8 +8,8 @@ Alternate timeline.
 
 ```vue
 <script setup lang="ts">
-import { ClockCircleOutlined } from '@antdv-next/icons'
-import { h } from 'vue'
+import { ClockCircleOutlined } from '@antdv-next/icons';
+import { h } from 'vue';
 
 const items = [
   {
@@ -34,7 +34,7 @@ const items = [
     icon: () => h(ClockCircleOutlined, { style: { fontSize: '16px' } }),
     content: 'Technical testing 2015-09-01',
   },
-]
+];
 </script>
 
 <template>

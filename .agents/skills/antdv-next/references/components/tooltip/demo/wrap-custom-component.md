@@ -8,15 +8,16 @@ Use with a custom component.
 
 ```vue
 <script setup lang="ts">
-import { defineComponent, h } from 'vue'
+import { defineComponent, h } from 'vue';
 
 const ComponentWithEvents = defineComponent({
   name: 'ComponentWithEvents',
   inheritAttrs: false,
   setup(_, { attrs }) {
-    return () => h('span', { ...attrs }, 'This text is inside a component with the necessary events exposed.')
+    return () =>
+      h('span', { ...attrs }, 'This text is inside a component with the necessary events exposed.');
   },
-})
+});
 </script>
 
 <template>

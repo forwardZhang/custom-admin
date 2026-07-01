@@ -8,7 +8,7 @@ The most basic step bar. Use the `variant` property to set different styles and 
 
 ```vue
 <script lang="ts" setup>
-const content = 'This is a content.'
+const content = 'This is a content.';
 const items = [
   {
     title: 'Finished',
@@ -23,7 +23,7 @@ const items = [
     title: 'Waiting',
     content,
   },
-]
+];
 </script>
 
 <template>

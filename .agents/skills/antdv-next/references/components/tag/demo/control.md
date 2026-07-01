@@ -8,59 +8,59 @@ Generating a set of Tags by array, you can add and remove dynamically.
 
 ```vue
 <script setup lang="ts">
-import type { CSSProperties } from 'vue'
-import { PlusOutlined } from '@antdv-next/icons'
-import { theme } from 'antdv-next'
-import { ref, watch } from 'vue'
+import type { CSSProperties } from 'vue';
+import { PlusOutlined } from '@antdv-next/icons';
+import { theme } from 'antdv-next';
+import { ref, watch } from 'vue';
 
 const tagInputStyle: CSSProperties = {
   width: '64px',
   height: '22px',
   marginInlineEnd: '8px',
   verticalAlign: 'top',
-}
-const { token } = theme.useToken()
-const tags = ref<string[]>(['Unremovable', 'Tag 2', 'Tag 3'])
-const inputVisible = ref(false)
-const inputValue = ref('')
-const editInputIndex = ref(-1)
-const editInputValue = ref('')
-const inputRef = ref()
-const editInputRef = ref()
+};
+const { token } = theme.useToken();
+const tags = ref<string[]>(['Unremovable', 'Tag 2', 'Tag 3']);
+const inputVisible = ref(false);
+const inputValue = ref('');
+const editInputIndex = ref(-1);
+const editInputValue = ref('');
+const inputRef = ref();
+const editInputRef = ref();
 
 watch(inputVisible, (val: boolean) => {
   if (val) {
-    inputRef.value?.$el?.focus()
+    inputRef.value?.$el?.focus();
   }
-})
+});
 watch(editInputIndex, () => {
-  editInputRef.value?.$el?.focus()
-})
+  editInputRef.value?.$el?.focus();
+});
 function handleClose(removedTag: string) {
-  tags.value = tags.value.filter(tag => tag !== removedTag)
+  tags.value = tags.value.filter((tag) => tag !== removedTag);
 }
 function showInput() {
-  inputVisible.value = true
+  inputVisible.value = true;
 }
 function handleInputConfirm() {
   if (inputValue.value && !tags.value.includes(inputValue.value)) {
-    tags.value = [...tags.value, inputValue.value]
+    tags.value = [...tags.value, inputValue.value];
   }
-  inputVisible.value = false
-  inputValue.value = ''
+  inputVisible.value = false;
+  inputValue.value = '';
 }
 function handleEditInputConfirm() {
-  const newTags = [...tags.value]
-  newTags[editInputIndex.value] = editInputValue.value
-  tags.value = newTags
-  editInputIndex.value = -1
-  editInputValue.value = ''
+  const newTags = [...tags.value];
+  newTags[editInputIndex.value] = editInputValue.value;
+  tags.value = newTags;
+  editInputIndex.value = -1;
+  editInputValue.value = '';
 }
 const tagPlusStyle: CSSProperties = {
   height: '22px',
   background: token.value?.colorBgContainer,
   borderStyle: 'dashed',
-}
+};
 </script>
 
 <template>
@@ -79,30 +79,46 @@ const tagPlusStyle: CSSProperties = {
       </template>
       <template v-if="tag.length > 20">
         <a-tooltip :key="tag" :title="tag">
-          <a-tag :key="tag" :closable="index !== 0" style="user-select: none;" @close="handleClose(tag)">
+          <a-tag
+            :key="tag"
+            :closable="index !== 0"
+            style="user-select: none;"
+            @close="handleClose(tag)"
+          >
             <span
-              @doubleClick="(e: MouseEvent) => {
-                if (index !== 0) {
-                  editInputIndex = index
-                  editInputValue = tag
-                  e.preventDefault()
+              @doubleClick="
+                (e: MouseEvent) => {
+                  if (index !== 0) {
+                    editInputIndex = index;
+                    editInputValue = tag;
+                    e.preventDefault();
+                  }
                 }
-              }"
-            >{{ `${tag.slice(0, 20)}...` }}</span>
+              "
+              >{{ `${tag.slice(0, 20)}...` }}</span
+            >
           </a-tag>
         </a-tooltip>
       </template>
       <template v-else>
-        <a-tag :key="tag" :closable="index !== 0" style="user-select: none;" @close="handleClose(tag)">
+        <a-tag
+          :key="tag"
+          :closable="index !== 0"
+          style="user-select: none;"
+          @close="handleClose(tag)"
+        >
           <span
-            @doubleClick="(e: MouseEvent) => {
-              if (index !== 0) {
-                editInputIndex = index
-                editInputValue = tag
-                e.preventDefault()
+            @doubleClick="
+              (e: MouseEvent) => {
+                if (index !== 0) {
+                  editInputIndex = index;
+                  editInputValue = tag;
+                  e.preventDefault();
+                }
               }
-            }"
-          >{{ tag }}</span>
+            "
+            >{{ tag }}</span
+          >
         </a-tag>
       </template>
     </template>
@@ -110,7 +126,8 @@ const tagPlusStyle: CSSProperties = {
       <a-input
         ref="inputRef"
         v-model:value="inputValue"
-        type="text" size="small"
+        type="text"
+        size="small"
         :style="tagInputStyle"
         @blur="handleInputConfirm"
         @press.enter="handleInputConfirm"

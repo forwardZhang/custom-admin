@@ -101,13 +101,11 @@ Recommended locale naming:
 Place demo files in a sibling `demo/` directory and reference them like this:
 
 ```md
-
 ## Demos
 
-| Demo | Path |
-| --- | --- |
+| Demo          | Path          |
+| ------------- | ------------- |
 | Basic example | demo/basic.md |
-
 ```
 
 The docs pipeline will automatically:

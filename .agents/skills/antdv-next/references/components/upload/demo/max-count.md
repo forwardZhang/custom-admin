@@ -8,7 +8,7 @@ Limit files with `maxCount`. Will replace current one when `maxCount` is `1`.
 
 ```vue
 <script setup lang="ts">
-import { UploadOutlined } from '@antdv-next/icons'
+import { UploadOutlined } from '@antdv-next/icons';
 </script>
 
 <template>

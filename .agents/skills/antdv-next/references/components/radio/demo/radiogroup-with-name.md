@@ -8,16 +8,16 @@ Passing the `name` property to all `input[type="radio"]` that are in the same Ra
 
 ```vue
 <script setup lang="ts">
-import type { CheckboxOptionType } from 'antdv-next'
-import { shallowRef } from 'vue'
+import type { CheckboxOptionType } from 'antdv-next';
+import { shallowRef } from 'vue';
 
 const options: CheckboxOptionType[] = [
   { label: 'A', value: 1 },
   { label: 'B', value: 2 },
   { label: 'C', value: 3 },
   { label: 'D', value: 4 },
-]
-const val = shallowRef(1)
+];
+const val = shallowRef(1);
 </script>
 
 <template>

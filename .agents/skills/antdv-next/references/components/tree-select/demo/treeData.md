@@ -8,8 +8,8 @@ The tree structure can be populated using `treeData` property. This is a quick a
 
 ```vue
 <script setup lang="ts">
-import type { TreeSelectEmits } from 'antdv-next'
-import { ref } from 'vue'
+import type { TreeSelectEmits } from 'antdv-next';
+import { ref } from 'vue';
 
 const treeData = [
   {
@@ -30,13 +30,13 @@ const treeData = [
     title: 'Node2',
     value: '0-1',
   },
-]
+];
 
-const value = ref<string>()
+const value = ref<string>();
 
 const onChange: TreeSelectEmits['change'] = (newValue) => {
-  console.log(newValue)
-}
+  console.log(newValue);
+};
 </script>
 
 <template>

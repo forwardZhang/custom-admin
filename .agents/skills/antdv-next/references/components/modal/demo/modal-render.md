@@ -8,19 +8,17 @@ Custom modal content render. You can integrate drag libraries if needed.
 
 ```vue
 <script setup lang="ts">
-import { h, ref } from 'vue'
+import { h, ref } from 'vue';
 
-const open = ref(false)
+const open = ref(false);
 
 function renderModal(node: any) {
-  return h('div', { class: 'modal-render-wrapper' }, [node])
+  return h('div', { class: 'modal-render-wrapper' }, [node]);
 }
 </script>
 
 <template>
-  <a-button type="primary" @click="open = true">
-    Open Custom Render Modal
-  </a-button>
+  <a-button type="primary" @click="open = true"> Open Custom Render Modal </a-button>
   <a-modal
     v-model:open="open"
     title="Custom Render Modal"
@@ -29,7 +27,7 @@ function renderModal(node: any) {
     @cancel="open = false"
   >
     <p>Just don't learn physics at school and your life will be full of magic and miracles.</p>
-    <br>
+    <br />
     <p>Day before yesterday I saw a rabbit, and yesterday a deer, and today, you.</p>
   </a-modal>
 </template>

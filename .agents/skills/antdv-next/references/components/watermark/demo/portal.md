@@ -8,11 +8,11 @@ Use in Modal and Drawer.
 
 ```vue
 <script setup lang="ts">
-import { shallowRef } from 'vue'
+import { shallowRef } from 'vue';
 
-const showModal = shallowRef(false)
-const showDrawer = shallowRef(false)
-const showDrawer2 = shallowRef(false)
+const showModal = shallowRef(false);
+const showDrawer = shallowRef(false);
+const showDrawer2 = shallowRef(false);
 
 const placeholderStyle = {
   height: '300px',
@@ -20,20 +20,14 @@ const placeholderStyle = {
   justifyContent: 'center',
   alignItems: 'center',
   backgroundColor: 'rgba(150, 150, 150, 0.2)',
-}
+};
 </script>
 
 <template>
   <a-flex gap="middle">
-    <a-button type="primary" @click="showModal = true">
-      Show in Modal
-    </a-button>
-    <a-button type="primary" @click="showDrawer = true">
-      Show in Drawer
-    </a-button>
-    <a-button type="primary" @click="showDrawer2 = true">
-      Not Show in Drawer
-    </a-button>
+    <a-button type="primary" @click="showModal = true"> Show in Modal </a-button>
+    <a-button type="primary" @click="showDrawer = true"> Show in Drawer </a-button>
+    <a-button type="primary" @click="showDrawer2 = true"> Not Show in Drawer </a-button>
   </a-flex>
   <a-watermark content="Antdv Next">
     <a-modal
@@ -43,9 +37,7 @@ const placeholderStyle = {
       @ok="showModal = false"
       @cancel="showModal = false"
     >
-      <div :style="placeholderStyle">
-        A mock height
-      </div>
+      <div :style="placeholderStyle">A mock height</div>
     </a-modal>
     <a-drawer
       v-model:open="showDrawer"
@@ -53,9 +45,7 @@ const placeholderStyle = {
       title="Drawer"
       @close="showDrawer = false"
     >
-      <div :style="placeholderStyle">
-        A mock height
-      </div>
+      <div :style="placeholderStyle">A mock height</div>
     </a-drawer>
   </a-watermark>
   <a-watermark content="Antdv Next" :inherit="false">
@@ -65,9 +55,7 @@ const placeholderStyle = {
       title="Drawer"
       @close="showDrawer2 = false"
     >
-      <div :style="placeholderStyle">
-        A mock height
-      </div>
+      <div :style="placeholderStyle">A mock height</div>
     </a-drawer>
   </a-watermark>
 </template>

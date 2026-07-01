@@ -12,22 +12,22 @@ Top-bottom structure is conformed with the top-bottom viewing habit, it's a clas
 
 ```vue
 <script setup lang="ts">
-import type { BreadcrumbItemType, MenuItemType } from 'antdv-next'
-import { theme } from 'antdv-next'
+import type { BreadcrumbItemType, MenuItemType } from 'antdv-next';
+import { theme } from 'antdv-next';
 
-const { token } = theme.useToken()
-const year = new Date().getFullYear()
+const { token } = theme.useToken();
+const year = new Date().getFullYear();
 
 const items: MenuItemType[] = Array.from({ length: 15 }).map((_, index) => ({
   key: String(index + 1),
   label: `nav ${index + 1}`,
-}))
+}));
 
 const breadcrumbItems: BreadcrumbItemType[] = [
   { title: 'Home' },
   { title: 'List' },
   { title: 'App' },
-]
+];
 </script>
 
 <template>

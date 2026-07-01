@@ -8,14 +8,14 @@ An event will be triggered when you click menu items, in which you can make diff
 
 ```vue
 <script setup lang="ts">
-import type { MenuItemType } from 'antdv-next'
-import { DownOutlined } from '@antdv-next/icons'
-import { message } from 'antdv-next'
+import type { MenuItemType } from 'antdv-next';
+import { DownOutlined } from '@antdv-next/icons';
+import { message } from 'antdv-next';
 
-const [messageApi, ContextHolder] = message.useMessage()
+const [messageApi, ContextHolder] = message.useMessage();
 
 function onClick({ key }: any) {
-  messageApi.info(`Click on item ${key}`)
+  messageApi.info(`Click on item ${key}`);
 }
 
 const items: MenuItemType[] = [
@@ -31,7 +31,7 @@ const items: MenuItemType[] = [
     label: '3rd menu item',
     key: '3',
   },
-]
+];
 </script>
 
 <template>

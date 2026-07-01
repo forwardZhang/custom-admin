@@ -5,6 +5,8 @@ import { defineConfig } from 'vite';
 import vue from '@vitejs/plugin-vue';
 import vueJsx from '@vitejs/plugin-vue-jsx';
 import tailwindcss from '@tailwindcss/vite';
+import Components from 'unplugin-vue-components/vite';
+import { AntdvNextResolver } from '@antdv-next/auto-import-resolver';
 
 import { createMockMiddleware } from './mock/server.ts';
 
@@ -18,7 +20,16 @@ const mockPlugin: Plugin = {
 };
 
 export default defineConfig({
-  plugins: [vue(), vueJsx(), tailwindcss(), mockPlugin],
+  plugins: [
+    vue(),
+    vueJsx(),
+    tailwindcss(),
+    Components({
+      resolvers: [AntdvNextResolver()],
+      dts: 'src/components.d.ts',
+    }),
+    mockPlugin,
+  ],
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url)),

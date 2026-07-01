@@ -8,14 +8,14 @@ Nested inside a container element for rendering in limited space.
 
 ```vue
 <script setup lang="ts">
-import type { CalendarProps } from 'antdv-next'
-import type { Dayjs } from 'dayjs'
-import { theme } from 'antdv-next'
+import type { CalendarProps } from 'antdv-next';
+import type { Dayjs } from 'dayjs';
+import { theme } from 'antdv-next';
 
-const { token } = theme.useToken()
+const { token } = theme.useToken();
 
 function onPanelChange(value: Dayjs, mode: CalendarProps<Dayjs>['mode']) {
-  console.log(value.format('YYYY-MM-DD'), mode)
+  console.log(value.format('YYYY-MM-DD'), mode);
 }
 </script>
 

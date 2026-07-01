@@ -8,18 +8,18 @@ A notification box with a icon at the left side.
 
 ```vue
 <script setup lang="ts">
-import { notification } from 'antdv-next'
+import { notification } from 'antdv-next';
 
-const [api, ContextHolder] = notification.useNotification()
+const [api, ContextHolder] = notification.useNotification();
 
-type NotificationType = 'success' | 'info' | 'warning' | 'error'
+type NotificationType = 'success' | 'info' | 'warning' | 'error';
 
 function openNotificationWithIcon(type: NotificationType) {
   api[type]({
     title: 'Notification Title',
     description:
       'This is the content of the notification. This is the content of the notification. This is the content of the notification.',
-  })
+  });
 }
 </script>
 

@@ -21,7 +21,7 @@ Use these variables through `theme.components.Anchor`. This document lists defin
 
 ## Token List
 
-| Token | Type | Description |
-| --- | --- | --- |
-| `linkPaddingBlock` | `number` | Vertical padding of link |
+| Token                    | Type     | Description                |
+| ------------------------ | -------- | -------------------------- |
+| `linkPaddingBlock`       | `number` | Vertical padding of link   |
 | `linkPaddingInlineStart` | `number` | Horizontal padding of link |

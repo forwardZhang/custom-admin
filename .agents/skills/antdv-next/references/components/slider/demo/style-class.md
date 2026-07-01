@@ -6,15 +6,15 @@
 
 ```vue
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref } from 'vue';
 
-const value = ref(30)
-const valueVertical = ref(30)
+const value = ref(30);
+const valueVertical = ref(30);
 
 const stylesObject = {
   track: { backgroundImage: 'linear-gradient(180deg, #91caff, #1677ff)' },
   handle: { borderColor: '#1677ff', boxShadow: '0 2px 8px #1677ff' },
-}
+};
 
 function stylesFn(info: any) {
   if (info.props.orientation === 'vertical') {
@@ -22,9 +22,9 @@ function stylesFn(info: any) {
       root: { height: '300px' },
       track: { backgroundImage: 'linear-gradient(180deg, #722cc0, #722ed1)' },
       handle: { borderColor: '#722ed1', boxShadow: '0 2px 8px #722ed1' },
-    }
+    };
   }
-  return {}
+  return {};
 }
 </script>
 

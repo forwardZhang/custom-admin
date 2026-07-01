@@ -8,54 +8,53 @@ Search with remote data.
 
 ```vue
 <script setup lang="ts">
-import { shallowRef } from 'vue'
+import { shallowRef } from 'vue';
 
 interface OptionItem {
-  value: string
-  label: string
+  value: string;
+  label: string;
 }
 
-let timeout: ReturnType<typeof setTimeout> | null = null
-let currentValue = ''
+let timeout: ReturnType<typeof setTimeout> | null = null;
+let currentValue = '';
 
-const data = shallowRef<OptionItem[]>([])
-const value = shallowRef<string>()
+const data = shallowRef<OptionItem[]>([]);
+const value = shallowRef<string>();
 
 function fetchData(val: string, callback: (data: OptionItem[]) => void) {
   if (timeout) {
-    clearTimeout(timeout)
-    timeout = null
+    clearTimeout(timeout);
+    timeout = null;
   }
-  currentValue = val
+  currentValue = val;
 
-  const params = new URLSearchParams({ code: 'utf-8', q: val })
+  const params = new URLSearchParams({ code: 'utf-8', q: val });
 
   const fake = () => {
     fetch(`https://suggest.taobao.com/sug?${params.toString()}`)
-      .then(response => response.json())
+      .then((response) => response.json())
       .then(({ result }) => {
         if (currentValue === val) {
           const options = result.map((item: string[]) => ({
             value: item[0],
             label: item[0],
-          }))
-          callback(options)
+          }));
+          callback(options);
         }
-      })
-  }
+      });
+  };
 
   if (val) {
-    timeout = setTimeout(fake, 300)
-  }
-  else {
-    callback([])
+    timeout = setTimeout(fake, 300);
+  } else {
+    callback([]);
   }
 }
 
 function handleSearch(val: string) {
   fetchData(val, (options) => {
-    data.value = options
-  })
+    data.value = options;
+  });
 }
 </script>
 

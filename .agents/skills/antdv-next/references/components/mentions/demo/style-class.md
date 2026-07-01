@@ -6,18 +6,18 @@
 
 ```vue
 <script setup lang="ts">
-import type { MentionsProps } from 'antdv-next'
+import type { MentionsProps } from 'antdv-next';
 
 const options: MentionsProps['options'] = [
   { value: 'afc163', label: 'afc163' },
   { value: 'zombieJ', label: 'zombieJ' },
   { value: 'meet-student', label: 'meet-student' },
   { value: 'thinkasany', label: 'thinkasany' },
-]
+];
 
 const classes: MentionsProps['classes'] = {
   root: 'mentions-demo-root',
-}
+};
 
 const stylesObject: MentionsProps['styles'] = {
   textarea: {
@@ -25,7 +25,7 @@ const stylesObject: MentionsProps['styles'] = {
     resize: 'vertical',
     fontWeight: 200,
   },
-}
+};
 
 const stylesFn: MentionsProps['styles'] = ({ props }) => {
   if (props.variant === 'filled') {
@@ -36,10 +36,10 @@ const stylesFn: MentionsProps['styles'] = ({ props }) => {
       popup: {
         border: '1px solid #722ed1',
       },
-    }
+    };
   }
-  return {}
-}
+  return {};
+};
 </script>
 
 <template>

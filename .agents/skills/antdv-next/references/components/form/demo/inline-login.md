@@ -8,29 +8,35 @@ Inline login form.
 
 ```vue
 <script setup lang="ts">
-import { LockOutlined, UserOutlined } from '@antdv-next/icons'
-import { reactive } from 'vue'
+import { LockOutlined, UserOutlined } from '@antdv-next/icons';
+import { reactive } from 'vue';
 
 const model = reactive({
   username: '',
   password: '',
-})
+});
 
 function handleFinish(values: any) {
-  console.log('Finish:', values)
+  console.log('Finish:', values);
 }
 </script>
 
 <template>
   <a-form name="horizontal_login" layout="inline" :model="model" @finish="handleFinish">
-    <a-form-item name="username" :rules="[{ required: true, message: 'Please input your username!' }]">
+    <a-form-item
+      name="username"
+      :rules="[{ required: true, message: 'Please input your username!' }]"
+    >
       <a-input v-model:value="model.username" placeholder="Username">
         <template #prefix>
           <UserOutlined />
         </template>
       </a-input>
     </a-form-item>
-    <a-form-item name="password" :rules="[{ required: true, message: 'Please input your password!' }]">
+    <a-form-item
+      name="password"
+      :rules="[{ required: true, message: 'Please input your password!' }]"
+    >
       <a-input v-model:value="model.password" type="password" placeholder="Password">
         <template #prefix>
           <LockOutlined />
@@ -38,9 +44,7 @@ function handleFinish(values: any) {
       </a-input>
     </a-form-item>
     <a-form-item>
-      <a-button type="primary" html-type="submit">
-        Log in
-      </a-button>
+      <a-button type="primary" html-type="submit"> Log in </a-button>
     </a-form-item>
   </a-form>
 </template>

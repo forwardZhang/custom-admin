@@ -8,52 +8,52 @@ A complete multiple select sample with remote search, debounce fetch, ajax callb
 
 ```vue
 <script setup lang="ts">
-import { debounce } from 'es-toolkit'
-import { shallowRef } from 'vue'
+import { debounce } from 'es-toolkit';
+import { shallowRef } from 'vue';
 
 interface UserValue {
-  label: string
-  value: string
-  avatar?: string
+  label: string;
+  value: string;
+  avatar?: string;
 }
 
-const value = shallowRef<UserValue[]>([])
-const options = shallowRef<UserValue[]>([])
-const fetching = shallowRef(false)
+const value = shallowRef<UserValue[]>([]);
+const options = shallowRef<UserValue[]>([]);
+const fetching = shallowRef(false);
 
-let fetchId = 0
+let fetchId = 0;
 
 async function fetchUserList(username: string): Promise<UserValue[]> {
-  console.log('fetching user', username)
+  console.log('fetching user', username);
   return fetch(`https://660d2bd96ddfa2943b33731c.mockapi.io/api/users/?search=${username}`)
-    .then(res => res.json())
+    .then((res) => res.json())
     .then((res) => {
-      const results = Array.isArray(res) ? res : []
-      return results.map((user: { name: string, id: string, avatar: string }) => ({
+      const results = Array.isArray(res) ? res : [];
+      return results.map((user: { name: string; id: string; avatar: string }) => ({
         label: user.name,
         value: user.id,
         avatar: user.avatar,
-      }))
-    })
+      }));
+    });
 }
 
 const debounceFetcher = debounce((val: string) => {
-  fetchId += 1
-  const currentFetchId = fetchId
-  options.value = []
-  fetching.value = true
+  fetchId += 1;
+  const currentFetchId = fetchId;
+  options.value = [];
+  fetching.value = true;
 
   fetchUserList(val).then((newOptions) => {
     if (currentFetchId !== fetchId) {
-      return
+      return;
     }
-    options.value = newOptions
-    fetching.value = false
-  })
-}, 300)
+    options.value = newOptions;
+    fetching.value = false;
+  });
+}, 300);
 
 function handleSearch(val: string) {
-  debounceFetcher(val)
+  debounceFetcher(val);
 }
 </script>
 

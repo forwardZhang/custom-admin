@@ -15,9 +15,7 @@ The most basic example. The size of the floating layer depends on the contents r
         <p>Content</p>
       </div>
     </template>
-    <a-button type="primary">
-      Hover me
-    </a-button>
+    <a-button type="primary"> Hover me </a-button>
   </a-popover>
 </template>
 

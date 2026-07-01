@@ -8,31 +8,27 @@ Use warningOnly rules without blocking submit.
 
 ```vue
 <script setup lang="ts">
-import type { FormInstance } from 'antdv-next'
-import { message } from 'antdv-next'
-import { reactive, shallowRef } from 'vue'
+import type { FormInstance } from 'antdv-next';
+import { message } from 'antdv-next';
+import { reactive, shallowRef } from 'vue';
 
-const formRef = shallowRef<FormInstance>()
+const formRef = shallowRef<FormInstance>();
 const model = reactive({
   url: '',
-})
+});
 
-const rules = [
-  { required: true },
-  { type: 'url', warningOnly: true },
-  { type: 'string', min: 6 },
-]
+const rules = [{ required: true }, { type: 'url', warningOnly: true }, { type: 'string', min: 6 }];
 
 function handleFinish() {
-  message.success('Submit success!')
+  message.success('Submit success!');
 }
 
 function handleFinishFailed() {
-  message.error('Submit failed!')
+  message.error('Submit failed!');
 }
 
 function handleFill() {
-  formRef.value?.setFieldsValue?.({ url: 'https://taobao.com/' })
+  formRef.value?.setFieldsValue?.({ url: 'https://taobao.com/' });
 }
 </script>
 
@@ -49,12 +45,8 @@ function handleFill() {
     </a-form-item>
     <a-form-item :label="null">
       <a-space>
-        <a-button type="primary" html-type="submit">
-          Submit
-        </a-button>
-        <a-button html-type="button" @click="handleFill">
-          Fill
-        </a-button>
+        <a-button type="primary" html-type="submit"> Submit </a-button>
+        <a-button html-type="button" @click="handleFill"> Fill </a-button>
       </a-space>
     </a-form-item>
   </a-form>

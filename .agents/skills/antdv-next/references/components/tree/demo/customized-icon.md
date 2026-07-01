@@ -8,9 +8,15 @@ You can customize icons for different nodes.
 
 ```vue
 <script lang="ts" setup>
-import type { TreeDataNode } from 'antdv-next'
-import { DownOutlined, FrownFilled, FrownOutlined, MehOutlined, SmileOutlined } from '@antdv-next/icons'
-import { h, ref } from 'vue'
+import type { TreeDataNode } from 'antdv-next';
+import {
+  DownOutlined,
+  FrownFilled,
+  FrownOutlined,
+  MehOutlined,
+  SmileOutlined,
+} from '@antdv-next/icons';
+import { h, ref } from 'vue';
 
 const treeData: TreeDataNode[] = [
   {
@@ -30,8 +36,8 @@ const treeData: TreeDataNode[] = [
       },
     ],
   },
-]
-const selectedKeys = ref(['0-0-0'])
+];
+const selectedKeys = ref(['0-0-0']);
 </script>
 
 <template>

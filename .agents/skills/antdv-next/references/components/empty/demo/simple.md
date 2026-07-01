@@ -8,7 +8,7 @@ Choose built-in image.
 
 ```vue
 <script setup lang="ts">
-import { Empty } from 'antdv-next'
+import { Empty } from 'antdv-next';
 </script>
 
 <template>

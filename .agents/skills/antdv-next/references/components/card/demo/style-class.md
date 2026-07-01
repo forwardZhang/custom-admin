@@ -6,18 +6,18 @@
 
 ```vue
 <script setup lang="ts">
-import type { CardProps } from 'antdv-next'
-import { EditOutlined, HeartOutlined, ShareAltOutlined } from '@antdv-next/icons'
-import { theme } from 'antdv-next'
-import { computed } from 'vue'
+import type { CardProps } from 'antdv-next';
+import { EditOutlined, HeartOutlined, ShareAltOutlined } from '@antdv-next/icons';
+import { theme } from 'antdv-next';
+import { computed } from 'vue';
 
-const { token } = theme.useToken()
+const { token } = theme.useToken();
 
 const classes = computed(() => ({
   root: 'custom-card-root',
   header: 'custom-card-header',
   body: 'custom-card-body',
-}))
+}));
 
 const stylesCard = computed(() => ({
   root: {
@@ -28,7 +28,7 @@ const stylesCard = computed(() => ({
     fontSize: '16px',
     fontWeight: 500,
   },
-}))
+}));
 
 const stylesCardFn = computed(() => {
   return (info: { props: CardProps }) => {
@@ -47,11 +47,11 @@ const stylesCardFn = computed(() => {
           fontWeight: 500,
           color: '#A7AAE1',
         },
-      }
+      };
     }
-    return {}
-  }
-})
+    return {};
+  };
+});
 
 const stylesCardMeta = {
   title: {
@@ -60,21 +60,14 @@ const stylesCardMeta = {
   description: {
     color: '#A7AAE1',
   },
-}
+};
 </script>
 
 <template>
   <a-flex gap="middle">
-    <a-card
-      title="Object Card"
-      :classes="classes"
-      :styles="stylesCard"
-      variant="borderless"
-    >
+    <a-card title="Object Card" :classes="classes" :styles="stylesCard" variant="borderless">
       <template #extra>
-        <a-button type="link">
-          More
-        </a-button>
+        <a-button type="link"> More </a-button>
       </template>
       <template #actions>
         <HeartOutlined key="heart" style="color: #ff6b6b" />
@@ -87,15 +80,9 @@ const stylesCardMeta = {
         </template>
       </a-card-meta>
     </a-card>
-    <a-card
-      title="Function Card"
-      :classes="classes"
-      :styles="stylesCardFn"
-    >
+    <a-card title="Function Card" :classes="classes" :styles="stylesCardFn">
       <template #extra>
-        <a-button type="link" :styles="{ root: { color: '#A7AAE1' } }">
-          More
-        </a-button>
+        <a-button type="link" :styles="{ root: { color: '#A7AAE1' } }"> More </a-button>
       </template>
       <template #actions>
         <HeartOutlined key="heart" style="color: #ff6b6b" />

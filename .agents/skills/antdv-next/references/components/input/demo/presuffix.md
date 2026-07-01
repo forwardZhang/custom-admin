@@ -8,7 +8,7 @@ Add a prefix or suffix icons inside input.
 
 ```vue
 <script setup lang="ts">
-import { InfoCircleOutlined, LockOutlined, UserOutlined } from '@antdv-next/icons'
+import { InfoCircleOutlined, LockOutlined, UserOutlined } from '@antdv-next/icons';
 </script>
 
 <template>
@@ -23,14 +23,14 @@ import { InfoCircleOutlined, LockOutlined, UserOutlined } from '@antdv-next/icon
         </a-tooltip>
       </template>
     </a-input>
-    <br>
-    <br>
+    <br />
+    <br />
     <a-input prefix="￥" suffix="RMB" />
-    <br>
-    <br>
+    <br />
+    <br />
     <a-input prefix="￥" suffix="RMB" disabled />
-    <br>
-    <br>
+    <br />
+    <br />
     <a-input-password placeholder="input password support suffix">
       <template #suffix>
         <LockOutlined />

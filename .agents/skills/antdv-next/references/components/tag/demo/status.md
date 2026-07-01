@@ -14,16 +14,16 @@ import {
   CloseCircleOutlined,
   ExclamationCircleOutlined,
   SyncOutlined,
-} from '@antdv-next/icons'
+} from '@antdv-next/icons';
 
-const variants = ['filled', 'solid', 'outlined'] as const
+const variants = ['filled', 'solid', 'outlined'] as const;
 const presets = [
   { status: 'success', icon: CheckCircleOutlined },
   { status: 'processing', icon: SyncOutlined },
   { status: 'warning', icon: ExclamationCircleOutlined },
   { status: 'error', icon: CloseCircleOutlined },
   { status: 'default', icon: ClockCircleOutlined },
-]
+];
 </script>
 
 <template>

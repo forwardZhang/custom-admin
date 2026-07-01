@@ -8,9 +8,9 @@ Multiple line ellipsis support. You can use `tooltip` to configure ellipsis tool
 
 ```vue
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref } from 'vue';
 
-const ellipsis = ref(true)
+const ellipsis = ref(true);
 </script>
 
 <template>
@@ -18,20 +18,22 @@ const ellipsis = ref(true)
 
   <a-typography-paragraph :ellipsis="ellipsis">
     Antdv Next, a design language for background applications, is refined by Ant UED Team. Ant
-    Design, a design language for background applications, is refined by Ant UED Team. Ant
-    Design, a design language for background applications, is refined by Ant UED Team. Ant
-    Design, a design language for background applications, is refined by Ant UED Team. Ant
-    Design, a design language for background applications, is refined by Ant UED Team. Ant
-    Design, a design language for background applications, is refined by Ant UED Team.
+    Design, a design language for background applications, is refined by Ant UED Team. Ant Design, a
+    design language for background applications, is refined by Ant UED Team. Ant Design, a design
+    language for background applications, is refined by Ant UED Team. Ant Design, a design language
+    for background applications, is refined by Ant UED Team. Ant Design, a design language for
+    background applications, is refined by Ant UED Team.
   </a-typography-paragraph>
 
-  <a-typography-paragraph :ellipsis="ellipsis ? { rows: 2, expandable: true, symbol: 'more' } : false">
+  <a-typography-paragraph
+    :ellipsis="ellipsis ? { rows: 2, expandable: true, symbol: 'more' } : false"
+  >
     Antdv Next, a design language for background applications, is refined by Ant UED Team. Ant
-    Design, a design language for background applications, is refined by Ant UED Team. Ant
-    Design, a design language for background applications, is refined by Ant UED Team. Ant
-    Design, a design language for background applications, is refined by Ant UED Team. Ant
-    Design, a design language for background applications, is refined by Ant UED Team. Ant
-    Design, a design language for background applications, is refined by Ant UED Team.
+    Design, a design language for background applications, is refined by Ant UED Team. Ant Design, a
+    design language for background applications, is refined by Ant UED Team. Ant Design, a design
+    language for background applications, is refined by Ant UED Team. Ant Design, a design language
+    for background applications, is refined by Ant UED Team. Ant Design, a design language for
+    background applications, is refined by Ant UED Team.
   </a-typography-paragraph>
 
   <a-typography-text

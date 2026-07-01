@@ -8,26 +8,23 @@ Hide arrow by `arrow`.
 
 ```vue
 <script setup lang="ts">
-import type { PopoverProps } from 'antdv-next'
-import { computed, h, shallowRef } from 'vue'
+import type { PopoverProps } from 'antdv-next';
+import { computed, h, shallowRef } from 'vue';
 
-const buttonWidth = shallowRef(80)
-const arrow = shallowRef<'Show' | 'Hide' | 'Center'>('Show')
+const buttonWidth = shallowRef(80);
+const arrow = shallowRef<'Show' | 'Hide' | 'Center'>('Show');
 const mergedArrow = computed<PopoverProps['arrow']>(() => {
   if (arrow.value === 'Hide') {
-    return false
+    return false;
   }
   if (arrow.value === 'Show') {
-    return true
+    return true;
   }
-  return { pointAtCenter: true }
-})
+  return { pointAtCenter: true };
+});
 
-const title = 'Title'
-const content = h('div', [
-  h('p', 'Content'),
-  h('p', 'Content'),
-])
+const title = 'Title';
+const content = h('div', [h('p', 'Content'), h('p', 'Content')]);
 </script>
 
 <template>
@@ -49,7 +46,11 @@ const content = h('div', [
           <a-button>TR</a-button>
         </a-popover>
       </a-flex>
-      <a-flex :style="{ width: `${buttonWidth * 5 + 32}px` }" justify="space-between" align="center">
+      <a-flex
+        :style="{ width: `${buttonWidth * 5 + 32}px` }"
+        justify="space-between"
+        align="center"
+      >
         <a-flex align="center" vertical>
           <a-popover placement="leftTop" :title="title" :content="content" :arrow="mergedArrow">
             <a-button>LT</a-button>

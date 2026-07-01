@@ -8,21 +8,21 @@
 
 ```vue
 <script setup lang="ts">
-import type { UploadEmits, UploadProps } from 'antdv-next'
-import { UploadOutlined } from '@antdv-next/icons'
-import { message, Upload } from 'antdv-next'
+import type { UploadEmits, UploadProps } from 'antdv-next';
+import { UploadOutlined } from '@antdv-next/icons';
+import { message, Upload } from 'antdv-next';
 
 const beforeUpload: UploadProps['beforeUpload'] = (file) => {
-  const isPng = file.type === 'image/png'
+  const isPng = file.type === 'image/png';
   if (!isPng) {
-    message.error(`${file.name} is not a png file`)
+    message.error(`${file.name} is not a png file`);
   }
-  return isPng || Upload.LIST_IGNORE
-}
+  return isPng || Upload.LIST_IGNORE;
+};
 
 const handleChange: UploadEmits['change'] = (info) => {
-  console.log(info.fileList)
-}
+  console.log(info.fileList);
+};
 </script>
 
 <template>

@@ -8,17 +8,17 @@ The `onChange` callback function will fire when the user changes the slider's va
 
 ```vue
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref } from 'vue';
 
-const value = ref(30)
-const valueRange = ref([20, 50])
+const value = ref(30);
+const valueRange = ref([20, 50]);
 
 function onChange(val: number | number[]) {
-  console.log('onChange: ', val)
+  console.log('onChange: ', val);
 }
 
 function onChangeComplete(val: number | number[]) {
-  console.log('onChangeComplete: ', val)
+  console.log('onChangeComplete: ', val);
 }
 </script>
 

@@ -8,9 +8,9 @@ Mini size pagination.
 
 ```vue
 <script setup lang="ts">
-import type { PaginationProps } from 'antdv-next'
+import type { PaginationProps } from 'antdv-next';
 
-const showTotal: PaginationProps['showTotal'] = total => `Total ${total} items`
+const showTotal: PaginationProps['showTotal'] = (total) => `Total ${total} items`;
 </script>
 
 <template>

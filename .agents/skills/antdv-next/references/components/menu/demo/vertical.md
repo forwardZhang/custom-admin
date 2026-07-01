@@ -8,11 +8,11 @@ Submenus open as pop-ups.
 
 ```vue
 <script setup lang="ts">
-import type { MenuItemType } from 'antdv-next'
-import { AppstoreOutlined, MailOutlined, SettingOutlined } from '@antdv-next/icons'
+import type { MenuItemType } from 'antdv-next';
+import { AppstoreOutlined, MailOutlined, SettingOutlined } from '@antdv-next/icons';
 
 function onClick(e: any) {
-  console.log('click', e)
+  console.log('click', e);
 }
 
 const items: MenuItemType[] = [
@@ -69,15 +69,10 @@ const items: MenuItemType[] = [
       { key: '12', label: 'Option 12' },
     ],
   },
-]
+];
 </script>
 
 <template>
-  <a-menu
-    style="width: 256px"
-    mode="vertical"
-    :items="items"
-    @click="onClick"
-  />
+  <a-menu style="width: 256px" mode="vertical" :items="items" @click="onClick" />
 </template>
 ```

@@ -1,15 +1,15 @@
-# _semantic
+# \_semantic
 
 ## Source
 
 ```vue
 <script setup lang="ts">
-import { computed } from 'vue'
-import { SemanticPreview } from '@/components/semantic'
-import { useComponentLocale } from '@/composables/use-locale'
-import { locales } from '../locales'
+import { computed } from 'vue';
+import { SemanticPreview } from '@/components/semantic';
+import { useComponentLocale } from '@/composables/use-locale';
+import { locales } from '../locales';
 
-const { t } = useComponentLocale(locales)
+const { t } = useComponentLocale(locales);
 
 const semantics = computed(() => [
   { name: 'root', desc: t('root'), version: '1.0.0' },
@@ -18,14 +18,11 @@ const semantics = computed(() => [
   { name: 'avatar', desc: t('avatar'), version: '1.0.0' },
   { name: 'title', desc: t('title'), version: '1.0.0' },
   { name: 'paragraph', desc: t('paragraph'), version: '1.0.0' },
-])
+]);
 </script>
 
 <template>
-  <SemanticPreview
-    component-name="Skeleton"
-    :semantics="semantics"
-  >
+  <SemanticPreview component-name="Skeleton" :semantics="semantics">
     <template #default="{ classes }">
       <a-skeleton avatar :paragraph="{ rows: 4 }" :classes="classes" />
     </template>

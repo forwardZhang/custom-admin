@@ -8,22 +8,22 @@ Search the options while expanded.
 
 ```vue
 <script setup lang="ts">
-import { shallowRef } from 'vue'
+import { shallowRef } from 'vue';
 
-const value = shallowRef<string>()
+const value = shallowRef<string>();
 
 const options = [
   { value: 'jack', label: 'Jack' },
   { value: 'lucy', label: 'Lucy' },
   { value: 'tom', label: 'Tom' },
-]
+];
 
 function onChange(val: string) {
-  console.log(`selected ${val}`)
+  console.log(`selected ${val}`);
 }
 
 function onSearch(val: string) {
-  console.log('search:', val)
+  console.log('search:', val);
 }
 </script>
 

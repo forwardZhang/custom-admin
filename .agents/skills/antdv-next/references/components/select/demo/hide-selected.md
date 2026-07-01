@@ -8,18 +8,18 @@ Hide already selected options in the dropdown.
 
 ```vue
 <script setup lang="ts">
-import { computed, shallowRef } from 'vue'
+import { computed, shallowRef } from 'vue';
 
-const OPTIONS = ['Apples', 'Nails', 'Bananas', 'Helicopters']
+const OPTIONS = ['Apples', 'Nails', 'Bananas', 'Helicopters'];
 
-const selectedItems = shallowRef<string[]>([])
+const selectedItems = shallowRef<string[]>([]);
 
 const filteredOptions = computed(() =>
-  OPTIONS.filter(o => !selectedItems.value.includes(o)).map(item => ({
+  OPTIONS.filter((o) => !selectedItems.value.includes(o)).map((item) => ({
     value: item,
     label: item,
   })),
-)
+);
 </script>
 
 <template>

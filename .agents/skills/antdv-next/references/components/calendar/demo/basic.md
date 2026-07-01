@@ -8,9 +8,9 @@ A basic calendar component with Year/Month switch.
 
 ```vue
 <script setup lang="ts">
-import { shallowRef } from 'vue'
+import { shallowRef } from 'vue';
 
-const value = shallowRef()
+const value = shallowRef();
 </script>
 
 <template>

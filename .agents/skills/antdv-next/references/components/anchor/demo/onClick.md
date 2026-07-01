@@ -8,12 +8,15 @@ Clicking on an anchor does not record history.
 
 ```vue
 <script setup lang="ts">
-function handleClick(e: MouseEvent, link: {
-  title: any
-  href: string
-}) {
-  e.preventDefault()
-  console.log(link)
+function handleClick(
+  e: MouseEvent,
+  link: {
+    title: any;
+    href: string;
+  },
+) {
+  e.preventDefault();
+  console.log(link);
 }
 </script>
 

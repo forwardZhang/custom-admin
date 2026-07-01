@@ -21,6 +21,6 @@ Use these variables through `theme.components.Popconfirm`. This document lists d
 
 ## Token List
 
-| Token | Type | Description |
-| --- | --- | --- |
+| Token         | Type     | Description           |
+| ------------- | -------- | --------------------- |
 | `zIndexPopup` | `number` | z-index of Popconfirm |

@@ -8,9 +8,9 @@ Basic Usage.
 
 ```vue
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref } from 'vue';
 
-const text = ref('https://www.antdv-next.com')
+const text = ref('https://www.antdv-next.com');
 </script>
 
 <template>

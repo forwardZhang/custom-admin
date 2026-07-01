@@ -8,7 +8,7 @@ Use custom loading indicator.
 
 ```vue
 <script setup lang="ts">
-import { LoadingOutlined } from '@antdv-next/icons'
+import { LoadingOutlined } from '@antdv-next/icons';
 </script>
 
 <template>

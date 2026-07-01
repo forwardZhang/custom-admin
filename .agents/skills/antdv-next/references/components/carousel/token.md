@@ -21,12 +21,12 @@ Use these variables through `theme.components.Carousel`. This document lists def
 
 ## Token List
 
-| Token | Type | Description |
-| --- | --- | --- |
-| `dotWidth` | `string \| number` | Width of indicator |
-| `dotHeight` | `string \| number` | Height of indicator |
-| `dotGap` | `number` | gap between indicator |
-| `dotOffset` | `number` | dot offset to Carousel edge |
-| `dotActiveWidth` | `string \| number` | Width of active indicator |
-| `arrowSize` | `number` | Size of arrows |
-| `arrowOffset` | `number` | arrows offset to Carousel edge |
+| Token            | Type               | Description                    |
+| ---------------- | ------------------ | ------------------------------ |
+| `dotWidth`       | `string \| number` | Width of indicator             |
+| `dotHeight`      | `string \| number` | Height of indicator            |
+| `dotGap`         | `number`           | gap between indicator          |
+| `dotOffset`      | `number`           | dot offset to Carousel edge    |
+| `dotActiveWidth` | `string \| number` | Width of active indicator      |
+| `arrowSize`      | `number`           | Size of arrows                 |
+| `arrowOffset`    | `number`           | arrows offset to Carousel edge |

@@ -8,15 +8,15 @@ Controlled page number.
 
 ```vue
 <script setup lang="ts">
-import type { PaginationEmits } from 'antdv-next'
-import { ref } from 'vue'
+import type { PaginationEmits } from 'antdv-next';
+import { ref } from 'vue';
 
-const current = ref(3)
+const current = ref(3);
 
 const handleChange: PaginationEmits['change'] = (page) => {
-  console.log(page)
-  current.value = page
-}
+  console.log(page);
+  current.value = page;
+};
 </script>
 
 <template>

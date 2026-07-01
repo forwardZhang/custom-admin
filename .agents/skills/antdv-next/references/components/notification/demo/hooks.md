@@ -13,33 +13,33 @@ import {
   RadiusBottomrightOutlined,
   RadiusUpleftOutlined,
   RadiusUprightOutlined,
-} from '@antdv-next/icons'
-import { notification } from 'antdv-next'
-import { defineComponent, h, inject, provide, reactive } from 'vue'
+} from '@antdv-next/icons';
+import { notification } from 'antdv-next';
+import { defineComponent, h, inject, provide, reactive } from 'vue';
 
-const ContextKey = Symbol('notification-context')
-const contextValue = reactive({ name: 'Antdv Next' })
+const ContextKey = Symbol('notification-context');
+const contextValue = reactive({ name: 'Antdv Next' });
 
-provide(ContextKey, contextValue)
+provide(ContextKey, contextValue);
 
 const ContextText = defineComponent(() => {
-  const context = inject(ContextKey, { name: 'Default' }) as { name: string }
-  return () => `Hello, ${context.name}!`
-})
+  const context = inject(ContextKey, { name: 'Default' }) as { name: string };
+  return () => `Hello, ${context.name}!`;
+});
 
-const [api, ContextHolder] = notification.useNotification()
+const [api, ContextHolder] = notification.useNotification();
 
 // eslint-disable-next-line unused-imports/no-unused-vars
-const placements = ['topLeft', 'topRight', 'bottomLeft', 'bottomRight'] as const
+const placements = ['topLeft', 'topRight', 'bottomLeft', 'bottomRight'] as const;
 
-type NotificationPlacement = (typeof placements)[number]
+type NotificationPlacement = (typeof placements)[number];
 
 function openNotification(placement: NotificationPlacement) {
   api.info({
     title: `Notification ${placement}`,
     description: h(ContextText),
     placement,
-  })
+  });
 }
 </script>
 

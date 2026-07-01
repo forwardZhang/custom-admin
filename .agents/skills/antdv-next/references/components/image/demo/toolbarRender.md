@@ -18,35 +18,32 @@ import {
   UndoOutlined,
   ZoomInOutlined,
   ZoomOutOutlined,
-} from '@antdv-next/icons'
-import { ref } from 'vue'
+} from '@antdv-next/icons';
+import { ref } from 'vue';
 
-const imageList = [
-  'https://www.antdv-next.com/antdv-next.svg',
-  'https://cn.vuejs.org/logo.svg',
-]
-const current = ref(0)
+const imageList = ['https://www.antdv-next.com/antdv-next.svg', 'https://cn.vuejs.org/logo.svg'];
+const current = ref(0);
 function handlePreviewChange(val: number) {
-  console.log('current', current.value, val)
-  current.value = val
+  console.log('current', current.value, val);
+  current.value = val;
 }
 function onDownload() {
-  const url = imageList[current.value]
-  const suffix = url!.slice(url!.lastIndexOf('.'))
-  const filename = Date.now() + suffix
+  const url = imageList[current.value];
+  const suffix = url!.slice(url!.lastIndexOf('.'));
+  const filename = Date.now() + suffix;
 
   fetch(url!)
-    .then(response => response.blob())
+    .then((response) => response.blob())
     .then((blob) => {
-      const blobUrl = URL.createObjectURL(new Blob([blob]))
-      const link = document.createElement('a')
-      link.href = blobUrl
-      link.download = filename
-      document.body.appendChild(link)
-      link.click()
-      URL.revokeObjectURL(blobUrl)
-      link.remove()
-    })
+      const blobUrl = URL.createObjectURL(new Blob([blob]));
+      const link = document.createElement('a');
+      link.href = blobUrl;
+      link.download = filename;
+      document.body.appendChild(link);
+      link.click();
+      URL.revokeObjectURL(blobUrl);
+      link.remove();
+    });
 }
 </script>
 
@@ -77,7 +74,7 @@ function onDownload() {
 </template>
 
 <style scoped>
-  .toolbar-wrapper {
+.toolbar-wrapper {
   padding: 0px 24px;
   color: #fff;
   font-size: 20px;

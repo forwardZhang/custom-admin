@@ -8,10 +8,10 @@ Use a form in Drawer with a submit button.
 
 ```vue
 <script setup lang="ts">
-import { PlusOutlined } from '@antdv-next/icons'
-import { reactive, ref } from 'vue'
+import { PlusOutlined } from '@antdv-next/icons';
+import { reactive, ref } from 'vue';
 
-const open = ref(false)
+const open = ref(false);
 
 const formState = reactive({
   name: '',
@@ -21,20 +21,20 @@ const formState = reactive({
   approver: undefined as string | undefined,
   dateTime: undefined as any,
   description: '',
-})
+});
 
 const ownerOptions = [
   { label: 'Xiaoxiao Fu', value: 'xiao' },
   { label: 'Maomao Zhou', value: 'mao' },
-]
+];
 const typeOptions = [
   { label: 'private', value: 'private' },
   { label: 'public', value: 'public' },
-]
+];
 const approverOptions = [
   { label: 'Jack Ma', value: 'jack' },
   { label: 'Tom Liu', value: 'tom' },
-]
+];
 </script>
 
 <template>
@@ -53,12 +53,8 @@ const approverOptions = [
   >
     <template #extra>
       <a-space>
-        <a-button @click="open = false">
-          Cancel
-        </a-button>
-        <a-button type="primary" @click="open = false">
-          Submit
-        </a-button>
+        <a-button @click="open = false"> Cancel </a-button>
+        <a-button type="primary" @click="open = false"> Submit </a-button>
       </a-space>
     </template>
     <a-form layout="vertical" :model="formState" :required-mark="false">
@@ -149,7 +145,11 @@ const approverOptions = [
             label="Description"
             :rules="[{ required: true, message: 'please enter url description' }]"
           >
-            <a-textarea v-model:value="formState.description" :rows="4" placeholder="please enter url description" />
+            <a-textarea
+              v-model:value="formState.description"
+              :rows="4"
+              placeholder="please enter url description"
+            />
           </a-form-item>
         </a-col>
       </a-row>

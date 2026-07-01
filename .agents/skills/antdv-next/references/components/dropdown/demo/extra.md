@@ -8,8 +8,8 @@ The dropdown menu with shortcut.
 
 ```vue
 <script setup lang="ts">
-import type { MenuItemType } from 'antdv-next'
-import { DownOutlined, SettingOutlined } from '@antdv-next/icons'
+import type { MenuItemType } from 'antdv-next';
+import { DownOutlined, SettingOutlined } from '@antdv-next/icons';
 
 const items: MenuItemType[] = [
   {
@@ -36,7 +36,7 @@ const items: MenuItemType[] = [
     icon: SettingOutlined,
     extra: '⌘S',
   },
-]
+];
 </script>
 
 <template>

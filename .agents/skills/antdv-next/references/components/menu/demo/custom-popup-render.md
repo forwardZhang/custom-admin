@@ -8,11 +8,11 @@ Use the `popupRender` prop to customize submenu popup rendering.
 
 ```vue
 <script setup lang="ts">
-import type { MenuItemType, MenuProps } from 'antdv-next'
-import { theme } from 'antdv-next'
-import { computed, h } from 'vue'
+import type { MenuItemType, MenuProps } from 'antdv-next';
+import { theme } from 'antdv-next';
+import { computed, h } from 'vue';
 
-const { token } = theme.useToken()
+const { token } = theme.useToken();
 
 const popupStyle = computed(() => ({
   padding: `${token.value.padding}px`,
@@ -20,29 +20,29 @@ const popupStyle = computed(() => ({
   background: token.value.colorBgElevated,
   borderRadius: `${token.value.borderRadiusLG}px`,
   boxShadow: token.value.boxShadowSecondary,
-}))
+}));
 
 const headerStyle = computed(() => ({
   margin: 0,
   paddingBottom: `${token.value.paddingXS}px`,
   borderBottom: `1px solid ${token.value.colorSplit}`,
-}))
+}));
 
 const cardStyle = computed(() => ({
   padding: `${token.value.paddingSM}px`,
-}))
+}));
 
 const cardItemStyle = computed(() => ({
   borderRadius: `${token.value.borderRadius}px`,
   transition: `all ${token.value.motionDurationSlow}`,
   cursor: 'pointer',
-}))
+}));
 
 function renderMenuCard(title: string, description: string) {
   return h('div', { class: 'menu-card', style: cardStyle.value }, [
     h('div', { class: 'menu-card-title' }, title),
     h('div', { class: 'menu-card-desc' }, description),
-  ])
+  ]);
 }
 
 const menuItems = computed<MenuItemType[]>(() => [
@@ -92,15 +92,15 @@ const menuItems = computed<MenuItemType[]>(() => [
       },
     ],
   },
-])
+]);
 
 const popupRender: MenuProps['popupRender'] = (node, info) => {
-  const title = info.item.title || info.item.key
+  const title = info.item.title || info.item.key;
   return h('div', { class: 'menu-popup', style: popupStyle.value }, [
     h('div', { class: 'menu-popup-title', style: headerStyle.value }, title),
     node,
-  ])
-}
+  ]);
+};
 
 const themeConfig = {
   components: {
@@ -110,7 +110,7 @@ const themeConfig = {
       horizontalItemHoverColor: '#1677ff',
     },
   },
-}
+};
 </script>
 
 <template>

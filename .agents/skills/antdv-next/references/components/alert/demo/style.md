@@ -9,11 +9,11 @@ There are 4 types of Alert: `success`, `info`, `warning`, `error`.
 ```vue
 <template>
   <a-alert title="Success Text" type="success" />
-  <br>
+  <br />
   <a-alert title="Info Text" type="info" />
-  <br>
+  <br />
   <a-alert title="Warning Text" type="warning" />
-  <br>
+  <br />
   <a-alert title="Error Text" type="error" />
 </template>
 ```

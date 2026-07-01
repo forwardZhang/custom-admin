@@ -6,8 +6,8 @@
 
 ```vue
 <script setup lang="ts">
-import type { TreeDataNode, TreeProps } from 'antdv-next'
-import { ref } from 'vue'
+import type { TreeDataNode, TreeProps } from 'antdv-next';
+import { ref } from 'vue';
 
 const treeData: TreeDataNode[] = [
   {
@@ -40,12 +40,12 @@ const treeData: TreeDataNode[] = [
       },
     ],
   },
-]
+];
 
 const styles: TreeProps['styles'] = {
   root: { border: '2px solid #d9d9d9' },
   item: { margin: '2px 0' },
-}
+};
 
 const stylesFn: TreeProps['styles'] = (info) => {
   if (!info.props.checkable) {
@@ -54,19 +54,19 @@ const stylesFn: TreeProps['styles'] = (info) => {
         border: `2px solid #E5D9F2`,
         borderRadius: '4px',
       },
-    }
+    };
   }
-  return {}
-}
+  return {};
+};
 
-const expandedKeys = ref(['0-0-0', '0-0-1'])
-const selectedKeys = ref(['0-0-1'])
-const checkedKeys = ref(['0-0-0', '0-0-1'])
+const expandedKeys = ref(['0-0-0', '0-0-1']);
+const selectedKeys = ref(['0-0-1']);
+const checkedKeys = ref(['0-0-0', '0-0-1']);
 const classes = {
   root: 'root',
   item: 'item',
   itemTitle: 'itemTitle',
-}
+};
 </script>
 
 <template>

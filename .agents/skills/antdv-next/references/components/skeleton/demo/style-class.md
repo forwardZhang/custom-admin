@@ -9,7 +9,7 @@
 const classes = {
   root: 'skeleton-root',
   header: 'skeleton-header',
-}
+};
 
 const styles = {
   avatar: {
@@ -18,7 +18,7 @@ const styles = {
   title: {
     border: '1px solid #aaa',
   },
-}
+};
 
 function stylesFn(info: { props: { active?: boolean } }) {
   if (info.props?.active) {
@@ -31,20 +31,15 @@ function stylesFn(info: { props: { active?: boolean } }) {
         height: '20px',
         borderRadius: '20px',
       },
-    }
+    };
   }
-  return {}
+  return {};
 }
 </script>
 
 <template>
   <a-flex gap="middle">
-    <a-skeleton
-      :classes="classes"
-      :styles="styles"
-      avatar
-      :paragraph="false"
-    />
+    <a-skeleton :classes="classes" :styles="styles" avatar :paragraph="false" />
     <a-skeleton
       :classes="{ ...classes, paragraph: 'skeleton-paragraph' }"
       :styles="stylesFn"

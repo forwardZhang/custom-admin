@@ -12,7 +12,7 @@ The level of the aside navigation is scalable. The first, second, and third leve
 
 ```vue
 <script setup lang="ts">
-import type { BreadcrumbItemType, MenuItemType } from 'antdv-next'
+import type { BreadcrumbItemType, MenuItemType } from 'antdv-next';
 import {
   DesktopOutlined,
   FileOutlined,
@@ -21,14 +21,14 @@ import {
   RightOutlined,
   TeamOutlined,
   UserOutlined,
-} from '@antdv-next/icons'
-import { theme } from 'antdv-next'
-import { ref } from 'vue'
+} from '@antdv-next/icons';
+import { theme } from 'antdv-next';
+import { ref } from 'vue';
 
-const { token } = theme.useToken()
-const year = new Date().getFullYear()
+const { token } = theme.useToken();
+const year = new Date().getFullYear();
 
-const collapsed = ref(false)
+const collapsed = ref(false);
 
 const items: MenuItemType[] = [
   { key: '1', icon: PieChartOutlined, label: 'Option 1' },
@@ -53,12 +53,9 @@ const items: MenuItemType[] = [
     ],
   },
   { key: '9', icon: FileOutlined, label: 'Files' },
-]
+];
 
-const breadcrumbItems: BreadcrumbItemType[] = [
-  { title: 'User' },
-  { title: 'Bill' },
-]
+const breadcrumbItems: BreadcrumbItemType[] = [{ title: 'User' }, { title: 'Bill' }];
 </script>
 
 <template>
@@ -69,12 +66,7 @@ const breadcrumbItems: BreadcrumbItemType[] = [
         <LeftOutlined v-else />
       </template>
       <div class="demo-logo-vertical" />
-      <a-menu
-        theme="dark"
-        mode="inline"
-        :default-selected-keys="['1']"
-        :items="items"
-      />
+      <a-menu theme="dark" mode="inline" :default-selected-keys="['1']" :items="items" />
     </a-layout-sider>
     <a-layout>
       <a-layout-header class="side-header" :style="{ background: token.colorBgContainer }" />

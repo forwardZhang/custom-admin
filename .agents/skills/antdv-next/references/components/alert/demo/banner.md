@@ -9,15 +9,15 @@ Display Alert as a banner at top of page.
 ```vue
 <template>
   <a-alert title="Warning text" banner />
-  <br>
+  <br />
   <a-alert
     title="Very long warning text warning text text text text text text text"
     banner
     closable
   />
-  <br>
+  <br />
   <a-alert :show-icon="false" title="Warning text without icon" banner />
-  <br>
+  <br />
   <a-alert type="error" title="Error text" banner />
 </template>
 ```

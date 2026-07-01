@@ -9,7 +9,7 @@ Show week number in fullscreen calendar by setting `showWeek` prop to `true`.
 ```vue
 <template>
   <a-calendar fullscreen show-week />
-  <br>
+  <br />
   <a-calendar :fullscreen="false" show-week />
 </template>
 ```

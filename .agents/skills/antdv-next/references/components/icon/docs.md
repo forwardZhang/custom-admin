@@ -17,31 +17,31 @@ Before using icons, you need to install the [@antdv-next/icons](https://www.npmj
 
 ## Demos
 
-| Demo | Path |
-| --- | --- |
-| Basic | demo/basic.md |
-| Two-tone icon and colorful icon | demo/two-tone.md |
-| Custom Icon | demo/custom.md |
-| Use iconfont.cn | demo/iconfont.md |
+| Demo                                | Path              |
+| ----------------------------------- | ----------------- |
+| Basic                               | demo/basic.md     |
+| Two-tone icon and colorful icon     | demo/two-tone.md  |
+| Custom Icon                         | demo/custom.md    |
+| Use iconfont.cn                     | demo/iconfont.md  |
 | Multiple resources from iconfont.cn | demo/scriptUrl.md |
 
 ## API
 
 ### Common Icon
 
-| Property | Description | Type | Default | Version | [Global Config](../config-provider/docs.md#component-config) |
-| --- | --- | --- | --- | --- | --- |
-| className | The className of Icon | string | - | | × |
-| rotate | Rotate by n degrees (not working in IE9) | number | - | | × |
-| spin | Rotate icon with animation | boolean | false | | × |
-| style | The style properties of icon, like `fontSize` and `color` | CSSProperties | - | | × |
-| twoToneColor | Only supports the two-tone icon. Specify the primary color | string (hex color) | - | | × |
+| Property     | Description                                                | Type               | Default | Version | [Global Config](../config-provider/docs.md#component-config) |
+| ------------ | ---------------------------------------------------------- | ------------------ | ------- | ------- | ------------------------------------------------------------ |
+| className    | The className of Icon                                      | string             | -       |         | ×                                                            |
+| rotate       | Rotate by n degrees (not working in IE9)                   | number             | -       |         | ×                                                            |
+| spin         | Rotate icon with animation                                 | boolean            | false   |         | ×                                                            |
+| style        | The style properties of icon, like `fontSize` and `color`  | CSSProperties      | -       |         | ×                                                            |
+| twoToneColor | Only supports the two-tone icon. Specify the primary color | string (hex color) | -       |         | ×                                                            |
 
 We still have three different themes for icons, icon component name is the icon name suffixed by the theme name.
 
 ```vue
 <script setup>
-import { StarFilled, StarOutlined, StarTwoTone } from '@antdv-next/icons'
+import { StarFilled, StarOutlined, StarTwoTone } from '@antdv-next/icons';
 </script>
 
 <template>
@@ -53,12 +53,12 @@ import { StarFilled, StarOutlined, StarTwoTone } from '@antdv-next/icons'
 
 ### Custom Icon
 
-| Property | Description | Type | Default | Version | [Global Config](../config-provider/docs.md#component-config) |
-| --- | --- | --- | --- | --- | --- |
-| component | The component used for the root node | ComponentType&lt;CustomIconComponentProps> | - | | × |
-| rotate | Rotate degrees (not working in IE9) | number | - | | × |
-| spin | Rotate icon with animation | boolean | false | | × |
-| style | The style properties of icon, like `fontSize` and `color` | CSSProperties | - | | × |
+| Property  | Description                                               | Type                                       | Default | Version | [Global Config](../config-provider/docs.md#component-config) |
+| --------- | --------------------------------------------------------- | ------------------------------------------ | ------- | ------- | ------------------------------------------------------------ |
+| component | The component used for the root node                      | ComponentType&lt;CustomIconComponentProps> | -       |         | ×                                                            |
+| rotate    | Rotate degrees (not working in IE9)                       | number                                     | -       |         | ×                                                            |
+| spin      | Rotate icon with animation                                | boolean                                    | false   |         | ×                                                            |
+| style     | The style properties of icon, like `fontSize` and `color` | CSSProperties                              | -       |         | ×                                                            |
 
 ### About SVG icons
 
@@ -73,7 +73,7 @@ All the icons will render to `<svg>`. You can still set `style` and `class` for 
 
 ```vue
 <script lang="ts" setup>
-  import { MessageOutlined } from '@antdv-next/icons'
+import { MessageOutlined } from '@antdv-next/icons';
 </script>
 <template>
   <MessageOutlined style="fontSize: 16px; color: #08c" />
@@ -85,10 +85,10 @@ All the icons will render to `<svg>`. You can still set `style` and `class` for 
 When using the two-tone icons, you can use the static methods `getTwoToneColor()` and `setTwoToneColor(colorString)` to specify the primary color.
 
 ```jsx
-import { getTwoToneColor, setTwoToneColor } from '@antdv-next/icons'
+import { getTwoToneColor, setTwoToneColor } from '@antdv-next/icons';
 
-setTwoToneColor('#eb2f96')
-getTwoToneColor() // #eb2f96
+setTwoToneColor('#eb2f96');
+getTwoToneColor(); // #eb2f96
 ```
 
 ### Custom Font Icon
@@ -98,21 +98,21 @@ We added a `createFromIconfontCN` function to help developer use their own icons
 > This method is specified for [iconfont.cn](http://iconfont.cn/).
 
 ```js
-import { createFromIconfontCN } from '@antdv-next/icons'
+import { createFromIconfontCN } from '@antdv-next/icons';
 
 const MyIcon = createFromIconfontCN({
   scriptUrl: '//at.alicdn.com/t/font_8d5l8fzk5b87iudi.js', // 在 iconfont.cn 上生成
-})
+});
 ```
 
 It creates a component that uses SVG sprites in essence.
 
 The following options are available:
 
-| Property | Description | Type | Default | Version |
-| --- | --- | --- | --- | --- |
-| extraCommonProps | Define extra properties to the component | { \[key: string]: any } | {} | |
-| scriptUrl | The URL generated by [iconfont.cn](http://iconfont.cn/) project | string \| string\[] | - | |
+| Property         | Description                                                     | Type                    | Default | Version |
+| ---------------- | --------------------------------------------------------------- | ----------------------- | ------- | ------- |
+| extraCommonProps | Define extra properties to the component                        | { \[key: string]: any } | {}      |         |
+| scriptUrl        | The URL generated by [iconfont.cn](http://iconfont.cn/) project | string \| string\[]     | -       |         |
 
 The property `scriptUrl` should be set to import the SVG sprite symbols.
 
@@ -139,22 +139,23 @@ module.exports = {
       },
     },
   ],
-}
+};
 ```
 
 The following properties are available for the component:
 
-| Property | Description | Type | Readonly | Version |
-| --- | --- | --- | --- | --- |
-| class | The computed class name of the `svg` element | string | - | |
-| fill | Define the color used to paint the `svg` element | string | `currentColor` | |
-| height | The height of the `svg` element | string \| number | `1em` | |
-| style | The computed style of the `svg` element | CSSProperties | - | |
-| width | The width of the `svg` element | string \| number | `1em` | |
+| Property | Description                                      | Type             | Readonly       | Version |
+| -------- | ------------------------------------------------ | ---------------- | -------------- | ------- |
+| class    | The computed class name of the `svg` element     | string           | -              |         |
+| fill     | Define the color used to paint the `svg` element | string           | `currentColor` |         |
+| height   | The height of the `svg` element                  | string \| number | `1em`          |         |
+| style    | The computed style of the `svg` element          | CSSProperties    | -              |         |
+| width    | The width of the `svg` element                   | string \| number | `1em`          |         |
 
 ## FAQ
 
-### Why does icon style sometimes cause global style error? 
+### Why does icon style sometimes cause global style error?
+
 Related issue: [#54391](https://github.com/ant-design/ant-design/issues/54391)
 
 When enable `layer`, icon style may deprioritize `@layer antd` and cause all components to be styled abnormally.

@@ -21,22 +21,13 @@ const items = [
     title: 'Waiting',
     content: 'This is a content.',
   },
-]
+];
 </script>
 
 <template>
   <a-flex vertical gap="middle">
-    <a-steps
-      type="dot"
-      :current="1"
-      :items="items"
-    />
-    <a-steps
-      type="dot"
-      :current="1"
-      :items="items"
-      variant="outlined"
-    />
+    <a-steps type="dot" :current="1" :items="items" />
+    <a-steps type="dot" :current="1" :items="items" variant="outlined" />
     <a-divider />
     <a-flex gap="middle">
       <a-steps

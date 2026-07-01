@@ -6,12 +6,12 @@
 
 ```vue
 <script setup lang="ts">
-import type { FormProps } from 'antdv-next'
-import { reactive } from 'vue'
+import type { FormProps } from 'antdv-next';
+import { reactive } from 'vue';
 
 const classes = {
   root: 'form-demo-root',
-}
+};
 
 const stylesObject: FormProps['styles'] = {
   label: {
@@ -22,7 +22,7 @@ const stylesObject: FormProps['styles'] = {
   content: {
     paddingInlineStart: '12px',
   },
-}
+};
 
 const stylesFunction: FormProps['styles'] = (info) => {
   if (info.props.variant === 'filled') {
@@ -37,67 +37,66 @@ const stylesFunction: FormProps['styles'] = (info) => {
       content: {
         paddingInlineStart: '12px',
       },
-    } satisfies FormProps['styles']
+    } satisfies FormProps['styles'];
   }
-  return {}
-}
+  return {};
+};
 
 const model = reactive({
   username: '',
   email: '',
-})
+});
 
 const sharedProps: FormProps = {
   labelCol: { span: 4 },
   wrapperCol: { span: 20 },
   autoComplete: 'off',
   classes,
-}
+};
 </script>
 
 <template>
-  <a-form
-    :model="model"
-    v-bind="sharedProps"
-    :styles="stylesObject"
-  >
-    <a-form-item label="UserName" name="username" :rules="[{ required: true, message: 'Please enter username!' }]">
+  <a-form :model="model" v-bind="sharedProps" :styles="stylesObject">
+    <a-form-item
+      label="UserName"
+      name="username"
+      :rules="[{ required: true, message: 'Please enter username!' }]"
+    >
       <a-input v-model:value="model.username" placeholder="Please enter username" />
     </a-form-item>
-    <a-form-item label="Email" name="email" :rules="[{ required: true, message: 'Please enter email!' }]">
+    <a-form-item
+      label="Email"
+      name="email"
+      :rules="[{ required: true, message: 'Please enter email!' }]"
+    >
       <a-input v-model:value="model.email" placeholder="Please enter email" />
     </a-form-item>
     <a-form-item :label="null">
       <a-space>
-        <a-button type="primary" html-type="submit">
-          Submit
-        </a-button>
-        <a-button html-type="reset">
-          Reset
-        </a-button>
+        <a-button type="primary" html-type="submit"> Submit </a-button>
+        <a-button html-type="reset"> Reset </a-button>
       </a-space>
     </a-form-item>
   </a-form>
-  <a-form
-    :model="model"
-    v-bind="sharedProps"
-    :styles="stylesFunction"
-    variant="filled"
-  >
-    <a-form-item label="UserName" name="username" :rules="[{ required: true, message: 'Please enter username!' }]">
+  <a-form :model="model" v-bind="sharedProps" :styles="stylesFunction" variant="filled">
+    <a-form-item
+      label="UserName"
+      name="username"
+      :rules="[{ required: true, message: 'Please enter username!' }]"
+    >
       <a-input v-model:value="model.username" placeholder="Please enter username" />
     </a-form-item>
-    <a-form-item label="Email" name="email" :rules="[{ required: true, message: 'Please enter email!' }]">
+    <a-form-item
+      label="Email"
+      name="email"
+      :rules="[{ required: true, message: 'Please enter email!' }]"
+    >
       <a-input v-model:value="model.email" placeholder="Please enter email" />
     </a-form-item>
     <a-form-item :label="null">
       <a-space>
-        <a-button type="primary" html-type="submit">
-          Submit
-        </a-button>
-        <a-button html-type="reset">
-          Reset
-        </a-button>
+        <a-button type="primary" html-type="submit"> Submit </a-button>
+        <a-button html-type="reset"> Reset </a-button>
       </a-space>
     </a-form-item>
   </a-form>

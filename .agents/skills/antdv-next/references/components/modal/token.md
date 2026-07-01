@@ -21,11 +21,11 @@ Use these variables through `theme.components.Modal`. This document lists defini
 
 ## Token List
 
-| Token | Type | Description |
-| --- | --- | --- |
-| `headerBg` | `string` | Background color of header |
-| `titleLineHeight` | `string \| number` | Line height of title |
-| `titleFontSize` | `string \| number` | Font size of title |
-| `titleColor` | `string` | Font color of title |
-| `contentBg` | `string` | Background color of content |
-| `footerBg` | `string` | Background color of footer |
+| Token             | Type               | Description                 |
+| ----------------- | ------------------ | --------------------------- |
+| `headerBg`        | `string`           | Background color of header  |
+| `titleLineHeight` | `string \| number` | Line height of title        |
+| `titleFontSize`   | `string \| number` | Font size of title          |
+| `titleColor`      | `string`           | Font color of title         |
+| `contentBg`       | `string`           | Background color of content |
+| `footerBg`        | `string`           | Background color of footer  |

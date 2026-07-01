@@ -8,14 +8,14 @@ For long table，need to scroll to view the header and scroll bar，then you can
 
 ```vue
 <script setup lang="ts">
-import type { TableProps } from 'antdv-next'
-import { ref } from 'vue'
+import type { TableProps } from 'antdv-next';
+import { ref } from 'vue';
 
 interface DataType {
-  key: number
-  name: string
-  age: number
-  address: string
+  key: number;
+  name: string;
+  age: number;
+  address: string;
 }
 
 const columns: TableProps['columns'] = [
@@ -47,16 +47,16 @@ const columns: TableProps['columns'] = [
     fixed: 'end',
     width: 100,
   },
-]
+];
 
 const dataSource = Array.from({ length: 100 }).map<DataType>((_, i) => ({
   key: i,
   name: `Edward ${i}`,
   age: 32,
   address: `London Park no. ${i}`,
-}))
+}));
 
-const fixedTop = ref(false)
+const fixedTop = ref(false);
 </script>
 
 <template>
@@ -76,12 +76,8 @@ const fixedTop = ref(false)
               un-checked-children="Fixed Top"
             />
           </a-table-summary-cell>
-          <a-table-summary-cell :index="2" :col-span="8">
-            Scroll Context
-          </a-table-summary-cell>
-          <a-table-summary-cell :index="10">
-            Fix Right
-          </a-table-summary-cell>
+          <a-table-summary-cell :index="2" :col-span="8"> Scroll Context </a-table-summary-cell>
+          <a-table-summary-cell :index="10"> Fix Right </a-table-summary-cell>
         </a-table-summary-row>
       </a-table-summary>
     </template>

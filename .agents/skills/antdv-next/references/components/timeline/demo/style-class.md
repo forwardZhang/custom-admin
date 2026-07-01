@@ -8,13 +8,13 @@
 <script lang="ts" setup>
 const classes = {
   root: 'custom-timeline-root',
-}
+};
 
 const styles = {
   itemIcon: {
     borderColor: '#1890ff',
   },
-}
+};
 
 function stylesFn(info: any) {
   if (info.props.orientation === 'vertical') {
@@ -26,9 +26,9 @@ function stylesFn(info: any) {
       itemIcon: {
         borderColor: '#A294F9',
       },
-    }
+    };
   }
-  return {}
+  return {};
 }
 
 const items = [
@@ -43,7 +43,7 @@ const items = [
   {
     content: 'Technical testing',
   },
-]
+];
 </script>
 
 <template>

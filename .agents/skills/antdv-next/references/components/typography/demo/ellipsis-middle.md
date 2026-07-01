@@ -8,13 +8,14 @@ You can ellipsis content from middle by customize `ellipsis={{ suffix: ... }}`.
 
 ```vue
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed } from 'vue';
 
-const suffixCount = 12
-const children = 'In the process of internal desktop applications development, many different design specs and implementations would be involved, which might cause designers and developers difficulties and duplication and reduce the efficiency of development.'
+const suffixCount = 12;
+const children =
+  'In the process of internal desktop applications development, many different design specs and implementations would be involved, which might cause designers and developers difficulties and duplication and reduce the efficiency of development.';
 
-const start = computed(() => children.slice(0, children.length - suffixCount))
-const suffix = computed(() => children.slice(-suffixCount).trim())
+const start = computed(() => children.slice(0, children.length - suffixCount));
+const suffix = computed(() => children.slice(-suffixCount).trim());
 </script>
 
 <template>

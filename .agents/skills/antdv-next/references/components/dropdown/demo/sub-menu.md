@@ -8,8 +8,8 @@ The menu has multiple levels.
 
 ```vue
 <script setup lang="ts">
-import type { MenuItemType } from 'antdv-next'
-import { DownOutlined } from '@antdv-next/icons'
+import type { MenuItemType } from 'antdv-next';
+import { DownOutlined } from '@antdv-next/icons';
 
 const items: MenuItemType[] = [
   {
@@ -56,7 +56,7 @@ const items: MenuItemType[] = [
       },
     ],
   },
-]
+];
 </script>
 
 <template>

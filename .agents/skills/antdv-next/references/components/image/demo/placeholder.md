@@ -8,18 +8,22 @@ Progressive when large image loading.
 
 ```vue
 <script setup lang="ts">
-import { shallowRef } from 'vue'
+import { shallowRef } from 'vue';
 
-const random = shallowRef(Date.now())
+const random = shallowRef(Date.now());
 
 function setRandom() {
-  random.value = Date.now()
+  random.value = Date.now();
 }
 </script>
 
 <template>
   <a-space :size="12">
-    <a-image :width="200" alt="basic image" :src="`https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png?${random}`">
+    <a-image
+      :width="200"
+      alt="basic image"
+      :src="`https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png?${random}`"
+    >
       <template #placeholder>
         <a-image
           :preview="false"
@@ -29,12 +33,7 @@ function setRandom() {
         />
       </template>
     </a-image>
-    <a-button
-      type="primary"
-      @click="setRandom"
-    >
-      Reload
-    </a-button>
+    <a-button type="primary" @click="setRandom"> Reload </a-button>
   </a-space>
 </template>
 ```

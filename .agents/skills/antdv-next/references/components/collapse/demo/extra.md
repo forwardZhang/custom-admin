@@ -8,33 +8,33 @@ Render extra element in the top-right corner of each panel.
 
 ```vue
 <script setup lang="ts">
-import type { CollapseProps } from 'antdv-next'
-import { SettingOutlined } from '@antdv-next/icons'
-import { h, ref } from 'vue'
+import type { CollapseProps } from 'antdv-next';
+import { SettingOutlined } from '@antdv-next/icons';
+import { h, ref } from 'vue';
 
 const text = `
   A dog is a type of domesticated animal.
   Known for its loyalty and faithfulness,
   it can be found as a welcome guest in many households across the world.
-`
+`;
 
-const expandIconPlacement = ref<CollapseProps['expandIconPlacement']>('start')
+const expandIconPlacement = ref<CollapseProps['expandIconPlacement']>('start');
 
 const placementOptions = [
   { label: 'start', value: 'start' },
   { label: 'end', value: 'end' },
-]
+];
 
 function onChange(key: string[]) {
-  console.log(key)
+  console.log(key);
 }
 
 function genExtra() {
   return h(SettingOutlined, {
     onClick: (event: Event) => {
-      event.stopPropagation()
+      event.stopPropagation();
     },
-  })
+  });
 }
 
 const items = [
@@ -56,7 +56,7 @@ const items = [
     content: h('div', text),
     extra: genExtra(),
   },
-]
+];
 </script>
 
 <template>
@@ -66,7 +66,7 @@ const items = [
     :expand-icon-placement="expandIconPlacement"
     @change="onChange"
   />
-  <br>
+  <br />
   <span>Expand Icon Placement: </span>
   <a-select v-model:value="expandIconPlacement" style="margin: 0 8px" :options="placementOptions" />
 </template>

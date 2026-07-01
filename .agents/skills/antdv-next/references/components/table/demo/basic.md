@@ -8,15 +8,15 @@ Simple table with actions.
 
 ```vue
 <script setup lang="ts">
-import type { TableProps } from 'antdv-next'
-import { h } from 'vue'
+import type { TableProps } from 'antdv-next';
+import { h } from 'vue';
 
 interface DataType {
-  key: string
-  name: string
-  age: number
-  address: string
-  tags: string[]
+  key: string;
+  name: string;
+  age: number;
+  address: string;
+  tags: string[];
 }
 
 const columns: TableProps<DataType>['columns'] = [
@@ -24,7 +24,7 @@ const columns: TableProps<DataType>['columns'] = [
     title: 'Name',
     dataIndex: 'name',
     key: 'name',
-    render: text => h('a', text),
+    render: (text) => h('a', text),
   },
   {
     title: 'Age',
@@ -47,7 +47,7 @@ const columns: TableProps<DataType>['columns'] = [
     key: 'action',
     render: (_, record) => h('span', [`Invite ${record.name}`, ' | ', 'Delete']),
   },
-]
+];
 
 const dataSource: DataType[] = [
   {
@@ -71,13 +71,13 @@ const dataSource: DataType[] = [
     address: 'Sydney No. 1 Lake Park',
     tags: ['cool', 'teacher'],
   },
-]
+];
 
 function tagColor(tag: string) {
   if (tag === 'loser') {
-    return 'volcano'
+    return 'volcano';
   }
-  return tag.length > 5 ? 'geekblue' : 'green'
+  return tag.length > 5 ? 'geekblue' : 'green';
 }
 </script>
 

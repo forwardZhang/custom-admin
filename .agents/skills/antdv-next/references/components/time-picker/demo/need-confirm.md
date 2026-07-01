@@ -9,7 +9,7 @@ TimePicker will automatically determine whether to show a confirm button accordi
 ```vue
 <script setup lang="ts">
 function onChange(time: any, timeString: string) {
-  console.log(time, timeString)
+  console.log(time, timeString);
 }
 </script>
 

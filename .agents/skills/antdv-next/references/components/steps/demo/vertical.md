@@ -8,7 +8,7 @@ A simple step bar in the vertical orientation.
 
 ```vue
 <script lang="ts" setup>
-const content = 'This is a content.'
+const content = 'This is a content.';
 
 const items = [
   {
@@ -23,7 +23,7 @@ const items = [
     title: 'Waiting',
     content,
   },
-]
+];
 </script>
 
 <template>

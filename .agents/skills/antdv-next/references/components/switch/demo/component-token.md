@@ -8,9 +8,9 @@ Custom component token.
 
 ```vue
 <script setup lang="ts">
-import { shallowRef } from 'vue'
+import { shallowRef } from 'vue';
 
-const checked = shallowRef(true)
+const checked = shallowRef(true);
 const theme = {
   components: {
     Switch: {
@@ -27,7 +27,7 @@ const theme = {
       // innerMaxMargin: 8,
     },
   },
-}
+};
 </script>
 
 <template>

@@ -8,14 +8,12 @@ The simplest use.
 
 ```vue
 <script setup lang="ts">
-import { shallowRef } from 'vue'
+import { shallowRef } from 'vue';
 
-const val = shallowRef()
+const val = shallowRef();
 </script>
 
 <template>
-  <a-radio v-model:checked="val">
-    Radio
-  </a-radio>
+  <a-radio v-model:checked="val"> Radio </a-radio>
 </template>
 ```

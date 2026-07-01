@@ -8,10 +8,10 @@ Custom component token.
 
 ```vue
 <script setup lang="ts">
-import { SmileOutlined } from '@antdv-next/icons'
-import { h } from 'vue'
+import { SmileOutlined } from '@antdv-next/icons';
+import { h } from 'vue';
 
-const icon = () => h(SmileOutlined)
+const icon = () => h(SmileOutlined);
 </script>
 
 <template>

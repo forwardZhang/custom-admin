@@ -12,9 +12,9 @@ You can gain full control over filelist by configuring `fileList`. You can accom
 
 ```vue
 <script setup lang="ts">
-import type { UploadEmits, UploadFile } from 'antdv-next'
-import { UploadOutlined } from '@antdv-next/icons'
-import { ref } from 'vue'
+import type { UploadEmits, UploadFile } from 'antdv-next';
+import { UploadOutlined } from '@antdv-next/icons';
+import { ref } from 'vue';
 
 const fileList = ref<UploadFile[]>([
   {
@@ -23,22 +23,22 @@ const fileList = ref<UploadFile[]>([
     status: 'done',
     url: 'http://www.baidu.com/xxx.png',
   },
-])
+]);
 
 const handleChange: UploadEmits['change'] = (info) => {
-  let newFileList = [...info.fileList]
+  let newFileList = [...info.fileList];
 
-  newFileList = newFileList.slice(-2)
+  newFileList = newFileList.slice(-2);
 
   newFileList = newFileList.map((file) => {
     if (file.response && typeof file.response === 'object' && 'url' in file.response) {
-      file.url = (file.response as { url?: string }).url
+      file.url = (file.response as { url?: string }).url;
     }
-    return file
-  })
+    return file;
+  });
 
-  fileList.value = newFileList
-}
+  fileList.value = newFileList;
+};
 </script>
 
 <template>

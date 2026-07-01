@@ -22,14 +22,12 @@ const colors = [
   'volcano',
   'gold',
   'lime',
-]
-const customColors = ['#f50', '#2db7f5', '#87d068', '#108ee9']
+];
+const customColors = ['#f50', '#2db7f5', '#87d068', '#108ee9'];
 </script>
 
 <template>
-  <a-divider title-placement="start">
-    Presets
-  </a-divider>
+  <a-divider title-placement="start"> Presets </a-divider>
   <a-space wrap>
     <template v-for="color in colors" :key="color">
       <a-tooltip :color="color" title="prompt text">
@@ -37,9 +35,7 @@ const customColors = ['#f50', '#2db7f5', '#87d068', '#108ee9']
       </a-tooltip>
     </template>
   </a-space>
-  <a-divider title-placement="start">
-    Custom
-  </a-divider>
+  <a-divider title-placement="start"> Custom </a-divider>
   <a-space wrap>
     <template v-for="color in customColors" :key="color">
       <a-tooltip :color="color" title="prompt text">

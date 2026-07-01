@@ -8,39 +8,39 @@ You can customize the semantic dom style of Transfers by passing objects/functio
 
 ```vue
 <script setup lang="ts">
-import type { TransferProps } from 'antdv-next'
-import { ref } from 'vue'
+import type { TransferProps } from 'antdv-next';
+import { ref } from 'vue';
 
 const mockData = Array.from({ length: 20 }).map<any>((_, i) => ({
   key: i.toString(),
   title: `content${i + 1}`,
   description: `description of content${i + 1}`,
-}))
+}));
 
-const initialTargetKeys = mockData.filter(item => Number(item.key) > 10).map(item => item.key)
+const initialTargetKeys = mockData.filter((item) => Number(item.key) > 10).map((item) => item.key);
 
-const targetKeysError = ref(initialTargetKeys)
-const targetKeysWarning = ref(initialTargetKeys)
+const targetKeysError = ref(initialTargetKeys);
+const targetKeysWarning = ref(initialTargetKeys);
 
 const classes: TransferProps['classes'] = {
   section: 'transfer-demo-section',
   header: 'transfer-demo-header',
   actions: 'transfer-demo-actions',
-}
+};
 
 const stylesObject: TransferProps['styles'] = {
   header: { fontWeight: 'bold' },
-}
+};
 
 const stylesFn: TransferProps['styles'] = (info) => {
   if (info.props.status === 'warning') {
     return {
       section: { backgroundColor: 'rgba(246,255,237, 0.6)', borderColor: '#b7eb8f' },
       header: { color: '#8DBCC7', fontWeight: 'normal' },
-    } as TransferProps['styles']
+    } as TransferProps['styles'];
   }
-  return {}
-}
+  return {};
+};
 </script>
 
 <template>

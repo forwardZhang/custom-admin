@@ -8,12 +8,12 @@ The most basic usage.
 
 ```vue
 <script setup lang="ts">
-import { shallowRef } from 'vue'
+import { shallowRef } from 'vue';
 
-const checked = shallowRef(true)
+const checked = shallowRef(true);
 
 function onChange(checked: boolean) {
-  console.log(`switch to ${checked}`)
+  console.log(`switch to ${checked}`);
 }
 </script>
 

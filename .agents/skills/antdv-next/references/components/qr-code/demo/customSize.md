@@ -8,32 +8,32 @@ Custom Size.
 
 ```vue
 <script setup lang="ts">
-import { MinusOutlined, PlusOutlined } from '@antdv-next/icons'
-import { shallowRef } from 'vue'
+import { MinusOutlined, PlusOutlined } from '@antdv-next/icons';
+import { shallowRef } from 'vue';
 
-const size = shallowRef(160)
-const MIN_SIZE = 48
-const MAX_SIZE = 300
+const size = shallowRef(160);
+const MIN_SIZE = 48;
+const MAX_SIZE = 300;
 function increase() {
   const fn = (prevSize: number) => {
-    const newSize = prevSize + 10
+    const newSize = prevSize + 10;
     if (newSize >= MAX_SIZE) {
-      return MAX_SIZE
+      return MAX_SIZE;
     }
-    return newSize
-  }
-  size.value = fn(size.value)
+    return newSize;
+  };
+  size.value = fn(size.value);
 }
 
 function decline() {
   const fn = (prevSize: number) => {
-    const newSize = prevSize - 10
+    const newSize = prevSize - 10;
     if (newSize <= MIN_SIZE) {
-      return MIN_SIZE
+      return MIN_SIZE;
     }
-    return newSize
-  }
-  size.value = fn(size.value)
+    return newSize;
+  };
+  size.value = fn(size.value);
 }
 </script>
 

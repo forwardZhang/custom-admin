@@ -8,13 +8,13 @@ Demonstration of [Lookup Patterns: Uncertain Category](https://ant.design/docs/s
 
 ```vue
 <script setup lang="ts">
-import { h, ref } from 'vue'
+import { h, ref } from 'vue';
 
-const getRandomInt = (max: number, min = 0) => Math.floor(Math.random() * (max - min + 1)) + min
+const getRandomInt = (max: number, min = 0) => Math.floor(Math.random() * (max - min + 1)) + min;
 
 function searchResult(query: string) {
   return Array.from({ length: getRandomInt(5) }).map((_, idx) => {
-    const category = `${query}${idx}`
+    const category = `${query}${idx}`;
     return {
       value: category,
       label: h(
@@ -41,18 +41,18 @@ function searchResult(query: string) {
           h('span', `${getRandomInt(200, 100)} results`),
         ],
       ),
-    }
-  })
+    };
+  });
 }
 
-const options = ref<{ value: string, label: any }[]>([])
+const options = ref<{ value: string; label: any }[]>([]);
 
 function handleSearch(value: string) {
-  options.value = value ? searchResult(value) : []
+  options.value = value ? searchResult(value) : [];
 }
 
 function handleSelect(value: string) {
-  console.log('onSelect', value)
+  console.log('onSelect', value);
 }
 </script>
 

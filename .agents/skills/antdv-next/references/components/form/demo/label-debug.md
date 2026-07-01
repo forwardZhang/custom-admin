@@ -8,12 +8,12 @@ Label ellipsis debug.
 
 ```vue
 <script setup lang="ts">
-import { reactive } from 'vue'
+import { reactive } from 'vue';
 
 const model = reactive({
   username: '',
   password: '',
-})
+});
 </script>
 
 <template>

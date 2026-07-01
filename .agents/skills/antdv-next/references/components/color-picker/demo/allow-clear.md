@@ -8,10 +8,10 @@ Clear Color.
 
 ```vue
 <script setup lang="ts">
-import type { ColorValueType } from 'antdv-next'
-import { shallowRef } from 'vue'
+import type { ColorValueType } from 'antdv-next';
+import { shallowRef } from 'vue';
 
-const color = shallowRef<ColorValueType>('#1677ff')
+const color = shallowRef<ColorValueType>('#1677ff');
 </script>
 
 <template>

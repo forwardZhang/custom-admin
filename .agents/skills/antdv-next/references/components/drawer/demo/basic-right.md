@@ -8,23 +8,17 @@ Basic drawer.
 
 ```vue
 <script setup lang="ts">
-import { shallowRef } from 'vue'
+import { shallowRef } from 'vue';
 
-const open = shallowRef(false)
+const open = shallowRef(false);
 function showDrawer() {
-  open.value = true
+  open.value = true;
 }
 </script>
 
 <template>
-  <a-button type="primary" @click="showDrawer">
-    Open
-  </a-button>
-  <a-drawer
-    v-model:open="open"
-    title="Basic Drawer"
-    :closable="{ 'aria-label': 'Close Button' }"
-  >
+  <a-button type="primary" @click="showDrawer"> Open </a-button>
+  <a-drawer v-model:open="open" title="Basic Drawer" :closable="{ 'aria-label': 'Close Button' }">
     <p>Some contents...</p>
     <p>Some contents...</p>
     <p>Some contents...</p>

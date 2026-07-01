@@ -8,8 +8,8 @@ The most basic dropdown menu.
 
 ```vue
 <script setup lang="ts">
-import type { MenuItemType } from 'antdv-next'
-import { DownOutlined, SmileOutlined } from '@antdv-next/icons'
+import type { MenuItemType } from 'antdv-next';
+import { DownOutlined, SmileOutlined } from '@antdv-next/icons';
 
 const items: MenuItemType[] = [
   {
@@ -32,12 +32,12 @@ const items: MenuItemType[] = [
     danger: true,
     label: 'a danger item',
   },
-]
+];
 const href: Record<string, string> = {
   1: 'https://www.antgroup.com',
   2: 'https://www.aliyun.com',
   3: 'https://www.luohanacademy.com',
-}
+};
 </script>
 
 <template>

@@ -8,11 +8,11 @@ Change the placement of the guide relative to the target, there are 12 placement
 
 ```vue
 <script setup lang="ts">
-import type { TourStepItem } from 'antdv-next'
-import { shallowRef } from 'vue'
+import type { TourStepItem } from 'antdv-next';
+import { shallowRef } from 'vue';
 
-const ref = shallowRef()
-const open = shallowRef(false)
+const ref = shallowRef();
+const open = shallowRef(false);
 const steps: TourStepItem[] = [
   {
     title: 'Center',
@@ -31,14 +31,12 @@ const steps: TourStepItem[] = [
     placement: 'top',
     target: ref,
   },
-]
+];
 </script>
 
 <template>
   <div class="mt-300px ml-300px">
-    <a-button ref="ref" type="primary" @click="open = true">
-      Begin Tour
-    </a-button>
+    <a-button ref="ref" type="primary" @click="open = true"> Begin Tour </a-button>
   </div>
 
   <a-tour v-model:open="open" :steps="steps" />

@@ -8,8 +8,8 @@ Customize menu item rendering with `labelRender`, `extraRender`, and `iconRender
 
 ```vue
 <script setup lang="ts">
-import type { MenuItemType } from 'antdv-next'
-import { ClockCircleFilled } from '@antdv-next/icons'
+import type { MenuItemType } from 'antdv-next';
+import { ClockCircleFilled } from '@antdv-next/icons';
 
 const items: MenuItemType[] = [
   {
@@ -74,7 +74,7 @@ const items: MenuItemType[] = [
       { key: '14', label: 'Option 14' },
     ],
   },
-]
+];
 </script>
 
 <template>
@@ -92,10 +92,7 @@ const items: MenuItemType[] = [
     </template>
 
     <template #extraRender="item">
-      <span
-        v-if="item?.key && !item?.children && item?.type !== 'group'"
-        class="menu-slot-extra"
-      >
+      <span v-if="item?.key && !item?.children && item?.type !== 'group'" class="menu-slot-extra">
         #{{ item.key }}
       </span>
     </template>

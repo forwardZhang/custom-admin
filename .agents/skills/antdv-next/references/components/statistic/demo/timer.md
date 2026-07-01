@@ -8,16 +8,16 @@ Timer component.
 
 ```vue
 <script setup lang="ts">
-const deadline = Date.now() + 1000 * 60 * 60 * 24 * 2 + 1000 * 30 // Dayjs is also OK
-const before = Date.now() - 1000 * 60 * 60 * 24 * 2 + 1000 * 30
-const tenSecondsLater = Date.now() + 10 * 1000
+const deadline = Date.now() + 1000 * 60 * 60 * 24 * 2 + 1000 * 30; // Dayjs is also OK
+const before = Date.now() - 1000 * 60 * 60 * 24 * 2 + 1000 * 30;
+const tenSecondsLater = Date.now() + 10 * 1000;
 
 function onFinish() {
-  console.log('finished!')
+  console.log('finished!');
 }
 function onChange(val?: number) {
   if (typeof val === 'number' && 4.95 * 1000 < val && val < 5 * 1000) {
-    console.log('changed!')
+    console.log('changed!');
   }
 }
 </script>
@@ -28,11 +28,18 @@ function onChange(val?: number) {
       <a-statistic-timer type="countdown" :value="deadline" @finish="onFinish" />
     </a-col>
     <a-col :span="12">
-      <a-statistic-timer type="countdown" title="Million Seconds" :value="deadline" format="HH:mm:ss:SSS" />
+      <a-statistic-timer
+        type="countdown"
+        title="Million Seconds"
+        :value="deadline"
+        format="HH:mm:ss:SSS"
+      />
     </a-col>
     <a-col :span="12">
       <a-statistic-timer
-        type="countdown" title="Countdown" :value="tenSecondsLater"
+        type="countdown"
+        title="Countdown"
+        :value="tenSecondsLater"
         @change="onChange"
       />
     </a-col>

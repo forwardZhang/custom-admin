@@ -7,8 +7,7 @@ Variants of TimePicker, there are four variants: `outlined` `filled` `borderless
 ## Source
 
 ```vue
-<script setup lang="ts">
-</script>
+<script setup lang="ts"></script>
 
 <template>
   <a-flex vertical :gap="12">
@@ -22,11 +21,17 @@ Variants of TimePicker, there are four variants: `outlined` `filled` `borderless
     </a-flex>
     <a-flex :gap="8">
       <a-time-picker variant="borderless" placeholder="Borderless" />
-      <a-time-range-picker variant="borderless" :placeholder="['Borderless Start', 'Borderless End']" />
+      <a-time-range-picker
+        variant="borderless"
+        :placeholder="['Borderless Start', 'Borderless End']"
+      />
     </a-flex>
     <a-flex :gap="8">
       <a-time-picker variant="underlined" placeholder="Underlined" />
-      <a-time-range-picker variant="underlined" :placeholder="['Underlined Start', 'Underlined End']" />
+      <a-time-range-picker
+        variant="underlined"
+        :placeholder="['Underlined Start', 'Underlined End']"
+      />
     </a-flex>
   </a-flex>
 </template>

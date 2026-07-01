@@ -8,7 +8,7 @@ More content can be hosted.
 
 ```vue
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+import { computed, ref } from 'vue';
 
 const tabList = [
   {
@@ -19,12 +19,12 @@ const tabList = [
     key: 'tab2',
     tab: 'tab2',
   },
-]
+];
 
 const contentList: Record<string, string> = {
   tab1: 'content1',
   tab2: 'content2',
-}
+};
 
 const tabListNoTitle = [
   {
@@ -39,27 +39,27 @@ const tabListNoTitle = [
     key: 'project',
     label: 'project',
   },
-]
+];
 
 const contentListNoTitle: Record<string, string> = {
   article: 'article content',
   app: 'app content',
   project: 'project content',
-}
+};
 
-const activeTabKey1 = ref('tab1')
-const activeTabKey2 = ref('app')
+const activeTabKey1 = ref('tab1');
+const activeTabKey2 = ref('app');
 
 function onTab1Change(key: string) {
-  activeTabKey1.value = key
+  activeTabKey1.value = key;
 }
 
 function onTab2Change(key: string) {
-  activeTabKey2.value = key
+  activeTabKey2.value = key;
 }
 
-const content1 = computed(() => contentList[activeTabKey1.value])
-const content2 = computed(() => contentListNoTitle[activeTabKey2.value])
+const content1 = computed(() => contentList[activeTabKey1.value]);
+const content2 = computed(() => contentListNoTitle[activeTabKey2.value]);
 </script>
 
 <template>
@@ -76,8 +76,8 @@ const content2 = computed(() => contentListNoTitle[activeTabKey2.value])
       </template>
       <p>{{ content1 }}</p>
     </a-card>
-    <br>
-    <br>
+    <br />
+    <br />
     <a-card
       style="width: 100%"
       :tab-list="tabListNoTitle"

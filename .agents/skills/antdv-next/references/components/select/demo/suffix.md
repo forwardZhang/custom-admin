@@ -8,25 +8,25 @@ Custom `prefix` and `suffixIcon`.
 
 ```vue
 <script setup lang="ts">
-import { MehOutlined, SmileOutlined } from '@antdv-next/icons'
-import { shallowRef } from 'vue'
+import { MehOutlined, SmileOutlined } from '@antdv-next/icons';
+import { shallowRef } from 'vue';
 
 const options = [
   { value: 'jack', label: 'Jack' },
   { value: 'lucy', label: 'Lucy' },
   { value: 'Yiminghe', label: 'yiminghe' },
   { value: 'disabled', label: 'Disabled', disabled: true },
-]
+];
 
-const value1 = shallowRef('lucy')
-const value2 = shallowRef('lucy')
-const value3 = shallowRef('lucy')
-const value4 = shallowRef(['lucy'])
-const value5 = shallowRef(['lucy'])
-const value6 = shallowRef(['lucy'])
+const value1 = shallowRef('lucy');
+const value2 = shallowRef('lucy');
+const value3 = shallowRef('lucy');
+const value4 = shallowRef(['lucy']);
+const value5 = shallowRef(['lucy']);
+const value6 = shallowRef(['lucy']);
 
 function handleChange(val: string | string[]) {
-  console.log(`selected ${val}`)
+  console.log(`selected ${val}`);
 }
 </script>
 
@@ -64,7 +64,7 @@ function handleChange(val: string | string[]) {
         <MehOutlined />
       </template>
     </a-select>
-    <br>
+    <br />
     <a-select
       v-model:value="value4"
       prefix="User"

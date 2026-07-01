@@ -8,10 +8,10 @@ The most basic usage.
 
 ```vue
 <script setup lang="ts">
-import type { TreeSelectEmits } from 'antdv-next'
-import { ref } from 'vue'
+import type { TreeSelectEmits } from 'antdv-next';
+import { ref } from 'vue';
 
-const value = ref()
+const value = ref();
 const treeData = [
   {
     value: 'parent 1',
@@ -59,11 +59,11 @@ const treeData = [
       },
     ],
   },
-]
+];
 
 const onPopupScroll: TreeSelectEmits['popupScroll'] = (e) => {
-  console.log('onPopupScroll', e)
-}
+  console.log('onPopupScroll', e);
+};
 </script>
 
 <template>

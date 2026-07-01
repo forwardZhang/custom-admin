@@ -8,8 +8,8 @@ When `fresh` is enabled, the masonry will continuously monitor size changes of c
 
 ```vue
 <script setup lang="ts">
-import { Card } from 'antdv-next'
-import { defineComponent, h, ref } from 'vue'
+import { Card } from 'antdv-next';
+import { defineComponent, h, ref } from 'vue';
 
 const RandomHeightCard = defineComponent({
   props: {
@@ -23,11 +23,11 @@ const RandomHeightCard = defineComponent({
     },
   },
   setup(props) {
-    const height = ref(props.defaultHeight)
+    const height = ref(props.defaultHeight);
 
     const handleClick = () => {
-      height.value = Math.floor(Math.random() * 100) + 50
-    }
+      height.value = Math.floor(Math.random() * 100) + 50;
+    };
 
     return () =>
       h(
@@ -38,37 +38,32 @@ const RandomHeightCard = defineComponent({
           onClick: handleClick,
         },
         () => `${props.index + 1} - Click`,
-      )
+      );
   },
-})
+});
 
 const heights = [150, 50, 90, 70, 110, 150, 130, 80, 50, 90, 100, 150, 60, 50, 80].map(
   (height, index) => {
     const item: {
-      key: string
-      data: number
-      column?: number
+      key: string;
+      data: number;
+      column?: number;
     } = {
       key: `item-${index}`,
       data: height,
-    }
+    };
 
     if (index === 4) {
-      item.column = 0
+      item.column = 0;
     }
 
-    return item
+    return item;
   },
-)
+);
 </script>
 
 <template>
-  <a-masonry
-    fresh
-    :columns="4"
-    :gutter="16"
-    :items="heights"
-  >
+  <a-masonry fresh :columns="4" :gutter="16" :items="heights">
     <template #itemRender="{ data, index }">
       <RandomHeightCard :index="index" :default-height="data" />
     </template>

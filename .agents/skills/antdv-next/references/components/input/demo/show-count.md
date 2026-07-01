@@ -9,8 +9,8 @@ Show character counting.
 ```vue
 <script setup lang="ts">
 function onChange(e: Event) {
-  const target = e.target as HTMLInputElement | HTMLTextAreaElement
-  console.log('Change:', target.value)
+  const target = e.target as HTMLInputElement | HTMLTextAreaElement;
+  console.log('Change:', target.value);
 }
 </script>
 

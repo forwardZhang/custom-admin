@@ -14,7 +14,7 @@ You can use `a-card-meta` to support more flexible content.
         draggable="false"
         alt="example"
         src="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png"
-      >
+      />
     </template>
     <a-card-meta title="Europe Street beat" description="www.instagram.com" />
   </a-card>

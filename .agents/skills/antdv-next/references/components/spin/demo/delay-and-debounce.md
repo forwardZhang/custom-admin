@@ -8,9 +8,9 @@ Specifies a delay for loading state. If `spinning` ends during delay, loading st
 
 ```vue
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref } from 'vue';
 
-const loading = ref(false)
+const loading = ref(false);
 </script>
 
 <template>

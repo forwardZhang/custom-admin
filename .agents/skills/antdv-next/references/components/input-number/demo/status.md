@@ -8,7 +8,7 @@ Add status to InputNumber with `status`, which could be `error` or `warning`.
 
 ```vue
 <script setup lang="ts">
-import { ClockCircleOutlined } from '@antdv-next/icons'
+import { ClockCircleOutlined } from '@antdv-next/icons';
 </script>
 
 <template>

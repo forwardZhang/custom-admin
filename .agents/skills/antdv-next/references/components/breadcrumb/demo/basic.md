@@ -23,7 +23,7 @@ const items = [
   {
     title: 'An Application',
   },
-]
+];
 </script>
 
 <template>

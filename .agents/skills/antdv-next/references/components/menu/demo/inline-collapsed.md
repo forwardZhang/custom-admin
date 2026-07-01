@@ -10,7 +10,7 @@ Here is [a complete demo](../../layout/docs.md/#layout-demo-side) with sider lay
 
 ```vue
 <script setup lang="ts">
-import type { MenuItemType } from 'antdv-next'
+import type { MenuItemType } from 'antdv-next';
 import {
   AppstoreOutlined,
   ContainerOutlined,
@@ -19,13 +19,13 @@ import {
   MenuFoldOutlined,
   MenuUnfoldOutlined,
   PieChartOutlined,
-} from '@antdv-next/icons'
-import { ref } from 'vue'
+} from '@antdv-next/icons';
+import { ref } from 'vue';
 
-const collapsed = ref(false)
+const collapsed = ref(false);
 
 function toggleCollapsed() {
-  collapsed.value = !collapsed.value
+  collapsed.value = !collapsed.value;
 }
 
 const items: MenuItemType[] = [
@@ -60,16 +60,12 @@ const items: MenuItemType[] = [
       },
     ],
   },
-]
+];
 </script>
 
 <template>
   <div style="width: 256px">
-    <a-button
-      type="primary"
-      style="margin-bottom: 16px"
-      @click="toggleCollapsed"
-    >
+    <a-button type="primary" style="margin-bottom: 16px" @click="toggleCollapsed">
       <MenuUnfoldOutlined v-if="collapsed" />
       <MenuFoldOutlined v-else />
     </a-button>

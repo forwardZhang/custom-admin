@@ -8,18 +8,23 @@ You can customize the preview content.
 
 ```vue
 <script setup lang="ts">
-import { h } from 'vue'
+import { h } from 'vue';
 
 const imageRender = h('video', {
   muted: true,
   width: '100%',
   controls: true,
   src: 'https://mdn.alipayobjects.com/huamei_iwk9zp/afts/file/A*uYT7SZwhJnUAAAAAAAAAAAAADgCCAQ',
-})
+});
 </script>
 
 <template>
-  <a-image :width="200" alt="slot image" src="https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png" :preview="{ actionsRender: () => null }">
+  <a-image
+    :width="200"
+    alt="slot image"
+    src="https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png"
+    :preview="{ actionsRender: () => null }"
+  >
     <template #imageRender>
       <video
         muted
@@ -29,7 +34,7 @@ const imageRender = h('video', {
       />
     </template>
   </a-image>
-  <br>
+  <br />
   <a-image
     :width="200"
     alt="preview image"

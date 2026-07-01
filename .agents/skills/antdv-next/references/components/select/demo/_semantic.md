@@ -1,32 +1,29 @@
-# _semantic
+# \_semantic
 
 ## Source
 
 ```vue
 <script setup lang="ts">
-import { computed, ref } from 'vue'
-import { SemanticPreview } from '@/components/semantic'
-import { useComponentLocale } from '@/composables/use-locale'
-import { locales } from '../locales'
+import { computed, ref } from 'vue';
+import { SemanticPreview } from '@/components/semantic';
+import { useComponentLocale } from '@/composables/use-locale';
+import { locales } from '../locales';
 
-const mode = ref<'single' | 'multiple'>('single')
+const mode = ref<'single' | 'multiple'>('single');
 
 const options = [
   { value: 'aojunhao123', label: 'aojunhao123' },
   { value: 'thinkasany', label: 'thinkasany' },
   { value: 'meet-student', label: 'meet-student' },
-]
+];
 
 const value = computed(() => {
-  if (mode.value !== 'multiple')
-    return []
+  if (mode.value !== 'multiple') return [];
 
-  return options.length > 0
-    ? [options[0]!.value]
-    : []
-})
+  return options.length > 0 ? [options[0]!.value] : [];
+});
 
-const { t } = useComponentLocale(locales)
+const { t } = useComponentLocale(locales);
 
 const semantics = computed(() => {
   const base = [
@@ -40,7 +37,7 @@ const semantics = computed(() => {
     { name: 'popup.root', desc: t('popup.root') },
     { name: 'popup.list', desc: t('popup.list') },
     { name: 'popup.listItem', desc: t('popup.listItem') },
-  ]
+  ];
 
   if (mode.value === 'multiple') {
     return [
@@ -48,20 +45,17 @@ const semantics = computed(() => {
       { name: 'item', desc: t('item') },
       { name: 'itemContent', desc: t('itemContent') },
       { name: 'itemRemove', desc: t('itemRemove') },
-    ]
+    ];
   }
 
-  return base
-})
+  return base;
+});
 
-const divRef = ref<HTMLDivElement | null>(null)
+const divRef = ref<HTMLDivElement | null>(null);
 </script>
 
 <template>
-  <SemanticPreview
-    component-name="Select"
-    :semantics="semantics"
-  >
+  <SemanticPreview component-name="Select" :semantics="semantics">
     <template #default="{ classes }">
       <div ref="divRef" :style="{ position: 'absolute', height: '200px' }">
         <div :style="{ display: 'flex', justifyContent: 'center', marginBottom: '12px' }">

@@ -8,12 +8,16 @@ Passing the name property to all input[type="radio"] that are in the same Segmen
 
 ```vue
 <script lang="ts" setup>
-import { ref } from 'vue'
+import { ref } from 'vue';
 
-const value = ref('Weekly')
+const value = ref('Weekly');
 </script>
 
 <template>
-  <a-segmented v-model:value="value" :options="['Daily', 'Weekly', 'Monthly', 'Quarterly', 'Yearly']" name="group" />
+  <a-segmented
+    v-model:value="value"
+    :options="['Daily', 'Weekly', 'Monthly', 'Quarterly', 'Yearly']"
+    name="group"
+  />
 </template>
 ```

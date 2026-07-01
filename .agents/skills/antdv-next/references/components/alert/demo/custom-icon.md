@@ -8,23 +8,23 @@ A relevant icon makes information clearer and more friendly.
 
 ```vue
 <script setup lang="ts">
-import { SmileOutlined } from '@antdv-next/icons'
-import { h } from 'vue'
+import { SmileOutlined } from '@antdv-next/icons';
+import { h } from 'vue';
 
-const icon = () => h(SmileOutlined)
+const icon = () => h(SmileOutlined);
 </script>
 
 <template>
   <a-alert :icon="icon" title="showIcon = false" type="success" />
-  <br>
+  <br />
   <a-alert :icon="icon" title="Success Tips" type="success" show-icon />
-  <br>
+  <br />
   <a-alert :icon="icon" title="Informational Notes" type="info" show-icon />
-  <br>
+  <br />
   <a-alert :icon="icon" title="Warning" type="warning" show-icon />
-  <br>
+  <br />
   <a-alert :icon="icon" title="Error" type="error" show-icon />
-  <br>
+  <br />
   <a-alert
     :icon="icon"
     title="Success Tips"
@@ -32,7 +32,7 @@ const icon = () => h(SmileOutlined)
     type="success"
     show-icon
   />
-  <br>
+  <br />
   <a-alert
     :icon="icon"
     title="Informational Notes"
@@ -40,7 +40,7 @@ const icon = () => h(SmileOutlined)
     type="info"
     show-icon
   />
-  <br>
+  <br />
   <a-alert
     :icon="icon"
     title="Warning"
@@ -48,7 +48,7 @@ const icon = () => h(SmileOutlined)
     type="warning"
     show-icon
   />
-  <br>
+  <br />
   <a-alert
     :icon="icon"
     title="Error"

@@ -21,11 +21,11 @@ Use these variables through `theme.components.Calendar`. This document lists def
 
 ## Token List
 
-| Token | Type | Description |
-| --- | --- | --- |
-| `yearControlWidth` | `string \| number` | Width of year select |
-| `monthControlWidth` | `string \| number` | Width of month select |
-| `miniContentHeight` | `string \| number` | Height of mini calendar content |
-| `fullBg` | `string` | Background color of full calendar |
-| `fullPanelBg` | `string` | Background color of full calendar panel |
-| `itemActiveBg` | `string` | Background color of selected date item |
+| Token               | Type               | Description                             |
+| ------------------- | ------------------ | --------------------------------------- |
+| `yearControlWidth`  | `string \| number` | Width of year select                    |
+| `monthControlWidth` | `string \| number` | Width of month select                   |
+| `miniContentHeight` | `string \| number` | Height of mini calendar content         |
+| `fullBg`            | `string`           | Background color of full calendar       |
+| `fullPanelBg`       | `string`           | Background color of full calendar panel |
+| `itemActiveBg`      | `string`           | Background color of selected date item  |

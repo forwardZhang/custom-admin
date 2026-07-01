@@ -10,13 +10,13 @@ Search and select options directly.
 
 ```vue
 <script setup lang="ts">
-import type { CascaderEmits } from 'antdv-next'
+import type { CascaderEmits } from 'antdv-next';
 
 interface Option {
-  value: string
-  label: string
-  children?: Option[]
-  disabled?: boolean
+  value: string;
+  label: string;
+  children?: Option[];
+  disabled?: boolean;
 }
 
 const options: Option[] = [
@@ -57,18 +57,18 @@ const options: Option[] = [
       },
     ],
   },
-]
+];
 
 const onChange: CascaderEmits['change'] = (value, selectedOptions) => {
-  console.log(value, selectedOptions)
-}
+  console.log(value, selectedOptions);
+};
 
 function handleSearch(value: string) {
-  console.log(value)
+  console.log(value);
 }
 
 function filter(inputValue: string, path: Option[]) {
-  return path.some(option => option.label.toLowerCase().includes(inputValue.toLowerCase()))
+  return path.some((option) => option.label.toLowerCase().includes(inputValue.toLowerCase()));
 }
 </script>
 

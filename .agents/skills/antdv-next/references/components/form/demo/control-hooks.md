@@ -8,48 +8,48 @@ Interact with form fields through form instance methods.
 
 ```vue
 <script setup lang="ts">
-import type { FormInstance } from 'antdv-next'
-import { reactive, shallowRef } from 'vue'
+import type { FormInstance } from 'antdv-next';
+import { reactive, shallowRef } from 'vue';
 
-const formRef = shallowRef<FormInstance>()
+const formRef = shallowRef<FormInstance>();
 const model = reactive({
   note: '',
   gender: undefined as string | undefined,
   customizeGender: '',
-})
+});
 
 const genderOptions = [
   { label: 'male', value: 'male' },
   { label: 'female', value: 'female' },
   { label: 'other', value: 'other' },
-]
+];
 
 function handleGenderChange(value: string) {
   switch (value) {
     case 'male':
-      model.note = 'Hi, man!'
-      break
+      model.note = 'Hi, man!';
+      break;
     case 'female':
-      model.note = 'Hi, lady!'
-      break
+      model.note = 'Hi, lady!';
+      break;
     case 'other':
-      model.note = 'Hi there!'
-      break
+      model.note = 'Hi there!';
+      break;
     default:
-      break
+      break;
   }
 }
 
 function handleFinish(values: any) {
-  console.log(values)
+  console.log(values);
 }
 
 function handleReset() {
-  formRef.value?.resetFields?.()
+  formRef.value?.resetFields?.();
 }
 
 function handleFill() {
-  formRef.value?.setFieldsValue?.({ note: 'Hello world!', gender: 'male' })
+  formRef.value?.setFieldsValue?.({ note: 'Hello world!', gender: 'male' });
 }
 </script>
 
@@ -75,20 +75,19 @@ function handleFill() {
         @change="handleGenderChange"
       />
     </a-form-item>
-    <a-form-item v-if="model.gender === 'other'" name="customizeGender" label="Customize Gender" :rules="[{ required: true }]">
+    <a-form-item
+      v-if="model.gender === 'other'"
+      name="customizeGender"
+      label="Customize Gender"
+      :rules="[{ required: true }]"
+    >
       <a-input v-model:value="model.customizeGender" />
     </a-form-item>
     <a-form-item :label="null">
       <a-space>
-        <a-button type="primary" html-type="submit">
-          Submit
-        </a-button>
-        <a-button html-type="button" @click="handleReset">
-          Reset
-        </a-button>
-        <a-button type="link" html-type="button" @click="handleFill">
-          Fill form
-        </a-button>
+        <a-button type="primary" html-type="submit"> Submit </a-button>
+        <a-button html-type="button" @click="handleReset"> Reset </a-button>
+        <a-button type="link" html-type="button" @click="handleFill"> Fill form </a-button>
       </a-space>
     </a-form-item>
   </a-form>

@@ -8,19 +8,19 @@ Mix horizontal and vertical layouts in one page.
 
 ```vue
 <script setup lang="ts">
-import { reactive } from 'vue'
+import { reactive } from 'vue';
 
 const modelHorizontal = reactive({
   horizontal: '',
   vertical: '',
   vertical2: '',
-})
+});
 
 const modelVertical = reactive({
   horizontal: '',
   vertical: '',
   vertical2: '',
-})
+});
 </script>
 
 <template>

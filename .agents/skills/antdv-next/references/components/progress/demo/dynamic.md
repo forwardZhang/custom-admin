@@ -8,17 +8,17 @@ A dynamic progress bar is better.
 
 ```vue
 <script setup lang="ts">
-import { MinusOutlined, PlusOutlined } from '@antdv-next/icons'
-import { ref } from 'vue'
+import { MinusOutlined, PlusOutlined } from '@antdv-next/icons';
+import { ref } from 'vue';
 
-const percent = ref(0)
+const percent = ref(0);
 
 function increase() {
-  percent.value = Math.min(100, percent.value + 10)
+  percent.value = Math.min(100, percent.value + 10);
 }
 
 function decline() {
-  percent.value = Math.max(0, percent.value - 10)
+  percent.value = Math.max(0, percent.value - 10);
 }
 </script>
 

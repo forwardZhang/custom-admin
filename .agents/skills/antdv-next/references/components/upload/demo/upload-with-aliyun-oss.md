@@ -8,22 +8,22 @@ Use Aliyun OSS upload example.
 
 ```vue
 <script setup lang="ts">
-import type { UploadEmits, UploadFile, UploadProps } from 'antdv-next'
-import { UploadOutlined } from '@antdv-next/icons'
-import { message } from 'antdv-next'
-import { onMounted, ref } from 'vue'
+import type { UploadEmits, UploadFile, UploadProps } from 'antdv-next';
+import { UploadOutlined } from '@antdv-next/icons';
+import { message } from 'antdv-next';
+import { onMounted, ref } from 'vue';
 
 interface OSSDataType {
-  dir: string
-  expire: string
-  host: string
-  accessId: string
-  policy: string
-  signature: string
+  dir: string;
+  expire: string;
+  host: string;
+  accessId: string;
+  policy: string;
+  signature: string;
 }
 
-const fileList = ref<UploadFile[]>([])
-const ossData = ref<OSSDataType | null>(null)
+const fileList = ref<UploadFile[]>([]);
+const ossData = ref<OSSDataType | null>(null);
 
 function mockOSSData() {
   return Promise.resolve({
@@ -33,56 +33,55 @@ function mockOSSData() {
     accessId: 'c2hhb2RhaG9uZw==',
     policy: 'eGl4aWhhaGFrdWt1ZGFkYQ==',
     signature: 'ZGFob25nc2hhbw==',
-  })
+  });
 }
 
 async function init() {
   try {
-    ossData.value = await mockOSSData()
-  }
-  catch (err) {
+    ossData.value = await mockOSSData();
+  } catch (err) {
     if (err instanceof Error) {
-      message.error(err.message)
+      message.error(err.message);
     }
   }
 }
 
 onMounted(() => {
-  init()
-})
+  init();
+});
 
 const handleChange: UploadEmits['change'] = ({ fileList: newFileList }) => {
-  console.log('Aliyun OSS:', newFileList)
-  fileList.value = [...newFileList]
-}
+  console.log('Aliyun OSS:', newFileList);
+  fileList.value = [...newFileList];
+};
 
 const handleRemove: UploadProps['onRemove'] = (file) => {
-  fileList.value = fileList.value.filter(item => item.url !== file.url)
-}
+  fileList.value = fileList.value.filter((item) => item.url !== file.url);
+};
 
-const getExtraData: UploadProps['data'] = file => ({
+const getExtraData: UploadProps['data'] = (file) => ({
   key: file.url,
   OSSAccessKeyId: ossData.value?.accessId,
   policy: ossData.value?.policy,
   Signature: ossData.value?.signature,
-})
+});
 
 const beforeUpload: UploadProps['beforeUpload'] = async (file) => {
   if (!ossData.value) {
-    return false
+    return false;
   }
 
-  const expire = Number(ossData.value.expire) * 1000
+  const expire = Number(ossData.value.expire) * 1000;
   if (expire < Date.now()) {
-    await init()
+    await init();
   }
 
-  const suffix = file.name.slice(file.name.lastIndexOf('.'))
-  const filename = Date.now() + suffix
-  ;(file as UploadFile).url = ossData.value.dir + filename
+  const suffix = file.name.slice(file.name.lastIndexOf('.'));
+  const filename = Date.now() + suffix;
+  (file as UploadFile).url = ossData.value.dir + filename;
 
-  return file
-}
+  return file;
+};
 </script>
 
 <template>

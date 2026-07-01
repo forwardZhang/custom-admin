@@ -8,29 +8,25 @@ Use ConfigProvider to customize empty content.
 
 ```vue
 <script setup lang="ts">
-import { SmileOutlined } from '@antdv-next/icons'
-import { h, ref } from 'vue'
+import { SmileOutlined } from '@antdv-next/icons';
+import { h, ref } from 'vue';
 
-const customize = ref(true)
-const controlStyle = { width: '200px' }
+const customize = ref(true);
+const controlStyle = { width: '200px' };
 
 function renderEmpty() {
-  return h(
-    'div',
-    { style: { textAlign: 'center' } },
-    [
-      h(SmileOutlined, { style: { fontSize: '20px' } }),
-      h('p', 'Data Not Found'),
-    ],
-  )
+  return h('div', { style: { textAlign: 'center' } }, [
+    h(SmileOutlined, { style: { fontSize: '20px' } }),
+    h('p', 'Data Not Found'),
+  ]);
 }
 
 const columns = [
   { title: 'Name', dataIndex: 'name', key: 'name' },
   { title: 'Age', dataIndex: 'age', key: 'age' },
-]
+];
 
-const renderTransferItem = (item: any) => item.title
+const renderTransferItem = (item: any) => item.title;
 </script>
 
 <template>

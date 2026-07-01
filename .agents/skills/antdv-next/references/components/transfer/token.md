@@ -21,11 +21,11 @@ Use these variables through `theme.components.Transfer`. This document lists def
 
 ## Token List
 
-| Token | Type | Description |
-| --- | --- | --- |
-| `listWidth` | `string \| number` | Width of list |
-| `listWidthLG` | `string \| number` | Width of large list |
-| `listHeight` | `string \| number` | Height of list |
-| `itemHeight` | `string \| number` | Height of list item |
+| Token              | Type               | Description                   |
+| ------------------ | ------------------ | ----------------------------- |
+| `listWidth`        | `string \| number` | Width of list                 |
+| `listWidthLG`      | `string \| number` | Width of large list           |
+| `listHeight`       | `string \| number` | Height of list                |
+| `itemHeight`       | `string \| number` | Height of list item           |
 | `itemPaddingBlock` | `string \| number` | Vertical padding of list item |
-| `headerHeight` | `string \| number` | Height of header |
+| `headerHeight`     | `string \| number` | Height of header              |

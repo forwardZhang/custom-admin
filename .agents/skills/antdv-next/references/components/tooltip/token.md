@@ -21,7 +21,7 @@ Use these variables through `theme.components.Tooltip`. This document lists defi
 
 ## Token List
 
-| Token | Type | Description |
-| --- | --- | --- |
-| `maxWidth` | `number` | Max width of tooltip |
-| `zIndexPopup` | `number` | z-index of tooltip |
+| Token         | Type     | Description          |
+| ------------- | -------- | -------------------- |
+| `maxWidth`    | `number` | Max width of tooltip |
+| `zIndexPopup` | `number` | z-index of tooltip   |

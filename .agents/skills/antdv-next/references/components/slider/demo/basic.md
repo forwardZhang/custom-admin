@@ -8,11 +8,11 @@ Basic slider. When `range` is `true`, display as dual thumb mode. When `disable`
 
 ```vue
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref } from 'vue';
 
-const disabled = ref(false)
-const value = ref(30)
-const valueRange = ref([20, 50])
+const disabled = ref(false);
+const value = ref(30);
+const valueRange = ref([20, 50]);
 </script>
 
 <template>

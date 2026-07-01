@@ -13,23 +13,17 @@ const classes = {
   image: 'empty-demo-image',
   description: 'empty-demo-description',
   footer: 'empty-demo-footer',
-}
+};
 
 const styles = {
   root: { padding: '24px', background: '#fafafa' },
   image: { height: '60px' },
-}
+};
 </script>
 
 <template>
-  <a-empty
-    description="No Data"
-    :classes="classes"
-    :styles="styles"
-  >
-    <a-button type="primary">
-      Create
-    </a-button>
+  <a-empty description="No Data" :classes="classes" :styles="styles">
+    <a-button type="primary"> Create </a-button>
   </a-empty>
 </template>
 

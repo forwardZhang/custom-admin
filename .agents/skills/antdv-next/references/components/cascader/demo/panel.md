@@ -8,13 +8,13 @@ Used for inline view case.
 
 ```vue
 <script setup lang="ts">
-import type { CascaderEmits } from 'antdv-next'
-import { ref } from 'vue'
+import type { CascaderEmits } from 'antdv-next';
+import { ref } from 'vue';
 
 interface Option {
-  value: string | number
-  label: string
-  children?: Option[]
+  value: string | number;
+  label: string;
+  children?: Option[];
 }
 
 const options: Option[] = [
@@ -50,17 +50,17 @@ const options: Option[] = [
       },
     ],
   },
-]
+];
 
-const disabled = ref(false)
+const disabled = ref(false);
 
 const onChange: CascaderEmits['change'] = (value) => {
-  console.log(value)
-}
+  console.log(value);
+};
 
 const onMultipleChange: CascaderEmits['change'] = (value) => {
-  console.log(value)
-}
+  console.log(value);
+};
 </script>
 
 <template>

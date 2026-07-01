@@ -8,12 +8,12 @@ Node supports `loading` to indicate loading, and `reverse` property to control t
 
 ```vue
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref } from 'vue';
 
-const reverse = ref(false)
+const reverse = ref(false);
 
 function handleClick() {
-  reverse.value = !reverse.value
+  reverse.value = !reverse.value;
 }
 
 const items = [
@@ -30,15 +30,13 @@ const items = [
     loading: true,
     content: 'Recording...',
   },
-]
+];
 </script>
 
 <template>
   <a-flex vertical gap="middle" align="flex-start">
     <a-timeline :reverse="reverse" :items="items" />
-    <a-button type="primary" @click="handleClick">
-      Toggle Reverse
-    </a-button>
+    <a-button type="primary" @click="handleClick"> Toggle Reverse </a-button>
   </a-flex>
 </template>
 ```

@@ -8,23 +8,22 @@ Validate only without triggering UI status updates.
 
 ```vue
 <script setup lang="ts">
-import type { FormInstance } from 'antdv-next'
-import { message } from 'antdv-next'
-import { reactive, shallowRef } from 'vue'
+import type { FormInstance } from 'antdv-next';
+import { message } from 'antdv-next';
+import { reactive, shallowRef } from 'vue';
 
-const formRef = shallowRef<FormInstance>()
+const formRef = shallowRef<FormInstance>();
 const model = reactive({
   username: '',
   password: '',
-})
+});
 
 async function handleValidateOnly() {
   try {
-    await formRef.value?.validateFields?.(['username', 'password'], { validateOnly: true })
-    message.success('Validate only success')
-  }
-  catch {
-    message.error('Validate only failed')
+    await formRef.value?.validateFields?.(['username', 'password'], { validateOnly: true });
+    message.success('Validate only success');
+  } catch {
+    message.error('Validate only failed');
   }
 }
 </script>
@@ -39,12 +38,8 @@ async function handleValidateOnly() {
     </a-form-item>
     <a-form-item :label="null">
       <a-space>
-        <a-button type="primary" html-type="submit">
-          Submit
-        </a-button>
-        <a-button html-type="button" @click="handleValidateOnly">
-          Validate Only
-        </a-button>
+        <a-button type="primary" html-type="submit"> Submit </a-button>
+        <a-button html-type="button" @click="handleValidateOnly"> Validate Only </a-button>
       </a-space>
     </a-form-item>
   </a-form>

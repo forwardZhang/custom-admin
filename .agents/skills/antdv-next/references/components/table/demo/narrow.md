@@ -8,27 +8,27 @@ There are two compacted table sizes: `middle` and `small`. The `small` size is u
 
 ```vue
 <script setup lang="ts">
-import type { TableProps } from 'antdv-next'
+import type { TableProps } from 'antdv-next';
 
 interface DataType {
-  key: string
-  name: string
-  age: number
-  address: string
+  key: string;
+  name: string;
+  age: number;
+  address: string;
 }
 
 const columns: TableProps['columns'] = [
   { title: 'Name', dataIndex: 'name', key: 'name' },
   { title: 'Age', dataIndex: 'age', key: 'age' },
   { title: 'Address', dataIndex: 'address', key: 'address' },
-]
+];
 
 const dataSource: DataType[] = Array.from({ length: 200 }).map((_, key) => ({
   key: String(key),
   name: 'Sample Name',
   age: 30 + (key % 5),
   address: `Sample Address ${key}`,
-}))
+}));
 </script>
 
 <template>

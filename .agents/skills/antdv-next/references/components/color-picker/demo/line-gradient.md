@@ -8,7 +8,7 @@ Set the color to a single or a gradient color via `mode`.
 
 ```vue
 <script setup lang="ts">
-import { shallowRef } from 'vue'
+import { shallowRef } from 'vue';
 
 const DEFAULT_COLOR = [
   {
@@ -19,13 +19,13 @@ const DEFAULT_COLOR = [
     color: 'rgb(135, 208, 104)',
     percent: 100,
   },
-]
+];
 
-const color = shallowRef(DEFAULT_COLOR.map(item => ({ ...item })))
-const gradientOnly = shallowRef(DEFAULT_COLOR.map(item => ({ ...item })))
+const color = shallowRef(DEFAULT_COLOR.map((item) => ({ ...item })));
+const gradientOnly = shallowRef(DEFAULT_COLOR.map((item) => ({ ...item })));
 
 function handleChangeComplete(value: any) {
-  console.log(value.toCssString())
+  console.log(value.toCssString());
 }
 </script>
 

@@ -8,7 +8,7 @@ Support flexible responsive flex ratios, which require CSS Variables support in 
 
 ```vue
 <script setup lang="ts">
-const columns = Array.from({ length: 10 }, (_, index) => index)
+const columns = Array.from({ length: 10 }, (_, index) => index);
 </script>
 
 <template>

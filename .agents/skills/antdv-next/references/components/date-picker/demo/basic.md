@@ -8,13 +8,13 @@ Basic use case. Users can select or input a date in a panel.
 
 ```vue
 <script setup lang="ts">
-import { shallowRef } from 'vue'
+import { shallowRef } from 'vue';
 
-const date = shallowRef()
-const week = shallowRef()
-const month = shallowRef()
-const year = shallowRef()
-const quarter = shallowRef()
+const date = shallowRef();
+const week = shallowRef();
+const month = shallowRef();
+const year = shallowRef();
+const quarter = shallowRef();
 </script>
 
 <template>

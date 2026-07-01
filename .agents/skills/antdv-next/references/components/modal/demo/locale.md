@@ -8,22 +8,20 @@ To customize the text of the buttons, you need to set `okText` and `cancelText` 
 
 ```vue
 <script lang="ts" setup>
-import { ref } from 'vue'
+import { ref } from 'vue';
 
-const open = ref(false)
+const open = ref(false);
 
 function showModal() {
-  open.value = true
+  open.value = true;
 }
 function hideModal() {
-  open.value = false
+  open.value = false;
 }
 </script>
 
 <template>
-  <a-button type="primary" @click="showModal">
-    Modal
-  </a-button>
+  <a-button type="primary" @click="showModal"> Modal </a-button>
   <a-modal
     v-model:open="open"
     title="Modal"

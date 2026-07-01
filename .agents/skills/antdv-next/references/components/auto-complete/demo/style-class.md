@@ -6,7 +6,7 @@
 
 ```vue
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref } from 'vue';
 
 const stylesObject = {
   popup: {
@@ -22,7 +22,7 @@ const stylesObject = {
       color: '#272727',
     },
   },
-}
+};
 
 function stylesFn({ props }: { props: { variant?: string } }) {
   if (props.variant === 'filled') {
@@ -40,9 +40,9 @@ function stylesFn({ props }: { props: { variant?: string } }) {
           color: '#272727',
         },
       },
-    }
+    };
   }
-  return {}
+  return {};
 }
 
 const options = [
@@ -51,7 +51,7 @@ const options = [
   { value: 'Los Angeles' },
   { value: 'San Francisco' },
   { value: 'Meet student' },
-]
+];
 
 const sharedProps = {
   options,
@@ -59,14 +59,19 @@ const sharedProps = {
     root: 'auto-complete-style-root',
   },
   style: { width: '200px' },
-}
+};
 
-const value = ref('')
+const value = ref('');
 </script>
 
 <template>
   <a-flex vertical gap="middle">
-    <a-auto-complete v-model:value="value" v-bind="sharedProps" placeholder="object styles" :styles="stylesObject" />
+    <a-auto-complete
+      v-model:value="value"
+      v-bind="sharedProps"
+      placeholder="object styles"
+      :styles="stylesObject"
+    />
     <a-auto-complete
       v-model:value="value"
       v-bind="sharedProps"

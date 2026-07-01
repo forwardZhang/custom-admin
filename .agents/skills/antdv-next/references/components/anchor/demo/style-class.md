@@ -6,14 +6,14 @@
 
 ```vue
 <script setup lang="ts">
-import type { AnchorProps } from 'antdv-next'
+import type { AnchorProps } from 'antdv-next';
 
 const classesObject: AnchorProps['classes'] = {
   root: 'demo-anchor-root',
   item: 'demo-anchor-item',
   itemTitle: 'demo-anchor-title',
   indicator: 'demo-anchor-indicator',
-}
+};
 
 const stylesFn: AnchorProps['styles'] = (info) => {
   if (info.props.direction === 'vertical') {
@@ -22,10 +22,10 @@ const stylesFn: AnchorProps['styles'] = (info) => {
         backgroundColor: 'rgba(255,251,230,0.5)',
         height: '100vh',
       },
-    }
+    };
   }
-  return {}
-}
+  return {};
+};
 
 const items: NonNullable<AnchorProps['items']> = [
   {
@@ -43,7 +43,7 @@ const items: NonNullable<AnchorProps['items']> = [
     href: '#part-3',
     title: 'Part 3',
   },
-]
+];
 </script>
 
 <template>

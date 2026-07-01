@@ -8,11 +8,11 @@ If you are using [iconfont.cn](http://iconfont.cn/), you can use the icons in yo
 
 ```vue
 <script setup lang="ts">
-import { createFromIconfontCN } from '@antdv-next/icons'
+import { createFromIconfontCN } from '@antdv-next/icons';
 
 const IconFont = createFromIconfontCN({
   scriptUrl: '//at.alicdn.com/t/font_8d5l8fzk5b87iudi.js',
-})
+});
 </script>
 
 <template>

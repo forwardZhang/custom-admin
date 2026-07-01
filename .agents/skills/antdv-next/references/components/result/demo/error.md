@@ -8,7 +8,7 @@ Complex error feedback.
 
 ```vue
 <script lang="ts" setup>
-import { CloseCircleOutlined } from '@antdv-next/icons'
+import { CloseCircleOutlined } from '@antdv-next/icons';
 </script>
 
 <template>
@@ -18,16 +18,12 @@ import { CloseCircleOutlined } from '@antdv-next/icons'
     sub-title="Please check and modify the following information before resubmitting."
   >
     <template #extra>
-      <a-button key="console" type="primary">
-        Go Console
-      </a-button>
-      <a-button key="buy">
-        Buy Again
-      </a-button>
+      <a-button key="console" type="primary"> Go Console </a-button>
+      <a-button key="buy"> Buy Again </a-button>
     </template>
     <div>
-      <CloseCircleOutlined class="site-result-demo-error-icon" /> Your account is not yet
-      eligible to apply. <a>Apply Unlock &gt;</a>
+      <CloseCircleOutlined class="site-result-demo-error-icon" /> Your account is not yet eligible
+      to apply. <a>Apply Unlock &gt;</a>
     </div>
   </a-result>
 </template>

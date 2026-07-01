@@ -21,8 +21,8 @@ Use these variables through `theme.components.Splitter`. This document lists def
 
 ## Token List
 
-| Token | Type | Description |
-| --- | --- | --- |
+| Token                   | Type     | Description                             |
+| ----------------------- | -------- | --------------------------------------- |
 | `splitBarDraggableSize` | `number` | Drag and drop the identity element size |
-| `splitBarSize` | `number` | Drag the element display size |
-| `splitTriggerSize` | `number` | Drag and drop trigger area size |
+| `splitBarSize`          | `number` | Drag the element display size           |
+| `splitTriggerSize`      | `number` | Drag and drop trigger area size         |

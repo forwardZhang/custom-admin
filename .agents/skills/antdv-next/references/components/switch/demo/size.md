@@ -8,15 +8,15 @@
 
 ```vue
 <script setup lang="ts">
-import { shallowRef } from 'vue'
+import { shallowRef } from 'vue';
 
-const checked1 = shallowRef(true)
-const checked2 = shallowRef(true)
+const checked1 = shallowRef(true);
+const checked2 = shallowRef(true);
 </script>
 
 <template>
   <a-switch v-model:checked="checked1" />
-  <br>
+  <br />
   <a-switch v-model:checked="checked2" size="small" />
 </template>
 ```

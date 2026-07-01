@@ -8,7 +8,7 @@ Custom validation status display.
 
 ```vue
 <script setup lang="ts">
-import { SmileOutlined } from '@antdv-next/icons'
+import { SmileOutlined } from '@antdv-next/icons';
 </script>
 
 <template>

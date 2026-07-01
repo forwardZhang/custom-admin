@@ -7,8 +7,7 @@ Add status to Select with `status`, which could be `error` or `warning`.
 ## Source
 
 ```vue
-<script setup lang="ts">
-</script>
+<script setup lang="ts"></script>
 
 <template>
   <a-space vertical style="width: 100%">

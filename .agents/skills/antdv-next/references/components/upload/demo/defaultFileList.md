@@ -8,8 +8,8 @@ Use `defaultFileList` for uploaded files when page init.
 
 ```vue
 <script setup lang="ts">
-import type { UploadEmits, UploadFile } from 'antdv-next'
-import { UploadOutlined } from '@antdv-next/icons'
+import type { UploadEmits, UploadFile } from 'antdv-next';
+import { UploadOutlined } from '@antdv-next/icons';
 
 const defaultFileList: UploadFile[] = [
   {
@@ -32,13 +32,13 @@ const defaultFileList: UploadFile[] = [
     response: 'Server Error 500',
     url: 'http://www.baidu.com/zzz.png',
   },
-]
+];
 
 const handleChange: UploadEmits['change'] = ({ file, fileList }) => {
   if (file?.status !== 'uploading') {
-    console.log(file, fileList)
+    console.log(file, fileList);
   }
-}
+};
 </script>
 
 <template>

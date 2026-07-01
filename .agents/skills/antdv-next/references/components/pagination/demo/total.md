@@ -8,10 +8,11 @@ You can show the total number of data by setting `showTotal`.
 
 ```vue
 <script setup lang="ts">
-import type { PaginationProps } from 'antdv-next'
+import type { PaginationProps } from 'antdv-next';
 
-const showTotal: PaginationProps['showTotal'] = total => `Total ${total} items`
-const showRangeTotal: PaginationProps['showTotal'] = (total, range) => `${range[0]}-${range[1]} of ${total} items`
+const showTotal: PaginationProps['showTotal'] = (total) => `Total ${total} items`;
+const showRangeTotal: PaginationProps['showTotal'] = (total, range) =>
+  `${range[0]}-${range[1]} of ${total} items`;
 </script>
 
 <template>

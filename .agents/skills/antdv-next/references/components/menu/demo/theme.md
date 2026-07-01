@@ -8,12 +8,12 @@ There are two built-in themes: `light` and `dark`. The default value is `light`.
 
 ```vue
 <script setup lang="ts">
-import type { MenuItemType } from 'antdv-next'
-import { AppstoreOutlined, MailOutlined, SettingOutlined } from '@antdv-next/icons'
-import { ref } from 'vue'
+import type { MenuItemType } from 'antdv-next';
+import { AppstoreOutlined, MailOutlined, SettingOutlined } from '@antdv-next/icons';
+import { ref } from 'vue';
 
-const theme = ref<'dark' | 'light'>('dark')
-const current = ref('1')
+const theme = ref<'dark' | 'light'>('dark');
+const current = ref('1');
 
 const items: MenuItemType[] = [
   {
@@ -55,15 +55,15 @@ const items: MenuItemType[] = [
       { key: '12', label: 'Option 12' },
     ],
   },
-]
+];
 
 function changeTheme(value: boolean) {
-  theme.value = value ? 'dark' : 'light'
+  theme.value = value ? 'dark' : 'light';
 }
 
 function onClick(e: any) {
-  console.log('click ', e)
-  current.value = e.key
+  console.log('click ', e);
+  current.value = e.key;
 }
 </script>
 
@@ -74,8 +74,8 @@ function onClick(e: any) {
     un-checked-children="Light"
     @change="changeTheme"
   />
-  <br>
-  <br>
+  <br />
+  <br />
   <a-menu
     :theme="theme"
     :selected-keys="[current]"

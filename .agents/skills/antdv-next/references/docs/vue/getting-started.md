@@ -24,9 +24,9 @@ Replace the contents of `App.vue` with the following code. As you can see, you c
 
 ```vue
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref } from 'vue';
 
-const value = ref()
+const value = ref();
 </script>
 
 <template>
@@ -66,9 +66,9 @@ We provide a library adapter `@antdv-next/auto-import-resolver`.
 > This section only introduces usage with Vite. For more details, please refer to [@antdv-next/auto-import-resolver](https://www.npmjs.com/package/@antdv-next/auto-import-resolver).
 
 ```ts
-import { AntdvNextResolver } from '@antdv-next/auto-import-resolver'
+import { AntdvNextResolver } from '@antdv-next/auto-import-resolver';
 // vite.config.ts
-import Components from 'unplugin-vue-components/vite'
+import Components from 'unplugin-vue-components/vite';
 
 export default defineConfig({
   plugins: [
@@ -76,5 +76,5 @@ export default defineConfig({
       resolvers: [AntdvNextResolver()],
     }),
   ],
-})
+});
 ```

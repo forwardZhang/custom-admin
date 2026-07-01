@@ -6,16 +6,16 @@
 
 ```vue
 <script setup lang="ts">
-import type { InputNumberProps } from 'antdv-next'
+import type { InputNumberProps } from 'antdv-next';
 
 const shardStyle = {
   root: 'shard',
-}
+};
 const styleObject: InputNumberProps['styles'] = {
   input: {
     fontSize: '14px',
   },
-}
+};
 const styleFn: InputNumberProps['styles'] = ({ props }) => {
   if (props.size === 'large') {
     return {
@@ -23,10 +23,10 @@ const styleFn: InputNumberProps['styles'] = ({ props }) => {
         backgroundColor: 'rgba(250,250,250, 0.5)',
         borderColor: '#722ed1',
       },
-    } satisfies InputNumberProps['styles']
+    } satisfies InputNumberProps['styles'];
   }
-  return {}
-}
+  return {};
+};
 </script>
 
 <template>

@@ -8,7 +8,7 @@ You can add custom styles by setting `button.classes` in ConfigProvider. This ex
 
 ```vue
 <script setup lang="ts">
-import { AntDesignOutlined } from '@antdv-next/icons'
+import { AntDesignOutlined } from '@antdv-next/icons';
 </script>
 
 <template>
@@ -26,9 +26,7 @@ import { AntDesignOutlined } from '@antdv-next/icons'
         </template>
         Gradient Button
       </a-button>
-      <a-button size="large">
-        Button
-      </a-button>
+      <a-button size="large"> Button </a-button>
     </a-space>
   </a-config-provider>
 </template>

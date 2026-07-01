@@ -8,24 +8,22 @@ There are `outlined`, `filled`, `borderless`, and `underlined` variants to choos
 
 ```vue
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref } from 'vue';
 
-const options = ref<{ value: string }[]>([])
+const options = ref<{ value: string }[]>([]);
 
-const mockVal = (str: string, repeat = 1) => ({ value: str.repeat(repeat) })
+const mockVal = (str: string, repeat = 1) => ({ value: str.repeat(repeat) });
 
 function getPanelValue(searchText: string) {
-  return searchText
-    ? [mockVal(searchText), mockVal(searchText, 2), mockVal(searchText, 3)]
-    : []
+  return searchText ? [mockVal(searchText), mockVal(searchText, 2), mockVal(searchText, 3)] : [];
 }
 
 function handleSearch(text: string) {
-  options.value = getPanelValue(text)
+  options.value = getPanelValue(text);
 }
 
 function handleSelect(value: string) {
-  console.log('onSelect', value)
+  console.log('onSelect', value);
 }
 </script>
 

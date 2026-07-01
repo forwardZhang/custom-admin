@@ -6,7 +6,7 @@
 
 ```vue
 <script setup lang="ts">
-import type { ResultProps } from 'antdv-next'
+import type { ResultProps } from 'antdv-next';
 
 const classesObject: ResultProps['classes'] = {
   root: 'demo-result-root',
@@ -15,18 +15,18 @@ const classesObject: ResultProps['classes'] = {
   icon: 'demo-result-icon',
   extra: 'demo-result-extra',
   body: 'demo-result-body',
-}
+};
 
 const classesFn: ResultProps['classes'] = (info) => {
   if (info.props.status === 'success') {
     return {
       root: 'demo-result-root--success',
-    } satisfies ResultProps['classes']
+    } satisfies ResultProps['classes'];
   }
   return {
     root: 'demo-result-root--default',
-  } satisfies ResultProps['classes']
-}
+  } satisfies ResultProps['classes'];
+};
 
 const stylesObject: ResultProps['styles'] = {
   root: { borderWidth: '2px', borderStyle: 'dashed', padding: '16px' },
@@ -35,22 +35,21 @@ const stylesObject: ResultProps['styles'] = {
   icon: { opacity: 0.8 },
   extra: { backgroundColor: '#f0f0f0', padding: 'px' },
   body: { backgroundColor: '#fafafa', padding: '12px' },
-}
+};
 
 const stylesFn: ResultProps['styles'] = (info) => {
   if (info.props.status === 'error') {
     return {
       root: { backgroundColor: '#fff2f0', borderColor: '#ff4d4f' },
       title: { color: '#ff4d4f' },
-    } satisfies ResultProps['styles']
-  }
-  else {
+    } satisfies ResultProps['styles'];
+  } else {
     return {
       root: { backgroundColor: '#f6ffed', borderColor: '#52c41a' },
       title: { color: '#52c41a' },
-    } satisfies ResultProps['styles']
+    } satisfies ResultProps['styles'];
   }
-}
+};
 </script>
 
 <template>
@@ -62,9 +61,7 @@ const stylesFn: ResultProps['styles'] = (info) => {
     :classes="classesObject"
   >
     <template #extra>
-      <a-button type="primary">
-        Action
-      </a-button>
+      <a-button type="primary"> Action </a-button>
     </template>
     <div>Content area</div>
   </a-result>
@@ -76,9 +73,7 @@ const stylesFn: ResultProps['styles'] = (info) => {
     :classes="classesFn"
   >
     <template #extra>
-      <a-button type="primary">
-        Action
-      </a-button>
+      <a-button type="primary"> Action </a-button>
     </template>
   </a-result>
 </template>

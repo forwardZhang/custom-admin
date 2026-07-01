@@ -8,9 +8,9 @@ There are 12 `placement` options available. Set `arrow` with `pointAtCenter: tru
 
 ```vue
 <script setup lang="ts">
-const title = 'Are you sure to delete this task?'
-const description = 'Delete the task'
-const buttonWidth = 80
+const title = 'Are you sure to delete this task?';
+const description = 'Delete the task';
+const buttonWidth = 80;
 </script>
 
 <template>
@@ -45,7 +45,11 @@ const buttonWidth = 80
           <a-button>TR</a-button>
         </a-popconfirm>
       </a-flex>
-      <a-flex :style="{ width: `${buttonWidth * 5 + 32}px` }" justify="space-between" align="center">
+      <a-flex
+        :style="{ width: `${buttonWidth * 5 + 32}px` }"
+        justify="space-between"
+        align="center"
+      >
         <a-flex align="center" vertical>
           <a-popconfirm
             placement="leftTop"

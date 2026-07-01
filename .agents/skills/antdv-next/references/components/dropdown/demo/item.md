@@ -8,8 +8,8 @@ Divider and disabled menu item.
 
 ```vue
 <script setup lang="ts">
-import type { MenuItemType } from 'antdv-next'
-import { DownOutlined } from '@antdv-next/icons'
+import type { MenuItemType } from 'antdv-next';
+import { DownOutlined } from '@antdv-next/icons';
 
 const items: MenuItemType[] = [
   {
@@ -28,12 +28,12 @@ const items: MenuItemType[] = [
     key: '3',
     disabled: true,
   },
-]
+];
 
 const href: Record<string, string> = {
   0: 'https://www.antgroup.com',
   1: 'https://www.aliyun.com',
-}
+};
 </script>
 
 <template>

@@ -8,8 +8,8 @@ Demonstration of [Lookup Patterns: Certain Category](https://ant.design/docs/spe
 
 ```vue
 <script setup lang="ts">
-import { UserOutlined } from '@antdv-next/icons'
-import { h } from 'vue'
+import { UserOutlined } from '@antdv-next/icons';
+import { h } from 'vue';
 
 function renderTitle(title: string) {
   return h(
@@ -33,7 +33,7 @@ function renderTitle(title: string) {
         'more',
       ),
     ],
-  )
+  );
 }
 
 function renderItem(title: string, count: number) {
@@ -63,7 +63,7 @@ function renderItem(title: string, count: number) {
         ),
       ],
     ),
-  }
+  };
 }
 
 const options = [
@@ -79,7 +79,7 @@ const options = [
     label: renderTitle('Articles'),
     options: [renderItem('AntDesign design language', 100000)],
   },
-]
+];
 </script>
 
 <template>

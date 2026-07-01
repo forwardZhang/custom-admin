@@ -8,12 +8,14 @@ Basic usage.
 
 ```vue
 <script setup lang="ts">
-const heights = [150, 50, 90, 70, 110, 150, 130, 80, 50, 90, 100, 150, 60, 50, 80].map((height, index) => {
-  return {
-    key: `item-${index}`,
-    data: height,
-  }
-})
+const heights = [150, 50, 90, 70, 110, 150, 130, 80, 50, 90, 100, 150, 60, 50, 80].map(
+  (height, index) => {
+    return {
+      key: `item-${index}`,
+      data: height,
+    };
+  },
+);
 </script>
 
 <template>
@@ -25,7 +27,7 @@ const heights = [150, 50, 90, 70, 110, 150, 130, 80, 50, 90, 100, 150, 60, 50, 8
             <img
               alt="food"
               src="https://images.unsplash.com/photo-1491961865842-98f7befd1a60?w=523&auto=format"
-            >
+            />
           </template>
           <a-card-meta title="I'm Special" description="Let's have a meal" />
         </a-card>

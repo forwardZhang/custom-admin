@@ -21,7 +21,7 @@ const items = [
     title: 'Step 3',
     content: 'This is Step 3',
   },
-]
+];
 const data = [
   {
     title: 'Antdv Next Title 1',
@@ -40,7 +40,7 @@ const data = [
     title: 'Antdv Next Title 4',
     current: 1,
   },
-]
+];
 </script>
 
 <template>

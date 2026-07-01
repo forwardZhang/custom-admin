@@ -8,8 +8,8 @@ Multiple selection usage.
 
 ```vue
 <script setup lang="ts">
-import type { TreeSelectEmits } from 'antdv-next'
-import { ref } from 'vue'
+import type { TreeSelectEmits } from 'antdv-next';
+import { ref } from 'vue';
 
 const treeData = [
   {
@@ -42,13 +42,13 @@ const treeData = [
       },
     ],
   },
-]
+];
 
-const value = ref<string[]>()
+const value = ref<string[]>();
 
 const onChange: TreeSelectEmits['change'] = (newValue) => {
-  console.log(newValue)
-}
+  console.log(newValue);
+};
 </script>
 
 <template>

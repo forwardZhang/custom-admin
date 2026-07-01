@@ -8,8 +8,8 @@ Controlled mode lets parent nodes reflect the status of child nodes more intelli
 
 ```vue
 <script setup lang="ts">
-import type { TreeDataNode, TreeEmits } from 'antdv-next'
-import { ref } from 'vue'
+import type { TreeDataNode, TreeEmits } from 'antdv-next';
+import { ref } from 'vue';
 
 const treeData: TreeDataNode[] = [
   {
@@ -53,30 +53,30 @@ const treeData: TreeDataNode[] = [
     title: '0-2',
     key: '0-2',
   },
-]
+];
 
-const expandedKeys = ref<(string | number)[]>(['0-0-0', '0-0-1'])
-const checkedKeys = ref<(string | number)[]>(['0-0-0'])
-const selectedKeys = ref<(string | number)[]>([])
-const autoExpandParent = ref(true)
+const expandedKeys = ref<(string | number)[]>(['0-0-0', '0-0-1']);
+const checkedKeys = ref<(string | number)[]>(['0-0-0']);
+const selectedKeys = ref<(string | number)[]>([]);
+const autoExpandParent = ref(true);
 
 const onExpand: TreeEmits['expand'] = (expandedKeysValue) => {
-  console.log('onExpand', expandedKeysValue)
+  console.log('onExpand', expandedKeysValue);
   // if not set autoExpandParent to false, if children expanded, parent can not collapse.
   // or, you can remove all expanded children keys.
-  expandedKeys.value = expandedKeysValue
-  autoExpandParent.value = false
-}
+  expandedKeys.value = expandedKeysValue;
+  autoExpandParent.value = false;
+};
 
 const onCheck: TreeEmits['check'] = (checkedKeysValue) => {
-  console.log('onCheck', checkedKeysValue)
-  checkedKeys.value = checkedKeysValue as (string | number)[]
-}
+  console.log('onCheck', checkedKeysValue);
+  checkedKeys.value = checkedKeysValue as (string | number)[];
+};
 
 const onSelect: TreeEmits['select'] = (selectedKeysValue, info) => {
-  console.log('onSelect', info)
-  selectedKeys.value = selectedKeysValue
-}
+  console.log('onSelect', info);
+  selectedKeys.value = selectedKeysValue;
+};
 </script>
 
 <template>

@@ -1,15 +1,15 @@
-# _semantic
+# \_semantic
 
 ## Source
 
 ```vue
 <script setup lang="ts">
-import { computed, ref } from 'vue'
-import { SemanticPreview } from '@/components/semantic'
-import { useComponentLocale } from '@/composables/use-locale'
-import { locales } from '../locales'
+import { computed, ref } from 'vue';
+import { SemanticPreview } from '@/components/semantic';
+import { useComponentLocale } from '@/composables/use-locale';
+import { locales } from '../locales';
 
-const { t } = useComponentLocale(locales)
+const { t } = useComponentLocale(locales);
 
 const semantics = computed(() => [
   { name: 'root', desc: t('root') },
@@ -17,17 +17,14 @@ const semantics = computed(() => [
   { name: 'content', desc: t('content') },
   { name: 'description', desc: t('description') },
   { name: 'popup.root', desc: t('popup.root') },
-])
+]);
 
-const divRef = ref<HTMLDivElement | null>(null)
-const body = document?.body
+const divRef = ref<HTMLDivElement | null>(null);
+const body = document?.body;
 </script>
 
 <template>
-  <SemanticPreview
-    component-name="ColorPicker"
-    :semantics="semantics"
-  >
+  <SemanticPreview component-name="ColorPicker" :semantics="semantics">
     <template #default="{ classes }">
       <a-flex ref="divRef" :style="{ height: '300px' }" align="flex-start" gap="small">
         <a-color-picker

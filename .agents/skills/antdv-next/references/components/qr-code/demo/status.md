@@ -8,7 +8,7 @@ The `status` can be controlled by the value status, four values ​​of `active
 
 ```vue
 <script setup lang="ts">
-const value = 'https://www.antdv-next.com'
+const value = 'https://www.antdv-next.com';
 </script>
 
 <template>

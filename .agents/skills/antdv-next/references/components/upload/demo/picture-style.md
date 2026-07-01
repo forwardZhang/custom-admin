@@ -8,8 +8,8 @@ If uploaded file is a picture, the thumbnail can be shown. `IE8/9` do not suppor
 
 ```vue
 <script setup lang="ts">
-import type { UploadFile } from 'antdv-next'
-import { UploadOutlined } from '@antdv-next/icons'
+import type { UploadFile } from 'antdv-next';
+import { UploadOutlined } from '@antdv-next/icons';
 
 const defaultFileList: UploadFile[] = [
   {
@@ -30,7 +30,7 @@ const defaultFileList: UploadFile[] = [
     name: 'zzz.png',
     status: 'error',
   },
-]
+];
 </script>
 
 <template>

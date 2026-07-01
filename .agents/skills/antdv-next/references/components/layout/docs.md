@@ -53,17 +53,17 @@ Style of a navigation should conform to its level.
 
 ## Demos
 
-| Demo | Path |
-| --- | --- |
-| Basic Structure | demo/basic.md |
-| Header-Content-Footer | demo/top.md |
-| Header-Sider | demo/top-side.md |
-| Header Sider 2 | demo/top-side-2.md |
-| Sider | demo/side.md |
-| Custom trigger | demo/custom-trigger.md |
-| Responsive | demo/responsive.md |
-| Fixed Header | demo/fixed.md |
-| Fixed Sider | demo/fixed-sider.md |
+| Demo                  | Path                   |
+| --------------------- | ---------------------- |
+| Basic Structure       | demo/basic.md          |
+| Header-Content-Footer | demo/top.md            |
+| Header-Sider          | demo/top-side.md       |
+| Header Sider 2        | demo/top-side-2.md     |
+| Sider                 | demo/side.md           |
+| Custom trigger        | demo/custom-trigger.md |
+| Responsive            | demo/responsive.md     |
+| Fixed Header          | demo/fixed.md          |
+| Fixed Sider           | demo/fixed-sider.md    |
 
 ## API
 
@@ -85,33 +85,36 @@ Common props ref：[Common props](../../docs/vue/common-props.md)
 
 The wrapper.
 
-#### Props 
-| Property | Description | Type | Default | [Global Config](../config-provider/docs.md#component-config) |
-| --- | --- | --- | --- | --- |
-| hasSider | Whether contain Sider in children, don't have to assign it normally. Useful in ssr avoid style flickering | boolean | - | × |
+#### Props
+
+| Property | Description                                                                                               | Type    | Default | [Global Config](../config-provider/docs.md#component-config) |
+| -------- | --------------------------------------------------------------------------------------------------------- | ------- | ------- | ------------------------------------------------------------ |
+| hasSider | Whether contain Sider in children, don't have to assign it normally. Useful in ssr avoid style flickering | boolean | -       | ×                                                            |
 
 ### LayoutSider
 
-#### Props 
+#### Props
+
 The sidebar.
 
-| Property | Description | Type | Default | Version |
-| --- | --- | --- | --- | --- |
-| breakpoint | [Breakpoints](../grid/docs.md/#col) of the responsive layout | `xs` \| `sm` \| `md` \| `lg` \| `xl` \| `xxl` \| `xxxl` | - | xxxl: 1.0.3 |
-| collapsed | To set the current status | boolean | - |  |
-| collapsedWidth | Width of the collapsed sidebar, by setting to 0 a special trigger will appear | number | 80 |  |
-| collapsible | Whether can be collapsed | boolean | false |  |
-| reverseArrow | Reverse direction of arrow, for a sider that expands from the right | boolean | false |  |
-| theme | Color theme of the sidebar | `light` \| `dark` | `dark` |  |
-| trigger | Specify the customized trigger, set to null to hide the trigger | ReactNode | - |  |
-| width | Width of the sidebar | number \| string | 200 |  |
-| zeroWidthTriggerStyle | To customize the styles of the special trigger that appears when `collapsedWidth` is 0 | object | - |  |
+| Property              | Description                                                                            | Type                                                    | Default | Version     |
+| --------------------- | -------------------------------------------------------------------------------------- | ------------------------------------------------------- | ------- | ----------- |
+| breakpoint            | [Breakpoints](../grid/docs.md/#col) of the responsive layout                           | `xs` \| `sm` \| `md` \| `lg` \| `xl` \| `xxl` \| `xxxl` | -       | xxxl: 1.0.3 |
+| collapsed             | To set the current status                                                              | boolean                                                 | -       |             |
+| collapsedWidth        | Width of the collapsed sidebar, by setting to 0 a special trigger will appear          | number                                                  | 80      |             |
+| collapsible           | Whether can be collapsed                                                               | boolean                                                 | false   |             |
+| reverseArrow          | Reverse direction of arrow, for a sider that expands from the right                    | boolean                                                 | false   |             |
+| theme                 | Color theme of the sidebar                                                             | `light` \| `dark`                                       | `dark`  |             |
+| trigger               | Specify the customized trigger, set to null to hide the trigger                        | ReactNode                                               | -       |             |
+| width                 | Width of the sidebar                                                                   | number \| string                                        | 200     |             |
+| zeroWidthTriggerStyle | To customize the styles of the special trigger that appears when `collapsedWidth` is 0 | object                                                  | -       |             |
 
-#### Events 
-| Property | Description | Type | Default |
-| --- | --- | --- | --- |
-| breakpoint | The callback function, executed when [breakpoints](../grid/docs.md/#api) changed | (broken: boolean) => void | - |
-| collapse | The callback function, executed by clicking the trigger or activating the responsive layout | (collapsed: boolean, type: string) => void | - |
+#### Events
+
+| Property   | Description                                                                                 | Type                                       | Default |
+| ---------- | ------------------------------------------------------------------------------------------- | ------------------------------------------ | ------- |
+| breakpoint | The callback function, executed when [breakpoints](../grid/docs.md/#api) changed            | (broken: boolean) => void                  | -       |
+| collapse   | The callback function, executed by clicking the trigger or activating the responsive layout | (collapsed: boolean, type: string) => void | -       |
 
 ## Types
 
@@ -126,5 +129,5 @@ const breakpointWidth = {
   xl: '1200px',
   xxl: '1600px',
   xxxl: '1920px',
-}
+};
 ```

@@ -12,12 +12,12 @@ Render in current dom. custom container, check `getContainer`.
 
 ```vue
 <script setup lang="ts">
-import type { CSSProperties } from 'vue'
-import { theme } from 'antdv-next'
-import { computed, ref } from 'vue'
+import type { CSSProperties } from 'vue';
+import { theme } from 'antdv-next';
+import { computed, ref } from 'vue';
 
-const { token } = theme.useToken()
-const open = ref(false)
+const { token } = theme.useToken();
+const open = ref(false);
 
 const containerStyle = computed<CSSProperties>(() => ({
   position: 'relative',
@@ -27,16 +27,14 @@ const containerStyle = computed<CSSProperties>(() => ({
   background: token.value.colorFillAlter,
   border: `1px solid ${token.value.colorBorderSecondary}`,
   borderRadius: `${token.value.borderRadiusLG}px`,
-}))
+}));
 </script>
 
 <template>
   <div :style="containerStyle">
     Render in this
     <div style="margin-top: 16px">
-      <a-button type="primary" @click="open = true">
-        Open
-      </a-button>
+      <a-button type="primary" @click="open = true"> Open </a-button>
     </div>
     <a-drawer
       v-model:open="open"

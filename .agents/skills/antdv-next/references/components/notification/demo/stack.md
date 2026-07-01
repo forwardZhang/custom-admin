@@ -8,11 +8,11 @@ Stack configuration, enabled by default. More than 3 notifications will be autom
 
 ```vue
 <script setup lang="ts">
-import { notification } from 'antdv-next'
-import { computed, ref } from 'vue'
+import { notification } from 'antdv-next';
+import { computed, ref } from 'vue';
 
-const enabled = ref(true)
-const threshold = ref(3)
+const enabled = ref(true);
+const threshold = ref(3);
 
 const notificationConfig = computed(() => {
   return {
@@ -21,10 +21,10 @@ const notificationConfig = computed(() => {
           threshold: threshold.value,
         }
       : false,
-  }
-})
+  };
+});
 
-const [api, ContextHolder] = notification.useNotification(notificationConfig)
+const [api, ContextHolder] = notification.useNotification(notificationConfig);
 
 function openNotification() {
   api.open({
@@ -34,15 +34,15 @@ function openNotification() {
       () => 'This is the content of the notification.',
     ).join('\n'),
     duration: false,
-  })
+  });
 }
 
 function toggleEnabled(value: boolean) {
-  enabled.value = value
+  enabled.value = value;
 }
 
 function updateThreshold(value: number | null) {
-  threshold.value = value || 1
+  threshold.value = value || 1;
 }
 </script>
 
@@ -66,8 +66,6 @@ function updateThreshold(value: number | null) {
     </a-space>
   </a-space>
   <a-divider />
-  <a-button type="primary" @click="openNotification">
-    Open the notification box
-  </a-button>
+  <a-button type="primary" @click="openNotification"> Open the notification box </a-button>
 </template>
 ```

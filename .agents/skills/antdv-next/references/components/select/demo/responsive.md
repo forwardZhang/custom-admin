@@ -8,15 +8,15 @@ Auto collapse to tag with responsive case. Not recommend use in large form case 
 
 ```vue
 <script setup lang="ts">
-import { shallowRef } from 'vue'
+import { shallowRef } from 'vue';
 
 const options = Array.from({ length: 26 }, (_, i) => {
-  const value = (i + 10).toString(36) + (i + 10)
-  return { label: `Long Label: ${value}`, value }
-})
+  const value = (i + 10).toString(36) + (i + 10);
+  return { label: `Long Label: ${value}`, value };
+});
 
-const value = shallowRef(['a10', 'c12', 'h17', 'j19', 'k20'])
-const value1 = shallowRef(['a10', 'c12', 'h17', 'j19'])
+const value = shallowRef(['a10', 'c12', 'h17', 'j19', 'k20']);
+const value1 = shallowRef(['a10', 'c12', 'h17', 'j19']);
 </script>
 
 <template>

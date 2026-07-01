@@ -7,8 +7,7 @@ Disabled custom input debug.
 ## Source
 
 ```vue
-<script setup lang="ts">
-</script>
+<script setup lang="ts"></script>
 
 <template>
   <a-flex :gap="12" wrap>

@@ -8,12 +8,12 @@ Use `open` prop to control the display of the card.
 
 ```vue
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref } from 'vue';
 
-const open = ref(false)
+const open = ref(false);
 
 function hide() {
-  open.value = false
+  open.value = false;
 }
 </script>
 
@@ -22,9 +22,7 @@ function hide() {
     <template #content>
       <a href="" @click.prevent="hide">Close</a>
     </template>
-    <a-button type="primary">
-      Click me
-    </a-button>
+    <a-button type="primary"> Click me </a-button>
   </a-popover>
 </template>
 ```

@@ -12,7 +12,7 @@ const customTheme = {
   components: {
     BorderBeam: { lineWidth: 3 },
   },
-}
+};
 </script>
 
 <template>

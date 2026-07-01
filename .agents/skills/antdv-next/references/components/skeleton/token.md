@@ -21,11 +21,11 @@ Use these variables through `theme.components.Skeleton`. This document lists def
 
 ## Token List
 
-| Token | Type | Description |
-| --- | --- | --- |
-| `gradientFromColor` | `string` | Start color of gradient |
-| `gradientToColor` | `string` | End color of gradient |
-| `titleHeight` | `string \| number` | Height of title skeleton |
-| `blockRadius` | `number` | Border radius of skeleton |
-| `paragraphMarginTop` | `number` | Margin top of paragraph skeleton |
-| `paragraphLiHeight` | `number` | Line height of paragraph skeleton |
+| Token                | Type               | Description                       |
+| -------------------- | ------------------ | --------------------------------- |
+| `gradientFromColor`  | `string`           | Start color of gradient           |
+| `gradientToColor`    | `string`           | End color of gradient             |
+| `titleHeight`        | `string \| number` | Height of title skeleton          |
+| `blockRadius`        | `number`           | Border radius of skeleton         |
+| `paragraphMarginTop` | `number`           | Margin top of paragraph skeleton  |
+| `paragraphLiHeight`  | `number`           | Line height of paragraph skeleton |

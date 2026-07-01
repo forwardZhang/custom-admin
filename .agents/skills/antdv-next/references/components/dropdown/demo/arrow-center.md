@@ -8,7 +8,7 @@ Set `arrow` with `pointAtCenter: true`, the arrow will point to the center of th
 
 ```vue
 <script setup lang="ts">
-import type { MenuItemType } from 'antdv-next'
+import type { MenuItemType } from 'antdv-next';
 
 const items: MenuItemType[] = [
   {
@@ -23,13 +23,13 @@ const items: MenuItemType[] = [
     key: '3',
     label: '3rd menu item',
   },
-]
+];
 
 const href: Record<string, string> = {
   1: 'https://www.antgroup.com',
   2: 'https://www.aliyun.com',
   3: 'https://www.luohanacademy.com',
-}
+};
 </script>
 
 <template>

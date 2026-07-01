@@ -10,65 +10,35 @@ Classic page layouts.
 <template>
   <a-flex gap="middle" wrap>
     <a-layout class="demo-layout">
-      <a-layout-header class="demo-header">
-        Header
-      </a-layout-header>
-      <a-layout-content class="demo-content">
-        Content
-      </a-layout-content>
-      <a-layout-footer class="demo-footer">
-        Footer
-      </a-layout-footer>
+      <a-layout-header class="demo-header"> Header </a-layout-header>
+      <a-layout-content class="demo-content"> Content </a-layout-content>
+      <a-layout-footer class="demo-footer"> Footer </a-layout-footer>
     </a-layout>
 
     <a-layout class="demo-layout">
-      <a-layout-header class="demo-header">
-        Header
-      </a-layout-header>
+      <a-layout-header class="demo-header"> Header </a-layout-header>
       <a-layout>
-        <a-layout-sider width="25%" class="demo-sider">
-          Sider
-        </a-layout-sider>
-        <a-layout-content class="demo-content">
-          Content
-        </a-layout-content>
+        <a-layout-sider width="25%" class="demo-sider"> Sider </a-layout-sider>
+        <a-layout-content class="demo-content"> Content </a-layout-content>
       </a-layout>
-      <a-layout-footer class="demo-footer">
-        Footer
-      </a-layout-footer>
+      <a-layout-footer class="demo-footer"> Footer </a-layout-footer>
     </a-layout>
 
     <a-layout class="demo-layout">
-      <a-layout-header class="demo-header">
-        Header
-      </a-layout-header>
+      <a-layout-header class="demo-header"> Header </a-layout-header>
       <a-layout>
-        <a-layout-content class="demo-content">
-          Content
-        </a-layout-content>
-        <a-layout-sider width="25%" class="demo-sider">
-          Sider
-        </a-layout-sider>
+        <a-layout-content class="demo-content"> Content </a-layout-content>
+        <a-layout-sider width="25%" class="demo-sider"> Sider </a-layout-sider>
       </a-layout>
-      <a-layout-footer class="demo-footer">
-        Footer
-      </a-layout-footer>
+      <a-layout-footer class="demo-footer"> Footer </a-layout-footer>
     </a-layout>
 
     <a-layout class="demo-layout">
-      <a-layout-sider width="25%" class="demo-sider">
-        Sider
-      </a-layout-sider>
+      <a-layout-sider width="25%" class="demo-sider"> Sider </a-layout-sider>
       <a-layout>
-        <a-layout-header class="demo-header">
-          Header
-        </a-layout-header>
-        <a-layout-content class="demo-content">
-          Content
-        </a-layout-content>
-        <a-layout-footer class="demo-footer">
-          Footer
-        </a-layout-footer>
+        <a-layout-header class="demo-header"> Header </a-layout-header>
+        <a-layout-content class="demo-content"> Content </a-layout-content>
+        <a-layout-footer class="demo-footer"> Footer </a-layout-footer>
       </a-layout>
     </a-layout>
   </a-flex>

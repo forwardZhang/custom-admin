@@ -8,10 +8,10 @@ Customize the dropdown menu via `popupRender`. If you don't need the Menu conten
 
 ```vue
 <script setup lang="ts">
-import type { MenuItemType } from 'antdv-next'
-import { DownOutlined } from '@antdv-next/icons'
-import { theme } from 'antdv-next'
-import { computed } from 'vue'
+import type { MenuItemType } from 'antdv-next';
+import { DownOutlined } from '@antdv-next/icons';
+import { theme } from 'antdv-next';
+import { computed } from 'vue';
 
 const items: MenuItemType[] = [
   {
@@ -28,25 +28,25 @@ const items: MenuItemType[] = [
     label: '3rd menu item (disabled)',
     disabled: true,
   },
-]
+];
 
 const href: Record<string, string> = {
   1: 'https://www.antgroup.com',
   2: 'https://www.aliyun.com',
   3: 'https://www.luohanacademy.com',
-}
+};
 
-const { token } = theme.useToken()
+const { token } = theme.useToken();
 
 const contentStyle = computed(() => ({
   backgroundColor: token.value.colorBgElevated,
   borderRadius: token.value.borderRadiusLG,
   boxShadow: token.value.boxShadowSecondary,
-}))
+}));
 
 const menuStyle = {
   boxShadow: 'none',
-}
+};
 </script>
 
 <template>
@@ -56,9 +56,7 @@ const menuStyle = {
         <component :is="menu" :style="menuStyle" />
         <a-divider style="margin: 0" />
         <a-space style="padding: 8px">
-          <a-button type="primary">
-            Click me!
-          </a-button>
+          <a-button type="primary"> Click me! </a-button>
         </a-space>
       </div>
     </template>

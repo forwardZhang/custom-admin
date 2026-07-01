@@ -12,19 +12,19 @@ Control filters and sorters by `filteredValue` and `sortOrder`.
 
 ```vue
 <script setup lang="ts">
-import type { TableEmits, TableProps } from 'antdv-next'
-import { computed, ref } from 'vue'
+import type { TableEmits, TableProps } from 'antdv-next';
+import { computed, ref } from 'vue';
 
-type OnChange = NonNullable<TableEmits['change']>
-type Filters = Parameters<OnChange>[1]
-type Sorter = Parameters<OnChange>[2]
-type Sorts = Sorter extends any[] ? Sorter[number] : Sorter
+type OnChange = NonNullable<TableEmits['change']>;
+type Filters = Parameters<OnChange>[1];
+type Sorter = Parameters<OnChange>[2];
+type Sorts = Sorter extends any[] ? Sorter[number] : Sorter;
 
 interface DataType {
-  key: string
-  name: string
-  age: number
-  address: string
+  key: string;
+  name: string;
+  age: number;
+  address: string;
 }
 
 const dataSource: DataType[] = [
@@ -52,10 +52,10 @@ const dataSource: DataType[] = [
     age: 32,
     address: 'London No. 2 Lake Park',
   },
-]
+];
 
-const filteredInfo = ref<Filters>({})
-const sortedInfo = ref<Record<string, any>>({})
+const filteredInfo = ref<Filters>({});
+const sortedInfo = ref<Record<string, any>>({});
 
 const columns = computed<TableProps['columns']>(() => [
   {
@@ -94,42 +94,36 @@ const columns = computed<TableProps['columns']>(() => [
     sortOrder: sortedInfo.value.columnKey === 'address' ? sortedInfo.value.order : null,
     ellipsis: true,
   },
-])
+]);
 
 const handleChange: OnChange = (pagination, filters, sorter) => {
-  console.log('Various parameters', pagination, filters, sorter)
-  filteredInfo.value = filters
-  sortedInfo.value = Array.isArray(sorter) ? ((sorter[0] || {}) as Sorts) : (sorter as Sorts)
-}
+  console.log('Various parameters', pagination, filters, sorter);
+  filteredInfo.value = filters;
+  sortedInfo.value = Array.isArray(sorter) ? ((sorter[0] || {}) as Sorts) : (sorter as Sorts);
+};
 
 function clearFilters() {
-  filteredInfo.value = {}
+  filteredInfo.value = {};
 }
 
 function clearAll() {
-  filteredInfo.value = {}
-  sortedInfo.value = {} as Sorts
+  filteredInfo.value = {};
+  sortedInfo.value = {} as Sorts;
 }
 
 function setAgeSort() {
   sortedInfo.value = {
     order: 'descend',
     columnKey: 'age',
-  } as Sorts
+  } as Sorts;
 }
 </script>
 
 <template>
   <a-space style="margin-bottom: 16px">
-    <a-button @click="setAgeSort">
-      Sort age
-    </a-button>
-    <a-button @click="clearFilters">
-      Clear filters
-    </a-button>
-    <a-button @click="clearAll">
-      Clear filters and sorters
-    </a-button>
+    <a-button @click="setAgeSort"> Sort age </a-button>
+    <a-button @click="clearFilters"> Clear filters </a-button>
+    <a-button @click="clearAll"> Clear filters and sorters </a-button>
   </a-space>
   <a-table :columns="columns" :data-source="dataSource" @change="handleChange" />
 </template>

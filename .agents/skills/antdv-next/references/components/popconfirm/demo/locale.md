@@ -14,9 +14,7 @@ Set `okText` and `cancelText` props to customize the button's labels.
     ok-text="Yes"
     cancel-text="No"
   >
-    <a-button danger>
-      Delete
-    </a-button>
+    <a-button danger> Delete </a-button>
   </a-popconfirm>
 </template>
 ```

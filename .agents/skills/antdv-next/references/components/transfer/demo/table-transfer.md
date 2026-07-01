@@ -8,102 +8,101 @@ Use the Table component as the customize render list.
 
 ```vue
 <script setup lang="ts">
-import type { TableProps, TransferEmits, TransferProps } from 'antdv-next'
-import { Table } from 'antdv-next'
-import { ref } from 'vue'
+import type { TableProps, TransferEmits, TransferProps } from 'antdv-next';
+import { Table } from 'antdv-next';
+import { ref } from 'vue';
 
 interface DataType {
-  key: string
-  title: string
-  description: string
-  tag: string
-  disabled?: boolean
+  key: string;
+  title: string;
+  description: string;
+  tag: string;
+  disabled?: boolean;
 }
 
-const mockTags = ['cat', 'dog', 'bird'] as const
+const mockTags = ['cat', 'dog', 'bird'] as const;
 
 const mockData: DataType[] = Array.from({ length: 20 }, (_, i) => ({
   key: String(i),
   title: `content${i + 1}`,
   description: `description of content${i + 1}`,
   tag: mockTags[i % 3]!,
-}))
+}));
 
-const targetKeys = ref<string[]>([])
+const targetKeys = ref<string[]>([]);
 
-const interactionEnabled = ref(false)
+const interactionEnabled = ref(false);
 
 const columns: TableProps['columns'] = [
   { title: 'Name', dataIndex: 'title', key: 'title' },
   { title: 'Tag', dataIndex: 'tag', key: 'tag' },
   { title: 'Description', dataIndex: 'description', key: 'description' },
-]
+];
 
-const filterOption: NonNullable<TransferProps['filterOption']> = (input: string, item: DataType) => {
-  const q = input.trim().toLowerCase()
-  if (!q)
-    return true
-  return item.title!.toLowerCase().includes(q)
-}
+const filterOption: NonNullable<TransferProps['filterOption']> = (
+  input: string,
+  item: DataType,
+) => {
+  const q = input.trim().toLowerCase();
+  if (!q) return true;
+  return item.title!.toLowerCase().includes(q);
+};
 
 const handleChange: TransferEmits['change'] = (keys) => {
-  targetKeys.value = keys as string[]
-}
+  targetKeys.value = keys as string[];
+};
 
 const panelStyles: TransferProps['styles'] = {
   section: {
     width: 420,
     minHeight: 520,
   },
-}
+};
 
 const tablePagination: TableProps['pagination'] = {
   pageSize: 10,
   showSizeChanger: false,
   hideOnSinglePage: false,
-}
+};
 
 interface ListSlotProps {
-  direction: 'left' | 'right'
-  disabled: boolean
-  filteredItems: DataType[]
-  selectedKeys: string[]
-  onItemSelect: (key: string, selected: boolean) => void
-  onItemSelectAll: (keys: string[], checkAll: boolean | 'replace') => void
+  direction: 'left' | 'right';
+  disabled: boolean;
+  filteredItems: DataType[];
+  selectedKeys: string[];
+  onItemSelect: (key: string, selected: boolean) => void;
+  onItemSelectAll: (keys: string[], checkAll: boolean | 'replace') => void;
 }
 
 function tableRowSelection(slot: ListSlotProps): TableProps['rowSelection'] {
   return {
-    getCheckboxProps: record => ({
+    getCheckboxProps: (record) => ({
       disabled: slot.disabled || Boolean((record as DataType).disabled),
     }),
     onChange: (selectedRowKeys) => {
-      slot.onItemSelectAll(selectedRowKeys as string[], 'replace')
+      slot.onItemSelectAll(selectedRowKeys as string[], 'replace');
     },
     selectedRowKeys: slot.selectedKeys,
     selections: [Table.SELECTION_ALL, Table.SELECTION_INVERT, Table.SELECTION_NONE],
-  }
+  };
 }
 
 function tableOnRow(slot: ListSlotProps): TableProps['onRow'] {
   return (record) => {
-    const row = record as DataType
+    const row = record as DataType;
     return {
       onClick: (e: MouseEvent) => {
-        if (slot.disabled || row.disabled)
-          return
-        const el = e.target as HTMLElement | null
-        if (!el)
-          return
-        if (el.closest('.ant-table-selection-column'))
-          return
-        const key = row.key
-        const selected = slot.selectedKeys.includes(key)
-        slot.onItemSelect(key, !selected)
+        if (slot.disabled || row.disabled) return;
+        const el = e.target as HTMLElement | null;
+        if (!el) return;
+        if (el.closest('.ant-table-selection-column')) return;
+        const key = row.key;
+        const selected = slot.selectedKeys.includes(key);
+        slot.onItemSelect(key, !selected);
       },
       style: { cursor: slot.disabled || row.disabled ? undefined : 'pointer' },
-    }
-  }
+    };
+  };
 }
 </script>
 

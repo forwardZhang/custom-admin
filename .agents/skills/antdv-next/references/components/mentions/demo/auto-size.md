@@ -8,7 +8,7 @@ Height autoSize.
 
 ```vue
 <script setup lang="ts">
-import type { MentionsProps } from 'antdv-next'
+import type { MentionsProps } from 'antdv-next';
 
 const options: MentionsProps['options'] = [
   {
@@ -23,7 +23,7 @@ const options: MentionsProps['options'] = [
     value: 'yesmeck',
     label: 'yesmeck',
   },
-]
+];
 </script>
 
 <template>

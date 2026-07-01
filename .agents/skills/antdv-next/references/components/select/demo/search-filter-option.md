@@ -8,18 +8,18 @@ Customize search using `filterOption`.
 
 ```vue
 <script setup lang="ts">
-import { shallowRef } from 'vue'
+import { shallowRef } from 'vue';
 
-const value = shallowRef<string>()
+const value = shallowRef<string>();
 
 const options = [
   { value: '1', label: 'Jack' },
   { value: '2', label: 'Lucy' },
   { value: '3', label: 'Tom' },
-]
+];
 
 function filterOption(input: string, option: { label?: string }) {
-  return (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
+  return (option?.label ?? '').toLowerCase().includes(input.toLowerCase());
 }
 </script>
 

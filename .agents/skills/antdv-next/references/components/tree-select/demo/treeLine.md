@@ -8,8 +8,8 @@ Use `treeLine` to show the line style.
 
 ```vue
 <script setup lang="ts">
-import { CarryOutOutlined } from '@antdv-next/icons'
-import { h, ref } from 'vue'
+import { CarryOutOutlined } from '@antdv-next/icons';
+import { h, ref } from 'vue';
 
 const treeData = [
   {
@@ -48,11 +48,11 @@ const treeData = [
       },
     ],
   },
-]
+];
 
-const treeLine = ref(true)
-const showLeafIcon = ref(false)
-const showIcon = ref(false)
+const treeLine = ref(true);
+const showLeafIcon = ref(false);
+const showIcon = ref(false);
 </script>
 
 <template>

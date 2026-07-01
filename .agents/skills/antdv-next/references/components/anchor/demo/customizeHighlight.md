@@ -8,7 +8,7 @@ Customize the anchor highlight.
 
 ```vue
 <script setup lang="ts">
-const getCurrentAnchor = () => '#anchor-demo-static'
+const getCurrentAnchor = () => '#anchor-demo-static';
 </script>
 
 <template>
@@ -43,7 +43,6 @@ const getCurrentAnchor = () => '#anchor-demo-static'
           },
         ],
       },
-
     ]"
   />
 </template>

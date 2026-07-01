@@ -8,9 +8,9 @@ Using `OptGroup` to group the options.
 
 ```vue
 <script setup lang="ts">
-import { shallowRef } from 'vue'
+import { shallowRef } from 'vue';
 
-const value = shallowRef('Lucy')
+const value = shallowRef('Lucy');
 
 const options = [
   {
@@ -29,23 +29,16 @@ const options = [
       { label: 'Lucas', value: 'Lucas' },
     ],
   },
-]
+];
 
 function handleChange(val: string) {
-  console.log(`selected ${val}`)
+  console.log(`selected ${val}`);
 }
 </script>
 
 <template>
-  <a-select
-    v-model:value="value"
-    style="width: 200px"
-    :options="options"
-    @change="handleChange"
-  />
+  <a-select v-model:value="value" style="width: 200px" :options="options" @change="handleChange" />
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>
 ```

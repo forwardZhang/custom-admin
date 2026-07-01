@@ -8,7 +8,7 @@ When multiple buttons are used together, `<a-float-button-group />` is recommend
 
 ```vue
 <script setup lang="ts">
-import { QuestionCircleOutlined, SyncOutlined } from '@antdv-next/icons'
+import { QuestionCircleOutlined, SyncOutlined } from '@antdv-next/icons';
 </script>
 
 <template>

@@ -10,14 +10,14 @@ Rows can be selectable by making first column as a selectable column. You can us
 
 ```vue
 <script setup lang="ts">
-import type { TableProps } from 'antdv-next'
-import { computed, ref } from 'vue'
+import type { TableProps } from 'antdv-next';
+import { computed, ref } from 'vue';
 
 interface DataType {
-  key: string
-  name: string
-  age: number
-  address: string
+  key: string;
+  name: string;
+  age: number;
+  address: string;
 }
 
 const dataSource: DataType[] = [
@@ -45,40 +45,36 @@ const dataSource: DataType[] = [
     age: 99,
     address: 'Sydney No. 1 Lake Park',
   },
-]
+];
 
 const columns: TableProps['columns'] = [
   { title: 'Name', dataIndex: 'name', key: 'name' },
   { title: 'Age', dataIndex: 'age', key: 'age' },
   { title: 'Address', dataIndex: 'address', key: 'address' },
-]
+];
 
-const selectionType = ref<'checkbox' | 'radio'>('checkbox')
+const selectionType = ref<'checkbox' | 'radio'>('checkbox');
 
-const selectedRowKeys = ref<Array<string | number>>([])
+const selectedRowKeys = ref<Array<string | number>>([]);
 const rowSelection = computed<TableProps['rowSelection']>(() => ({
   type: selectionType.value,
   selectedRowKeys: selectedRowKeys.value,
   onChange: (_selectedRowKeys, selectedRows) => {
-    console.log(`selectedRowKeys: ${_selectedRowKeys}`, 'selectedRows: ', selectedRows)
-    selectedRowKeys.value = _selectedRowKeys
+    console.log(`selectedRowKeys: ${_selectedRowKeys}`, 'selectedRows: ', selectedRows);
+    selectedRowKeys.value = _selectedRowKeys;
   },
-  getCheckboxProps: record => ({
+  getCheckboxProps: (record) => ({
     disabled: record.name === 'Disabled User',
     name: record.name,
   }),
-}))
+}));
 </script>
 
 <template>
   <div>
     <a-radio-group v-model:value="selectionType">
-      <a-radio value="checkbox">
-        Checkbox
-      </a-radio>
-      <a-radio value="radio">
-        radio
-      </a-radio>
+      <a-radio value="checkbox"> Checkbox </a-radio>
+      <a-radio value="radio"> radio </a-radio>
     </a-radio-group>
     <a-divider />
     <a-table :columns="columns" :data-source="dataSource" :row-selection="rowSelection">

@@ -9,7 +9,7 @@ TimePicker of 12 hours format, with default format `h:mm:ss a`.
 ```vue
 <script setup lang="ts">
 function onChange(time: any, timeString: string) {
-  console.log(time, timeString)
+  console.log(time, timeString);
 }
 </script>
 

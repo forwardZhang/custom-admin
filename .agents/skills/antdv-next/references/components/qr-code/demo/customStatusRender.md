@@ -8,9 +8,9 @@ You can control the rendering logic of the QR code in different states through t
 
 ```vue
 <script setup lang="ts">
-import { CheckCircleFilled, CloseCircleFilled, ReloadOutlined } from '@antdv-next/icons'
+import { CheckCircleFilled, CloseCircleFilled, ReloadOutlined } from '@antdv-next/icons';
 
-const value = 'https://antdv-next.com'
+const value = 'https://antdv-next.com';
 </script>
 
 <template>
@@ -43,9 +43,7 @@ const value = 'https://antdv-next.com'
     <a-qrcode :value="value" status="scanned">
       <template #statusRender="info">
         <template v-if="info.status === 'scanned'">
-          <div>
-            <CheckCircleFilled style="color:green" /> {{ info?.locale?.scanned }}
-          </div>
+          <div><CheckCircleFilled style="color:green" /> {{ info?.locale?.scanned }}</div>
         </template>
       </template>
     </a-qrcode>

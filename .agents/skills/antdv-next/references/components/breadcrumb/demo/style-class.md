@@ -6,36 +6,32 @@
 
 ```vue
 <script setup lang="ts">
-import type { BreadcrumbProps } from 'antdv-next'
+import type { BreadcrumbProps } from 'antdv-next';
 
 const classesObject = {
   root: 'demo-breadcrumb-root',
   item: 'demo-breadcrumb-item',
   separator: 'demo-breadcrumb-separator',
-}
+};
 
 const stylesObject: BreadcrumbProps['styles'] = {
   root: { border: '1px solid #f0f0f0', padding: '8px', borderRadius: '4px' },
   item: { color: '#1890ff' },
   separator: { color: 'rgba(0, 0, 0, 0.45)' },
-}
+};
 
 const stylesFn: BreadcrumbProps['styles'] = (info) => {
-  const items = info.props.items || []
+  const items = info.props.items || [];
   if (items.length > 2) {
     return {
       root: { border: '1px solid #F5EFFF', padding: '8px', borderRadius: '4px' },
       item: { color: '#8F87F1' },
-    }
+    };
   }
-  return {}
-}
+  return {};
+};
 
-const items = [
-  { title: 'Antdv Next' },
-  { title: 'Component' },
-  { title: 'Breadcrumb' },
-]
+const items = [{ title: 'Antdv Next' }, { title: 'Component' }, { title: 'Breadcrumb' }];
 </script>
 
 <template>

@@ -21,9 +21,9 @@ Use these variables through `theme.components.Result`. This document lists defin
 
 ## Token List
 
-| Token | Type | Description |
-| --- | --- | --- |
-| `titleFontSize` | `string \| number` | Title font size |
-| `subtitleFontSize` | `number` | Subtitle font size |
-| `iconFontSize` | `string \| number` | Icon size |
-| `extraMargin` | `CSSProperties` | Margin of extra area |
+| Token              | Type               | Description          |
+| ------------------ | ------------------ | -------------------- |
+| `titleFontSize`    | `string \| number` | Title font size      |
+| `subtitleFontSize` | `number`           | Subtitle font size   |
+| `iconFontSize`     | `string \| number` | Icon size            |
+| `extraMargin`      | `CSSProperties`    | Margin of extra area |

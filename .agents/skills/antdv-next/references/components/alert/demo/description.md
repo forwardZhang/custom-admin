@@ -13,19 +13,19 @@ Additional description for alert message.
     description="Success Description Success Description Success Description"
     type="success"
   />
-  <br>
+  <br />
   <a-alert
     title="Info Text"
     description="Info Description Info Description Info Description Info Description"
     type="info"
   />
-  <br>
+  <br />
   <a-alert
     title="Warning Text"
     description="Warning Description Warning Description Warning Description Warning Description"
     type="warning"
   />
-  <br>
+  <br />
   <a-alert
     title="Error Text"
     description="Error Description Error Description Error Description Error Description"

@@ -1,24 +1,24 @@
-# _semantic
+# \_semantic
 
 ## Source
 
 ```vue
 <script setup lang="ts">
-import { computed, ref } from 'vue'
-import { SemanticPreview } from '@/components/semantic'
-import { useComponentLocale } from '@/composables/use-locale'
-import { locales } from '../locales'
+import { computed, ref } from 'vue';
+import { SemanticPreview } from '@/components/semantic';
+import { useComponentLocale } from '@/composables/use-locale';
+import { locales } from '../locales';
 
-const mode = ref<'single' | 'multiple'>('single')
+const mode = ref<'single' | 'multiple'>('single');
 
-const { t } = useComponentLocale(locales)
+const { t } = useComponentLocale(locales);
 
 const semantics = computed(() => {
   const base = [
     { name: 'root', desc: t('root') },
     { name: 'prefix', desc: t('prefix') },
     { name: 'placeholder', desc: t('placeholder') },
-  ]
+  ];
 
   if (mode.value === 'multiple') {
     base.push(
@@ -28,7 +28,7 @@ const semantics = computed(() => {
         { name: 'itemContent', desc: t('itemContent') },
         { name: 'itemRemove', desc: t('itemRemove') },
       ],
-    )
+    );
   }
 
   base.push(
@@ -40,23 +40,22 @@ const semantics = computed(() => {
       { name: 'popup.itemTitle', desc: t('popup.itemTitle') },
       { name: 'popup.itemSwitcher', desc: t('popup.itemSwitcher'), version: '1.3.0' },
     ],
-  )
+  );
 
-  return base
-})
+  return base;
+});
 
-const treeValue = ref<string[]>([])
-console.log(treeValue)
+const treeValue = ref<string[]>([]);
+console.log(treeValue);
 function handleResetValue(newMode: string | number) {
   if (newMode === 'multiple') {
-    treeValue.value = ['aojunhao123']
-  }
-  else {
-    treeValue.value = []
+    treeValue.value = ['aojunhao123'];
+  } else {
+    treeValue.value = [];
   }
 }
 
-const divRef = ref<HTMLDivElement | null>(null)
+const divRef = ref<HTMLDivElement | null>(null);
 
 const treeData = [
   {
@@ -68,18 +67,19 @@ const treeData = [
       { value: 'meet-student', title: 'meet-student' },
     ],
   },
-]
+];
 </script>
 
 <template>
-  <SemanticPreview
-    component-name="TreeSelect"
-    :semantics="semantics"
-  >
+  <SemanticPreview component-name="TreeSelect" :semantics="semantics">
     <template #default="{ classes }">
       <div ref="divRef" :style="{ position: 'absolute', height: '200px' }">
         <div :style="{ display: 'flex', justifyContent: 'center', marginBottom: '12px' }">
-          <a-segmented v-model:value="mode" :options="['single', 'multiple']" @change="handleResetValue" />
+          <a-segmented
+            v-model:value="mode"
+            :options="['single', 'multiple']"
+            @change="handleResetValue"
+          />
         </div>
 
         <a-tree-select

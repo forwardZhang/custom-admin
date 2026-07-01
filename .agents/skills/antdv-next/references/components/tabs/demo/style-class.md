@@ -6,17 +6,17 @@
 
 ```vue
 <script setup lang="ts">
-import type { TabsProps } from 'antdv-next'
+import type { TabsProps } from 'antdv-next';
 
 const items: TabsProps['items'] = [
   { key: '1', label: 'Tab 1', content: 'Content of Tab Pane 1' },
   { key: '2', label: 'Tab 2', content: 'Content of Tab Pane 2' },
   { key: '3', label: 'Tab 3', content: 'Content of Tab Pane 3' },
-]
+];
 
 const classes: TabsProps['classes'] = {
   root: 'custom-tabs-root',
-}
+};
 
 const stylesObject: TabsProps['styles'] = {
   root: { borderWidth: '2px', borderStyle: 'dashed', padding: '16px', marginBottom: '10px' },
@@ -24,17 +24,17 @@ const stylesObject: TabsProps['styles'] = {
   item: { fontWeight: 'bold', color: '#1890ff', padding: `6px 10px` },
   indicator: { backgroundColor: 'rgba(255,77,79, 0.3)', height: '4px' },
   content: { backgroundColor: 'rgba(230,247,255,0.8)', padding: '16px' },
-}
+};
 
 const stylesFn: TabsProps['styles'] = (info) => {
   if (info.props.type === 'card') {
     return {
       root: { backgroundColor: 'rgba(250,250,250, 0.8)', borderColor: '#d9d9d9' },
       header: { textAlign: 'start' },
-    } satisfies TabsProps['styles']
+    } satisfies TabsProps['styles'];
   }
-  return {}
-}
+  return {};
+};
 </script>
 
 <template>

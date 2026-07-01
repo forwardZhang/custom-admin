@@ -9,9 +9,7 @@ Callback with affixed state.
 ```vue
 <template>
   <a-affix :offset-top="120" @change="(affixed) => console.log(affixed)">
-    <a-button>
-      120px to affix top
-    </a-button>
+    <a-button> 120px to affix top </a-button>
   </a-affix>
 </template>
 ```

@@ -8,21 +8,21 @@ Multiple handles combination.
 
 ```vue
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref } from 'vue';
 
-const value = ref([0, 10, 20])
+const value = ref([0, 10, 20]);
 
 function getGradientColor(percentage: number) {
-  const startColor = [135, 208, 104]
-  const endColor = [255, 204, 199]
+  const startColor = [135, 208, 104];
+  const endColor = [255, 204, 199];
 
   const midColor = startColor.map((start, i) => {
-    const end = endColor[i]
-    const delta = end - start
-    return (start + delta * percentage).toFixed(0)
-  })
+    const end = endColor[i];
+    const delta = end - start;
+    return (start + delta * percentage).toFixed(0);
+  });
 
-  return `rgb(${midColor.join(',')})`
+  return `rgb(${midColor.join(',')})`;
 }
 </script>
 

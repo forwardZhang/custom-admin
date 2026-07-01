@@ -6,13 +6,13 @@
 
 ```vue
 <script setup lang="ts">
-import type { CollapseProps } from 'antdv-next'
-import { h } from 'vue'
+import type { CollapseProps } from 'antdv-next';
+import { h } from 'vue';
 
-const text
-  = 'A dog is a type of domesticated animal. Known for its loyalty and faithfulness, it can be found as a welcome guest in many households across the world.'
+const text =
+  'A dog is a type of domesticated animal. Known for its loyalty and faithfulness, it can be found as a welcome guest in many households across the world.';
 
-const element = h('p', text)
+const element = h('p', text);
 
 const items = [
   {
@@ -30,11 +30,11 @@ const items = [
     label: 'This is panel header 3',
     content: element,
   },
-]
+];
 
 const classes: CollapseProps['classes'] = {
   root: 'demo-collapse-root',
-}
+};
 
 const stylesObject: CollapseProps['styles'] = {
   root: {
@@ -47,7 +47,7 @@ const stylesObject: CollapseProps['styles'] = {
     padding: '12px 16px',
     color: '#141414',
   },
-}
+};
 
 const stylesFn: CollapseProps['styles'] = (info) => {
   if (info?.props?.size === 'large') {
@@ -62,16 +62,27 @@ const stylesFn: CollapseProps['styles'] = (info) => {
         padding: '12px 16px',
         color: '#141414',
       },
-    }
+    };
   }
-  return {}
-}
+  return {};
+};
 </script>
 
 <template>
   <a-flex vertical gap="middle">
-    <a-collapse :items="items" :classes="classes" :styles="stylesObject" :default-active-key="['1']" />
-    <a-collapse :items="items" :classes="classes" :styles="stylesFn" size="large" :default-active-key="['2']" />
+    <a-collapse
+      :items="items"
+      :classes="classes"
+      :styles="stylesObject"
+      :default-active-key="['1']"
+    />
+    <a-collapse
+      :items="items"
+      :classes="classes"
+      :styles="stylesFn"
+      size="large"
+      :default-active-key="['2']"
+    />
   </a-flex>
 </template>
 

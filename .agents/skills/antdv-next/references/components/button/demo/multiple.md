@@ -8,12 +8,12 @@ If you need several buttons, we recommend that you use 1 primary button + n seco
 
 ```vue
 <script setup lang="ts">
-import type { MenuEmits } from 'antdv-next'
-import { EllipsisOutlined } from '@antdv-next/icons'
+import type { MenuEmits } from 'antdv-next';
+import { EllipsisOutlined } from '@antdv-next/icons';
 
 const onMenuClick: MenuEmits['click'] = (e) => {
-  console.log('click', e)
-}
+  console.log('click', e);
+};
 
 const items = [
   {
@@ -28,14 +28,12 @@ const items = [
     key: '3',
     label: '3rd item',
   },
-]
+];
 </script>
 
 <template>
   <a-flex align="flex-start" gap="small" vertical>
-    <a-button type="primary">
-      primary
-    </a-button>
+    <a-button type="primary"> primary </a-button>
     <a-button>secondary</a-button>
     <a-space-compact>
       <a-button>Actions</a-button>

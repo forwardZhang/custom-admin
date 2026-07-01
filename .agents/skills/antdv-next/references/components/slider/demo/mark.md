@@ -8,7 +8,7 @@ Using `marks` property to mark a graduated slider, use `value` or `defaultValue`
 
 ```vue
 <script setup lang="ts">
-import { h, ref } from 'vue'
+import { h, ref } from 'vue';
 
 const marks = ref<Record<number, any>>({
   0: '0°C',
@@ -20,13 +20,13 @@ const marks = ref<Record<number, any>>({
     },
     label: h('strong', '100°C'),
   },
-})
+});
 
-const value1 = ref(37)
-const value2 = ref([26, 37])
-const value3 = ref(37)
-const value4 = ref(37)
-const value5 = ref(37)
+const value1 = ref(37);
+const value2 = ref([26, 37]);
+const value3 = ref(37);
+const value4 = ref(37);
+const value5 = ref(37);
 </script>
 
 <template>

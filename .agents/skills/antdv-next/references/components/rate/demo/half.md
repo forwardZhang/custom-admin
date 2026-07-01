@@ -8,9 +8,9 @@ Support select half star.
 
 ```vue
 <script lang="ts" setup>
-import { ref } from 'vue'
+import { ref } from 'vue';
 
-const val = ref(2.5)
+const val = ref(2.5);
 </script>
 
 <template>

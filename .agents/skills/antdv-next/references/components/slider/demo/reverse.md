@@ -8,11 +8,11 @@ Using `reverse` to render slider reversely.
 
 ```vue
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref } from 'vue';
 
-const reverse = ref(true)
-const value = ref(30)
-const valueRange = ref([20, 50])
+const reverse = ref(true);
+const value = ref(30);
+const valueRange = ref([20, 50]);
 </script>
 
 <template>

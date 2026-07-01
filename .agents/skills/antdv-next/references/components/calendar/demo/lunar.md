@@ -8,89 +8,89 @@ Display lunar calendar, solar terms and other information.
 
 ```vue
 <script setup lang="ts">
-import type { CalendarProps } from 'antdv-next'
-import type { Dayjs } from 'dayjs'
-import { theme } from 'antdv-next'
-import dayjs from 'dayjs'
-import { HolidayUtil, Lunar } from 'lunar-typescript'
-import { ref } from 'vue'
+import type { CalendarProps } from 'antdv-next';
+import type { Dayjs } from 'dayjs';
+import { theme } from 'antdv-next';
+import dayjs from 'dayjs';
+import { HolidayUtil, Lunar } from 'lunar-typescript';
+import { ref } from 'vue';
 
-const { token } = theme.useToken()
-const selectDate = ref<Dayjs>(dayjs())
-const panelDate = ref<Dayjs>(dayjs())
+const { token } = theme.useToken();
+const selectDate = ref<Dayjs>(dayjs());
+const panelDate = ref<Dayjs>(dayjs());
 function getYearLabel(year: number) {
-  const d = Lunar.fromDate(new Date(year + 1, 0))
-  return `${d.getYearInChinese()}年（${d.getYearInGanZhi()}${d.getYearShengXiao()}年）`
+  const d = Lunar.fromDate(new Date(year + 1, 0));
+  return `${d.getYearInChinese()}年（${d.getYearInGanZhi()}${d.getYearShengXiao()}年）`;
 }
 
 function getMonthLabel(month: number, value: Dayjs) {
-  const d = Lunar.fromDate(new Date(value.year(), month))
-  const lunar = d.getMonthInChinese()
-  return `${month + 1}月（${lunar}月）`
+  const d = Lunar.fromDate(new Date(value.year(), month));
+  const lunar = d.getMonthInChinese();
+  return `${month + 1}月（${lunar}月）`;
 }
 
 function getCellDate(date) {
-  const d = Lunar.fromDate(date.toDate())
-  const lunar = d.getDayInChinese()
-  const solarTerm = d.getJieQi()
-  const isWeekend = date.day() === 6 || date.day() === 0
-  const h = HolidayUtil.getHoliday(date.get('year'), date.get('month') + 1, date.get('date'))
-  const displayHoliday = h?.getTarget() === h?.getDay() ? h?.getName() : undefined
-  return { lunar, solarTerm, displayHoliday, isWeekend }
+  const d = Lunar.fromDate(date.toDate());
+  const lunar = d.getDayInChinese();
+  const solarTerm = d.getJieQi();
+  const isWeekend = date.day() === 6 || date.day() === 0;
+  const h = HolidayUtil.getHoliday(date.get('year'), date.get('month') + 1, date.get('date'));
+  const displayHoliday = h?.getTarget() === h?.getDay() ? h?.getName() : undefined;
+  return { lunar, solarTerm, displayHoliday, isWeekend };
 }
 
 function getCellMonth(date) {
-  const d2 = Lunar.fromDate(new Date(date.get('year'), date.get('month')))
-  const month = d2.getMonthInChinese()
-  return month
+  const d2 = Lunar.fromDate(new Date(date.get('year'), date.get('month')));
+  const month = d2.getMonthInChinese();
+  return month;
 }
 
 function getMonthOptions(value) {
-  const start = 0
-  const end = 12
-  const monthOptions = []
+  const start = 0;
+  const end = 12;
+  const monthOptions = [];
 
-  let current = value.clone()
-  const localeData = value.localeData()
-  const months = []
+  let current = value.clone();
+  const localeData = value.localeData();
+  const months = [];
   for (let i = 0; i < 12; i++) {
-    current = current.month(i)
-    months.push(localeData.monthsShort(current))
+    current = current.month(i);
+    months.push(localeData.monthsShort(current));
   }
 
   for (let i = start; i < end; i++) {
     monthOptions.push({
       label: getMonthLabel(i, value),
       value: i,
-    })
+    });
   }
-  return monthOptions
+  return monthOptions;
 }
 
 function getOptions(value) {
-  const year = value.year()
-  const options = []
+  const year = value.year();
+  const options = [];
   for (let i = year - 10; i < year + 10; i += 1) {
     options.push({
       label: getYearLabel(i),
       value: i,
-    })
+    });
   }
-  return options
+  return options;
 }
 
 function onPanelChange(value: Dayjs, mode: CalendarProps<Dayjs>['mode']) {
-  console.log(value.format('YYYY-MM-DD'), mode)
-  panelDate.value = value
+  console.log(value.format('YYYY-MM-DD'), mode);
+  panelDate.value = value;
 }
 
 function onHeaderChange(value: Dayjs, onChange: (value: Dayjs) => void) {
-  panelDate.value = value
-  onChange(value)
+  panelDate.value = value;
+  onChange(value);
 }
 
 function onSelect(value) {
-  selectDate.value = value
+  selectDate.value = value;
 }
 </script>
 
@@ -99,14 +99,29 @@ function onSelect(value) {
     <a-calendar :fullscreen="false" @panel-change="onPanelChange" @select="onSelect">
       <template #fullCellRender="{ date, info }">
         <template v-if="info.type === 'date'">
-          <div class="dateCell" :class="{ current: selectDate.isSame(date, 'date'), today: date.isSame(dayjs(), 'date') }">
+          <div
+            class="dateCell"
+            :class="{
+              current: selectDate.isSame(date, 'date'),
+              today: date.isSame(dayjs(), 'date'),
+            }"
+          >
             <div class="text">
-              <span :class="{ weekend: getCellDate(date).isWeekend, gray: !panelDate.isSame(date, 'month') }">
+              <span
+                :class="{
+                  weekend: getCellDate(date).isWeekend,
+                  gray: !panelDate.isSame(date, 'month'),
+                }"
+              >
                 {{ date.get('date') }}
               </span>
               <template v-if="info.type === 'date'">
                 <div class="lunar">
-                  {{ getCellDate(date).displayHoliday || getCellDate(date).solarTerm || getCellDate(date).lunar }}
+                  {{
+                    getCellDate(date).displayHoliday ||
+                    getCellDate(date).solarTerm ||
+                    getCellDate(date).lunar
+                  }}
                 </div>
               </template>
             </div>
@@ -121,19 +136,25 @@ function onSelect(value) {
       <template #headerRender="{ value, type, onChange, onTypeChange }">
         <a-row justify="end" :gutter="8" style="padding: 8px;">
           <a-col>
-            <a-select size="small" :options="getOptions(value)" :value="value.year()" @change="(newYear) => onHeaderChange(value.clone().year(newYear), onChange)" />
+            <a-select
+              size="small"
+              :options="getOptions(value)"
+              :value="value.year()"
+              @change="(newYear) => onHeaderChange(value.clone().year(newYear), onChange)"
+            />
           </a-col>
           <a-col>
-            <a-select size="small" :options="getMonthOptions(value)" :value="value.month()" @change="(newMonth) => onHeaderChange(value.clone().month(newMonth), onChange)" />
+            <a-select
+              size="small"
+              :options="getMonthOptions(value)"
+              :value="value.month()"
+              @change="(newMonth) => onHeaderChange(value.clone().month(newMonth), onChange)"
+            />
           </a-col>
           <a-col>
             <a-radio-group size="small" :value="type" @change="(e) => onTypeChange(e.target.value)">
-              <a-radio-button value="month">
-                月
-              </a-radio-button>
-              <a-radio-button value="year">
-                年
-              </a-radio-button>
+              <a-radio-button value="month"> 月 </a-radio-button>
+              <a-radio-button value="year"> 年 </a-radio-button>
             </a-radio-group>
           </a-col>
         </a-row>

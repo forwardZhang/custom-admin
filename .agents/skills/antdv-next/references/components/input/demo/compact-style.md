@@ -8,7 +8,7 @@ Use Space.Compact create compact style, See the [Space.Compact](../../space/docs
 
 ```vue
 <script setup lang="ts">
-import { SearchOutlined } from '@antdv-next/icons'
+import { SearchOutlined } from '@antdv-next/icons';
 
 // const options = [
 //   {
@@ -37,9 +37,7 @@ import { SearchOutlined } from '@antdv-next/icons'
     </a-space-compact>
     <a-space-compact style="width: 100%;">
       <a-input default-value="Combine input and button" />
-      <a-button type="primary">
-        Submit
-      </a-button>
+      <a-button type="primary"> Submit </a-button>
     </a-space-compact>
     <!-- <a-space-compact>
       <a-select default-value="Zhejiang" :options="options" />

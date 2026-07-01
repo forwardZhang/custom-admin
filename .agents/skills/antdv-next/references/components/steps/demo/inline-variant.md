@@ -8,18 +8,18 @@ Inline step bar modifies the style and aligns through `offset`.
 
 ```vue
 <script setup lang="ts">
-import type { StepsProps } from 'antdv-next'
-import { theme } from 'antdv-next'
+import type { StepsProps } from 'antdv-next';
+import { theme } from 'antdv-next';
 
-const { token } = theme.useToken()
+const { token } = theme.useToken();
 
 const items: StepsProps['items'] = Array.from({ length: 5 }, (_, index) => ({
   title: `Step ${index + 1}`,
   subTitle: 'Sub Title',
   content: `This is Step ${index + 1}`,
-}))
+}));
 
-const offsetItems = items.slice(2)
+const offsetItems = items.slice(2);
 </script>
 
 <template>

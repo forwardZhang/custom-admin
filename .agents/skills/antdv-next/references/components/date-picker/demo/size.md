@@ -8,25 +8,19 @@ The input box comes in three sizes: small, middle and large. The `middle` size w
 
 ```vue
 <script setup lang="ts">
-import { shallowRef } from 'vue'
+import { shallowRef } from 'vue';
 
-type SizeType = 'large' | 'middle' | 'small'
+type SizeType = 'large' | 'middle' | 'small';
 
-const size = shallowRef<SizeType>('middle')
+const size = shallowRef<SizeType>('middle');
 </script>
 
 <template>
   <a-space vertical :size="12">
     <a-radio-group v-model:value="size">
-      <a-radio-button value="large">
-        Large
-      </a-radio-button>
-      <a-radio-button value="middle">
-        middle
-      </a-radio-button>
-      <a-radio-button value="small">
-        Small
-      </a-radio-button>
+      <a-radio-button value="large"> Large </a-radio-button>
+      <a-radio-button value="middle"> middle </a-radio-button>
+      <a-radio-button value="small"> Small </a-radio-button>
     </a-radio-group>
     <a-date-picker :size="size" />
     <a-date-picker :size="size" picker="month" />

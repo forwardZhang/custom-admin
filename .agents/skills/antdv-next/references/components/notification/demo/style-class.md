@@ -6,10 +6,10 @@
 
 ```vue
 <script setup lang="ts">
-import type { CSSProperties } from 'vue'
-import { notification } from 'antdv-next'
+import type { CSSProperties } from 'vue';
+import { notification } from 'antdv-next';
 
-const [api, ContextHolder] = notification.useNotification()
+const [api, ContextHolder] = notification.useNotification();
 
 const defaultStyles: Record<string, CSSProperties> = {
   root: {
@@ -28,7 +28,7 @@ const defaultStyles: Record<string, CSSProperties> = {
   description: {
     color: '#3f6600',
   },
-}
+};
 
 function styleFn(info: { props: any }): Record<string, CSSProperties> {
   if (info.props.type === 'error') {
@@ -49,22 +49,22 @@ function styleFn(info: { props: any }): Record<string, CSSProperties> {
       description: {
         color: '#5c0011',
       },
-    }
+    };
   }
-  return defaultStyles
+  return defaultStyles;
 }
 
 const sharedProps = {
   title: 'Notification Title',
   description: 'This is a notification description.',
   duration: false as const,
-}
+};
 
 function openDefault() {
   api.info({
     ...sharedProps,
     styles: defaultStyles,
-  })
+  });
 }
 
 function openError() {
@@ -72,19 +72,15 @@ function openError() {
     ...sharedProps,
     type: 'error',
     styles: styleFn as any,
-  })
+  });
 }
 </script>
 
 <template>
   <ContextHolder />
   <a-space>
-    <a-button type="primary" @click="openDefault">
-      Default Notification
-    </a-button>
-    <a-button @click="openError">
-      Error Notification
-    </a-button>
+    <a-button type="primary" @click="openDefault"> Default Notification </a-button>
+    <a-button @click="openError"> Error Notification </a-button>
   </a-space>
 </template>
 ```

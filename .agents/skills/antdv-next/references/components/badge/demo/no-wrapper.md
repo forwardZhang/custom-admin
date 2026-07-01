@@ -8,10 +8,10 @@ Used in standalone when children is empty.
 
 ```vue
 <script setup lang="ts">
-import { ClockCircleOutlined } from '@antdv-next/icons'
-import { ref } from 'vue'
+import { ClockCircleOutlined } from '@antdv-next/icons';
+import { ref } from 'vue';
 
-const show = ref(true)
+const show = ref(true);
 </script>
 
 <template>

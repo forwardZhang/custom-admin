@@ -8,10 +8,10 @@
 
 ```vue
 <script setup lang="ts">
-import type { Dayjs } from 'dayjs'
-import { shallowRef } from 'vue'
+import type { Dayjs } from 'dayjs';
+import { shallowRef } from 'vue';
 
-const value = shallowRef<Dayjs>()
+const value = shallowRef<Dayjs>();
 </script>
 
 <template>

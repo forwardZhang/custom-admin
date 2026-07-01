@@ -8,12 +8,12 @@ Configure validate trigger timing for fields.
 
 ```vue
 <script setup lang="ts">
-import { reactive } from 'vue'
+import { reactive } from 'vue';
 
 const model = reactive({
   blurInput: '',
   changeInput: '',
-})
+});
 </script>
 
 <template>

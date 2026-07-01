@@ -6,11 +6,11 @@
 
 ```vue
 <script setup lang="ts">
-import type { DescriptionsProps } from 'antdv-next'
+import type { DescriptionsProps } from 'antdv-next';
 
 const classes: DescriptionsProps['classes'] = {
   root: 'custom-descriptions-root',
-}
+};
 
 const items: DescriptionsProps['items'] = [
   {
@@ -28,13 +28,13 @@ const items: DescriptionsProps['items'] = [
     label: 'Automatic Renewal',
     content: 'YES',
   },
-]
+];
 
 const styles: DescriptionsProps['styles'] = {
   label: {
     color: '#000',
   },
-}
+};
 
 const stylesFn: DescriptionsProps['styles'] = (info) => {
   if (info.props.size === 'default') {
@@ -44,17 +44,17 @@ const stylesFn: DescriptionsProps['styles'] = (info) => {
         border: '1px solid #CDC1FF',
       },
       label: { color: '#A294F9' },
-    } satisfies DescriptionsProps['styles']
+    } satisfies DescriptionsProps['styles'];
   }
-  return {}
-}
+  return {};
+};
 
 const descriptionsProps: DescriptionsProps = {
   title: 'User Info',
   items,
   bordered: true,
   classes,
-}
+};
 </script>
 
 <template>

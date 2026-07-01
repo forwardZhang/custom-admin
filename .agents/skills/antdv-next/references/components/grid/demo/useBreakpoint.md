@@ -8,11 +8,13 @@ Use the `useBreakpoint` hook to build personalized layouts. `xs` only takes effe
 
 ```vue
 <script setup lang="ts">
-import { useBreakpoint } from 'antdv-next'
-import { computed } from 'vue'
+import { useBreakpoint } from 'antdv-next';
+import { computed } from 'vue';
 
-const screens = useBreakpoint()
-const screenKeys = computed(() => Object.entries(screens.value ?? {}).filter(screen => !!screen[1]))
+const screens = useBreakpoint();
+const screenKeys = computed(() =>
+  Object.entries(screens.value ?? {}).filter((screen) => !!screen[1]),
+);
 </script>
 
 <template>

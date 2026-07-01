@@ -8,23 +8,23 @@ Customize Calendar header content.
 
 ```vue
 <script setup lang="ts">
-import type { Dayjs } from 'dayjs'
-import { theme } from 'antdv-next'
-import dayjs from 'dayjs'
-import dayLocaleData from 'dayjs/plugin/localeData'
-import 'dayjs/locale/zh-cn'
+import type { Dayjs } from 'dayjs';
+import { theme } from 'antdv-next';
+import dayjs from 'dayjs';
+import dayLocaleData from 'dayjs/plugin/localeData';
+import 'dayjs/locale/zh-cn';
 
-dayjs.extend(dayLocaleData)
+dayjs.extend(dayLocaleData);
 
-const { token } = theme.useToken()
+const { token } = theme.useToken();
 function getYearOptions(value: Dayjs) {
-  const year = value.year()
+  const year = value.year();
 
   const yearOptions = Array.from({ length: 20 }, (_, i) => {
-    const label = year - 10 + i
-    return { label, value: label }
-  })
-  return yearOptions
+    const label = year - 10 + i;
+    return { label, value: label };
+  });
+  return yearOptions;
 }
 
 function getMonthOptions(value: Dayjs) {
@@ -34,8 +34,8 @@ function getMonthOptions(value: Dayjs) {
     .map((label, index) => ({
       label,
       value: index,
-    }))
-  return monthOptions
+    }));
+  return monthOptions;
 }
 </script>
 
@@ -44,17 +44,11 @@ function getMonthOptions(value: Dayjs) {
     <a-calendar :fullscreen="false">
       <template #headerRender="{ value, type, onChange, onTypeChange }">
         <div style="padding: 8px;">
-          <a-typography-title :level="4">
-            Custom header
-          </a-typography-title>
+          <a-typography-title :level="4"> Custom header </a-typography-title>
           <a-flex gap="8">
             <a-radio-group size="small" :value="type" @change="(e) => onTypeChange(e.target.value)">
-              <a-radio-button value="month">
-                Month
-              </a-radio-button>
-              <a-radio-button value="year">
-                Year
-              </a-radio-button>
+              <a-radio-button value="month"> Month </a-radio-button>
+              <a-radio-button value="year"> Year </a-radio-button>
             </a-radio-group>
             <a-select
               size="small"

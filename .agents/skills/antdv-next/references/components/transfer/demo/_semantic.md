@@ -1,15 +1,15 @@
-# _semantic
+# \_semantic
 
 ## Source
 
 ```vue
 <script setup lang="ts">
-import { computed } from 'vue'
-import { SemanticPreview } from '@/components/semantic'
-import { useComponentLocale } from '@/composables/use-locale'
-import { locales } from '../locales'
+import { computed } from 'vue';
+import { SemanticPreview } from '@/components/semantic';
+import { useComponentLocale } from '@/composables/use-locale';
+import { locales } from '../locales';
 
-const { t } = useComponentLocale(locales)
+const { t } = useComponentLocale(locales);
 
 const semantics = computed(() => [
   { name: 'root', desc: t('root') },
@@ -25,19 +25,16 @@ const semantics = computed(() => [
   { name: 'actions', desc: t('actions') },
   { name: 'source', desc: t('source'), version: '1.3.0' },
   { name: 'target', desc: t('target'), version: '1.3.0' },
-])
+]);
 
 const mockData = Array.from({ length: 20 }).map((_, i) => ({
   key: i,
   title: `content ${i + 1}`,
-}))
+}));
 </script>
 
 <template>
-  <SemanticPreview
-    component-name="Transfer"
-    :semantics="semantics"
-  >
+  <SemanticPreview component-name="Transfer" :semantics="semantics">
     <template #default="{ classes }">
       <a-transfer
         show-search
@@ -52,9 +49,7 @@ const mockData = Array.from({ length: 20 }).map((_, i) => ({
         :classes="classes"
       >
         <template #footer>
-          <div :style="{ padding: '8px' }">
-            Custom Footer
-          </div>
+          <div :style="{ padding: '8px' }">Custom Footer</div>
         </template>
       </a-transfer>
     </template>

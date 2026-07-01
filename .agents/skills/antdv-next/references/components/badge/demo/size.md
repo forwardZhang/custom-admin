@@ -7,8 +7,7 @@ Set size of numeral Badge.
 ## Source
 
 ```vue
-<script setup lang="ts">
-</script>
+<script setup lang="ts"></script>
 
 <template>
   <a-space size="middle">

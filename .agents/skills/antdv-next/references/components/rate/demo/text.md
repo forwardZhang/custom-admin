@@ -8,12 +8,12 @@ Add copywriting in rate components.
 
 ```vue
 <script setup lang="ts">
-import type { RateProps } from 'antdv-next'
-import { ref } from 'vue'
+import type { RateProps } from 'antdv-next';
+import { ref } from 'vue';
 
 function getDescTitle(value: number, desc: RateProps['tooltips']) {
-  const item = desc?.[value - 1]
-  return typeof item === 'object' ? item.title : item
+  const item = desc?.[value - 1];
+  return typeof item === 'object' ? item.title : item;
 }
 const desc: RateProps['tooltips'] = [
   'terrible',
@@ -21,8 +21,8 @@ const desc: RateProps['tooltips'] = [
   'normal',
   'good',
   'wonderful',
-]
-const value = ref(3)
+];
+const value = ref(3);
 </script>
 
 <template>

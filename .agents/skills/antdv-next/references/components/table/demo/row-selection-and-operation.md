@@ -8,17 +8,17 @@ To perform operations and clear selections after selecting some rows, use `rowSe
 
 ```vue
 <script setup lang="ts">
-import type { TableProps } from 'antdv-next'
-import { computed, ref } from 'vue'
+import type { TableProps } from 'antdv-next';
+import { computed, ref } from 'vue';
 
-type TableRowSelection = TableProps['rowSelection']
-type Key = string | number
+type TableRowSelection = TableProps['rowSelection'];
+type Key = string | number;
 
 interface DataType {
-  key: Key
-  name: string
-  age: number
-  address: string
+  key: Key;
+  name: string;
+  age: number;
+  address: string;
 }
 
 const dataSource = Array.from({ length: 46 }).map<DataType>((_, i) => ({
@@ -26,36 +26,36 @@ const dataSource = Array.from({ length: 46 }).map<DataType>((_, i) => ({
   name: `Edward King ${i}`,
   age: 32,
   address: `London, Park Lane no. ${i}`,
-}))
+}));
 
 const columns: TableProps['columns'] = [
   { title: 'Name', dataIndex: 'name', key: 'name' },
   { title: 'Age', dataIndex: 'age', key: 'age' },
   { title: 'Address', dataIndex: 'address', key: 'address' },
-]
+];
 
-const selectedRowKeys = ref<Key[]>([])
-const loading = ref(false)
+const selectedRowKeys = ref<Key[]>([]);
+const loading = ref(false);
 
 function start() {
-  loading.value = true
+  loading.value = true;
   setTimeout(() => {
-    selectedRowKeys.value = []
-    loading.value = false
-  }, 1000)
+    selectedRowKeys.value = [];
+    loading.value = false;
+  }, 1000);
 }
 
 function onSelectChange(newSelectedRowKeys: Key[]) {
-  console.log('selectedRowKeys changed: ', newSelectedRowKeys)
-  selectedRowKeys.value = newSelectedRowKeys
+  console.log('selectedRowKeys changed: ', newSelectedRowKeys);
+  selectedRowKeys.value = newSelectedRowKeys;
 }
 
 const rowSelection = computed<TableRowSelection>(() => ({
   selectedRowKeys: selectedRowKeys.value,
   onChange: onSelectChange,
-}))
+}));
 
-const hasSelected = computed(() => selectedRowKeys.value.length > 0)
+const hasSelected = computed(() => selectedRowKeys.value.length > 0);
 </script>
 
 <template>
@@ -64,9 +64,7 @@ const hasSelected = computed(() => selectedRowKeys.value.length > 0)
       <a-button type="primary" :disabled="!hasSelected" :loading="loading" @click="start">
         Reload
       </a-button>
-      <span v-if="hasSelected">
-        Selected {{ selectedRowKeys.length }} items
-      </span>
+      <span v-if="hasSelected"> Selected {{ selectedRowKeys.length }} items </span>
     </a-flex>
     <a-table :columns="columns" :data-source="dataSource" :row-selection="rowSelection" />
   </a-flex>

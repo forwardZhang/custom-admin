@@ -8,32 +8,37 @@ Handle validation manually without form binding.
 
 ```vue
 <script setup lang="ts">
-import { reactive } from 'vue'
+import { reactive } from 'vue';
 
-const tips = 'A prime is a natural number greater than 1 that has no positive divisors other than 1 and itself.'
+const tips =
+  'A prime is a natural number greater than 1 that has no positive divisors other than 1 and itself.';
 
-type LocalValidateStatus = 'success' | 'warning' | 'error' | 'validating' | ''
+type LocalValidateStatus = 'success' | 'warning' | 'error' | 'validating' | '';
 
-const state = reactive<{ value: number, validateStatus?: LocalValidateStatus, errorMsg?: string | null }>({
+const state = reactive<{
+  value: number;
+  validateStatus?: LocalValidateStatus;
+  errorMsg?: string | null;
+}>({
   value: 11,
-})
+});
 
 function validatePrimeNumber(number: number) {
   if (number === 11) {
-    state.validateStatus = 'success'
-    state.errorMsg = null
-    return
+    state.validateStatus = 'success';
+    state.errorMsg = null;
+    return;
   }
-  state.validateStatus = 'error'
-  state.errorMsg = 'The prime between 8 and 12 is 11!'
+  state.validateStatus = 'error';
+  state.errorMsg = 'The prime between 8 and 12 is 11!';
 }
 
 function handleChange(value: number | null) {
-  state.value = value ?? 0
-  validatePrimeNumber(state.value)
+  state.value = value ?? 0;
+  validatePrimeNumber(state.value);
 }
 
-validatePrimeNumber(state.value)
+validatePrimeNumber(state.value);
 </script>
 
 <template>

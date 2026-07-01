@@ -8,8 +8,8 @@ You can use your own custom icons by setting the property `icon` for `items`.
 
 ```vue
 <script setup lang="ts">
-import { LoadingOutlined, SmileOutlined, SolutionOutlined, UserOutlined } from '@antdv-next/icons'
-import { h } from 'vue'
+import { LoadingOutlined, SmileOutlined, SolutionOutlined, UserOutlined } from '@antdv-next/icons';
+import { h } from 'vue';
 
 const items = [
   {
@@ -32,7 +32,7 @@ const items = [
     status: 'wait' as const,
     icon: h(SmileOutlined),
   },
-]
+];
 </script>
 
 <template>

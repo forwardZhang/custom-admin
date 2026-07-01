@@ -8,21 +8,21 @@ You can add an icon beside the slider to make it meaningful.
 
 ```vue
 <script setup lang="ts">
-import { FrownOutlined, SmileOutlined } from '@antdv-next/icons'
-import { computed, ref } from 'vue'
+import { FrownOutlined, SmileOutlined } from '@antdv-next/icons';
+import { computed, ref } from 'vue';
 
 const props = defineProps<{
-  min?: number
-  max?: number
-}>()
+  min?: number;
+  max?: number;
+}>();
 
-const min = computed(() => props.min ?? 0)
-const max = computed(() => props.max ?? 20)
-const value = ref(0)
+const min = computed(() => props.min ?? 0);
+const max = computed(() => props.max ?? 20);
+const value = ref(0);
 
-const mid = computed(() => Number(((max.value - min.value) / 2).toFixed(5)))
-const preColorCls = computed(() => (value.value >= mid.value ? '' : 'icon-wrapper-active'))
-const nextColorCls = computed(() => (value.value >= mid.value ? 'icon-wrapper-active' : ''))
+const mid = computed(() => Number(((max.value - min.value) / 2).toFixed(5)));
+const preColorCls = computed(() => (value.value >= mid.value ? '' : 'icon-wrapper-active'));
+const nextColorCls = computed(() => (value.value >= mid.value ? 'icon-wrapper-active' : ''));
 </script>
 
 <template>

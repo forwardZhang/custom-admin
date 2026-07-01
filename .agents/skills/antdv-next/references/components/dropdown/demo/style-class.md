@@ -6,11 +6,11 @@
 
 ```vue
 <script setup lang="ts">
-import type { DropdownProps, MenuItemType } from 'antdv-next'
-import { DownOutlined, LogoutOutlined, SettingOutlined } from '@antdv-next/icons'
-import { theme } from 'antdv-next'
+import type { DropdownProps, MenuItemType } from 'antdv-next';
+import { DownOutlined, LogoutOutlined, SettingOutlined } from '@antdv-next/icons';
+import { theme } from 'antdv-next';
 
-const { token } = theme.useToken()
+const { token } = theme.useToken();
 
 const items: MenuItemType[] = [
   {
@@ -31,11 +31,11 @@ const items: MenuItemType[] = [
     icon: LogoutOutlined,
     danger: true,
   },
-]
+];
 
 const classes: DropdownProps['classes'] = {
   root: 'demo-dropdown-root',
-}
+};
 
 const objectStyles: DropdownProps['styles'] = {
   root: {
@@ -57,26 +57,26 @@ const objectStyles: DropdownProps['styles'] = {
   itemContent: {
     backgroundColor: 'transparent',
   },
-}
+};
 
 const functionStyles: DropdownProps['styles'] = (info) => {
-  const isClick = info.props.trigger?.includes('click')
+  const isClick = info.props.trigger?.includes('click');
   if (isClick) {
     return {
       root: {
         borderColor: '#1890ff',
         borderRadius: '8px',
       },
-    }
+    };
   }
-  return {}
-}
+  return {};
+};
 
 const sharedProps: DropdownProps = {
   menu: { items },
   placement: 'bottomLeft',
   classes,
-}
+};
 </script>
 
 <template>

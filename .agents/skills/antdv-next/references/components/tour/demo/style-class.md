@@ -6,14 +6,14 @@
 
 ```vue
 <script setup lang="ts">
-import type { TourProps, TourStepItem } from 'antdv-next'
-import { computed, h, shallowRef } from 'vue'
+import type { TourProps, TourStepItem } from 'antdv-next';
+import { computed, h, shallowRef } from 'vue';
 
-const ref1 = shallowRef()
-const ref2 = shallowRef()
-const ref3 = shallowRef()
-const open = shallowRef(false)
-const openFn = shallowRef(false)
+const ref1 = shallowRef();
+const ref2 = shallowRef();
+const ref3 = shallowRef();
+const open = shallowRef(false);
+const openFn = shallowRef(false);
 
 const btnProps = {
   nextButtonProps: {
@@ -28,12 +28,12 @@ const btnProps = {
       color: '#fff',
     },
   },
-}
+};
 
 const coverNode = h('img', {
   alt: 'tour.png',
   src: 'https://user-images.githubusercontent.com/5378891/197385811-55df8480-7ff4-44bd-9d43-a7dade598d70.png',
-})
+});
 
 const steps: TourStepItem[] = [
   {
@@ -53,14 +53,14 @@ const steps: TourStepItem[] = [
     description: 'Click to see other actions.',
     target: ref3,
   },
-]
+];
 
-const stepsWithButtonProps = computed(() => steps.map(step => ({ ...step, ...btnProps })))
+const stepsWithButtonProps = computed(() => steps.map((step) => ({ ...step, ...btnProps })));
 
 const classes: TourProps['classes'] = {
   root: 'custom-tour-root',
   section: 'custom-tour-section',
-}
+};
 
 const stylesObject: TourProps['styles'] = {
   mask: {
@@ -73,7 +73,7 @@ const stylesObject: TourProps['styles'] = {
   cover: {
     borderRadius: '12px 12px 0 0',
   },
-}
+};
 
 const stylesFn: TourProps['styles'] = (info) => {
   if (info.props.type === 'primary') {
@@ -88,21 +88,17 @@ const stylesFn: TourProps['styles'] = (info) => {
       cover: {
         borderRadius: '12px 12px 0 0',
       },
-    }
+    };
   }
-  return {}
-}
+  return {};
+};
 </script>
 
 <template>
   <a-flex vertical gap="middle">
     <a-flex gap="middle">
-      <a-button type="primary" @click="open = true">
-        Begin Tour Object
-      </a-button>
-      <a-button type="primary" @click="openFn = true">
-        Begin Tour Function
-      </a-button>
+      <a-button type="primary" @click="open = true"> Begin Tour Object </a-button>
+      <a-button type="primary" @click="openFn = true"> Begin Tour Function </a-button>
     </a-flex>
     <a-divider />
     <a-tour
@@ -121,15 +117,9 @@ const stylesFn: TourProps['styles'] = (info) => {
       type="primary"
     />
     <a-space>
-      <a-button ref="ref1" type="primary">
-        Upload
-      </a-button>
-      <a-button ref="ref2">
-        Save
-      </a-button>
-      <a-button ref="ref3" type="dashed">
-        Other Actions
-      </a-button>
+      <a-button ref="ref1" type="primary"> Upload </a-button>
+      <a-button ref="ref2"> Save </a-button>
+      <a-button ref="ref3" type="dashed"> Other Actions </a-button>
     </a-space>
   </a-flex>
 </template>

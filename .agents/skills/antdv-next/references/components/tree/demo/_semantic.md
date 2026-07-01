@@ -1,16 +1,22 @@
-# _semantic
+# \_semantic
 
 ## Source
 
 ```vue
 <script setup lang="ts">
-import { DownOutlined, FrownFilled, FrownOutlined, MehOutlined, SmileOutlined } from '@antdv-next/icons'
-import { computed, h } from 'vue'
-import { SemanticPreview } from '@/components/semantic'
-import { useComponentLocale } from '@/composables/use-locale'
-import { locales } from '../locales'
+import {
+  DownOutlined,
+  FrownFilled,
+  FrownOutlined,
+  MehOutlined,
+  SmileOutlined,
+} from '@antdv-next/icons';
+import { computed, h } from 'vue';
+import { SemanticPreview } from '@/components/semantic';
+import { useComponentLocale } from '@/composables/use-locale';
+import { locales } from '../locales';
 
-const { t } = useComponentLocale(locales)
+const { t } = useComponentLocale(locales);
 
 const semantics = computed(() => [
   { name: 'root', desc: t('root'), version: '1.0.0' },
@@ -18,7 +24,7 @@ const semantics = computed(() => [
   { name: 'itemIcon', desc: t('itemIcon'), version: '1.0.0' },
   { name: 'itemTitle', desc: t('itemTitle'), version: '1.0.0' },
   { name: 'itemSwitcher', desc: t('itemSwitcher'), version: '1.3.0' },
-])
+]);
 
 const treeData = [
   {
@@ -27,17 +33,19 @@ const treeData = [
     icon: h(SmileOutlined),
     children: [
       { title: 'leaf', key: '0-0-0', icon: h(MehOutlined) },
-      { title: 'leaf', key: '0-0-1', icon: ({ selected }: { selected: boolean }) => selected ? h(FrownFilled) : h(FrownOutlined) },
+      {
+        title: 'leaf',
+        key: '0-0-1',
+        icon: ({ selected }: { selected: boolean }) =>
+          selected ? h(FrownFilled) : h(FrownOutlined),
+      },
     ],
   },
-]
+];
 </script>
 
 <template>
-  <SemanticPreview
-    component-name="Tree"
-    :semantics="semantics"
-  >
+  <SemanticPreview component-name="Tree" :semantics="semantics">
     <template #default="{ classes }">
       <a-tree
         show-icon

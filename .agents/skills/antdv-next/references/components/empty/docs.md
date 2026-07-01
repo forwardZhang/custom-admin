@@ -12,14 +12,14 @@ description: Empty state placeholder.
 
 ## Demos
 
-| Demo | Path |
-| --- | --- |
-| Basic | demo/basic.md |
-| Choose image | demo/simple.md |
-| Customize | demo/customize.md |
-| ConfigProvider | demo/config-provider.md |
-| Custom semantic dom styling | demo/style-class.md |
-| No description | demo/description.md |
+| Demo                        | Path                    |
+| --------------------------- | ----------------------- |
+| Basic                       | demo/basic.md           |
+| Choose image                | demo/simple.md          |
+| Customize                   | demo/customize.md       |
+| ConfigProvider              | demo/config-provider.md |
+| Custom semantic dom styling | demo/style-class.md     |
+| No description              | demo/description.md     |
 
 ## API
 
@@ -27,24 +27,25 @@ Common props ref：[Common props](../../docs/vue/common-props.md)
 
 ### Props
 
-| Property | Description | Type | Default | Version | [Global Config](../config-provider/docs.md#component-config) |
-| --- | --- | --- | --- | --- | --- |
-| classes | Customize class for each semantic structure inside the component. Supports object or function. | EmptyClassNamesType | - | - | ✓ |
-| styles | Customize inline style for each semantic structure inside the component. Supports object or function. | EmptyStylesType | - | - | ✓ |
-| image | Customize image. Will treat as image url when string provided | VueNode | `Empty.PRESENTED_IMAGE_DEFAULT` | - | ✓ |
-| description | Customize description | VueNode | - | - | × |
-| rootClass | Root container class | string | - | - | × |
-| prefixCls | Prefix class name | string | - | - | × |
+| Property    | Description                                                                                           | Type                | Default                         | Version | [Global Config](../config-provider/docs.md#component-config) |
+| ----------- | ----------------------------------------------------------------------------------------------------- | ------------------- | ------------------------------- | ------- | ------------------------------------------------------------ |
+| classes     | Customize class for each semantic structure inside the component. Supports object or function.        | EmptyClassNamesType | -                               | -       | ✓                                                            |
+| styles      | Customize inline style for each semantic structure inside the component. Supports object or function. | EmptyStylesType     | -                               | -       | ✓                                                            |
+| image       | Customize image. Will treat as image url when string provided                                         | VueNode             | `Empty.PRESENTED_IMAGE_DEFAULT` | -       | ✓                                                            |
+| description | Customize description                                                                                 | VueNode             | -                               | -       | ×                                                            |
+| rootClass   | Root container class                                                                                  | string              | -                               | -       | ×                                                            |
+| prefixCls   | Prefix class name                                                                                     | string              | -                               | -       | ×                                                            |
 
 ### Slots
 
-| Slot | Description | Type | Version |
-| --- | --- | --- | --- |
-| image | Customize image. Will treat as image url when string provided | () => any | - |
-| description | Customize description | () => any | - |
-| default | Footer content | () => any | - |
+| Slot        | Description                                                   | Type      | Version |
+| ----------- | ------------------------------------------------------------- | --------- | ------- |
+| image       | Customize image. Will treat as image url when string provided | () => any | -       |
+| description | Customize description                                         | () => any | -       |
+| default     | Footer content                                                | () => any | -       |
 
-## Built-in images 
+## Built-in images
+
 - Empty.PRESENTED_IMAGE_SIMPLE
 
   <div class="site-empty-buildIn-img site-empty-buildIn-simple"></div>
@@ -72,4 +73,4 @@ Common props ref：[Common props](../../docs/vue/common-props.md)
 
 ## Semantic DOM
 
-| _semantic | demo/_semantic.md |
+| \_semantic | demo/\_semantic.md |

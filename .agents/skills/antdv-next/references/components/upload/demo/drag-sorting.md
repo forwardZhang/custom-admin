@@ -14,9 +14,9 @@ By using `itemRender`, we can integrate upload with drag to implement drag sorti
 
 ```vue
 <script setup lang="ts">
-import type { UploadEmits, UploadFile } from 'antdv-next'
-import { UploadOutlined } from '@antdv-next/icons'
-import { ref } from 'vue'
+import type { UploadEmits, UploadFile } from 'antdv-next';
+import { UploadOutlined } from '@antdv-next/icons';
+import { ref } from 'vue';
 
 const fileList = ref<UploadFile[]>([
   {
@@ -48,37 +48,37 @@ const fileList = ref<UploadFile[]>([
     name: 'image.png',
     status: 'error',
   },
-])
+]);
 
-const draggingUid = ref<string | null>(null)
+const draggingUid = ref<string | null>(null);
 
 const handleChange: UploadEmits['change'] = ({ fileList: newFileList }) => {
-  fileList.value = newFileList
-}
+  fileList.value = newFileList;
+};
 
 function handleDragStart(uid: string, event: DragEvent) {
-  draggingUid.value = uid
-  event.dataTransfer?.setData('text/plain', uid)
+  draggingUid.value = uid;
+  event.dataTransfer?.setData('text/plain', uid);
 }
 
 function handleDragEnd() {
-  draggingUid.value = null
+  draggingUid.value = null;
 }
 
 function handleDrop(overUid: string, event: DragEvent) {
-  const activeUid = event.dataTransfer?.getData('text/plain')
+  const activeUid = event.dataTransfer?.getData('text/plain');
   if (!activeUid || activeUid === overUid) {
-    return
+    return;
   }
-  const activeIndex = fileList.value.findIndex(file => file.uid === activeUid)
-  const overIndex = fileList.value.findIndex(file => file.uid === overUid)
+  const activeIndex = fileList.value.findIndex((file) => file.uid === activeUid);
+  const overIndex = fileList.value.findIndex((file) => file.uid === overUid);
   if (activeIndex < 0 || overIndex < 0) {
-    return
+    return;
   }
-  const nextList = fileList.value.slice()
-  const [moved] = nextList.splice(activeIndex, 1)
-  nextList.splice(overIndex, 0, moved)
-  fileList.value = nextList
+  const nextList = fileList.value.slice();
+  const [moved] = nextList.splice(activeIndex, 1);
+  nextList.splice(overIndex, 0, moved);
+  fileList.value = nextList;
 }
 </script>
 

@@ -8,17 +8,17 @@ Login form example.
 
 ```vue
 <script setup lang="ts">
-import { LockOutlined, UserOutlined } from '@antdv-next/icons'
-import { reactive } from 'vue'
+import { LockOutlined, UserOutlined } from '@antdv-next/icons';
+import { reactive } from 'vue';
 
 const model = reactive({
   username: '',
   password: '',
   remember: true,
-})
+});
 
 function handleFinish(values: any) {
-  console.log('Received values of form: ', values)
+  console.log('Received values of form: ', values);
 }
 </script>
 
@@ -47,20 +47,14 @@ function handleFinish(values: any) {
     <a-form-item>
       <a-flex justify="space-between" align="center">
         <a-form-item name="remember" no-style>
-          <a-checkbox v-model:checked="model.remember">
-            Remember me
-          </a-checkbox>
+          <a-checkbox v-model:checked="model.remember"> Remember me </a-checkbox>
         </a-form-item>
-        <a href="">
-          Forgot password
-        </a>
+        <a href=""> Forgot password </a>
       </a-flex>
     </a-form-item>
 
     <a-form-item>
-      <a-button block type="primary" html-type="submit">
-        Log in
-      </a-button>
+      <a-button block type="primary" html-type="submit"> Log in </a-button>
       or <a href="">Register now!</a>
     </a-form-item>
   </a-form>

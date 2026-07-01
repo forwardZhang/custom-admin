@@ -8,14 +8,14 @@ Custom `prefix` and `suffixIcon`.
 
 ```vue
 <script setup lang="ts">
-import type { Dayjs } from 'dayjs'
-import { SmileOutlined } from '@antdv-next/icons'
-import { h } from 'vue'
+import type { Dayjs } from 'dayjs';
+import { SmileOutlined } from '@antdv-next/icons';
+import { h } from 'vue';
 
-const smileIcon = h(SmileOutlined)
+const smileIcon = h(SmileOutlined);
 
 function handleChange(date: Dayjs | (Dayjs | null)[] | null, dateString: string | string[] | null) {
-  console.log(date, dateString)
+  console.log(date, dateString);
 }
 </script>
 

@@ -12,13 +12,13 @@ A Solution for displaying large amounts of data with long columns.
 
 ```vue
 <script setup lang="ts">
-import type { TableProps } from 'antdv-next'
+import type { TableProps } from 'antdv-next';
 
 interface DataType {
-  key: number
-  name: string
-  age: number
-  address: string
+  key: number;
+  name: string;
+  age: number;
+  address: string;
 }
 
 const columns: TableProps['columns'] = [
@@ -45,22 +45,18 @@ const columns: TableProps['columns'] = [
   { title: 'Column 19', dataIndex: 'address', key: '19' },
   { title: 'Column 20', dataIndex: 'address', key: '20' },
   { title: 'Action', key: 'operation', fixed: 'end', width: 100 },
-]
+];
 
 const dataSource = Array.from({ length: 100 }).map<DataType>((_, i) => ({
   key: i,
   name: `Edward King ${i}`,
   age: 32,
   address: `London, Park Lane no. ${i}`,
-}))
+}));
 </script>
 
 <template>
-  <a-table
-    :columns="columns"
-    :data-source="dataSource"
-    :scroll="{ x: 'max-content', y: 275 }"
-  >
+  <a-table :columns="columns" :data-source="dataSource" :scroll="{ x: 'max-content', y: 275 }">
     <template #bodyCell="{ column }">
       <template v-if="column.key === 'operation'">
         <a>action</a>

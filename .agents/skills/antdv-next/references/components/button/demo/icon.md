@@ -8,7 +8,7 @@ You can add an icon using the `icon`/`slot` property.
 
 ```vue
 <script setup lang="ts">
-import { SearchOutlined } from '@antdv-next/icons'
+import { SearchOutlined } from '@antdv-next/icons';
 </script>
 
 <template>
@@ -19,9 +19,7 @@ import { SearchOutlined } from '@antdv-next/icons'
           <SearchOutlined />
         </template>
       </a-button>
-      <a-button type="primary" shape="circle">
-        A
-      </a-button>
+      <a-button type="primary" shape="circle"> A </a-button>
       <a-button type="primary">
         <template #icon>
           <SearchOutlined />

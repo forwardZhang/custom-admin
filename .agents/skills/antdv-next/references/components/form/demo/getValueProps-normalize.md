@@ -8,25 +8,25 @@ Transform values with computed getters/setters.
 
 ```vue
 <script setup lang="ts">
-import type { Dayjs } from 'dayjs'
-import dayjs from 'dayjs'
-import { computed, reactive } from 'vue'
+import type { Dayjs } from 'dayjs';
+import dayjs from 'dayjs';
+import { computed, reactive } from 'vue';
 
-const dateTimestamp = dayjs('2024-01-01').valueOf()
+const dateTimestamp = dayjs('2024-01-01').valueOf();
 
 const model = reactive({
   date: String(dateTimestamp),
-})
+});
 
 const dateValue = computed<Dayjs | null>({
   get: () => (model.date ? dayjs(Number(model.date)) : null),
   set: (val) => {
-    model.date = val ? String(val.valueOf()) : ''
+    model.date = val ? String(val.valueOf()) : '';
   },
-})
+});
 
 function handleFinish(values: any) {
-  console.log('Success:', values)
+  console.log('Success:', values);
 }
 </script>
 
@@ -44,9 +44,7 @@ function handleFinish(values: any) {
     </a-form-item>
 
     <a-form-item :label="null">
-      <a-button type="primary" html-type="submit">
-        Submit
-      </a-button>
+      <a-button type="primary" html-type="submit"> Submit </a-button>
     </a-form-item>
   </a-form>
 </template>

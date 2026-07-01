@@ -8,9 +8,9 @@ Embedding content into `Spin` will set it into loading state.
 
 ```vue
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref } from 'vue';
 
-const loading = ref(false)
+const loading = ref(false);
 </script>
 
 <template>

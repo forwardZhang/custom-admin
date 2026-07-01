@@ -8,10 +8,10 @@ Use `valueFormat` to define the date value format. With it, `v-model:value` can 
 
 ```vue
 <script setup lang="ts">
-import { shallowRef } from 'vue'
+import { shallowRef } from 'vue';
 
-const singleValue = shallowRef<string | null>('2026-02-12')
-const rangeValue = shallowRef<[string | null, string | null] | null>(['2026-02-01', '2026-02-12'])
+const singleValue = shallowRef<string | null>('2026-02-12');
+const rangeValue = shallowRef<[string | null, string | null] | null>(['2026-02-01', '2026-02-12']);
 </script>
 
 <template>

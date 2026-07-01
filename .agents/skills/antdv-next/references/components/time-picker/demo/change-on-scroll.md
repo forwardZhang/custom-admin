@@ -9,7 +9,7 @@ Use `changeOnScroll` and `needConfirm` to change the value when scrolling.
 ```vue
 <script setup lang="ts">
 function onChange(time: any, timeString: string) {
-  console.log(time, timeString)
+  console.log(time, timeString);
 }
 </script>
 

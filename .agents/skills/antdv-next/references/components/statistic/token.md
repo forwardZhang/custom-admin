@@ -21,7 +21,7 @@ Use these variables through `theme.components.Statistic`. This document lists de
 
 ## Token List
 
-| Token | Type | Description |
-| --- | --- | --- |
-| `titleFontSize` | `number` | Title font size |
+| Token             | Type               | Description       |
+| ----------------- | ------------------ | ----------------- |
+| `titleFontSize`   | `number`           | Title font size   |
 | `contentFontSize` | `string \| number` | Content font size |

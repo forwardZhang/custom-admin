@@ -8,10 +8,10 @@ Multiple and checkable.
 
 ```vue
 <script setup lang="ts">
-import { TreeSelect } from 'antdv-next'
-import { ref } from 'vue'
+import { TreeSelect } from 'antdv-next';
+import { ref } from 'vue';
 
-const SHOW_PARENT = TreeSelect.SHOW_PARENT
+const SHOW_PARENT = TreeSelect.SHOW_PARENT;
 
 const treeData = [
   {
@@ -48,12 +48,12 @@ const treeData = [
       },
     ],
   },
-]
+];
 
-const value = ref<string[]>(['0-0-0'])
+const value = ref<string[]>(['0-0-0']);
 
 function onChange(newValue: string[]) {
-  console.log('onChange', newValue)
+  console.log('onChange', newValue);
 }
 </script>
 

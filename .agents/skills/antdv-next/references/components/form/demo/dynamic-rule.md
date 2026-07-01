@@ -8,27 +8,26 @@ Toggle validation rules dynamically.
 
 ```vue
 <script setup lang="ts">
-import type { FormInstance } from 'antdv-next'
-import { reactive, ref, shallowRef, watch } from 'vue'
+import type { FormInstance } from 'antdv-next';
+import { reactive, ref, shallowRef, watch } from 'vue';
 
-const formRef = shallowRef<FormInstance>()
-const checkNick = ref(false)
+const formRef = shallowRef<FormInstance>();
+const checkNick = ref(false);
 const model = reactive({
   username: '',
   nickname: '',
-})
+});
 
 watch(checkNick, () => {
-  formRef.value?.validateFields?.(['nickname'])
-})
+  formRef.value?.validateFields?.(['nickname']);
+});
 
 async function handleCheck() {
   try {
-    const values = await formRef.value?.validateFields?.()
-    console.log('Success:', values)
-  }
-  catch (errorInfo) {
-    console.log('Failed:', errorInfo)
+    const values = await formRef.value?.validateFields?.();
+    console.log('Success:', values);
+  } catch (errorInfo) {
+    console.log('Failed:', errorInfo);
   }
 }
 </script>
@@ -54,14 +53,10 @@ async function handleCheck() {
       <a-input v-model:value="model.nickname" placeholder="Please input your nickname" />
     </a-form-item>
     <a-form-item :label-col="{ span: 4 }" :wrapper-col="{ span: 8, offset: 4 }">
-      <a-checkbox v-model:checked="checkNick">
-        Nickname is required
-      </a-checkbox>
+      <a-checkbox v-model:checked="checkNick"> Nickname is required </a-checkbox>
     </a-form-item>
     <a-form-item :label-col="{ span: 4 }" :wrapper-col="{ span: 8, offset: 4 }">
-      <a-button type="primary" @click="handleCheck">
-        Check
-      </a-button>
+      <a-button type="primary" @click="handleCheck"> Check </a-button>
     </a-form-item>
   </a-form>
 </template>

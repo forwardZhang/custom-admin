@@ -6,17 +6,17 @@
 
 ```vue
 <script setup lang="ts">
-import type { ProgressProps } from 'antdv-next'
+import type { ProgressProps } from 'antdv-next';
 
 const classes: ProgressProps['classes'] = {
   root: 'demo-progress-root',
   rail: 'demo-progress-rail',
   track: 'demo-progress-track',
-}
+};
 
 const stylesFn: ProgressProps['styles'] = (info) => {
-  const percent = info?.props?.percent ?? 0
-  const hue = 200 - (200 * percent) / 100
+  const percent = info?.props?.percent ?? 0;
+  const hue = 200 - (200 * percent) / 100;
   return {
     track: {
       backgroundImage: `
@@ -32,8 +32,8 @@ const stylesFn: ProgressProps['styles'] = (info) => {
       backgroundColor: 'rgba(0, 0, 0, 0.1)',
       borderRadius: 8,
     },
-  } as ProgressProps['styles']
-}
+  } as ProgressProps['styles'];
+};
 </script>
 
 <template>

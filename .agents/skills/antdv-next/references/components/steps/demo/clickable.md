@@ -8,9 +8,9 @@ Setting `onChange` makes Steps clickable.
 
 ```vue
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref } from 'vue';
 
-const content = 'This is a content.'
+const content = 'This is a content.';
 
 const items = [
   {
@@ -25,8 +25,8 @@ const items = [
     title: 'Step 3',
     content,
   },
-]
-const current = ref(0)
+];
+const current = ref(0);
 </script>
 
 <template>

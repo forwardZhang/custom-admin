@@ -8,41 +8,40 @@ You can use the Input in conjunction with [Tooltip](../../tooltip/docs.md) compo
 
 ```vue
 <script setup lang="ts">
-import { computed, ref, watch } from 'vue'
+import { computed, ref, watch } from 'vue';
 
-const value = ref('')
-const inputValue = ref('')
+const value = ref('');
+const inputValue = ref('');
 
 function formatNumber(val: number) {
-  return new Intl.NumberFormat().format(val)
+  return new Intl.NumberFormat().format(val);
 }
 
 watch(inputValue, (newVal) => {
-  const reg = /^-?\d*(\.\d*)?$/
+  const reg = /^-?\d*(\.\d*)?$/;
   if (reg.test(newVal) || newVal === '' || newVal === '-') {
-    value.value = newVal
-  }
-  else {
+    value.value = newVal;
+  } else {
     // 恢复为有效值
-    inputValue.value = value.value
+    inputValue.value = value.value;
   }
-})
+});
 
 function handleBlur() {
-  let valueTemp = value.value
+  let valueTemp = value.value;
   if (value.value.charAt(value.value.length - 1) === '.' || value.value === '-') {
-    valueTemp = value.value.slice(0, -1)
+    valueTemp = value.value.slice(0, -1);
   }
-  value.value = valueTemp.replace(/0*(\d+)/, '$1')
-  inputValue.value = value.value
+  value.value = valueTemp.replace(/0*(\d+)/, '$1');
+  inputValue.value = value.value;
 }
 
 const title = computed(() => {
   if (value.value) {
-    return value.value !== '-' ? formatNumber(Number(value.value)) : '-'
+    return value.value !== '-' ? formatNumber(Number(value.value)) : '-';
   }
-  return 'Input a number'
-})
+  return 'Input a number';
+});
 </script>
 
 <template>

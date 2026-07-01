@@ -21,8 +21,8 @@ Use these variables through `theme.components.Alert`. This document lists defini
 
 ## Token List
 
-| Token | Type | Description |
-| --- | --- | --- |
-| `defaultPadding` | `CSSProperties` | Default padding |
-| `withDescriptionPadding` | `CSSProperties` | Padding with description |
+| Token                     | Type               | Description                |
+| ------------------------- | ------------------ | -------------------------- |
+| `defaultPadding`          | `CSSProperties`    | Default padding            |
+| `withDescriptionPadding`  | `CSSProperties`    | Padding with description   |
 | `withDescriptionIconSize` | `string \| number` | Icon size with description |

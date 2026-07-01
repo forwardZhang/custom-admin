@@ -8,39 +8,41 @@ Both the top navigation and the sidebar, commonly used in documentation site.
 
 ```vue
 <script setup lang="ts">
-import type { BreadcrumbItemType, MenuItemType } from 'antdv-next'
-import { LaptopOutlined, NotificationOutlined, UserOutlined } from '@antdv-next/icons'
-import { theme } from 'antdv-next'
+import type { BreadcrumbItemType, MenuItemType } from 'antdv-next';
+import { LaptopOutlined, NotificationOutlined, UserOutlined } from '@antdv-next/icons';
+import { theme } from 'antdv-next';
 
-const { token } = theme.useToken()
-const year = new Date().getFullYear()
+const { token } = theme.useToken();
+const year = new Date().getFullYear();
 
-const items1: MenuItemType[] = ['1', '2', '3'].map(key => ({
+const items1: MenuItemType[] = ['1', '2', '3'].map((key) => ({
   key,
   label: `nav ${key}`,
-}))
+}));
 
-const items2: MenuItemType[] = [UserOutlined, LaptopOutlined, NotificationOutlined].map((icon, index) => {
-  const key = String(index + 1)
-  return {
-    key: `sub${key}`,
-    icon,
-    label: `subnav ${key}`,
-    children: Array.from({ length: 4 }).map((_, childIndex) => {
-      const childKey = index * 4 + childIndex + 1
-      return {
-        key: String(childKey),
-        label: `option${childKey}`,
-      }
-    }),
-  }
-})
+const items2: MenuItemType[] = [UserOutlined, LaptopOutlined, NotificationOutlined].map(
+  (icon, index) => {
+    const key = String(index + 1);
+    return {
+      key: `sub${key}`,
+      icon,
+      label: `subnav ${key}`,
+      children: Array.from({ length: 4 }).map((_, childIndex) => {
+        const childKey = index * 4 + childIndex + 1;
+        return {
+          key: String(childKey),
+          label: `option${childKey}`,
+        };
+      }),
+    };
+  },
+);
 
 const breadcrumbItems: BreadcrumbItemType[] = [
   { title: 'Home' },
   { title: 'List' },
   { title: 'App' },
-]
+];
 </script>
 
 <template>
@@ -73,9 +75,7 @@ const breadcrumbItems: BreadcrumbItemType[] = [
             class="demo-sider-menu"
           />
         </a-layout-sider>
-        <a-layout-content class="demo-content">
-          Content
-        </a-layout-content>
+        <a-layout-content class="demo-content"> Content </a-layout-content>
       </a-layout>
     </div>
     <a-layout-footer class="demo-footer">

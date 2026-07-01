@@ -8,33 +8,37 @@ Complex nested dynamic form items.
 
 ```vue
 <script setup lang="ts">
-import { CloseOutlined } from '@antdv-next/icons'
-import { reactive } from 'vue'
+import { CloseOutlined } from '@antdv-next/icons';
+import { reactive } from 'vue';
 
-interface SubItem { first: string, second: string }
+interface SubItem {
+  first: string;
+  second: string;
+}
 
-interface Item { name: string, list: SubItem[] }
+interface Item {
+  name: string;
+  list: SubItem[];
+}
 
 const model = reactive<{ items: Item[] }>({
-  items: [
-    { name: '', list: [{ first: '', second: '' }] },
-  ],
-})
+  items: [{ name: '', list: [{ first: '', second: '' }] }],
+});
 
 function addItem() {
-  model.items.push({ name: '', list: [{ first: '', second: '' }] })
+  model.items.push({ name: '', list: [{ first: '', second: '' }] });
 }
 
 function removeItem(index: number) {
-  model.items.splice(index, 1)
+  model.items.splice(index, 1);
 }
 
 function addSubItem(index: number) {
-  model.items[index].list.push({ first: '', second: '' })
+  model.items[index].list.push({ first: '', second: '' });
 }
 
 function removeSubItem(itemIndex: number, subIndex: number) {
-  model.items[itemIndex].list.splice(subIndex, 1)
+  model.items[itemIndex].list.splice(subIndex, 1);
 }
 </script>
 
@@ -77,16 +81,12 @@ function removeSubItem(itemIndex: number, subIndex: number) {
               </a-form-item>
               <CloseOutlined @click="removeSubItem(index, subIndex)" />
             </a-space>
-            <a-button type="dashed" block @click="addSubItem(index)">
-              + Add Sub Item
-            </a-button>
+            <a-button type="dashed" block @click="addSubItem(index)"> + Add Sub Item </a-button>
           </div>
         </a-form-item>
       </a-card>
 
-      <a-button type="dashed" block @click="addItem">
-        + Add Item
-      </a-button>
+      <a-button type="dashed" block @click="addItem"> + Add Item </a-button>
     </div>
 
     <a-form-item no-style>

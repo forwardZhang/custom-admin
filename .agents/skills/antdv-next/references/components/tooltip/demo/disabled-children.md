@@ -8,17 +8,13 @@ Disabled wrapper.
 
 ```vue
 <script setup lang="ts">
-const selectOptions = [
-  { value: 'option', label: 'Option' },
-]
+const selectOptions = [{ value: 'option', label: 'Option' }];
 </script>
 
 <template>
   <a-space>
     <a-tooltip title="Thanks for using antd. Have a nice day !">
-      <a-button disabled>
-        Disabled
-      </a-button>
+      <a-button disabled> Disabled </a-button>
     </a-tooltip>
     <a-tooltip title="Thanks for using antd. Have a nice day !">
       <a-input disabled placeholder="disabled" />

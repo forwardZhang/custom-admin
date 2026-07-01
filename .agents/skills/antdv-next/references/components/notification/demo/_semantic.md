@@ -1,18 +1,18 @@
-# _semantic
+# \_semantic
 
 ## Source
 
 ```vue
 <script setup lang="ts">
-import { Button, notification } from 'antdv-next'
-import { computed, h } from 'vue'
-import { SemanticPreview } from '@/components/semantic'
-import { useComponentLocale } from '@/composables/use-locale'
-import { locales } from '../locales'
+import { Button, notification } from 'antdv-next';
+import { computed, h } from 'vue';
+import { SemanticPreview } from '@/components/semantic';
+import { useComponentLocale } from '@/composables/use-locale';
+import { locales } from '../locales';
 
-const { _InternalListDoNotUseOrYouWillBeFired: InternalList } = notification
+const { _InternalListDoNotUseOrYouWillBeFired: InternalList } = notification;
 
-const { t } = useComponentLocale(locales)
+const { t } = useComponentLocale(locales);
 
 const previewListStyle = {
   position: 'relative',
@@ -22,7 +22,7 @@ const previewListStyle = {
   height: 'auto',
   padding: '24px',
   transform: 'none',
-} as const
+} as const;
 
 const semantics = computed(() => [
   { name: 'root', desc: t('root'), version: '1.0.0' },
@@ -36,7 +36,7 @@ const semantics = computed(() => [
   { name: 'progress', desc: t('progress'), version: '1.3.0' },
   { name: 'list', desc: t('list'), version: '1.3.0' },
   { name: 'listContent', desc: t('listContent'), version: '1.3.0' },
-])
+]);
 
 const items = computed(() => [
   {
@@ -55,15 +55,11 @@ const items = computed(() => [
     duration: 999999,
     showProgress: true,
   },
-])
+]);
 </script>
 
 <template>
-  <SemanticPreview
-    component-name="Notification"
-    :height="320"
-    :semantics="semantics"
-  >
+  <SemanticPreview component-name="Notification" :height="320" :semantics="semantics">
     <template #default="{ classes }">
       <InternalList
         placement="topRight"

@@ -8,14 +8,14 @@ Use `prefix` to customize the prefix content, use `suffixIcon` to customize the 
 
 ```vue
 <script setup lang="ts">
-import type { CascaderEmits } from 'antdv-next'
-import { SmileOutlined } from '@antdv-next/icons'
-import { h } from 'vue'
+import type { CascaderEmits } from 'antdv-next';
+import { SmileOutlined } from '@antdv-next/icons';
+import { h } from 'vue';
 
 interface Option {
-  value: string
-  label: string
-  children?: Option[]
+  value: string;
+  label: string;
+  children?: Option[];
 }
 
 const options: Option[] = [
@@ -51,54 +51,36 @@ const options: Option[] = [
       },
     ],
   },
-]
+];
 
 const onChange: CascaderEmits['change'] = (value) => {
-  console.log(value)
-}
+  console.log(value);
+};
 
-const prefixIcon = h(SmileOutlined)
+const prefixIcon = h(SmileOutlined);
 </script>
 
 <template>
-  <a-cascader
-    :options="options"
-    placeholder="Please select"
-    @change="onChange"
-  >
+  <a-cascader :options="options" placeholder="Please select" @change="onChange">
     <template #suffixIcon>
       <SmileOutlined />
     </template>
   </a-cascader>
-  <br>
-  <br>
-  <a-cascader
-    suffix-icon="ab"
-    :options="options"
-    placeholder="Please select"
-    @change="onChange"
-  />
-  <br>
-  <br>
-  <a-cascader
-    :options="options"
-    placeholder="Please select"
-    @change="onChange"
-  >
+  <br />
+  <br />
+  <a-cascader suffix-icon="ab" :options="options" placeholder="Please select" @change="onChange" />
+  <br />
+  <br />
+  <a-cascader :options="options" placeholder="Please select" @change="onChange">
     <template #expandIcon>
       <SmileOutlined />
     </template>
   </a-cascader>
-  <br>
-  <br>
-  <a-cascader
-    expand-icon="ab"
-    :options="options"
-    placeholder="Please select"
-    @change="onChange"
-  />
-  <br>
-  <br>
+  <br />
+  <br />
+  <a-cascader expand-icon="ab" :options="options" placeholder="Please select" @change="onChange" />
+  <br />
+  <br />
   <a-cascader
     :prefix="prefixIcon"
     :options="options"

@@ -8,18 +8,18 @@ Multiple selection, selecting from existing items.
 
 ```vue
 <script setup lang="ts">
-import { shallowRef } from 'vue'
+import { shallowRef } from 'vue';
 
 const options = Array.from({ length: 26 }, (_, i) => {
-  const value = (i + 10).toString(36) + (i + 10)
-  return { label: value, value }
-})
+  const value = (i + 10).toString(36) + (i + 10);
+  return { label: value, value };
+});
 
-const value1 = shallowRef(['a10', 'c12'])
-const value2 = shallowRef(['a10', 'c12'])
+const value1 = shallowRef(['a10', 'c12']);
+const value2 = shallowRef(['a10', 'c12']);
 
 function handleChange(value: string[]) {
-  console.log(`selected ${value}`)
+  console.log(`selected ${value}`);
 }
 </script>
 

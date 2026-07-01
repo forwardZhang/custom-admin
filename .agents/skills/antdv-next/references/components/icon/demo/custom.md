@@ -8,7 +8,7 @@ Create a reusable Vue component by using `Icon`. The property / slot `component`
 
 ```vue
 <script setup lang="ts">
-import Icon, { HomeOutlined } from '@antdv-next/icons'
+import Icon, { HomeOutlined } from '@antdv-next/icons';
 </script>
 
 <template>

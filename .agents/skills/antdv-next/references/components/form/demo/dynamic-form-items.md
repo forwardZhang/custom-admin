@@ -8,25 +8,23 @@ Dynamic nested form items.
 
 ```vue
 <script setup lang="ts">
-import { MinusCircleOutlined, PlusOutlined } from '@antdv-next/icons'
-import { reactive } from 'vue'
+import { MinusCircleOutlined, PlusOutlined } from '@antdv-next/icons';
+import { reactive } from 'vue';
 
 const model = reactive({
-  users: [
-    { first: '', last: '' },
-  ],
-})
+  users: [{ first: '', last: '' }],
+});
 
 function addUser() {
-  model.users.push({ first: '', last: '' })
+  model.users.push({ first: '', last: '' });
 }
 
 function removeUser(index: number) {
-  model.users.splice(index, 1)
+  model.users.splice(index, 1);
 }
 
 function handleFinish(values: any) {
-  console.log('Received values of form:', values)
+  console.log('Received values of form:', values);
 }
 </script>
 
@@ -38,7 +36,12 @@ function handleFinish(values: any) {
     auto-complete="off"
     @finish="handleFinish"
   >
-    <a-space v-for="(user, index) in model.users" :key="`user-${index}`" align="baseline" style="display: flex; margin-bottom: 8px">
+    <a-space
+      v-for="(user, index) in model.users"
+      :key="`user-${index}`"
+      align="baseline"
+      style="display: flex; margin-bottom: 8px"
+    >
       <a-form-item
         :name="['users', index, 'first']"
         :rules="[{ required: true, message: 'Missing first name' }]"
@@ -64,9 +67,7 @@ function handleFinish(values: any) {
     </a-form-item>
 
     <a-form-item>
-      <a-button type="primary" html-type="submit">
-        Submit
-      </a-button>
+      <a-button type="primary" html-type="submit"> Submit </a-button>
     </a-form-item>
   </a-form>
 </template>

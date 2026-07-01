@@ -8,44 +8,44 @@ Set summary content by `summary` prop. Sync column fixed status with `Table.Summ
 
 ```vue
 <script setup lang="ts">
-import type { TableProps } from 'antdv-next'
+import type { TableProps } from 'antdv-next';
 
 interface DataType {
-  key: string
-  name: string
-  borrow: number
-  repayment: number
+  key: string;
+  name: string;
+  borrow: number;
+  repayment: number;
 }
 
 interface FixedDataType {
-  key: number
-  name: string
-  description: string
+  key: number;
+  name: string;
+  description: string;
 }
 
 const columns: TableProps['columns'] = [
   { title: 'Name', dataIndex: 'name', key: 'name' },
   { title: 'Borrow', dataIndex: 'borrow', key: 'borrow' },
   { title: 'Repayment', dataIndex: 'repayment', key: 'repayment' },
-]
+];
 
 const dataSource: DataType[] = [
   { key: '1', name: 'John Brown', borrow: 10, repayment: 33 },
   { key: '2', name: 'Jim Green', borrow: 100, repayment: 0 },
   { key: '3', name: 'Joe Black', borrow: 10, repayment: 10 },
   { key: '4', name: 'Jim Red', borrow: 75, repayment: 45 },
-]
+];
 
 const fixedColumns: TableProps['columns'] = [
   { title: 'Name', dataIndex: 'name', fixed: true, width: 100 },
   { title: 'Description', dataIndex: 'description' },
-]
+];
 
 const fixedDataSource = Array.from({ length: 20 }).map<FixedDataType>((_, i) => ({
   key: i,
   name: ['Light', 'Bamboo', 'Little'][i % 3]!,
   description: 'Everything that has a beginning, has an end.',
-}))
+}));
 </script>
 
 <template>
@@ -60,9 +60,7 @@ const fixedDataSource = Array.from({ length: 20 }).map<FixedDataType>((_, i) => 
       <template #summary="pageData">
         <a-table-summary>
           <a-table-summary-row>
-            <a-table-summary-cell :index="0">
-              Total
-            </a-table-summary-cell>
+            <a-table-summary-cell :index="0"> Total </a-table-summary-cell>
             <a-table-summary-cell :index="1">
               <a-typography-text type="danger">
                 {{ pageData.reduce((sum, item) => sum + item.borrow, 0) }}
@@ -75,9 +73,7 @@ const fixedDataSource = Array.from({ length: 20 }).map<FixedDataType>((_, i) => 
             </a-table-summary-cell>
           </a-table-summary-row>
           <a-table-summary-row>
-            <a-table-summary-cell :index="0">
-              Balance
-            </a-table-summary-cell>
+            <a-table-summary-cell :index="0"> Balance </a-table-summary-cell>
             <a-table-summary-cell :index="1" :col-span="2">
               <a-typography-text type="danger">
                 {{ pageData.reduce((sum, item) => sum + item.borrow - item.repayment, 0) }}
@@ -98,12 +94,8 @@ const fixedDataSource = Array.from({ length: 20 }).map<FixedDataType>((_, i) => 
       <template #summary>
         <a-table-summary fixed>
           <a-table-summary-row>
-            <a-table-summary-cell :index="0">
-              Summary
-            </a-table-summary-cell>
-            <a-table-summary-cell :index="1">
-              This is a summary content
-            </a-table-summary-cell>
+            <a-table-summary-cell :index="0"> Summary </a-table-summary-cell>
+            <a-table-summary-cell :index="1"> This is a summary content </a-table-summary-cell>
           </a-table-summary-row>
         </a-table-summary>
       </template>

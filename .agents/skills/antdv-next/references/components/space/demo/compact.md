@@ -8,40 +8,40 @@ Compact layout component, suitable for combining input boxes, selectors and othe
 
 ```vue
 <script setup lang="ts">
-import { CopyOutlined } from '@antdv-next/icons'
-import { ref } from 'vue'
+import { CopyOutlined } from '@antdv-next/icons';
+import { ref } from 'vue';
 
 const zhejiangJiangsuOptions = [
   { label: 'Zhejiang', value: 'Zhejiang' },
   { label: 'Jiangsu', value: 'Jiangsu' },
-]
+];
 
 const option12Options = [
   { label: 'Option1', value: 'Option1' },
   { label: 'Option2', value: 'Option2' },
-]
+];
 
 const option11Options = [
   { label: 'Option1-1', value: 'Option1-1' },
   { label: 'Option1-2', value: 'Option1-2' },
-]
+];
 
 const option22Options = [
   { label: 'Option2-1', value: 'Option2-1' },
   { label: 'Option2-2', value: 'Option2-2' },
-]
+];
 
 const betweenExceptOptions = [
   { label: 'Between', value: '1' },
   { label: 'Except', value: '2' },
-]
+];
 
 const signOptions = [
   { label: 'Sign Up', value: 'Sign Up' },
   { label: 'Sign In', value: 'Sign In' },
-]
+];
 
-const emailOptions = [{ value: 'text 1' }, { value: 'text 2' }]
+const emailOptions = [{ value: 'text 1' }, { value: 'text 2' }];
 
 const addressOptions = [
   {
@@ -76,7 +76,7 @@ const addressOptions = [
       },
     ],
   },
-]
+];
 
 const treeData = [
   {
@@ -94,15 +94,13 @@ const treeData = [
       {
         value: 'parent 1-1',
         title: 'parent 1-1',
-        children: [
-          { value: 'leaf3', title: 'leaf3' },
-        ],
+        children: [{ value: 'leaf3', title: 'leaf3' }],
       },
     ],
   },
-]
+];
 
-const value = ref('leaf1')
+const value = ref('leaf1');
 </script>
 
 <template>
@@ -113,15 +111,11 @@ const value = ref('leaf1')
     </a-space-compact>
     <a-space-compact block size="small">
       <a-input style="width: calc(100% - 200px)" default-value="https://ant.design" />
-      <a-button type="primary">
-        Submit
-      </a-button>
+      <a-button type="primary"> Submit </a-button>
     </a-space-compact>
     <a-space-compact block>
       <a-input style="width: calc(100% - 200px)" default-value="https://ant.design" />
-      <a-button type="primary">
-        Submit
-      </a-button>
+      <a-button type="primary"> Submit </a-button>
     </a-space-compact>
     <a-space-compact block>
       <a-input
@@ -137,11 +131,7 @@ const value = ref('leaf1')
       </a-tooltip>
     </a-space-compact>
     <a-space-compact block>
-      <a-select
-        allow-clear
-        default-value="Zhejiang"
-        :options="zhejiangJiangsuOptions"
-      />
+      <a-select allow-clear default-value="Zhejiang" :options="zhejiangJiangsuOptions" />
       <a-input style="width: 50%" default-value="Xihu District, Hangzhou" />
     </a-space-compact>
     <a-space-compact block>
@@ -160,10 +150,7 @@ const value = ref('leaf1')
       <a-input-search style="width: 20%" default-value="+1" />
     </a-space-compact>
     <a-space-compact block>
-      <a-select
-        default-value="Option1"
-        :options="option12Options"
-      />
+      <a-select default-value="Option1" :options="option12Options" />
       <a-input style="width: 50%" default-value="input content" />
       <a-input-number :default-value="12" />
     </a-space-compact>
@@ -174,29 +161,18 @@ const value = ref('leaf1')
     <a-space-compact block>
       <a-range-picker style="width: 70%" />
       <a-input style="width: 30%" default-value="input content" />
-      <a-button type="primary">
-        查询
-      </a-button>
+      <a-button type="primary"> 查询 </a-button>
     </a-space-compact>
     <a-space-compact block>
       <a-input style="width: 30%" default-value="input content" />
       <a-range-picker style="width: 70%" />
     </a-space-compact>
     <a-space-compact block>
-      <a-select
-        default-value="Option1-1"
-        :options="option11Options"
-      />
-      <a-select
-        default-value="Option2-2"
-        :options="option22Options"
-      />
+      <a-select default-value="Option1-1" :options="option11Options" />
+      <a-select default-value="Option2-2" :options="option22Options" />
     </a-space-compact>
     <a-space-compact block>
-      <a-select
-        default-value="1"
-        :options="betweenExceptOptions"
-      />
+      <a-select default-value="1" :options="betweenExceptOptions" />
       <a-input style="width: 100px; text-align: center" placeholder="Minimum" />
       <a-input
         class="site-input-split"
@@ -211,24 +187,12 @@ const value = ref('leaf1')
       />
     </a-space-compact>
     <a-space-compact block>
-      <a-select
-        default-value="Sign Up"
-        style="width: 30%"
-        :options="signOptions"
-      />
-      <a-auto-complete
-        style="width: 70%"
-        placeholder="Email"
-        :options="emailOptions"
-      />
+      <a-select default-value="Sign Up" style="width: 30%" :options="signOptions" />
+      <a-auto-complete style="width: 70%" placeholder="Email" :options="emailOptions" />
     </a-space-compact>
     <a-space-compact block>
       <a-time-picker style="width: 70%" />
-      <a-cascader
-        style="width: 70%"
-        :options="addressOptions"
-        placeholder="Select Address"
-      />
+      <a-cascader style="width: 70%" :options="addressOptions" placeholder="Select Address" />
     </a-space-compact>
     <a-space-compact block>
       <a-time-range-picker />
@@ -249,9 +213,7 @@ const value = ref('leaf1')
           </template>
         </template>
       </a-tree-select>
-      <a-button type="primary">
-        Submit
-      </a-button>
+      <a-button type="primary"> Submit </a-button>
     </a-space-compact>
     <a-space-compact>
       <a-input placeholder="input here" />
@@ -265,9 +227,7 @@ const value = ref('leaf1')
       <a-color-picker />
     </a-space-compact>
     <a-space-compact>
-      <a-button type="primary">
-        Button
-      </a-button>
+      <a-button type="primary"> Button </a-button>
       <a-input placeholder="input here" />
       <a-space-addon>$</a-space-addon>
     </a-space-compact>

@@ -8,24 +8,22 @@ Display a global loading indicator, which is dismissed by itself asynchronously.
 
 ```vue
 <script setup lang="ts">
-import { message } from 'antdv-next'
+import { message } from 'antdv-next';
 
-const [messageApi, ContextHolder] = message.useMessage()
+const [messageApi, ContextHolder] = message.useMessage();
 function success() {
   const close = messageApi.open({
     type: 'loading',
     content: 'Action in progress..',
     duration: 0,
-  })
+  });
   // Dismiss manually and asynchronously
-  setTimeout(close, 2500)
+  setTimeout(close, 2500);
 }
 </script>
 
 <template>
   <ContextHolder />
-  <a-button @click="success">
-    Display a loading indicator
-  </a-button>
+  <a-button @click="success"> Display a loading indicator </a-button>
 </template>
 ```

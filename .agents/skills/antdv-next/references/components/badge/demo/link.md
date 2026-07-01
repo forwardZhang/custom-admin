@@ -7,8 +7,7 @@ The badge can be wrapped with `a` tag to make it linkable.
 ## Source
 
 ```vue
-<script setup lang="ts">
-</script>
+<script setup lang="ts"></script>
 
 <template>
   <a href="#">

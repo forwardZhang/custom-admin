@@ -8,16 +8,16 @@ Basic usage.
 
 ```vue
 <script setup lang="ts">
-import type { MentionsOptionProps } from 'antdv-next'
-import { ref } from 'vue'
+import type { MentionsOptionProps } from 'antdv-next';
+import { ref } from 'vue';
 
-const value = ref<string>('@afc163')
+const value = ref<string>('@afc163');
 function onChange(value: string) {
-  console.log('Change:', value)
+  console.log('Change:', value);
 }
 
 function onSelect(option: MentionsOptionProps) {
-  console.log('select', option)
+  console.log('select', option);
 }
 </script>
 

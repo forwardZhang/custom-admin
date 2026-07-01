@@ -8,12 +8,12 @@ You can customize the semantic dom style of Select by passing objects/functions 
 
 ```vue
 <script setup lang="ts">
-import { MehOutlined } from '@antdv-next/icons'
+import { MehOutlined } from '@antdv-next/icons';
 
 const options = [
   { value: 'GuangZhou', label: 'GuangZhou' },
   { value: 'ShenZhen', label: 'ShenZhen' },
-]
+];
 
 const stylesObject = {
   prefix: {
@@ -22,7 +22,7 @@ const stylesObject = {
   suffix: {
     color: '#1890ff',
   },
-}
+};
 
 const stylesFilled = {
   prefix: {
@@ -36,7 +36,7 @@ const stylesFilled = {
       border: '1px solid #722ed1',
     },
   },
-}
+};
 </script>
 
 <template>

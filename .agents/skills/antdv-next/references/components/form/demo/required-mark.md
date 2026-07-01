@@ -8,49 +8,45 @@ Display required mark styles.
 
 ```vue
 <script setup lang="ts">
-import type { FormProps } from 'antdv-next'
-import { InfoCircleOutlined } from '@antdv-next/icons'
-import { h, reactive } from 'vue'
+import type { FormProps } from 'antdv-next';
+import { InfoCircleOutlined } from '@antdv-next/icons';
+import { h, reactive } from 'vue';
 
 const model = reactive({
   requiredMarkValue: 'optional',
   fieldA: '',
   fieldB: '',
-})
+});
 
 const requiredMarkOptions = [
   { label: 'Default', value: true },
   { label: 'Optional', value: 'optional' },
   { label: 'Hidden', value: false },
   { label: 'Customize', value: 'customize' },
-]
+];
 
 const customizeRequiredMark: NonNullable<FormProps['requiredMark']> = (labelNode, { required }) => {
-  return h(
-    'span',
-    {},
-    [
-      h(
-        'span',
-        {
-          style: {
-            display: 'inline-block',
-            marginRight: '8px',
-            padding: '0 6px',
-            borderRadius: '4px',
-            color: required ? '#cf1322' : '#faad14',
-            border: `1px solid ${required ? '#cf1322' : '#faad14'}`,
-          },
+  return h('span', {}, [
+    h(
+      'span',
+      {
+        style: {
+          display: 'inline-block',
+          marginRight: '8px',
+          padding: '0 6px',
+          borderRadius: '4px',
+          color: required ? '#cf1322' : '#faad14',
+          border: `1px solid ${required ? '#cf1322' : '#faad14'}`,
         },
-        required ? 'Required' : 'Optional',
-      ),
-      labelNode,
-    ],
-  )
-}
+      },
+      required ? 'Required' : 'Optional',
+    ),
+    labelNode,
+  ]);
+};
 
 function formRequiredMark(value: string | boolean) {
-  return value === 'customize' ? customizeRequiredMark : value
+  return value === 'customize' ? customizeRequiredMark : value;
 }
 </script>
 
@@ -63,7 +59,11 @@ function formRequiredMark(value: string | boolean) {
   >
     <a-form-item label="Required Mark" name="requiredMarkValue">
       <a-radio-group v-model:value="model.requiredMarkValue">
-        <a-radio-button v-for="item in requiredMarkOptions" :key="String(item.value)" :value="item.value">
+        <a-radio-button
+          v-for="item in requiredMarkOptions"
+          :key="String(item.value)"
+          :value="item.value"
+        >
           {{ item.label }}
         </a-radio-button>
       </a-radio-group>
@@ -78,9 +78,7 @@ function formRequiredMark(value: string | boolean) {
       <a-input v-model:value="model.fieldB" placeholder="input placeholder" />
     </a-form-item>
     <a-form-item :label="null">
-      <a-button type="primary">
-        Submit
-      </a-button>
+      <a-button type="primary"> Submit </a-button>
     </a-form-item>
   </a-form>
 </template>

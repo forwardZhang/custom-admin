@@ -8,8 +8,8 @@ The icon should be placed in front of the text.
 
 ```vue
 <script lang="ts" setup>
-import type { BreadcrumbItemType } from 'antdv-next'
-import { HomeOutlined, UserOutlined } from '@antdv-next/icons'
+import type { BreadcrumbItemType } from 'antdv-next';
+import { HomeOutlined, UserOutlined } from '@antdv-next/icons';
 
 const items: BreadcrumbItemType[] = [
   {
@@ -21,7 +21,7 @@ const items: BreadcrumbItemType[] = [
   {
     title: 'Application',
   },
-]
+];
 </script>
 
 <template>

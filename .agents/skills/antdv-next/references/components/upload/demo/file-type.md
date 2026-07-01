@@ -8,7 +8,7 @@ Displays the corresponding by default by type icon
 
 ```vue
 <script setup lang="ts">
-import type { UploadEmits, UploadFile, UploadProps } from 'antdv-next'
+import type { UploadEmits, UploadFile, UploadProps } from 'antdv-next';
 import {
   FileExcelTwoTone,
   FilePdfTwoTone,
@@ -17,13 +17,13 @@ import {
   PaperClipOutlined,
   PictureTwoTone,
   PlusOutlined,
-} from '@antdv-next/icons'
-import { h, ref } from 'vue'
+} from '@antdv-next/icons';
+import { h, ref } from 'vue';
 
-type FileType = Parameters<NonNullable<UploadProps['beforeUpload']>>[0]
+type FileType = Parameters<NonNullable<UploadProps['beforeUpload']>>[0];
 
-const previewOpen = ref(false)
-const previewImage = ref('')
+const previewOpen = ref(false);
+const previewImage = ref('');
 const fileList = ref<UploadFile[]>([
   {
     uid: '-2',
@@ -52,36 +52,36 @@ const fileList = ref<UploadFile[]>([
     name: 'doc.doc',
     status: 'error',
   },
-])
+]);
 
 function getBase64(file: FileType) {
   return new Promise<string>((resolve, reject) => {
-    const reader = new FileReader()
-    reader.readAsDataURL(file)
-    reader.onload = () => resolve(reader.result as string)
-    reader.onerror = error => reject(error)
-  })
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => resolve(reader.result as string);
+    reader.onerror = (error) => reject(error);
+  });
 }
 
 async function handlePreview(file: UploadFile) {
   if (!file.url && !file.preview && file.originFileObj) {
-    file.preview = await getBase64(file.originFileObj as FileType)
+    file.preview = await getBase64(file.originFileObj as FileType);
   }
-  previewOpen.value = true
-  previewImage.value = (file.url || (file.preview as string)) ?? ''
+  previewOpen.value = true;
+  previewImage.value = (file.url || (file.preview as string)) ?? '';
 }
 
 const handleChange: UploadEmits['change'] = ({ fileList: newFileList }) => {
-  fileList.value = newFileList
-}
+  fileList.value = newFileList;
+};
 
 function handlePreviewOpenChange(visible: boolean) {
-  previewOpen.value = visible
+  previewOpen.value = visible;
 }
 
 function handleAfterOpenChange(visible: boolean) {
   if (!visible) {
-    previewImage.value = ''
+    previewImage.value = '';
   }
 }
 
@@ -93,25 +93,24 @@ const fileSufIconList = [
     icon: PictureTwoTone,
     suf: ['.webp', '.svg', '.png', '.gif', '.jpg', '.jpeg', '.jfif', '.bmp', '.dpg'],
   },
-]
+];
 
 const iconRender: UploadProps['iconRender'] = (file, listType) => {
-  let icon = file.status === 'uploading' ? h(LoadingOutlined) : h(PaperClipOutlined)
+  let icon = file.status === 'uploading' ? h(LoadingOutlined) : h(PaperClipOutlined);
   if (listType === 'picture' || listType === 'picture-card' || listType === 'picture-circle') {
     if (listType === 'picture-card' && file.status === 'uploading') {
-      icon = h(LoadingOutlined)
-    }
-    else {
-      const suffix = file.name.slice(file.name.lastIndexOf('.'))
+      icon = h(LoadingOutlined);
+    } else {
+      const suffix = file.name.slice(file.name.lastIndexOf('.'));
       fileSufIconList.forEach((item) => {
         if (item.suf.includes(suffix)) {
-          icon = h(item.icon)
+          icon = h(item.icon);
         }
-      })
+      });
     }
   }
-  return icon
-}
+  return icon;
+};
 </script>
 
 <template>
@@ -126,9 +125,7 @@ const iconRender: UploadProps['iconRender'] = (file, listType) => {
     <template v-if="fileList.length < 8">
       <button style="border: 0; background: none" type="button">
         <PlusOutlined />
-        <div style="margin-top: 8px">
-          Upload
-        </div>
+        <div style="margin-top: 8px">Upload</div>
       </button>
     </template>
   </a-upload>

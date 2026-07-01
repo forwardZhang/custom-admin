@@ -19,8 +19,8 @@ import {
   ShareAltOutlined,
   StarOutlined,
   WarningOutlined,
-} from '@antdv-next/icons'
-import { h } from 'vue'
+} from '@antdv-next/icons';
+import { h } from 'vue';
 </script>
 
 <template>
@@ -69,7 +69,8 @@ import { h } from 'vue'
     </a-tooltip>
 
     <a-dropdown
-      placement="bottomRight" :menu="{
+      placement="bottomRight"
+      :menu="{
         items: [
           {
             key: '1',
@@ -88,8 +89,8 @@ import { h } from 'vue'
           },
         ],
         onClick: () => console.log('click dropdown'),
-      }
-      " :trigger="['click']"
+      }"
+      :trigger="['click']"
     >
       <a-button>
         <template #icon>
@@ -99,21 +100,13 @@ import { h } from 'vue'
     </a-dropdown>
   </a-space-compact>
 
-  <br>
+  <br />
 
   <a-space-compact block>
-    <a-button type="primary">
-      Button 1
-    </a-button>
-    <a-button type="primary">
-      Button 2
-    </a-button>
-    <a-button type="primary">
-      Button 3
-    </a-button>
-    <a-button type="primary">
-      Button 4
-    </a-button>
+    <a-button type="primary"> Button 1 </a-button>
+    <a-button type="primary"> Button 2 </a-button>
+    <a-button type="primary"> Button 3 </a-button>
+    <a-button type="primary"> Button 4 </a-button>
     <a-tooltip title="Tooltip">
       <a-button type="primary" disabled>
         <DownloadOutlined />
@@ -126,18 +119,12 @@ import { h } from 'vue'
     </a-tooltip>
   </a-space-compact>
 
-  <br>
+  <br />
 
   <a-space-compact block>
-    <a-button type="primary">
-      Button 1
-    </a-button>
-    <a-button type="primary">
-      Button 2
-    </a-button>
-    <a-button type="primary">
-      Button 3
-    </a-button>
+    <a-button type="primary"> Button 1 </a-button>
+    <a-button type="primary"> Button 2 </a-button>
+    <a-button type="primary"> Button 3 </a-button>
     <a-tooltip title="Tooltip">
       <a-button type="primary" disabled>
         <DownloadOutlined />
@@ -148,12 +135,11 @@ import { h } from 'vue'
         <DownloadOutlined />
       </a-button>
     </a-tooltip>
-    <a-button type="primary">
-      Button 4
-    </a-button>
+    <a-button type="primary"> Button 4 </a-button>
 
     <a-dropdown
-      placement="bottomRight" :menu="{
+      placement="bottomRight"
+      :menu="{
         items: [
           {
             key: '1',
@@ -169,8 +155,8 @@ import { h } from 'vue'
           },
         ],
         onClick: () => console.log('click dropdown'),
-      }
-      " :trigger="['click']"
+      }"
+      :trigger="['click']"
     >
       <a-button type="primary">
         <template #icon>

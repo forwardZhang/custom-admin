@@ -10,12 +10,12 @@ a-layout-sider supports responsive layout.
 
 ```vue
 <script setup lang="ts">
-import type { MenuItemType } from 'antdv-next'
-import { BarsOutlined, UploadOutlined, UserOutlined, VideoCameraOutlined } from '@antdv-next/icons'
-import { theme } from 'antdv-next'
+import type { MenuItemType } from 'antdv-next';
+import { BarsOutlined, UploadOutlined, UserOutlined, VideoCameraOutlined } from '@antdv-next/icons';
+import { theme } from 'antdv-next';
 
-const { token } = theme.useToken()
-const year = new Date().getFullYear()
+const { token } = theme.useToken();
+const year = new Date().getFullYear();
 
 const items: MenuItemType[] = [UserOutlined, VideoCameraOutlined, UploadOutlined, UserOutlined].map(
   (icon, index) => ({
@@ -23,14 +23,14 @@ const items: MenuItemType[] = [UserOutlined, VideoCameraOutlined, UploadOutlined
     icon,
     label: `nav ${index + 1}`,
   }),
-)
+);
 
 function handleBreakpoint(broken: boolean) {
-  console.log(broken)
+  console.log(broken);
 }
 
 function handleCollapse(collapsed: boolean, type: string) {
-  console.log(collapsed, type)
+  console.log(collapsed, type);
 }
 </script>
 
@@ -46,12 +46,7 @@ function handleCollapse(collapsed: boolean, type: string) {
         <BarsOutlined />
       </template>
       <div class="demo-logo-vertical" />
-      <a-menu
-        theme="dark"
-        mode="inline"
-        :default-selected-keys="['4']"
-        :items="items"
-      />
+      <a-menu theme="dark" mode="inline" :default-selected-keys="['4']" :items="items" />
     </a-layout-sider>
     <a-layout>
       <a-layout-header class="responsive-header" :style="{ background: token.colorBgContainer }" />

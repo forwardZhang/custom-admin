@@ -21,7 +21,7 @@ Use these variables through `theme.components.Dropdown`. This document lists def
 
 ## Token List
 
-| Token | Type | Description |
-| --- | --- | --- |
-| `zIndexPopup` | `number` | z-index of dropdown |
+| Token          | Type            | Description                  |
+| -------------- | --------------- | ---------------------------- |
+| `zIndexPopup`  | `number`        | z-index of dropdown          |
 | `paddingBlock` | `CSSProperties` | Vertical padding of dropdown |

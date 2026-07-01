@@ -8,18 +8,18 @@ Show the dynamic switching mode (between `inline` and `vertical`).
 
 ```vue
 <script setup lang="ts">
-import type { MenuItemType } from 'antdv-next'
+import type { MenuItemType } from 'antdv-next';
 import {
   AppstoreOutlined,
   CalendarOutlined,
   LinkOutlined,
   MailOutlined,
   SettingOutlined,
-} from '@antdv-next/icons'
-import { h, ref } from 'vue'
+} from '@antdv-next/icons';
+import { h, ref } from 'vue';
 
-const mode = ref<'vertical' | 'inline'>('inline')
-const theme = ref<'dark' | 'light'>('light')
+const mode = ref<'vertical' | 'inline'>('inline');
+const theme = ref<'dark' | 'light'>('light');
 
 const items: MenuItemType[] = [
   {
@@ -73,14 +73,14 @@ const items: MenuItemType[] = [
       'Antdv Next',
     ),
   },
-]
+];
 
 function changeMode(value: boolean) {
-  mode.value = value ? 'vertical' : 'inline'
+  mode.value = value ? 'vertical' : 'inline';
 }
 
 function changeTheme(value: boolean) {
-  theme.value = value ? 'dark' : 'light'
+  theme.value = value ? 'dark' : 'light';
 }
 </script>
 
@@ -90,8 +90,8 @@ function changeTheme(value: boolean) {
   <a-divider type="vertical" />
   <a-switch :checked="theme === 'dark'" @change="changeTheme" />
   Change Style
-  <br>
-  <br>
+  <br />
+  <br />
   <a-menu
     style="width: 256px"
     :default-selected-keys="['1']"

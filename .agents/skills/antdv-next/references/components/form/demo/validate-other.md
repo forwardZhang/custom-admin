@@ -8,7 +8,7 @@ Validation with other form controls.
 
 ```vue
 <script setup lang="ts">
-import { reactive } from 'vue'
+import { reactive } from 'vue';
 
 const model = reactive({
   select: undefined as string | undefined,
@@ -20,18 +20,18 @@ const model = reactive({
   radioButton: 'a',
   checkboxGroup: ['A', 'B'],
   rate: 3.5,
-})
+});
 
 const selectOptions = [
   { label: 'China', value: 'china' },
   { label: 'U.S.A', value: 'usa' },
-]
+];
 
 const colorOptions = [
   { label: 'Red', value: 'red' },
   { label: 'Green', value: 'green' },
   { label: 'Blue', value: 'blue' },
-]
+];
 
 const checkboxOptions = [
   { label: 'A', value: 'A' },
@@ -40,10 +40,10 @@ const checkboxOptions = [
   { label: 'D', value: 'D' },
   { label: 'E', value: 'E' },
   { label: 'F', value: 'F' },
-]
+];
 
 function handleFinish(values: any) {
-  console.log('Received values of form: ', values)
+  console.log('Received values of form: ', values);
 }
 </script>
 
@@ -65,7 +65,11 @@ function handleFinish(values: any) {
       has-feedback
       :rules="[{ required: true, message: 'Please select your country!' }]"
     >
-      <a-select v-model:value="model.select" placeholder="Please select a country" :options="selectOptions" />
+      <a-select
+        v-model:value="model.select"
+        placeholder="Please select a country"
+        :options="selectOptions"
+      />
     </a-form-item>
 
     <a-form-item
@@ -73,7 +77,12 @@ function handleFinish(values: any) {
       label="Select[multiple]"
       :rules="[{ required: true, message: 'Please select your favourite colors!', type: 'array' }]"
     >
-      <a-select v-model:value="model.selectMultiple" mode="multiple" placeholder="Please select favourite colors" :options="colorOptions" />
+      <a-select
+        v-model:value="model.selectMultiple"
+        mode="multiple"
+        placeholder="Please select favourite colors"
+        :options="colorOptions"
+      />
     </a-form-item>
 
     <a-form-item label="InputNumber">
@@ -88,20 +97,17 @@ function handleFinish(values: any) {
     </a-form-item>
 
     <a-form-item name="slider" label="Slider">
-      <a-slider v-model:value="model.slider" :marks="{ 0: 'A', 20: 'B', 40: 'C', 60: 'D', 80: 'E', 100: 'F' }" />
+      <a-slider
+        v-model:value="model.slider"
+        :marks="{ 0: 'A', 20: 'B', 40: 'C', 60: 'D', 80: 'E', 100: 'F' }"
+      />
     </a-form-item>
 
     <a-form-item name="radioGroup" label="Radio.Group">
       <a-radio-group v-model:value="model.radioGroup">
-        <a-radio value="a">
-          item 1
-        </a-radio>
-        <a-radio value="b">
-          item 2
-        </a-radio>
-        <a-radio value="c">
-          item 3
-        </a-radio>
+        <a-radio value="a"> item 1 </a-radio>
+        <a-radio value="b"> item 2 </a-radio>
+        <a-radio value="c"> item 3 </a-radio>
       </a-radio-group>
     </a-form-item>
 
@@ -111,15 +117,9 @@ function handleFinish(values: any) {
       :rules="[{ required: true, message: 'Please pick an item!' }]"
     >
       <a-radio-group v-model:value="model.radioButton">
-        <a-radio-button value="a">
-          item 1
-        </a-radio-button>
-        <a-radio-button value="b">
-          item 2
-        </a-radio-button>
-        <a-radio-button value="c">
-          item 3
-        </a-radio-button>
+        <a-radio-button value="a"> item 1 </a-radio-button>
+        <a-radio-button value="b"> item 2 </a-radio-button>
+        <a-radio-button value="c"> item 3 </a-radio-button>
       </a-radio-group>
     </a-form-item>
 
@@ -132,9 +132,7 @@ function handleFinish(values: any) {
     </a-form-item>
 
     <a-form-item :label="null">
-      <a-button type="primary" html-type="submit">
-        Submit
-      </a-button>
+      <a-button type="primary" html-type="submit"> Submit </a-button>
     </a-form-item>
   </a-form>
 </template>

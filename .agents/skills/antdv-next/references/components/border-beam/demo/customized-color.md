@@ -8,15 +8,15 @@ Use the `color` prop to feed BorderBeam a solid color string or an array of grad
 
 ```vue
 <script setup lang="ts">
-import type { BorderBeamGradient } from 'antdv-next'
-import { computed, ref } from 'vue'
+import type { BorderBeamGradient } from 'antdv-next';
+import { computed, ref } from 'vue';
 
 interface Preset {
-  key: string
-  name: string
-  usage: string
-  description: string
-  color: BorderBeamGradient
+  key: string;
+  name: string;
+  usage: string;
+  description: string;
+  color: BorderBeamGradient;
 }
 
 const presets: Preset[] = [
@@ -46,7 +46,8 @@ const presets: Preset[] = [
     key: 'aurora',
     name: 'Aurora',
     usage: 'AI',
-    description: 'A vivid cool-toned beam suited for AI assistants, copilots, and automation panels.',
+    description:
+      'A vivid cool-toned beam suited for AI assistants, copilots, and automation panels.',
     color: [
       { color: '#7c3aed', percent: 0 },
       { color: '#06b6d4', percent: 57 },
@@ -57,7 +58,8 @@ const presets: Preset[] = [
     key: 'forest',
     name: 'Forest',
     usage: 'Recommendation',
-    description: 'A bright natural palette that feels good on recommendation and growth-oriented cards.',
+    description:
+      'A bright natural palette that feels good on recommendation and growth-oriented cards.',
     color: [
       { color: '#22c55e', percent: 0 },
       { color: '#a3e635', percent: 54 },
@@ -86,20 +88,20 @@ const presets: Preset[] = [
       { color: '#ff85c0', percent: 100 },
     ],
   },
-]
+];
 
-const currentKey = ref<string>(presets[0].key)
-const currentPreset = computed(() => presets.find(item => item.key === currentKey.value) ?? presets[0])
-const segmentOptions = computed(() => presets.map(preset => ({ label: preset.name, value: preset.key })))
+const currentKey = ref<string>(presets[0].key);
+const currentPreset = computed(
+  () => presets.find((item) => item.key === currentKey.value) ?? presets[0],
+);
+const segmentOptions = computed(() =>
+  presets.map((preset) => ({ label: preset.name, value: preset.key })),
+);
 </script>
 
 <template>
   <a-flex vertical :gap="16" :style="{ maxWidth: '480px' }">
-    <a-segmented
-      v-model:value="currentKey"
-      block
-      :options="segmentOptions"
-    />
+    <a-segmented v-model:value="currentKey" block :options="segmentOptions" />
     <a-border-beam :color="currentPreset.color">
       <a-card
         :title="currentPreset.name"

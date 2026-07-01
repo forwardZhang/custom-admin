@@ -8,7 +8,7 @@ Add unit through `prefix` and `suffix`.
 
 ```vue
 <script lang="ts" setup>
-import { LikeOutlined } from '@antdv-next/icons'
+import { LikeOutlined } from '@antdv-next/icons';
 </script>
 
 <template>

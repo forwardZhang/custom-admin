@@ -21,8 +21,8 @@ Use these variables through `theme.components.Message`. This document lists defi
 
 ## Token List
 
-| Token | Type | Description |
-| --- | --- | --- |
-| `zIndexPopup` | `number` | z-index of Message |
-| `contentBg` | `string` | Background color of Message |
-| `contentPadding` | `CSSProperties` | Padding of Message |
+| Token            | Type            | Description                 |
+| ---------------- | --------------- | --------------------------- |
+| `zIndexPopup`    | `number`        | z-index of Message          |
+| `contentBg`      | `string`        | Background color of Message |
+| `contentPadding` | `CSSProperties` | Padding of Message          |

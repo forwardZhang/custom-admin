@@ -8,20 +8,15 @@ Set `icon` props to customize the icon.
 
 ```vue
 <script setup lang="ts">
-import { QuestionCircleOutlined } from '@antdv-next/icons'
+import { QuestionCircleOutlined } from '@antdv-next/icons';
 </script>
 
 <template>
-  <a-popconfirm
-    title="Delete the task"
-    description="Are you sure to delete this task?"
-  >
+  <a-popconfirm title="Delete the task" description="Are you sure to delete this task?">
     <template #icon>
       <QuestionCircleOutlined style="color: red" />
     </template>
-    <a-button danger>
-      Delete
-    </a-button>
+    <a-button danger> Delete </a-button>
   </a-popconfirm>
 </template>
 ```

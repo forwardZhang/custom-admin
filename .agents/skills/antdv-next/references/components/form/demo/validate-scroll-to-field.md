@@ -8,17 +8,17 @@ When validation fails or manually scroll to the error field.
 
 ```vue
 <script setup lang="ts">
-import type { FormInstance } from 'antdv-next'
-import { reactive, shallowRef } from 'vue'
+import type { FormInstance } from 'antdv-next';
+import { reactive, shallowRef } from 'vue';
 
-const formRef = shallowRef<FormInstance>()
+const formRef = shallowRef<FormInstance>();
 
 const model = reactive({
   username: '',
   occupation: '',
   motto: '',
   bio: '',
-})
+});
 </script>
 
 <template>
@@ -31,9 +31,7 @@ const model = reactive({
     :wrapper-col="{ span: 14 }"
   >
     <a-form-item>
-      <a-button @click="() => formRef?.scrollToField?.('bio')">
-        Scroll to Bio
-      </a-button>
+      <a-button @click="() => formRef?.scrollToField?.('bio')"> Scroll to Bio </a-button>
     </a-form-item>
     <a-form-item name="username" label="Username" :rules="[{ required: true }]">
       <a-input v-model:value="model.username" />
@@ -41,7 +39,8 @@ const model = reactive({
     <a-form-item label="Occupation" name="occupation">
       <a-select
         v-model:value="model.occupation"
-        class="w-full" :options="[
+        class="w-full"
+        :options="[
           { label: 'Designer', value: 'designer' },
           { label: 'Developer', value: 'developer' },
           { label: 'Product Manager', value: 'product-manager' },
@@ -56,12 +55,8 @@ const model = reactive({
     </a-form-item>
     <a-form-item>
       <a-flex gap="small">
-        <a-button type="primary" html-type="submit">
-          Submit
-        </a-button>
-        <a-button danger @click="() => formRef?.resetFields?.()">
-          Reset
-        </a-button>
+        <a-button type="primary" html-type="submit"> Submit </a-button>
+        <a-button danger @click="() => formRef?.resetFields?.()"> Reset </a-button>
       </a-flex>
     </a-form-item>
   </a-form>

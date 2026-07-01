@@ -8,13 +8,13 @@ Ellipsis cell content via setting `column.ellipsis.showTitle`, use `Tooltip` ins
 
 ```vue
 <script setup lang="ts">
-import type { TableProps } from 'antdv-next'
+import type { TableProps } from 'antdv-next';
 
 interface DataType {
-  key: string
-  name: string
-  age: number
-  address: string
+  key: string;
+  name: string;
+  age: number;
+  address: string;
 }
 
 const columns: TableProps['columns'] = [
@@ -44,7 +44,7 @@ const columns: TableProps['columns'] = [
     key: 'address 4',
     ellipsis: { showTitle: false },
   },
-]
+];
 
 const dataSource: DataType[] = [
   {
@@ -65,9 +65,9 @@ const dataSource: DataType[] = [
     age: 32,
     address: 'Sydney No. 1 Lake Park, Sydney No. 1 Lake Park',
   },
-]
+];
 
-const addressColumnKeys = new Set(['address 1', 'address 2', 'address 3', 'address 4'])
+const addressColumnKeys = new Set(['address 1', 'address 2', 'address 3', 'address 4']);
 </script>
 
 <template>

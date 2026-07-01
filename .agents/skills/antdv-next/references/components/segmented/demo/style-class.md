@@ -6,13 +6,13 @@
 
 ```vue
 <script setup lang="ts">
-import type { SegmentedProps } from 'antdv-next'
-import { CloudOutlined, RocketOutlined, ThunderboltOutlined } from '@antdv-next/icons'
-import { h } from 'vue'
+import type { SegmentedProps } from 'antdv-next';
+import { CloudOutlined, RocketOutlined, ThunderboltOutlined } from '@antdv-next/icons';
+import { h } from 'vue';
 
 const classes: SegmentedProps['classes'] = {
   root: 'custom-segmented-root',
-}
+};
 const styleFn: SegmentedProps['styles'] = (info) => {
   if (info.props.vertical) {
     return {
@@ -27,17 +27,17 @@ const styleFn: SegmentedProps['styles'] = (info) => {
       item: {
         textAlign: 'start',
       },
-    } satisfies SegmentedProps['styles']
+    } satisfies SegmentedProps['styles'];
   }
-  return {}
-}
+  return {};
+};
 
 const styles: SegmentedProps['styles'] = {
   root: {
     padding: '4px',
     width: '260px',
   },
-}
+};
 
 const options: SegmentedProps['options'] = [
   {
@@ -55,11 +55,11 @@ const options: SegmentedProps['options'] = [
     value: 'cloud',
     icon: h(CloudOutlined),
   },
-]
+];
 const segmentedSharedProps: SegmentedProps = {
   options,
   classes,
-}
+};
 </script>
 
 <template>

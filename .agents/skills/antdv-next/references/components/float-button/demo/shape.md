@@ -8,7 +8,7 @@ Change the shape of the FloatButton with the `shape` property.
 
 ```vue
 <script setup lang="ts">
-import { CustomerServiceOutlined } from '@antdv-next/icons'
+import { CustomerServiceOutlined } from '@antdv-next/icons';
 </script>
 
 <template>

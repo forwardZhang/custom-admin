@@ -6,21 +6,21 @@
 
 ```vue
 <script setup lang="ts">
-import type { TooltipProps } from 'antdv-next'
-import { theme } from 'antdv-next'
+import type { TooltipProps } from 'antdv-next';
+import { theme } from 'antdv-next';
 
-const { token } = theme.useToken()
+const { token } = theme.useToken();
 
 const classes: TooltipProps['classes'] = {
   container: 'demo-tooltip-container',
-}
+};
 
 const stylesObject: TooltipProps['styles'] = {
   container: {
     borderRadius: '12px',
     boxShadow: 'inset 0 0 8px #ccc',
   },
-}
+};
 
 const stylesFn: TooltipProps['styles'] = (info) => {
   if (info?.props?.arrow === false) {
@@ -30,10 +30,10 @@ const stylesFn: TooltipProps['styles'] = (info) => {
         padding: '12px',
         color: '#fff',
       },
-    }
+    };
   }
-  return {}
-}
+  return {};
+};
 </script>
 
 <template>
@@ -42,9 +42,7 @@ const stylesFn: TooltipProps['styles'] = (info) => {
       <a-button>Object Style</a-button>
     </a-tooltip>
     <a-tooltip title="Function text" :classes="classes" :styles="stylesFn" :arrow="false">
-      <a-button type="primary">
-        Function Style
-      </a-button>
+      <a-button type="primary"> Function Style </a-button>
     </a-tooltip>
   </a-flex>
 </template>

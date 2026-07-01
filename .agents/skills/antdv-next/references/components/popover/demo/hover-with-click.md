@@ -8,27 +8,27 @@ The following example shows how to create a popover which can be hovered and cli
 
 ```vue
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref } from 'vue';
 
-const clicked = ref(false)
-const hovered = ref(false)
+const clicked = ref(false);
+const hovered = ref(false);
 
 function hide() {
-  clicked.value = false
-  hovered.value = false
+  clicked.value = false;
+  hovered.value = false;
 }
 
 function handleHoverChange(value: boolean) {
-  hovered.value = value
+  hovered.value = value;
   if (value) {
-    clicked.value = false
+    clicked.value = false;
   }
 }
 
 function handleClickChange(value: boolean) {
-  clicked.value = value
+  clicked.value = value;
   if (value) {
-    hovered.value = false
+    hovered.value = false;
   }
 }
 </script>
@@ -44,12 +44,7 @@ function handleClickChange(value: boolean) {
     <template #content>
       <div>This is hover content.</div>
     </template>
-    <a-popover
-      title="Click title"
-      trigger="click"
-      :open="clicked"
-      @open-change="handleClickChange"
-    >
+    <a-popover title="Click title" trigger="click" :open="clicked" @open-change="handleClickChange">
       <template #content>
         <div>
           This is click content.

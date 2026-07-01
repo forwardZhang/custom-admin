@@ -8,12 +8,12 @@ Custom field names.
 
 ```vue
 <script setup lang="ts">
-import type { CascaderEmits } from 'antdv-next'
+import type { CascaderEmits } from 'antdv-next';
 
 interface Option {
-  code: string
-  name: string
-  items?: Option[]
+  code: string;
+  name: string;
+  items?: Option[];
 }
 
 const options: Option[] = [
@@ -49,11 +49,11 @@ const options: Option[] = [
       },
     ],
   },
-]
+];
 
 const onChange: CascaderEmits['change'] = (value) => {
-  console.log(value)
-}
+  console.log(value);
+};
 </script>
 
 <template>

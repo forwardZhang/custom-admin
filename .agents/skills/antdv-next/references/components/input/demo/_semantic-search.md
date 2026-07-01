@@ -1,16 +1,16 @@
-# _semantic-search
+# \_semantic-search
 
 ## Source
 
 ```vue
 <script setup lang="ts">
-import { EditOutlined, UserOutlined } from '@antdv-next/icons'
-import { computed } from 'vue'
-import { SemanticPreview } from '@/components/semantic'
-import { useComponentLocale } from '@/composables/use-locale'
-import { locales } from '../locales'
+import { EditOutlined, UserOutlined } from '@antdv-next/icons';
+import { computed } from 'vue';
+import { SemanticPreview } from '@/components/semantic';
+import { useComponentLocale } from '@/composables/use-locale';
+import { locales } from '../locales';
 
-const { t } = useComponentLocale(locales)
+const { t } = useComponentLocale(locales);
 
 const semantics = computed(() => [
   { name: 'root', desc: t('root') },
@@ -21,14 +21,11 @@ const semantics = computed(() => [
   { name: 'button.root', desc: t('button.root') },
   { name: 'button.icon', desc: t('button.icon') },
   { name: 'button.content', desc: t('button.content') },
-])
+]);
 </script>
 
 <template>
-  <SemanticPreview
-    component-name="InputSearch"
-    :semantics="semantics"
-  >
+  <SemanticPreview component-name="InputSearch" :semantics="semantics">
     <template #default="{ classes }">
       <div style="width: 100%">
         <a-input-search
