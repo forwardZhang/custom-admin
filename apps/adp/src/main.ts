@@ -1,13 +1,8 @@
 import { createApp } from 'vue';
-
 import App from './App.vue';
-import { router } from './router';
-import { setupStores } from './stores';
-import './styles/theme.css';
+function setupApp() {
+  const app = createApp(App);
+  app.mount('#app');
+}
 
-const app = createApp(App);
-
-setupStores(app);
-
-app.use(router);
-app.mount('#app');
+setupApp();

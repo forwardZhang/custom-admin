@@ -23,8 +23,8 @@ dist-ssr
 .nitro
 .output
 test-componets
-vue-vben-admin
-vue-vben-admin/*
+
+soybean-admin-main
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
