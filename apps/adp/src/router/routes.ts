@@ -1,7 +1,10 @@
-import Layout from '@/layouts/index.vue';
 import type { RouteRecordRaw } from 'vue-router';
+import Layout from '@/layouts/index.vue';
 
-export const routes: RouteRecordRaw[] = [
+/**
+ * 常量路由配置（无需登录权限即可访问）
+ */
+export const constantRoutes: RouteRecordRaw[] = [
   {
     path: '/',
     redirect: '/dashboard',
@@ -12,6 +15,7 @@ export const routes: RouteRecordRaw[] = [
     component: () => import('@/views/login/index.vue'),
     meta: {
       title: '登录',
+      constant: true,
       hideInMenu: true,
     },
   },
@@ -21,7 +25,6 @@ export const routes: RouteRecordRaw[] = [
     component: Layout,
     meta: {
       title: '首页',
-      layout: 'vertical',
     },
     children: [
       {
@@ -41,6 +44,7 @@ export const routes: RouteRecordRaw[] = [
     component: () => import('@/views/exception/404.vue'),
     meta: {
       title: '404',
+      constant: true,
       hideInMenu: true,
     },
   },

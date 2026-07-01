@@ -3,6 +3,6 @@
   "compilerOptions": {
     "composite": true,
     "lib": ["ES2022", "DOM", "DOM.Iterable"],
-    "types": ["vite/client", "node"]
+    "types": ["vite/client", "node", "antdv-next/global"]
   }
 }

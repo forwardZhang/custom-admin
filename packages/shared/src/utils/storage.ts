@@ -14,7 +14,7 @@ export const storage = {
   },
 
   set<T>(key: string, value: T): void {
-    const nextValue = typeof value === 'string' ? value : JSON.stringify(value);
+    const nextValue = JSON.stringify(value);
     localStorage.setItem(key, nextValue);
   },
 

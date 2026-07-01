@@ -16,6 +16,10 @@
   "dependencies": {
     "@package/common-ui": "workspace:*",
     "@package/request": "workspace:*",
-    "@package/shared": "workspace:*"
+    "@package/shared": "workspace:*",
+    "nprogress": "^0.2.0"
+  },
+  "devDependencies": {
+    "@types/nprogress": "^0.2.3"
   }
 }

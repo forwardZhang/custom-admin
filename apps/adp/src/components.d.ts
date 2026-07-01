@@ -12,7 +12,10 @@ export {};
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+    AApp: typeof import('antdv-next')['App']
     AButton: typeof import('antdv-next')['Button']
+    AConfigProvider: typeof import('antdv-next')['ConfigProvider']
+    ARangePicker: typeof import('antdv-next')['DateRangePicker']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
   }
@@ -20,7 +23,10 @@ declare module 'vue' {
 
 // For TSX support
 declare global {
+  const AApp: (typeof import('antdv-next'))['App'];
   const AButton: (typeof import('antdv-next'))['Button'];
+  const AConfigProvider: (typeof import('antdv-next'))['ConfigProvider'];
+  const ARangePicker: (typeof import('antdv-next'))['DateRangePicker'];
   const RouterLink: (typeof import('vue-router'))['RouterLink'];
   const RouterView: (typeof import('vue-router'))['RouterView'];
 }

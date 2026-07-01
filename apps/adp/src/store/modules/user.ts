@@ -2,8 +2,10 @@ import { defineStore } from 'pinia';
 import { ref } from 'vue';
 import { storage } from '@package/shared';
 import { APP_TOKEN_KEY } from '@/constants/index';
+
 export const useUserStore = defineStore('user', () => {
   const token = ref<string | null>(storage.get(APP_TOKEN_KEY, null));
+
   const userInfo = ref<any | null>(null);
 
   const isLoggedIn = () => !!token.value;

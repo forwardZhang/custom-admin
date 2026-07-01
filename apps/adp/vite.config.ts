@@ -36,6 +36,18 @@ export default defineConfig({
       '@mock': fileURLToPath(new URL('./mock', import.meta.url)),
     },
   },
+  css: {
+    preprocessorOptions: {
+      scss: {
+        additionalData: (content: string, filepath: string) => {
+          if (filepath.endsWith('variables.scss')) {
+            return content;
+          }
+          return `@use "@/styles/variables.scss" as *;\n${content}`;
+        },
+      },
+    },
+  },
   server: {
     host: '0.0.0.0',
     port: 3456,
