@@ -9,7 +9,7 @@
     "jsxImportSource": "vue",
     "resolveJsonModule": true,
     "allowImportingTsExtensions": true,
-    "emitDeclarationOnly": true,
+    "noEmit": true,
     "isolatedModules": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
