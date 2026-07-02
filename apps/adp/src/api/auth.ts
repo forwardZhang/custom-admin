@@ -14,7 +14,7 @@ export interface LoginResult {
 /** 用户登录 */
 export function loginApi(params: LoginParams): Promise<ApiResponse<LoginResult>> {
   return request({
-    url: '/api/auth/login',
+    url: '/auth/login',
     method: 'POST',
     data: params,
   });
@@ -23,7 +23,7 @@ export function loginApi(params: LoginParams): Promise<ApiResponse<LoginResult>>
 /** 退出登录 */
 export function logoutApi(): Promise<ApiResponse<null>> {
   return request({
-    url: '/api/auth/logout',
+    url: '/auth/logout',
     method: 'POST',
   });
 }
@@ -31,7 +31,7 @@ export function logoutApi(): Promise<ApiResponse<null>> {
 /** 获取用户信息 */
 export function getProfileApi(): Promise<ApiResponse<any>> {
   return request({
-    url: '/api/user/profile',
+    url: '/user/profile',
     method: 'GET',
   });
 }

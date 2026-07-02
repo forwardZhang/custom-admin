@@ -39,8 +39,8 @@ export default defineConfig({
   css: {
     preprocessorOptions: {
       scss: {
-        additionalData: (content: string, filepath: string) => {
-          if (filepath.endsWith('variables.scss')) {
+        additionalData: (content: string, filename: string) => {
+          if (filename.endsWith('variables.scss')) {
             return content;
           }
           return `@use "@/styles/variables.scss" as *;\n${content}`;

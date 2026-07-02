@@ -1,7 +1,7 @@
 import { storage } from '@package/shared';
 import { defaultPreference, APP_PREFERENCE_KEY } from '@/constants/preference';
 import type { Preference } from '@/constants/preference';
-import { merge } from 'es-toolkit';
+import { cloneDeep, merge } from 'es-toolkit';
 
 /**
  * 将偏好配置应用到 HTML 元素上（声明 CSS 变量与 HTML 属性）
@@ -13,7 +13,7 @@ export function applyPreferenceToHtml(params: { preference: Preference }) {
   if (typeof document === 'undefined') return;
   const root = document.documentElement;
   if (root) {
-    root.style.setProperty('--primary-color', preference.theme.primaryColor);
+    root.style.setProperty('--color-primary', preference.theme.colorPrimary);
     root.setAttribute('layout-mode', preference.layout.mode);
   }
 }
@@ -23,9 +23,10 @@ export function applyPreferenceToHtml(params: { preference: Preference }) {
  * @returns {Preference} 偏好配置对象
  */
 export function getDefaultPreference() {
-  const preference = storage.get<Preference>(APP_PREFERENCE_KEY, defaultPreference);
-  // 将本地和默认合并，防止新增属性
-  return merge(preference, defaultPreference);
+  const cloneDefaultPreference = cloneDeep(defaultPreference);
+  const preference = storage.get<Preference>(APP_PREFERENCE_KEY, cloneDefaultPreference);
+  // 以默认值为基底，用户存储的值覆盖其上，既补全新增字段又保留用户修改
+  return merge(cloneDefaultPreference, preference);
 }
 
 /**

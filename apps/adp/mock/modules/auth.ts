@@ -14,7 +14,7 @@ export const authMockRoutes: MockRoute[] = [
 
       return success({
         token: 'mock-token-admin',
-        user: {
+        userInfo: {
           id: 1,
           username,
           nickname: 'Admin',

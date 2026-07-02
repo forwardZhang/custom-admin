@@ -28,7 +28,7 @@ Use these variables through `theme.components.Button`. This document lists defin
 | `defaultShadow`            | `string`           | Shadow of default button                           |
 | `primaryShadow`            | `string`           | Shadow of primary button                           |
 | `dangerShadow`             | `string`           | Shadow of danger button                            |
-| `primaryColor`             | `string`           | Text color of primary button                       |
+| `colorPrimary`             | `string`           | Text color of primary button                       |
 | `defaultColor`             | `string`           | Text color of default button                       |
 | `defaultBg`                | `string`           | Background color of default button                 |
 | `defaultBorderColor`       | `string`           | Border color of default button                     |

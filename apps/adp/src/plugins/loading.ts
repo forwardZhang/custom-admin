@@ -32,7 +32,7 @@ export function setupLoading(params: { title: string; themeColor: string }) {
   }
 
   const cssVars = `
-    --primary-color-light: rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, 0.6);
+    --color-primary-light: rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, 0.6);
   `;
 
   const loadingStyle = `
@@ -78,7 +78,7 @@ export function setupLoading(params: { title: string; themeColor: string }) {
         position: absolute;
         width: 12px;
         height: 12px;
-        background-color: var(--primary-color);
+        background-color: var(--color-primary);
         border-radius: 50%;
         animation: dot-pulse 1.6s infinite ease-in-out;
       }
@@ -107,7 +107,7 @@ export function setupLoading(params: { title: string; themeColor: string }) {
         font-weight: 600;
         color: #1f2937;
         letter-spacing: 1px;
-        background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-color-light) 100%);
+        background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-light) 100%);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
       }
@@ -146,8 +146,8 @@ export function setupLoading(params: { title: string; themeColor: string }) {
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="80" height="80">
             <defs>
               <linearGradient id="logoGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stop-color="var(--primary-color)" />
-                <stop offset="100%" stop-color="var(--primary-color-light)" />
+                <stop offset="0%" stop-color="var(--color-primary)" />
+                <stop offset="100%" stop-color="var(--color-primary-light)" />
               </linearGradient>
             </defs>
             <!-- 外环 -->

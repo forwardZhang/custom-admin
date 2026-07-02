@@ -11,7 +11,7 @@ export interface DashboardOverview {
 /** 获取仪表盘概览数据 */
 export function getDashboardOverviewApi(): Promise<ApiResponse<DashboardOverview>> {
   return request({
-    url: '/api/dashboard/overview',
+    url: '/dashboard/overview',
     method: 'GET',
   });
 }

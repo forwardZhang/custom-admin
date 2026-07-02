@@ -17,7 +17,7 @@ async function setupApp() {
   // 初始化首屏 Loading
   setupLoading({
     title: APP_TITLE,
-    themeColor: preference.theme.primaryColor,
+    themeColor: preference.theme.colorPrimary,
   });
 
   // 安装dayjs与nprogress进度条

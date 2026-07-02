@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia';
-import { computed, ref, watch } from 'vue';
+import { ref, watch } from 'vue';
 import type { Preference, DeepPartial } from '@/constants/preference';
 import {
   applyPreferenceToHtml,
@@ -10,7 +10,6 @@ import { merge } from 'es-toolkit';
 
 export const useAppStore = defineStore('app', () => {
   const collapsed = ref(false);
-  const darkMode = ref(false);
 
   /** 偏好配置，优先从本地存储加载 */
 
@@ -30,10 +29,6 @@ export const useAppStore = defineStore('app', () => {
     collapsed.value = !collapsed.value;
   }
 
-  function toggleDarkMode() {
-    darkMode.value = !darkMode.value;
-  }
-
   /**
    * 更新偏好配置
    * @param {DeepPartial<Preference>} params - 偏好配置局部参数对象
@@ -44,10 +39,8 @@ export const useAppStore = defineStore('app', () => {
 
   return {
     collapsed,
-    darkMode,
     preference,
     toggleCollapsed,
-    toggleDarkMode,
     updatePreference,
   };
 });
