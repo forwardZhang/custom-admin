@@ -1,21 +1,28 @@
 <template>
   <a-config-provider :locale="zh_CN" :theme="theme">
-    <a-app>
+    <a-app class="h-full relative">
       <RouterView />
-      <a-button type="primary" @click="updateThemeColor">随机更换颜色</a-button>
-      <div class="h-48 bg-primary p-4 text-white">test -dev</div>
-      <a-range-picker v-model:value="date" show-time />
+
+      <div
+        class="p-6 flex flex-col gap-4 max-w-md mx-auto mt-10 bg-white rounded-xl shadow-md border border-gray-100"
+      >
+        <h3 class="text-lg font-bold text-gray-800">ADP 开发预览面板</h3>
+        <p class="text-sm text-gray-500">
+          点击按钮测试主题色切换，Loading 样式会自动适配新主题色。
+        </p>
+        <a-button type="primary" size="large" @click="updateThemeColor">随机更换颜色</a-button>
+        <a-range-picker v-model:value="date" show-time class="w-full" />
+      </div>
     </a-app>
   </a-config-provider>
 </template>
 
 <script setup lang="ts">
 import zh_CN from 'antdv-next/locale/zh_CN';
-import { computed, ref, shallowRef } from 'vue';
+import { computed, shallowRef } from 'vue';
 
-import { useAppStore } from './store/modules/app';
+import { useAppStore } from './store';
 
-const value = ref('');
 const date = shallowRef();
 
 const appStore = useAppStore();

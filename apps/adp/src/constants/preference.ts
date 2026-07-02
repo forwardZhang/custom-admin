@@ -18,6 +18,7 @@ export interface Preference {
   };
 }
 export const APP_PREFERENCE_KEY = 'app-preference';
+
 /** 默认偏好配置 */
 export const defaultPreference: Preference = {
   theme: {

@@ -25,6 +25,7 @@ dist-ssr
 test-componets
 
 soybean-admin-main
+art-design-pro-main
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
