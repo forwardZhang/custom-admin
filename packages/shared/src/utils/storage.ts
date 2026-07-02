@@ -8,7 +8,8 @@ export const storage = {
 
     try {
       return JSON.parse(value) ?? fallback;
-    } catch {
+    } catch (e) {
+      console.log('parse error', e);
       return fallback;
     }
   },

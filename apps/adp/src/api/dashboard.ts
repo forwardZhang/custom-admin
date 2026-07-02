@@ -1,5 +1,4 @@
-import { request } from '@package/request';
-import type { ApiResponse } from '@package/request';
+import { request } from '@/utils/request';
 
 export interface DashboardOverview {
   userCount: number;
@@ -8,10 +7,12 @@ export interface DashboardOverview {
   conversionRate: number;
 }
 
-/** 获取仪表盘概览数据 */
-export function getDashboardOverviewApi(): Promise<ApiResponse<DashboardOverview>> {
-  return request({
-    url: '/dashboard/overview',
-    method: 'GET',
-  });
+/**
+ * 获取仪表盘概览数据
+ *
+ * 请求层已解包：成功时直接返回 `DashboardOverview`，
+ * 失败时 reject `RequestError`，调用方 try/catch 即可。
+ */
+export function getDashboardOverviewApi(): Promise<DashboardOverview> {
+  return request.get<DashboardOverview>('/dashboard/overview');
 }

@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import { useRouter } from 'vue-router';
+import { ROUTE_NAME_DASHBOARD } from '@/constants/route';
 
 defineOptions({ name: 'ExceptionBase' });
 
@@ -30,14 +31,14 @@ const metaMap: Record<ExceptionType, ExceptionMeta> = {
 const meta = computed(() => metaMap[props.type]);
 
 function goHome() {
-  router.replace('/dashboard');
+  router.replace({ name: ROUTE_NAME_DASHBOARD });
 }
 
 function goBack() {
   if (window.history.state?.back) {
     router.back();
   } else {
-    router.replace('/dashboard');
+    router.replace({ name: ROUTE_NAME_DASHBOARD });
   }
 }
 </script>

@@ -1,6 +1,6 @@
 import type { App } from 'vue';
 import { createRouter, createWebHistory } from 'vue-router';
-import { constantRoutes } from './routes';
+import { constantRoutes } from './routes/constant-routes';
 import { createRouterGuard } from './guard';
 
 export const router = createRouter({

@@ -5,7 +5,7 @@ import { message } from 'antdv-next';
 import type { FormInstance, Rule } from 'antdv-next';
 import { storage } from '@package/shared';
 import { useUserStore } from '@/store/modules/user';
-import { loginApi } from '@/api/auth';
+import { ROUTE_NAME_DASHBOARD } from '@/constants/route';
 import type { LoginParams } from '@/api/auth';
 
 defineOptions({ name: 'PwdLogin' });
@@ -50,9 +50,8 @@ async function handleLogin() {
 
   loading.value = true;
   try {
-    const res = await loginApi(form);
-    userStore.setToken(res.data.token);
-    userStore.setUserInfo(res.data.userInfo);
+    // 登录逻辑收敛到 user store（落地 token + 拉取/写入用户信息）
+    await userStore.login(form);
 
     if (remember.value) {
       storage.set(REMEMBER_KEY, form.username);
@@ -62,10 +61,15 @@ async function handleLogin() {
 
     message.success('登录成功');
 
-    const redirect = (route.query.redirect as string) || '/dashboard';
-    router.replace(redirect);
+    // redirect 保留 path 语义：还原守卫捕获的深链（含 query/params）
+    const redirect = route.query.redirect as string;
+    if (redirect) {
+      router.replace(redirect);
+    } else {
+      router.replace({ name: ROUTE_NAME_DASHBOARD });
+    }
   } catch (err: any) {
-    const msg = err?.response?.data?.message || err?.message || '登录失败，请检查用户名和密码';
+    const msg = err?.message || '登录失败，请检查用户名和密码';
     message.error(msg);
   } finally {
     loading.value = false;
@@ -147,7 +151,7 @@ const demoAccounts = [
     </a-form-item>
 
     <!-- 记住我 + 忘记密码 -->
-    <div class="flex items-center justify-between -mt-2 mb-4">
+    <div class="flex items-center justify-between mb-4">
       <a-checkbox v-model:checked="remember">记住我</a-checkbox>
       <a-button type="link" size="small" class="!px-0" @click="handleTodo('忘记密码')"
         >忘记密码？</a-button

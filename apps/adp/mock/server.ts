@@ -24,7 +24,6 @@ async function readBody(req: IncomingMessage): Promise<Record<string, unknown>> 
 }
 
 function sendJson(res: ServerResponse, payload: unknown): void {
-  res.statusCode = 200;
   res.setHeader('Content-Type', 'application/json; charset=utf-8');
   res.end(JSON.stringify(payload));
 }
