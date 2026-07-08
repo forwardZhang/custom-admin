@@ -45,6 +45,16 @@ export const constantRoutes: RouteRecordRaw[] = [
           order: 1,
         },
       },
+      {
+        path: 'demo/scrollbar',
+        name: 'DemoScrollbar',
+        component: () => import('@/views/demo/scrollbar/index.vue'),
+        meta: {
+          title: 'Scrollbar Demo',
+          order: 2,
+          constant: true,
+        },
+      },
     ],
   },
   {

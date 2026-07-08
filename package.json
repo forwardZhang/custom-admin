@@ -18,6 +18,7 @@
   },
   "dependencies": {
     "@antdv-next/icons": "^1.0.8",
+    "@vueuse/core": "^14.3.0",
     "antdv-next": "^1.4.1",
     "axios": "^1.18.1",
     "dayjs": "^1.11.21",

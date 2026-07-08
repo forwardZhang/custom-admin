@@ -1,3 +1,5 @@
 <template>
-  <div>1</div>
+  <div class="h-screen w-screen overflow-hidden">
+    <RouterView />
+  </div>
 </template>
