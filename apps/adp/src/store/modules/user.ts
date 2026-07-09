@@ -4,7 +4,8 @@ import { storage } from '@package/shared';
 import { APP_TOKEN_KEY } from '@/constants';
 import { ROUTE_NAME_LOGIN } from '@/constants/route';
 import { loginApi, logoutApi, getProfileApi } from '@/api/auth';
-import type { LoginParams, UserInfo } from '@/api/auth';
+import { resetAuthorizedRoutes } from '@/router/routes/route-runtime';
+import type { LoginParams, MenuItem, UserInfo } from '@/api/auth';
 
 /**
  * 用户 / 认证 Store
@@ -38,6 +39,9 @@ export const useUserStore = defineStore('user', () => {
 
   /** 是否为超级管理员（拥有 R_SUPER 角色即放行所有路由） */
   const isSuper = computed(() => roles.value.includes('R_SUPER'));
+
+  /** 当前用户菜单树（后端下发，用于动态路由生成和菜单渲染） */
+  const menus = computed<MenuItem[]>(() => userInfo.value?.menus ?? []);
 
   /**
    * 登录
@@ -118,6 +122,7 @@ export const useUserStore = defineStore('user', () => {
 
     // 3. 清空本地登录态
     resetStore();
+    resetAuthorizedRoutes(router);
 
     // 4. 跳转登录页
     const query = redirect ? { redirect: currentPath } : undefined;
@@ -145,6 +150,7 @@ export const useUserStore = defineStore('user', () => {
     roles,
     buttons,
     isSuper,
+    menus,
     login,
     getUserInfo,
     initUserInfo,

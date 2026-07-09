@@ -14,7 +14,7 @@ export const router = createRouter({
  * @param {App} options.app - Vue 应用实例
  */
 export async function setupRouter(app: App) {
-  app.use(router);
   createRouterGuard(router);
+  app.use(router);
   await router.isReady();
 }

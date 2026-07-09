@@ -5,7 +5,6 @@ import { message } from 'antdv-next';
 import type { FormInstance, Rule } from 'antdv-next';
 import { storage } from '@package/shared';
 import { useUserStore } from '@/store/modules/user';
-import { ROUTE_NAME_DASHBOARD } from '@/constants/route';
 import type { LoginParams } from '@/api/auth';
 
 defineOptions({ name: 'PwdLogin' });
@@ -66,7 +65,7 @@ async function handleLogin() {
     if (redirect) {
       router.replace(redirect);
     } else {
-      router.replace({ name: ROUTE_NAME_DASHBOARD });
+      router.replace({ path: '/' });
     }
   } catch (err: any) {
     const msg = err?.message || '登录失败，请检查用户名和密码';

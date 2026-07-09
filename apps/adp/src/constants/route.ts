@@ -11,8 +11,8 @@ export const ROUTE_NAME_ROOT = 'RootLayout';
 /** 登录页路由 */
 export const ROUTE_NAME_LOGIN = 'Login';
 
-/** Dashboard 首页路由（登录成功 / 已登录访问登录页时的默认回跳目标） */
-export const ROUTE_NAME_DASHBOARD = 'Dashboard';
+/** 首页路由（工作台，登录成功 / 已登录访问登录页时的默认跳转目标） */
+export const ROUTE_NAME_DASHBOARD = 'DashboardWorkbench';
 
 /** 404 页面路由（权限不足 / 路由未匹配时的兜底跳转目标） */
 export const ROUTE_NAME_NOT_FOUND = 'NotFound';

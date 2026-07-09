@@ -1,23 +1,8 @@
 import type { RouteRecordRaw } from 'vue-router';
 import Layout from '@/layouts/index.vue';
-import {
-  ROUTE_NAME_DASHBOARD,
-  ROUTE_NAME_LOGIN,
-  ROUTE_NAME_NOT_FOUND,
-  ROUTE_NAME_ROOT,
-} from '@/constants/route';
+import { ROUTE_NAME_LOGIN, ROUTE_NAME_NOT_FOUND, ROUTE_NAME_ROOT } from '@/constants/route';
 
-/**
- * 常量路由配置（无需登录权限即可访问）
- *
- * meta.constant 标记的路由会被路由守卫视为白名单：
- * 免登录、免鉴权、免用户信息初始化（如登录页、404）。
- */
 export const constantRoutes: RouteRecordRaw[] = [
-  {
-    path: '/',
-    redirect: { name: ROUTE_NAME_DASHBOARD },
-  },
   {
     path: '/login',
     name: ROUTE_NAME_LOGIN,
@@ -29,33 +14,11 @@ export const constantRoutes: RouteRecordRaw[] = [
     },
   },
   {
+    /** 布局容器：业务子路由由动态路由模块通过 addRoute 挂入 */
     path: '/',
     name: ROUTE_NAME_ROOT,
     component: Layout,
-    meta: {
-      title: '首页',
-    },
-    children: [
-      {
-        path: 'dashboard',
-        name: ROUTE_NAME_DASHBOARD,
-        component: () => import('@/views/dashboard/index.vue'),
-        meta: {
-          title: 'Dashboard',
-          order: 1,
-        },
-      },
-      {
-        path: 'demo/scrollbar',
-        name: 'DemoScrollbar',
-        component: () => import('@/views/demo/scrollbar/index.vue'),
-        meta: {
-          title: 'Scrollbar Demo',
-          order: 2,
-          constant: true,
-        },
-      },
-    ],
+    children: [],
   },
   {
     path: '/:pathMatch(.*)*',
