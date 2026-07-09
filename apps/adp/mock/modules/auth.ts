@@ -1,5 +1,6 @@
 import type { MockRoute } from '../types.ts';
 import { fail, success } from '../utils/response.ts';
+import { mockMenus } from '../data/menus.ts';
 
 export const authMockRoutes: MockRoute[] = [
   {
@@ -32,7 +33,7 @@ export const authMockRoutes: MockRoute[] = [
           id: 1,
           username,
           nickname: 'Admin',
-          roles: ['admin'],
+          menus: mockMenus,
         },
       });
     },

@@ -1,5 +1,6 @@
 import type { MockRoute } from '../types.ts';
 import { success } from '../utils/response.ts';
+import { mockMenus } from '../data/menus.ts';
 
 export const userMockRoutes: MockRoute[] = [
   {
@@ -11,6 +12,7 @@ export const userMockRoutes: MockRoute[] = [
         username: 'admin',
         nickname: 'Admin',
         roles: ['admin'],
+        menus: mockMenus,
       }),
   },
 ];

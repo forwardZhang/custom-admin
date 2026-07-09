@@ -16,3 +16,6 @@ export const ROUTE_NAME_DASHBOARD = 'Dashboard';
 
 /** 404 页面路由（权限不足 / 路由未匹配时的兜底跳转目标） */
 export const ROUTE_NAME_NOT_FOUND = 'NotFound';
+
+/** 403 页面路由（动态路由未匹配到有效组件时展示） */
+export const ROUTE_NAME_FORBIDDEN = 'Forbidden';
