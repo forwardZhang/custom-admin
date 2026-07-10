@@ -22,9 +22,7 @@
           </button>
         </a-tooltip>
         <div class="header-navigation">
-          <slot name="navigation">
-            <Breadcrumb />
-          </slot>
+          <slot name="navigation"> </slot>
         </div>
       </div>
 

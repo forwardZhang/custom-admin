@@ -6,7 +6,6 @@
         :class="{ 'is-current': index === menuTrail.length - 1 }"
         type="button"
         :disabled="index === menuTrail.length - 1"
-        @click="navigateToMenu(item)"
       >
         {{ item.title }}
       </button>
@@ -56,7 +55,6 @@ function navigateToMenu(menu: MenuItem) {
   color: var(--ant-color-text-secondary);
   font: inherit;
   text-overflow: ellipsis;
-  cursor: pointer;
   transition: 0.2s ease;
 
   &:not(:disabled):hover {
@@ -72,11 +70,5 @@ function navigateToMenu(menu: MenuItem) {
 
 .breadcrumb-separator {
   color: var(--ant-color-text-quaternary);
-}
-
-@media (max-width: 720px) {
-  .layout-breadcrumb {
-    display: none;
-  }
 }
 </style>
