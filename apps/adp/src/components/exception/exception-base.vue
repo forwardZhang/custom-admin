@@ -128,8 +128,8 @@ function goBack() {
 
       <!-- 操作按钮 -->
       <div class="mt-8 flex flex-wrap items-center justify-center gap-3">
-        <a-button type="primary" size="large" @click="goHome">返回首页</a-button>
-        <a-button size="large" @click="goBack">返回上一页</a-button>
+        <a-button type="primary" @click="goHome">返回首页</a-button>
+        <a-button @click="goBack">返回上一页</a-button>
       </div>
     </div>
   </div>

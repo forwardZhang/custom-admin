@@ -235,7 +235,7 @@ function formatNumber({ num }: { num: number }): string {
 <style scoped>
 .analysis {
   max-width: 1200px;
-  padding: 0 0 24px;
+  padding: 24px;
 }
 
 .analysis__header {

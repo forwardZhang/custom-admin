@@ -22,22 +22,70 @@ export const mockMenus: any[] = [
       {
         name: 'DashboardAnalysis',
         title: '分析页',
-        icon: 'LineChartOutlined',
+        icon: 'BarChartOutlined',
         order: 2,
       },
     ],
   },
   {
     name: 'Demo',
-    title: '演示',
-    icon: 'DemoOutlined',
+    title: '页面演示',
+    icon: 'ExperimentOutlined',
     order: 2,
     children: [
       {
         name: 'DemoScrollbar',
-        title: 'Scrollbar Demo',
-        icon: 'ScrollOutlined',
+        title: '滚动容器',
+        icon: 'SlidersOutlined',
         order: 1,
+      },
+      {
+        name: 'DemoKeepAlive',
+        title: '缓存测试(403)',
+        icon: 'ReloadOutlined',
+        order: 2,
+      },
+    ],
+  },
+  {
+    name: 'MultiLevel',
+    title: '多级菜单',
+    icon: 'MenuUnfoldOutlined',
+    order: 3,
+    children: [
+      {
+        name: 'MultiLevelMenu1',
+        title: '二级菜单 A',
+        icon: 'OrderedListOutlined',
+        order: 1,
+        children: [
+          {
+            name: 'MultiLevelMenu1-1',
+            title: '三级页面 A-1',
+            icon: 'FileOutlined',
+            order: 1,
+          },
+          {
+            name: 'MultiLevelMenu1-2',
+            title: '三级页面 A-2',
+            icon: 'FileOutlined',
+            order: 2,
+          },
+        ],
+      },
+      {
+        name: 'MultiLevelMenu2',
+        title: '二级菜单 B',
+        icon: 'OrderedListOutlined',
+        order: 2,
+        children: [
+          {
+            name: 'MultiLevelMenu2-1',
+            title: '三级页面 B-1',
+            icon: 'FileOutlined',
+            order: 1,
+          },
+        ],
       },
     ],
   },
@@ -45,7 +93,7 @@ export const mockMenus: any[] = [
     name: 'System',
     title: '系统管理',
     icon: 'SettingOutlined',
-    order: 2,
+    order: 4,
     children: [
       {
         name: 'SystemUser',
@@ -84,7 +132,7 @@ export const mockMenus: any[] = [
     name: 'Monitor',
     title: '系统监控',
     icon: 'MonitorOutlined',
-    order: 3,
+    order: 5,
     children: [
       {
         name: 'MonitorServer',
@@ -107,8 +155,28 @@ export const mockMenus: any[] = [
     ],
   },
   {
+    name: 'Business',
+    title: '业务管理',
+    icon: 'ShopOutlined',
+    order: 6,
+    children: [
+      {
+        name: 'BusinessGoods',
+        title: '商品列表',
+        icon: 'GiftOutlined',
+        order: 1,
+      },
+      {
+        name: 'BusinessOrder',
+        title: '订单管理',
+        icon: 'AuditOutlined',
+        order: 2,
+      },
+    ],
+  },
+  {
     name: 'About',
-    title: '关于',
+    title: '关于系统',
     icon: 'InfoCircleOutlined',
     order: 99,
   },

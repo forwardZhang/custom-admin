@@ -19,6 +19,12 @@ const theme = computed(() => {
     token: {
       colorPrimary: preference.theme.colorPrimary,
     },
+    components: {
+      Layout: {
+        headerBg: '#fff',
+        headerHeight: 60,
+      },
+    },
   };
   return theme;
 });
