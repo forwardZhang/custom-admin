@@ -25,18 +25,15 @@ export interface RouteMapItem {
  * - 如果菜单 name 没有命中这里，dynamic-routes 会把它注册到 403 兜底页。
  */
 export const routeMap: Record<string, RouteMapItem> = {
-  /** 工作台：默认首页候选，route-runtime 会优先使用它作为首页。 */
   DashboardWorkbench: {
     path: '/dashboard/workbench',
     component: () => import('@/views/dashboard/workbench/index.vue'),
   },
-  /** 仪表盘分析页。 */
   DashboardAnalysis: {
     path: '/dashboard/analysis',
     component: () => import('@/views/dashboard/analysis/index.vue'),
   },
 
-  /** 滚动容器演示页，开启 keepAlive 保留页面状态。 */
   DemoScrollbar: {
     path: '/demo/scroll',
     component: () => import('@/views/demo/scrollbar/index.vue'),
