@@ -36,11 +36,9 @@ withDefaults(
 .page-content {
   min-height: 0;
   flex: 1;
-  overflow: auto;
+  overflow-x: hidden;
+  overflow-y: auto;
   background: var(--ant-color-bg-layout);
-}
-
-.page-view {
 }
 
 .page-fade-enter-active,
@@ -52,10 +50,11 @@ withDefaults(
 
 .page-fade-enter-from {
   opacity: 0;
-  transform: translateY(4px);
+  transform: translateX(8px);
 }
 
 .page-fade-leave-to {
   opacity: 0;
+  transform: translateX(-8px);
 }
 </style>
