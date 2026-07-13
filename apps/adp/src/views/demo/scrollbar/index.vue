@@ -137,7 +137,7 @@ import { Scrollbar } from '@package/common-ui';
 
 import type { ScrollbarInstance, ScrollbarDirection } from '@package/common-ui';
 
-defineOptions({ name: 'ScrollbarDemo' });
+defineOptions({ name: 'DemoScrollbar' });
 
 // ── 内联 DemoCard 组件 ──
 const DemoCard = defineComponent({

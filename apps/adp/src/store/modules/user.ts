@@ -6,6 +6,7 @@ import { ROUTE_NAME_LOGIN } from '@/constants/route';
 import { loginApi, logoutApi, getProfileApi } from '@/api/auth';
 import { resetAuthorizedRoutes } from '@/router/routes/route-runtime';
 import type { LoginParams, MenuItem, UserInfo } from '@/api/auth';
+import { useTabsStore } from './tabs';
 
 /**
  * 用户 / 认证 Store
@@ -140,6 +141,7 @@ export const useUserStore = defineStore('user', () => {
     userInfo.value = null;
     isUserInfoLoaded.value = false;
     storage.remove(APP_TOKEN_KEY);
+    useTabsStore().resetTabs();
   }
 
   return {

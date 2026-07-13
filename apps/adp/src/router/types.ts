@@ -24,7 +24,7 @@ declare module 'vue-router' {
     href?: string;
     /** 进入该路由时高亮的菜单 key（用于详情页等不在菜单中的路由） */
     activeMenu?: string;
-    /** 是否缓存该路由组件（keep-alive） */
+    /** 是否缓存该路由组件（组件 defineOptions.name 需与路由 name 保持一致） */
     keepAlive?: boolean;
   }
 }

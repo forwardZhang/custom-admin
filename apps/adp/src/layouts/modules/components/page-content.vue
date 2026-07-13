@@ -1,27 +1,33 @@
 <template>
-  <a-layout-content class="page-content">
-    <RouterView v-slot="{ Component, route: currentRoute }">
-      <Transition name="page-fade" mode="out-in">
-        <KeepAlive :max="10">
+  <a-layout-content class="page-shell">
+    <PageTabs />
+    <div class="page-content">
+      <RouterView v-slot="{ Component, route: currentRoute }">
+        <Transition name="page-fade" mode="out-in">
+          <KeepAlive :include="tabsStore.cachedRouteNames" :max="10">
+            <component
+              :is="Component"
+              v-if="currentRoute.meta.keepAlive"
+              :key="`${currentRoute.fullPath}-${refreshKey}`"
+            />
+          </KeepAlive>
+        </Transition>
+        <Transition name="page-fade" mode="out-in">
           <component
             :is="Component"
-            v-if="currentRoute.meta.keepAlive"
+            v-if="!currentRoute.meta.keepAlive"
             :key="`${currentRoute.fullPath}-${refreshKey}`"
           />
-        </KeepAlive>
-      </Transition>
-      <Transition name="page-fade" mode="out-in">
-        <component
-          :is="Component"
-          v-if="!currentRoute.meta.keepAlive"
-          :key="`${currentRoute.fullPath}-${refreshKey}`"
-        />
-      </Transition>
-    </RouterView>
+        </Transition>
+      </RouterView>
+    </div>
   </a-layout-content>
 </template>
 
 <script setup lang="ts">
+import { useTabsStore } from '@/store/modules/tabs';
+import PageTabs from './page-tabs.vue';
+
 withDefaults(
   defineProps<{
     refreshKey?: number;
@@ -30,9 +36,20 @@ withDefaults(
     refreshKey: 0,
   },
 );
+
+const tabsStore = useTabsStore();
 </script>
 
 <style scoped lang="scss">
+.page-shell {
+  min-height: 0;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: var(--ant-color-bg-layout);
+}
+
 .page-content {
   min-height: 0;
   flex: 1;

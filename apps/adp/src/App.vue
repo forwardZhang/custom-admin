@@ -22,7 +22,7 @@ const theme = computed(() => {
     components: {
       Layout: {
         headerBg: '#fff',
-        headerHeight: 60,
+        headerHeight: 50,
       },
     },
   };
