@@ -122,7 +122,7 @@ function formatNumber({ num }: { num: number }): string {
 </script>
 
 <template>
-  <div class="analysis">
+  <div class="analysis p-4">
     <!-- 页面标题 -->
     <div class="analysis__header">
       <h2 class="analysis__title">数据分析</h2>
@@ -235,7 +235,6 @@ function formatNumber({ num }: { num: number }): string {
 <style scoped>
 .analysis {
   max-width: 1200px;
-  padding: 24px;
 }
 
 .analysis__header {

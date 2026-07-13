@@ -7,7 +7,6 @@
             :is="Component"
             v-if="currentRoute.meta.keepAlive"
             :key="`${currentRoute.fullPath}-${refreshKey}`"
-            class="page-view"
           />
         </KeepAlive>
       </Transition>
@@ -16,7 +15,6 @@
           :is="Component"
           v-if="!currentRoute.meta.keepAlive"
           :key="`${currentRoute.fullPath}-${refreshKey}`"
-          class="page-view"
         />
       </Transition>
     </RouterView>
@@ -39,12 +37,10 @@ withDefaults(
   min-height: 0;
   flex: 1;
   overflow: auto;
-  padding: 20px;
   background: var(--ant-color-bg-layout);
 }
 
 .page-view {
-  min-height: 100%;
 }
 
 .page-fade-enter-active,
@@ -61,11 +57,5 @@ withDefaults(
 
 .page-fade-leave-to {
   opacity: 0;
-}
-
-@media (max-width: 640px) {
-  .page-content {
-    padding: 12px;
-  }
 }
 </style>

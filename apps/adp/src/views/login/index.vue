@@ -13,7 +13,7 @@ const appStore = useAppStore();
 const activeColor = computed(() => appStore.preference.theme.colorPrimary);
 
 /** 标题首字母，用于 Logo 展示 */
-const titleInitial = computed(() => (APP_TITLE || 'A').trim().charAt(0).toUpperCase());
+const titleInitial = computed(() => APP_TITLE.trim().charAt(0).toUpperCase());
 
 function selectTheme(color: string) {
   appStore.updatePreference({ theme: { colorPrimary: color } });

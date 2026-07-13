@@ -1,10 +1,8 @@
 <template>
-  <div class="h-full overflow-auto bg-[var(--ant-color-bg-layout)] p-6">
-    <div class="mx-auto max-w-4xl">
-      <h1 class="mb-1 text-2xl font-semibold text-[var(--ant-color-text)]">Scrollbar Demo</h1>
-      <p class="mb-6 text-sm text-[var(--ant-color-text-secondary)]">
-        基于 @package/common-ui 的 Scrollbar 组件，参考 element-plus 实现
-      </p>
+  <div class="h-full p-4">
+    <div class="mx-auto">
+      <h1 class="mb-1 text-2xl font-semibold">Scrollbar Demo</h1>
+      <p class="mb-6 text-sm">基于 @package/common-ui 的 Scrollbar 组件，参考 element-plus 实现</p>
 
       <!-- ── 基础用法：固定高度垂直滚动 ── -->
       <DemoCard title="基础用法" description="height=300px，自定义滚动条替代原生">
