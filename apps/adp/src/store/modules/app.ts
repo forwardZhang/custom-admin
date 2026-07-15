@@ -6,7 +6,7 @@ import {
   setDefaultPreference,
   getDefaultPreference,
 } from '@/utils/preference';
-import { merge } from 'es-toolkit';
+import { merge } from 'lodash-es';
 
 export const useAppStore = defineStore('app', () => {
   const collapsed = ref(false);

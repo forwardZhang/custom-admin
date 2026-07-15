@@ -1,7 +1,7 @@
 import { storage } from '@package/shared';
 import { defaultPreference, APP_PREFERENCE_KEY } from '@/constants/preference';
 import type { Preference } from '@/constants/preference';
-import { cloneDeep, merge } from 'es-toolkit';
+import { cloneDeep, merge } from 'lodash-es';
 
 /**
  * 将偏好配置应用到 HTML 元素上（声明 CSS 变量与 HTML 属性）

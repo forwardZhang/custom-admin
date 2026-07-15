@@ -39,4 +39,8 @@ export const routeMap: Record<string, RouteMapItem> = {
     component: () => import('@/views/demo/scrollbar/index.vue'),
     meta: { keepAlive: true },
   },
+  DemoDynamicForm: {
+    path: '/demo/dynamic-form',
+    component: () => import('@/views/demo/dynamic-form/index.vue'),
+  },
 };

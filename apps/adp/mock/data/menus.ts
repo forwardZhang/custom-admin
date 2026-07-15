@@ -40,10 +40,16 @@ export const mockMenus: any[] = [
         order: 1,
       },
       {
+        name: 'DemoDynamicForm',
+        title: '动态表单',
+        icon: 'FileTextOutlined',
+        order: 2,
+      },
+      {
         name: 'DemoKeepAlive',
         title: '缓存测试(403)',
         icon: 'ReloadOutlined',
-        order: 2,
+        order: 3,
       },
     ],
   },
