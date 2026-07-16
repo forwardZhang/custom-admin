@@ -3,7 +3,7 @@
   <Form
     ref="formRef"
     v-bind="formBindings"
-    class="cu-dynamic-form"
+    class="dynamic-form"
     :model="formData"
     :layout="layout"
     :disabled="disabled"
@@ -19,7 +19,7 @@
     </Row>
 
     <!-- 默认操作区可整体关闭，也可分别隐藏重置或提交按钮。 -->
-    <div v-if="showDefaultActions" class="cu-dynamic-form__actions">
+    <div v-if="showDefaultActions" class="dynamic-form__actions">
       <slot name="actions-before" :form-api="formApi" />
       <Space>
         <Button
@@ -45,39 +45,25 @@
 </template>
 
 <script setup lang="ts">
-import {
-  computed,
-  inject,
-  nextTick,
-  provide,
-  readonly,
-  ref,
-  shallowRef,
-  useSlots,
-  watch,
-} from 'vue';
+import { computed, nextTick, provide, readonly, shallowRef, useSlots, watch } from 'vue';
 import { Button, Form, Row, Space } from 'antdv-next';
 
 import { dynamicFormContextKey } from '../core/context';
+import { createDynamicFormStore } from '../core/store';
 import DynamicFormSchemaRenderer from '../renderers/schema-renderer.vue';
 import {
-  applySchemaDefaults,
   cloneDeep,
   cloneSchema,
-  get,
-  has,
   isEqual,
-  mergeValues,
   normalizePath,
   patchSchema,
   removeHiddenValues,
-  set,
-  unset,
 } from '../utils';
 
 import type { FormInstance } from 'antdv-next';
 import type { Ref, ShallowRef } from 'vue';
 import type { DynamicFormContext } from '../core/context';
+import type { DynamicFormStore } from '../core/store';
 import type {
   DeepPartial,
   DynamicFormController,
@@ -94,8 +80,13 @@ import type {
 
 defineOptions({ name: 'DynamicForm' });
 
-const props = withDefaults(defineProps<DynamicFormProps<FormData>>(), {
+type InternalDynamicFormProps = DynamicFormProps<FormData> & {
+  store?: DynamicFormStore<FormData>;
+};
+
+const props = withDefaults(defineProps<InternalDynamicFormProps>(), {
   modelValue: () => ({}),
+  store: undefined,
   layout: 'horizontal',
   column: 1,
   removeHiddenData: true,
@@ -106,19 +97,17 @@ const props = withDefaults(defineProps<DynamicFormProps<FormData>>(), {
 const emit = defineEmits<DynamicFormEmits<FormData>>();
 const slots = useSlots();
 
-// Schema、初始数据和当前数据分离维护，确保 resetFields 始终有稳定基线。
 const runtimeSchema = shallowRef<DynamicFormSchema<FormData>>(cloneSchema(props.schema));
-const initialData = ref<FormData>(
-  applySchemaDefaults(runtimeSchema.value, cloneDeep(props.modelValue)),
-) as Ref<FormData>;
-const formData = ref<FormData>(cloneDeep(initialData.value)) as Ref<FormData>;
+const providedStore = props.store;
+const externalFormData = computed(() => props.modelValue) as Ref<FormData>;
+const initialValues = providedStore ? providedStore.formData.value : cloneDeep(props.modelValue);
+const formStore = providedStore ?? createDynamicFormStore(externalFormData, initialValues);
+const formData = formStore.formData;
 const formRef = shallowRef<FormInstance>();
 
-/** 统一的数据写入口，负责去重、克隆以及向外同步 v-model。 */
-const updateFormData = (nextValue: FormData, fieldsChanged: string[] = []) => {
-  if (isEqual(formData.value, nextValue)) return;
-  formData.value = cloneDeep(nextValue);
-  emit('update:modelValue', cloneDeep(formData.value));
+/** Store 是唯一实时数据源；事件只用于通知调用方。 */
+const notifyFormData = (fieldsChanged: string[] = []) => {
+  emit('update:modelValue', formData.value);
   if (fieldsChanged.length) emit('valuesChange', cloneDeep(formData.value), fieldsChanged);
 };
 
@@ -129,18 +118,14 @@ const getValues = async (options: GetValuesOptions = {}) => {
 };
 
 const setValues = (values: DeepPartial<FormData>) => {
-  // 对象字段递归合并，数组字段整体替换，避免残留旧数组项。
-  updateFormData(mergeValues(formData.value, values));
+  if (formStore.setValues(values)) notifyFormData();
 };
 
-const getValue = (fieldName: FormPath) => cloneDeep(get(formData.value, normalizePath(fieldName)));
+const getValue = (fieldName: FormPath) => cloneDeep(formStore.getValue(fieldName));
 
 const setValue = (fieldName: FormPath, value: unknown) => {
   const path = normalizePath(fieldName);
-  if (isEqual(get(formData.value, path), value)) return;
-  const nextValue = cloneDeep(formData.value);
-  set(nextValue, path, cloneDeep(value));
-  updateFormData(nextValue, [path.map(String).join('.')]);
+  if (formStore.setValue(path, value)) notifyFormData([path.map(String).join('.')]);
 };
 
 const clearValidate = (fieldNames?: FormPath[]) => {
@@ -148,21 +133,8 @@ const clearValidate = (fieldNames?: FormPath[]) => {
 };
 
 const resetFields = (fieldNames?: FormPath[]) => {
-  // 未传字段时恢复整份快照；指定字段时仅恢复其初始值或删除后来新增的值。
-  if (!fieldNames?.length) {
-    updateFormData(cloneDeep(initialData.value));
-  } else {
-    const nextValue = cloneDeep(formData.value);
-    fieldNames.forEach((fieldName) => {
-      const path = normalizePath(fieldName);
-      if (has(initialData.value, path))
-        set(nextValue, path, cloneDeep(get(initialData.value, path)));
-      else unset(nextValue, path);
-    });
-    updateFormData(
-      nextValue,
-      fieldNames.map((fieldName) => normalizePath(fieldName).join('.')),
-    );
+  if (formStore.resetFields(fieldNames)) {
+    notifyFormData(fieldNames?.map((fieldName) => normalizePath(fieldName).map(String).join('.')));
   }
 
   nextTick(() => clearValidate(fieldNames));
@@ -229,30 +201,20 @@ const scrollToField = (fieldName: FormPath) => {
 
 const getSchema = () => cloneSchema(runtimeSchema.value);
 
-const syncDefaults = () => {
-  // Schema 动态更新后同时补齐当前值和 reset 基线中的新增默认值。
-  const nextValue = applySchemaDefaults(runtimeSchema.value, formData.value);
-  const nextInitial = applySchemaDefaults(runtimeSchema.value, initialData.value);
-  initialData.value = nextInitial;
-  updateFormData(nextValue);
-};
-
 const setSchema = (schema: DynamicFormSchema<FormData>) => {
   runtimeSchema.value = cloneSchema(schema);
-  syncDefaults();
   emit('schemaChange', getSchema());
 };
 
 const updateSchema: DynamicFormController<FormData>['updateSchema'] = (patches) => {
   runtimeSchema.value = patchSchema(runtimeSchema.value, patches);
-  syncDefaults();
   emit('schemaChange', getSchema());
 };
 
 const getFormInstance = () => formRef.value;
 
 const formApi: DynamicFormInstance<FormData> = {
-  formData,
+  formData: readonly(formData) as Readonly<Ref<FormData>>,
   formRef: readonly(formRef) as Readonly<ShallowRef<FormInstance | undefined>>,
   getValues,
   setValues,
@@ -310,20 +272,10 @@ const handleReset = () => {
 };
 
 watch(
-  () => props.modelValue,
-  (value) => {
-    if (isEqual(value, formData.value)) return;
-    updateFormData(applySchemaDefaults(runtimeSchema.value, cloneDeep(value)));
-  },
-  { deep: true },
-);
-
-watch(
   () => props.schema,
   (schema) => {
     if (isEqual(schema, runtimeSchema.value)) return;
     runtimeSchema.value = cloneSchema(schema);
-    syncDefaults();
   },
   { deep: true },
 );
@@ -332,11 +284,11 @@ defineExpose(formApi);
 </script>
 
 <style scoped>
-.cu-dynamic-form {
+.dynamic-form {
   width: 100%;
 }
 
-.cu-dynamic-form__actions {
+.dynamic-form__actions {
   display: flex;
   align-items: center;
   justify-content: flex-end;
@@ -344,20 +296,20 @@ defineExpose(formApi);
   margin-top: 24px;
 }
 
-:deep(.cu-dynamic-form__extra) {
+:deep(.dynamic-form__extra) {
   display: flex;
   flex-direction: column;
   gap: 2px;
 }
 
-:deep(.cu-dynamic-form__readonly) {
+:deep(.dynamic-form__readonly) {
   display: inline-block;
   min-height: 32px;
   line-height: 32px;
   white-space: pre-wrap;
 }
 
-:deep(.cu-dynamic-form__component-error) {
+:deep(.dynamic-form__component-error) {
   padding: 8px 12px;
   color: var(--ant-color-error);
   background: var(--ant-color-error-bg);

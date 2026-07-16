@@ -1,6 +1,7 @@
 import CheckboxField from '../components/fields/checkbox.vue';
 import CheckboxGroupField from '../components/fields/checkbox-group.vue';
 import DatePickerField from '../components/fields/date-picker.vue';
+import List from '../components/fields/list.vue';
 import NumberField from '../components/fields/number.vue';
 import RadioField from '../components/fields/radio.vue';
 import RangePickerField from '../components/fields/range-picker.vue';
@@ -24,6 +25,7 @@ export const builtinComponents: Partial<Record<BuiltinComponentName, Component>>
   switch: SwitchField,
   datePicker: DatePickerField,
   rangePicker: RangePickerField,
+  list: List,
 };
 
 export const resolveBuiltinComponent = (component: BuiltinComponentName | Component) =>
@@ -31,15 +33,9 @@ export const resolveBuiltinComponent = (component: BuiltinComponentName | Compon
 
 /**
  * 解析组件的受控属性和更新事件。
- * Checkbox、Switch 遵循 antdv-next 的 checked 模型，其余字段默认使用 value。
+ * 内置字段统一暴露 value/update:value；特殊的底层模型由字段 SFC 自行适配。
  */
-export const resolveComponentModel = (
-  component: BuiltinComponentName | Component,
-  custom?: ComponentModelConfig,
-): ComponentModelConfig => {
+export const resolveComponentModel = (custom?: ComponentModelConfig): ComponentModelConfig => {
   if (custom) return custom;
-  if (component === 'checkbox' || component === 'switch') {
-    return { prop: 'checked', event: 'update:checked' };
-  }
   return { prop: 'value', event: 'update:value' };
 };

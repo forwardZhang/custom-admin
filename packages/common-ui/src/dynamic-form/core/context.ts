@@ -5,7 +5,7 @@ import type { DynamicFormController, FormData, FormPath } from '../types';
 
 /** 渲染树内部共享的响应式上下文，避免逐层传递表单状态和 API。 */
 export interface DynamicFormContext<T extends FormData = FormData> {
-  formData: Ref<T>;
+  formData: Readonly<Ref<T>>;
   formApi: DynamicFormController<T>;
   column: ComputedRef<number>;
   labelWidth: ComputedRef<number | string | undefined>;

@@ -1,11 +1,15 @@
 import { normalizePath, pathToString, resolvePath } from './path';
-import { cloneDeep, get, has, set, unset } from './value';
+import { createResolveContext } from './resolve-context';
+import { cloneDeep, get, unset } from './value';
 
 import type {
-  DynamicFormArraySchema,
   DynamicFormContainerSchema,
   DynamicFormController,
   DynamicFormFieldSchema,
+  DynamicFormListSchema,
+  DynamicFormObjectSchema,
+  DynamicFormResolvable,
+  DynamicFormResolveContext,
   DynamicFormSchema,
   DynamicFormSchemaItem,
   FormData,
@@ -19,26 +23,16 @@ export const cloneSchema = <T extends FormData>(
   schema.map((item) => {
     let next = {
       ...item,
-      componentProps: item.componentProps ? cloneDeep(item.componentProps) : undefined,
-      dependencies: item.dependencies
-        ? {
-            ...item.dependencies,
-            triggerFields: item.dependencies.triggerFields.map((path) => normalizePath(path)),
-            rules: Array.isArray(item.dependencies.rules)
-              ? [...item.dependencies.rules]
-              : item.dependencies.rules,
-          }
-        : undefined,
+      componentProps:
+        'componentProps' in item && item.componentProps && typeof item.componentProps !== 'function'
+          ? cloneDeep(item.componentProps)
+          : 'componentProps' in item
+            ? item.componentProps
+            : undefined,
     } as DynamicFormSchemaItem<T>;
 
-    if ('rules' in item && item.rules) {
+    if ('rules' in item && Array.isArray(item.rules)) {
       next = { ...next, rules: [...item.rules] } as DynamicFormSchemaItem<T>;
-    }
-    if ('defaultValue' in item) {
-      next = {
-        ...next,
-        defaultValue: cloneDeep(item.defaultValue),
-      } as DynamicFormSchemaItem<T>;
     }
     if ('children' in item) {
       next = { ...next, children: cloneSchema(item.children) } as DynamicFormSchemaItem<T>;
@@ -53,69 +47,31 @@ export const isContainerSchema = <T extends FormData>(
 ): schema is DynamicFormContainerSchema<T> =>
   schema.component === 'card' || schema.component === 'collapse';
 
-/** 判断 Schema 是否为数组字段。 */
-export const isArraySchema = <T extends FormData>(
+/** 判断 Schema 是否为对象结构。 */
+export const isObjectSchema = <T extends FormData>(
   schema: DynamicFormSchemaItem<T>,
-): schema is DynamicFormArraySchema<T> => schema.component === 'arrayField';
+): schema is DynamicFormObjectSchema<T> => schema.component === 'object';
 
-/** 判断 Schema 是否为普通字段。 */
+/** 判断 Schema 是否为列表字段。 */
+export const isListSchema = <T extends FormData>(
+  schema: DynamicFormSchemaItem<T>,
+): schema is DynamicFormListSchema<T> => schema.component === 'list';
+
+/** 判断 Schema 是否为受控字段（包括列表字段）。 */
 export const isFieldSchema = <T extends FormData>(
   schema: DynamicFormSchemaItem<T>,
-): schema is DynamicFormFieldSchema<T> => !isContainerSchema(schema) && !isArraySchema(schema);
+): schema is DynamicFormFieldSchema<T> => !isContainerSchema(schema) && !isObjectSchema(schema);
 
-/**
- * 递归应用字段默认值。
- * 容器只改变路径上下文，ArrayField 会为每个现有数组项继续应用子字段默认值。
- */
-export const applySchemaDefaults = <T extends FormData>(
-  schema: DynamicFormSchema<T>,
-  source: T,
-  basePath: Array<string | number> = [],
-): T => {
-  const result = cloneDeep(source);
-
-  schema.forEach((item) => {
-    if (isContainerSchema(item)) {
-      const nextBase = resolvePath(basePath, item.fieldName);
-      Object.assign(result, applySchemaDefaults(item.children, result, nextBase));
-      return;
-    }
-
-    const path = resolvePath(basePath, item.fieldName);
-    if (isArraySchema(item)) {
-      if (!has(result, path)) set(result, path, cloneDeep(item.defaultValue ?? []));
-      const list = get(result, path);
-      if (Array.isArray(list)) {
-        list.forEach((_entry, index) => {
-          Object.assign(result, applySchemaDefaults(item.children, result, [...path, index]));
-        });
-      }
-      return;
-    }
-
-    if (!has(result, path) && item.defaultValue !== undefined) {
-      set(result, path, cloneDeep(item.defaultValue));
-    }
-  });
-
-  return result;
-};
-
-/** 根据子 Schema 创建一条包含默认值的新数组项。 */
-export const createArrayItem = <T extends FormData>(schema: DynamicFormSchema<T>) =>
-  applySchemaDefaults(schema, {} as T) as Record<string, unknown>;
-
-const evaluateDependency = <T extends FormData, R>(
-  value: R | ((values: Readonly<T>, api: DynamicFormController<T>) => R) | undefined,
-  values: T,
-  api: DynamicFormController<T>,
+const evaluateSchemaValue = <T extends FormData, R>(
+  value: DynamicFormResolvable<T, R> | undefined,
+  context: DynamicFormResolveContext<T>,
   fallback: R,
 ) => {
   if (typeof value === 'function') {
     try {
-      return (value as (values: Readonly<T>, api: DynamicFormController<T>) => R)(values, api);
+      return (value as (context: DynamicFormResolveContext<T>) => R)(context);
     } catch (error) {
-      console.error('[DynamicForm] dependency evaluation failed:', error);
+      console.error('[DynamicForm] schema value evaluation failed:', error);
       return fallback;
     }
   }
@@ -124,8 +80,7 @@ const evaluateDependency = <T extends FormData, R>(
 };
 
 /**
- * 根据 dependencies.if/show 生成提交数据。
- * 无 fieldName 的布局容器隐藏时，需要递归删除全部子字段而不是删除容器本身。
+ * 根据 if 生成提交数据；纯 UI 容器卸载时递归删除其全部子字段。
  */
 export const removeHiddenValues = <T extends FormData>(
   schema: DynamicFormSchema<T>,
@@ -138,9 +93,11 @@ export const removeHiddenValues = <T extends FormData>(
   const removeAll = (items: DynamicFormSchema<T>, currentBase: Array<string | number>) => {
     items.forEach((item) => {
       if (isContainerSchema(item)) {
-        const nextBase = resolvePath(currentBase, item.fieldName);
-        if (item.fieldName !== undefined) unset(result, nextBase);
-        else removeAll(item.children, nextBase);
+        removeAll(item.children, currentBase);
+        return;
+      }
+      if (isObjectSchema(item)) {
+        unset(result, resolvePath(currentBase, item.fieldName));
         return;
       }
       unset(result, resolvePath(currentBase, item.fieldName));
@@ -149,28 +106,31 @@ export const removeHiddenValues = <T extends FormData>(
 
   const walk = (items: DynamicFormSchema<T>, currentBase: Array<string | number>) => {
     items.forEach((item) => {
-      const dependencies = item.dependencies;
-      const exists = evaluateDependency(dependencies?.if, values, api, true);
-      const visible = evaluateDependency(dependencies?.show, values, api, true);
+      const path = isContainerSchema(item) ? currentBase : resolvePath(currentBase, item.fieldName);
+      const siblingBasePath = isContainerSchema(item) ? currentBase : path.slice(0, -1);
+      const resolveContext = createResolveContext(values, api, path, siblingBasePath);
+      const exists = 'if' in item ? evaluateSchemaValue(item.if, resolveContext, true) : true;
 
       if (isContainerSchema(item)) {
-        const nextBase = resolvePath(currentBase, item.fieldName);
-        if (!exists || !visible) {
-          if (item.fieldName !== undefined) unset(result, nextBase);
-          else removeAll(item.children, nextBase);
+        if (!exists) {
+          removeAll(item.children, currentBase);
           return;
         }
-        walk(item.children, nextBase);
+        walk(item.children, currentBase);
         return;
       }
 
-      const path = resolvePath(currentBase, item.fieldName);
-      if (!exists || !visible) {
+      if (isObjectSchema(item)) {
+        walk(item.children, resolvePath(currentBase, item.fieldName));
+        return;
+      }
+
+      if (!exists) {
         unset(result, path);
         return;
       }
 
-      if (isArraySchema(item)) {
+      if (isListSchema(item)) {
         const list = get(values, path);
         if (Array.isArray(list)) {
           list.forEach((_entry, index) => walk(item.children, [...path, index]));
@@ -195,12 +155,17 @@ export const patchSchema = <T extends FormData>(
     basePath: Array<string | number> = [],
   ): DynamicFormSchema<T> =>
     items.map((item) => {
-      const itemPath = resolvePath(basePath, item.fieldName);
-      const key = item.fieldName === undefined ? '' : pathToString(itemPath);
+      const itemPath = isContainerSchema(item) ? basePath : resolvePath(basePath, item.fieldName);
+      const key = isContainerSchema(item) ? '' : pathToString(itemPath);
       const patch = key ? patchMap.get(key) : undefined;
       let next = patch ? ({ ...item, ...patch } as DynamicFormSchemaItem<T>) : item;
 
-      if (patch?.componentProps && 'componentProps' in item) {
+      if (
+        patch?.componentProps &&
+        typeof patch.componentProps !== 'function' &&
+        'componentProps' in item &&
+        typeof item.componentProps !== 'function'
+      ) {
         next = {
           ...next,
           componentProps: { ...item.componentProps, ...patch.componentProps },
@@ -209,7 +174,7 @@ export const patchSchema = <T extends FormData>(
       if ('children' in next) {
         next = {
           ...next,
-          children: walk(next.children, itemPath),
+          children: walk(next.children, isContainerSchema(next) ? basePath : itemPath),
         } as DynamicFormSchemaItem<T>;
       }
       return next;

@@ -1,16 +1,8 @@
 import { defineComponent, h, markRaw, nextTick, readonly, ref, shallowRef } from 'vue';
 
 import DynamicForm from '../components/dynamic-form.vue';
-import {
-  applySchemaDefaults,
-  cloneDeep,
-  cloneSchema,
-  get,
-  mergeValues,
-  normalizePath,
-  patchSchema,
-  set,
-} from '../utils';
+import { createDynamicFormStore } from '../core/store';
+import { cloneDeep, cloneSchema, patchSchema } from '../utils';
 
 import type { Component, Ref, ShallowRef } from 'vue';
 import type { FormInstance } from 'antdv-next';
@@ -56,12 +48,8 @@ export const useForm = <T extends FormData = FormData>(
     options.schema as DynamicFormSchema<FormData>,
   ) as DynamicFormSchema<T>;
   const state = shallowRef<UseFormOptions<T>>({ ...options, schema: initialSchema });
-  const formData = ref<T>(
-    applySchemaDefaults(
-      initialSchema as DynamicFormSchema<FormData>,
-      cloneDeep(options.initialValues ?? {}) as FormData,
-    ) as T,
-  ) as Ref<T>;
+  const formData = ref<T>(cloneDeep(options.initialValues ?? {}) as T) as Ref<T>;
+  const store = createDynamicFormStore(formData, formData.value);
   const instanceRef = shallowRef<DynamicFormInstance<T>>();
   const formRef = shallowRef<FormInstance>();
 
@@ -72,26 +60,24 @@ export const useForm = <T extends FormData = FormData>(
 
   // 挂载前允许读写内存态；依赖真实 FormInstance 的校验、滚动等能力会明确报错。
   const api = {
-    formData,
+    formData: readonly(formData) as Readonly<Ref<T>>,
     formRef: readonly(formRef) as Readonly<ShallowRef<FormInstance | undefined>>,
     getValues: async (getOptions) =>
       instanceRef.value ? instanceRef.value.getValues(getOptions) : cloneDeep(formData.value),
     setValues: (values: DeepPartial<T>) => {
       if (instanceRef.value) instanceRef.value.setValues(values);
-      else formData.value = mergeValues(formData.value, values);
+      else store.setValues(values);
     },
     getValue: (fieldName: FormPath) =>
       instanceRef.value
         ? instanceRef.value.getValue(fieldName)
-        : cloneDeep(get(formData.value, normalizePath(fieldName))),
+        : cloneDeep(store.getValue(fieldName)),
     setValue: (fieldName: FormPath, value: unknown) => {
       if (instanceRef.value) {
         instanceRef.value.setValue(fieldName, value);
         return;
       }
-      const nextValue = cloneDeep(formData.value);
-      set(nextValue, normalizePath(fieldName), cloneDeep(value));
-      formData.value = nextValue;
+      store.setValue(fieldName, value);
     },
     resetFields: (fieldNames?: FormPath[]) => requireInstance().resetFields(fieldNames),
     validate: (fieldNames?: FormPath[]) => requireInstance().validate(fieldNames),
@@ -147,11 +133,8 @@ export const useForm = <T extends FormData = FormData>(
               ...attrs,
               ref: setInstance,
               modelValue: formData.value,
-              'onUpdate:modelValue': (value: T) => {
-                formData.value = value;
-              },
+              store,
               onValuesChange: (values: T, fieldsChanged: string[]) => {
-                formData.value = values;
                 callbacks.handleValuesChange?.(values, fieldsChanged);
               },
               onFinish: callbacks.handleSubmit,

@@ -33,7 +33,8 @@ export type BuiltinComponentName =
   | 'rangePicker'
   | 'card'
   | 'collapse'
-  | 'arrayField';
+  | 'list'
+  | 'object';
 
 export type DynamicFormRuleObject = RuleObject extends infer R
   ? R extends RuleObject
@@ -60,7 +61,7 @@ export interface DynamicFormButtonOptions extends Omit<ButtonProps, 'content'> {
 }
 
 export interface GetValuesOptions {
-  /** true 时保留 dependencies.if/show 已隐藏字段的值。 */
+  /** true 时保留 if=false 的字段值。 */
   includeHidden?: boolean;
 }
 
@@ -75,140 +76,177 @@ export interface DynamicFormValidateError<T extends FormData = FormData> {
   outOfDate?: boolean;
 }
 
-export interface DynamicFormFieldRenderContext<T extends FormData = FormData> {
-  /** 当前字段值。 */
-  value: unknown;
-  /** 当前整表数据，只读传给渲染函数使用。 */
+export interface DynamicFormBaseContext<T extends FormData = FormData> {
+  /** 当前整表数据。 */
   values: Readonly<T>;
-  /** 已拼接容器路径及数组索引的完整字段路径。 */
-  fieldName: FormPath;
+  formApi: DynamicFormController<T>;
+}
+
+/** Schema 动态函数共享的字段运行时上下文。 */
+export interface DynamicFormResolveContext<
+  T extends FormData = FormData,
+  TValue = unknown,
+> extends DynamicFormBaseContext<T> {
+  /** 当前字段值；布局容器中为当前数据作用域。 */
+  value: TValue;
+  /** 当前字段完整路径；布局容器中为当前数据作用域路径。 */
+  fieldName: Array<string | number>;
+  /** 当前字段的同级数据路径。 */
+  parentPath: Array<string | number>;
+  /** 当前字段的同级数据对象。 */
+  parentValue: unknown;
+  /** 最近一层 List 的下标。 */
+  index?: number;
+  /** 从外到内的全部 List 下标。 */
+  indices: number[];
+  /** 最近一层 List 的当前项。 */
+  item?: Readonly<Record<string, unknown>>;
+  /** 按当前 parentPath 获取同级字段值。 */
+  getSibling: (fieldName: FormPath) => unknown;
+}
+
+export interface DynamicFormFieldRenderContext<
+  T extends FormData = FormData,
+  TValue = unknown,
+> extends DynamicFormResolveContext<T, TValue> {
   schema: DynamicFormFieldSchema<T>;
   disabled: boolean;
   readOnly: boolean;
-  formApi: DynamicFormController<T>;
   updateValue: (value: unknown) => void;
 }
 
-export type DependencyGetter<T extends FormData, R> = (
-  values: Readonly<T>,
-  formApi: DynamicFormController<T>,
-) => R;
+export type DynamicFormResolvable<T extends FormData, R, TValue = unknown> =
+  | R
+  | ((context: DynamicFormResolveContext<T, TValue>) => R);
 
-export interface DynamicFormDependencies<T extends FormData = FormData> {
-  /** 唯一会被监听的数据路径。 */
-  triggerFields: FormPath[];
-  /** false 时销毁字段节点。 */
-  if?: boolean | DependencyGetter<T, boolean>;
-  /** false 时仅通过 CSS 隐藏，字段节点仍然挂载。 */
-  show?: boolean | DependencyGetter<T, boolean>;
-  disabled?: boolean | DependencyGetter<T, boolean>;
-  /** 存在时覆盖字段的静态 required。 */
-  required?: boolean | DependencyGetter<T, boolean>;
-  /** 动态规则追加在静态 rules 之后。 */
-  rules?: DynamicFormRule[] | DependencyGetter<T, DynamicFormRule[]>;
-  /** 动态属性覆盖静态 componentProps 的同名属性。 */
-  componentProps?: Record<string, unknown> | DependencyGetter<T, Record<string, unknown>>;
-  /** triggerFields 发生变化并完成合并计算后执行。 */
-  trigger?: (values: Readonly<T>, formApi: DynamicFormController<T>) => void;
-}
+export type DynamicFormContent<T extends FormData = FormData> =
+  | VNodeChild
+  | ((context: DynamicFormResolveContext<T>) => VNodeChild);
 
-/** 普通表单字段 Schema。 */
-export interface DynamicFormFieldSchema<T extends FormData = FormData> {
-  /** 字段路径；处于容器或 ArrayField 内时为相对路径。 */
+interface DynamicFormValueFieldSchema<T extends FormData = FormData> {
+  /** 字段路径；处于 Object 或 List 内时为相对路径。 */
   fieldName: FormPath;
-  label?: string | VNodeChild | (() => VNodeChild);
+  label?: DynamicFormContent<T>;
+  /** false 时销毁字段节点；函数内读取的表单路径会被自动追踪。 */
+  if?: DynamicFormResolvable<T, boolean>;
+  disabled?: DynamicFormResolvable<T, boolean>;
   /** 必填由 DynamicForm 转换为 antdv-next Rule。 */
-  required?: boolean;
+  required?: DynamicFormResolvable<T, boolean>;
   requiredMessage?: string;
-  /** 内置字段名称，或直接传入一个 Vue 组件。 */
-  component: Exclude<BuiltinComponentName, 'card' | 'collapse' | 'arrayField'> | Component;
-  componentProps?: Record<string, unknown>;
-  /** 自定义组件非 value/update:value 模型时，声明其受控属性与事件。 */
-  componentModel?: ComponentModelConfig;
-  defaultValue?: unknown;
-  rules?: DynamicFormRule[];
-  dependencies?: DynamicFormDependencies<T>;
-  help?: string | VNodeChild | (() => VNodeChild);
-  description?: string | VNodeChild | (() => VNodeChild);
+  rules?: DynamicFormResolvable<T, DynamicFormRule[]>;
+  help?: DynamicFormContent<T>;
+  description?: DynamicFormContent<T>;
   formItemProps?: Partial<FormItemProps>;
   span?: number;
   class?: string;
+}
+
+/** 普通受控表单字段 Schema。 */
+export interface DynamicFormComponentFieldSchema<
+  T extends FormData = FormData,
+> extends DynamicFormValueFieldSchema<T> {
+  /** 内置字段名称，或直接传入一个 Vue 组件。 */
+  component: Exclude<BuiltinComponentName, 'card' | 'collapse' | 'list' | 'object'> | Component;
+  componentProps?: DynamicFormResolvable<T, Record<string, unknown>>;
+  /** 自定义组件非 value/update:value 模型时，声明其受控属性与事件。 */
+  componentModel?: ComponentModelConfig;
   /** 为实际字段组件生成具名插槽；字段同名的表单插槽则会替换整个字段组件。 */
   renderComponentContent?: (
     context: DynamicFormFieldRenderContext<T>,
   ) => Record<string, () => VNodeChild>;
 }
 
-/** Card、Collapse 布局容器，本身不产生独立表单值。 */
+/** Card、Collapse 纯布局容器，不产生或改变任何表单数据路径。 */
 export interface DynamicFormContainerSchema<T extends FormData = FormData> {
-  /** 可选的数据命名空间；省略时容器只进行视觉分组。 */
-  fieldName?: FormPath;
-  label?: string | VNodeChild | (() => VNodeChild);
+  label?: DynamicFormContent<T>;
   component: 'card' | 'collapse';
-  componentProps?: Record<string, unknown>;
+  if?: DynamicFormResolvable<T, boolean>;
+  disabled?: DynamicFormResolvable<T, boolean>;
+  componentProps?: DynamicFormResolvable<T, Record<string, unknown>>;
   children: DynamicFormSchema<T>;
-  dependencies?: DynamicFormDependencies<T>;
   span?: number;
   class?: string;
 }
 
-export interface ArrayFieldProps {
+export interface ListItemContext<T extends FormData = FormData> extends DynamicFormResolveContext<
+  T,
+  ReadonlyArray<Record<string, unknown>>
+> {
+  index: number;
+  item: Readonly<Record<string, unknown>>;
+}
+
+export interface ListProps<T extends FormData = FormData> {
   addText?: string;
   copyText?: string;
   removeText?: string;
   moveUpText?: string;
   moveDownText?: string;
-  itemTitle?: string | ((index: number) => string);
+  itemTitle?: string | ((context: ListItemContext<T>) => string);
 }
 
-export interface ArrayOperationContext<T extends FormData = FormData> {
-  values: Readonly<T>;
-  fieldName: FormPath;
-  index?: number;
-  item?: Record<string, unknown>;
-  formApi: DynamicFormController<T>;
+export type ListOperationContext<T extends FormData = FormData> = DynamicFormResolveContext<
+  T,
+  ReadonlyArray<Record<string, unknown>>
+>;
+
+export interface ListCreateItemContext<
+  T extends FormData = FormData,
+> extends ListOperationContext<T> {
+  /** 新项将要插入的下标。 */
+  index: number;
 }
 
-export interface ArrayMoveContext<T extends FormData = FormData> extends ArrayOperationContext<T> {
+export interface ListMoveContext<T extends FormData = FormData> extends ListOperationContext<T> {
   from: number;
   to: number;
 }
 
-export type ArrayOperationHook<T extends FormData = FormData> = (
-  context: ArrayOperationContext<T>,
+export type ListCreateItem<T extends FormData = FormData> = (
+  context: ListCreateItemContext<T>,
+) => Record<string, unknown> | Promise<Record<string, unknown>>;
+
+export type ListOperationHook<T extends FormData = FormData> = (
+  context: ListOperationContext<T>,
 ) => boolean | void | Promise<boolean | void>;
 
-export type ArrayMoveHook<T extends FormData = FormData> = (
-  context: ArrayMoveContext<T>,
+export type ListMoveHook<T extends FormData = FormData> = (
+  context: ListMoveContext<T>,
 ) => boolean | void | Promise<boolean | void>;
 
-/** 可增删、复制和排序的数组字段 Schema。 */
-export interface DynamicFormArraySchema<T extends FormData = FormData> {
-  fieldName: FormPath;
-  label?: string | VNodeChild | (() => VNodeChild);
-  required?: boolean;
-  requiredMessage?: string;
-  component: 'arrayField';
-  componentProps?: ArrayFieldProps;
+/** 可增删、复制和排序的列表字段 Schema。 */
+export interface DynamicFormListSchema<
+  T extends FormData = FormData,
+> extends DynamicFormValueFieldSchema<T> {
+  component: 'list';
+  componentProps?: DynamicFormResolvable<T, ListProps<T>>;
   /** 每个数组项复用的子 Schema，渲染时会自动附加当前数组索引。 */
   children: DynamicFormSchema<T>;
-  defaultValue?: Record<string, unknown>[];
   minItems?: number;
   maxItems?: number;
-  rules?: DynamicFormRule[];
-  dependencies?: DynamicFormDependencies<T>;
-  span?: number;
-  class?: string;
-  beforeAdd?: ArrayOperationHook<T>;
-  beforeRemove?: ArrayOperationHook<T>;
-  beforeCopy?: ArrayOperationHook<T>;
-  beforeMove?: ArrayMoveHook<T>;
+  /** 用户点击新增时创建新项数据，未配置时返回空对象。 */
+  createItem?: ListCreateItem<T>;
+  beforeAdd?: ListOperationHook<T>;
+  beforeRemove?: ListOperationHook<T>;
+  beforeCopy?: ListOperationHook<T>;
+  beforeMove?: ListMoveHook<T>;
 }
+
+/** 只声明对象数据路径的无 UI 结构节点。 */
+export interface DynamicFormObjectSchema<T extends FormData = FormData> {
+  fieldName: FormPath;
+  component: 'object';
+  children: DynamicFormSchema<T>;
+}
+
+export type DynamicFormFieldSchema<T extends FormData = FormData> =
+  | DynamicFormComponentFieldSchema<T>
+  | DynamicFormListSchema<T>;
 
 export type DynamicFormSchemaItem<T extends FormData = FormData> =
   | DynamicFormFieldSchema<T>
   | DynamicFormContainerSchema<T>
-  | DynamicFormArraySchema<T>;
+  | DynamicFormObjectSchema<T>;
 
 export type DynamicFormSchema<T extends FormData = FormData> = Array<DynamicFormSchemaItem<T>>;
 
@@ -231,7 +269,7 @@ export interface DynamicFormProps<T extends FormData = FormData> {
   labelWidth?: number | string;
   disabled?: boolean;
   readOnly?: boolean;
-  /** 提交及 getValues 时是否移除 dependencies.if/show 隐藏字段，默认 true。 */
+  /** 提交及 getValues 时是否移除 if=false 的字段，默认 true。 */
   removeHiddenData?: boolean;
   validateTrigger?: FormItemProps['validateTrigger'];
   showDefaultActions?: boolean;
@@ -252,7 +290,7 @@ export interface DynamicFormEmits<T extends FormData = FormData> {
 
 /** DynamicForm 与 useForm 共享的表单控制能力。 */
 export interface DynamicFormController<T extends FormData = FormData> {
-  formData: Ref<T>;
+  formData: Readonly<Ref<T>>;
   formRef: Readonly<ShallowRef<FormInstance | undefined>>;
   getValues: (options?: GetValuesOptions) => Promise<T>;
   setValues: (values: DeepPartial<T>) => void;

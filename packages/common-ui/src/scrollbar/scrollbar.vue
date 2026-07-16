@@ -1,5 +1,5 @@
 <template>
-  <div ref="scrollbarRef" class="cu-scrollbar">
+  <div ref="scrollbarRef" class="scrollbar">
     <div
       ref="wrapRef"
       :class="wrapKls"
@@ -91,11 +91,11 @@ const wrapStyle = computed<StyleValue>(() => {
 
 const wrapKls = computed(() => [
   props.wrapClass,
-  'cu-scrollbar__wrap',
-  { 'cu-scrollbar__wrap--hidden-default': !props.native },
+  'scrollbar__wrap',
+  { 'scrollbar__wrap--hidden-default': !props.native },
 ]);
 
-const resizeKls = computed(() => ['cu-scrollbar__view', props.viewClass]);
+const resizeKls = computed(() => ['scrollbar__view', props.viewClass]);
 
 const DIRECTION_PAIRS: Record<ScrollbarDirection, ScrollbarDirection> = {
   top: 'bottom',
@@ -264,31 +264,31 @@ defineExpose({
 </script>
 
 <style scoped>
-.cu-scrollbar {
-  --cu-scrollbar-size: 6px;
-  --cu-scrollbar-thumb-color: rgba(144, 147, 153, 0.3);
-  --cu-scrollbar-thumb-hover-color: rgba(144, 147, 153, 0.5);
-  --cu-scrollbar-radius: 4px;
+.scrollbar {
+  --scrollbar-size: 6px;
+  --scrollbar-thumb-color: rgba(144, 147, 153, 0.3);
+  --scrollbar-thumb-hover-color: rgba(144, 147, 153, 0.5);
+  --scrollbar-radius: 4px;
   position: relative;
   overflow: hidden;
 }
 
-.cu-scrollbar__wrap {
+.scrollbar__wrap {
   height: 100%;
   overflow: auto;
 }
 
-.cu-scrollbar__wrap--hidden-default {
+.scrollbar__wrap--hidden-default {
   scrollbar-width: none;
 }
 
-.cu-scrollbar__wrap--hidden-default::-webkit-scrollbar {
+.scrollbar__wrap--hidden-default::-webkit-scrollbar {
   width: 0;
   height: 0;
   display: none;
 }
 
-.cu-scrollbar__view {
+.scrollbar__view {
   display: block;
 }
 </style>

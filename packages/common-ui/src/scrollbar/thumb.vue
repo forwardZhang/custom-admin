@@ -1,15 +1,15 @@
 <template>
-  <transition name="cu-scrollbar-fade">
+  <transition name="scrollbar-fade">
     <div
       v-show="always || visible"
       ref="instanceRef"
-      :class="['cu-scrollbar__bar', bar.key === 'vertical' ? 'is-vertical' : 'is-horizontal']"
+      :class="['scrollbar__bar', bar.key === 'vertical' ? 'is-vertical' : 'is-horizontal']"
       @mousedown="clickTrackHandler"
       @click.stop
     >
       <div
         ref="thumbRef"
-        class="cu-scrollbar__thumb"
+        class="scrollbar__thumb"
         :style="thumbStyle"
         @mousedown="clickThumbHandler"
       />
@@ -168,52 +168,52 @@ useEventListener(toRef(scrollbar, 'scrollbarElement'), 'mouseleave', mouseLeaveS
 </script>
 
 <style scoped>
-.cu-scrollbar__bar {
+.scrollbar__bar {
   position: absolute;
   right: 2px;
   bottom: 2px;
   z-index: 1;
-  border-radius: var(--cu-scrollbar-radius, 4px);
+  border-radius: var(--scrollbar-radius, 4px);
 }
 
-.cu-scrollbar__bar.is-vertical {
-  width: var(--cu-scrollbar-size, 6px);
+.scrollbar__bar.is-vertical {
+  width: var(--scrollbar-size, 6px);
   top: 2px;
 }
 
-.cu-scrollbar__bar.is-vertical > .cu-scrollbar__thumb {
+.scrollbar__bar.is-vertical > .scrollbar__thumb {
   width: 100%;
 }
 
-.cu-scrollbar__bar.is-horizontal {
-  height: var(--cu-scrollbar-size, 6px);
+.scrollbar__bar.is-horizontal {
+  height: var(--scrollbar-size, 6px);
   left: 2px;
 }
 
-.cu-scrollbar__bar.is-horizontal > .cu-scrollbar__thumb {
+.scrollbar__bar.is-horizontal > .scrollbar__thumb {
   height: 100%;
 }
 
-.cu-scrollbar__thumb {
+.scrollbar__thumb {
   position: relative;
   display: block;
   border-radius: inherit;
-  background-color: var(--cu-scrollbar-thumb-color, rgba(144, 147, 153, 0.3));
+  background-color: var(--scrollbar-thumb-color, rgba(144, 147, 153, 0.3));
   cursor: pointer;
   transition: background-color 300ms ease;
 }
 
-.cu-scrollbar__thumb:hover {
-  background-color: var(--cu-scrollbar-thumb-hover-color, rgba(144, 147, 153, 0.5));
+.scrollbar__thumb:hover {
+  background-color: var(--scrollbar-thumb-hover-color, rgba(144, 147, 153, 0.5));
 }
 
-.cu-scrollbar-fade-enter-active,
-.cu-scrollbar-fade-leave-active {
+.scrollbar-fade-enter-active,
+.scrollbar-fade-leave-active {
   transition: opacity 120ms ease;
 }
 
-.cu-scrollbar-fade-enter-from,
-.cu-scrollbar-fade-leave-to {
+.scrollbar-fade-enter-from,
+.scrollbar-fade-leave-to {
   opacity: 0;
 }
 </style>

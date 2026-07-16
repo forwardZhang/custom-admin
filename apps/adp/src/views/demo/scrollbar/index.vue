@@ -55,15 +55,15 @@
           height="200px"
           class="rounded-lg border border-[var(--ant-color-border)]"
           style="
-            --cu-scrollbar-size: 10px;
-            --cu-scrollbar-thumb-color: var(--ant-color-primary);
-            --cu-scrollbar-thumb-hover-color: var(--ant-color-primary-hover);
-            --cu-scrollbar-radius: 5px;
+            --scrollbar-size: 10px;
+            --scrollbar-thumb-color: var(--ant-color-primary);
+            --scrollbar-thumb-hover-color: var(--ant-color-primary-hover);
+            --scrollbar-radius: 5px;
           "
         >
           <div class="space-y-3 p-4">
             <p v-for="i in 20" :key="i" class="text-sm text-[var(--ant-color-text)]">
-              第 {{ i }} 行 — 使用 --cu-scrollbar-* 变量自定义滚动条外观。
+              第 {{ i }} 行 — 使用 --scrollbar-* 变量自定义滚动条外观。
             </p>
           </div>
         </Scrollbar>
