@@ -5,7 +5,17 @@ import tseslint from '@vue/eslint-config-typescript';
 
 export default [
   {
-    ignores: ['**/dist/**', '**/node_modules/**', '**/*.d.ts'],
+    ignores: [
+      '**/dist/**',
+      '**/node_modules/**',
+      '**/*.d.ts',
+      '.pnpm-store/**',
+      '.workbuddy/**',
+      'art-design-pro-main/**',
+      'pro-naive-ui-master/**',
+      'soybean-admin-main/**',
+      'test-componets/**',
+    ],
   },
   js.configs.recommended,
   ...vue.configs['flat/recommended'],

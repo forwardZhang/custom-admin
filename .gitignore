@@ -26,6 +26,7 @@ test-componets
 
 soybean-admin-main
 art-design-pro-main
+pro-naive-ui-master
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
