@@ -9,5 +9,5 @@ export interface MockContext {
 export interface MockRoute {
   method: 'GET' | 'POST';
   url: string;
-  handler: (context: MockContext) => unknown;
+  handler: (context: MockContext) => unknown | Promise<unknown>;
 }

@@ -40,7 +40,7 @@ export function createMockMiddleware(): Connect.NextHandleFunction {
     }
 
     const body = await readBody(req);
-    const payload = route.handler({ req, res, body });
+    const payload = await route.handler({ req, res, body });
     sendJson(res, payload);
   };
 }
