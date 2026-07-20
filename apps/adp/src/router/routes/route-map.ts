@@ -43,4 +43,8 @@ export const routeMap: Record<string, RouteMapItem> = {
     path: '/demo/dynamic-form',
     component: () => import('@/views/demo/dynamic-form/index.vue'),
   },
+  DemoDynamicTable: {
+    path: '/demo/dynamic-table',
+    component: () => import('@/views/demo/dynamic-table/index.vue'),
+  },
 };

@@ -46,10 +46,16 @@ export const mockMenus: any[] = [
         order: 2,
       },
       {
+        name: 'DemoDynamicTable',
+        title: '动态表格',
+        icon: 'OrderedListOutlined',
+        order: 3,
+      },
+      {
         name: 'DemoKeepAlive',
         title: '缓存测试(403)',
         icon: 'ReloadOutlined',
-        order: 3,
+        order: 4,
       },
     ],
   },
