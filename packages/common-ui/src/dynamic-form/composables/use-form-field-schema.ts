@@ -2,10 +2,11 @@ import type { FormItemProps, Rule } from 'antdv-next';
 import type { VNodeChild } from 'vue';
 
 import { computed } from 'vue';
-import { get } from 'lodash-es';
+import { get, has } from 'lodash-es';
 
 import { useDynamicFormContext } from '../core/context';
 import { normalizePath, resolveFormPath } from '../utils/path';
+import { getDefaultPlaceholder } from '../utils/placeholder';
 
 import type {
   DynamicFormFieldSchema,
@@ -132,6 +133,11 @@ export function useFormFieldSchema<T extends FormData>(props: FormFieldSchemaPro
 
     if (resolvedDisabled.value || 'disabled' in rawProps) {
       nextProps.disabled = resolvedDisabled.value || rawProps.disabled === true;
+    }
+
+    if (typeof props.schema.component === 'string' && !has(rawProps, 'placeholder')) {
+      const placeholder = getDefaultPlaceholder(props.schema.component, resolvedLabel.value);
+      if (placeholder !== undefined) nextProps.placeholder = placeholder;
     }
 
     return nextProps;

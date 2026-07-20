@@ -61,7 +61,7 @@
 <script setup lang="ts">
 import type { SelectProps, TreeSelectProps } from 'antdv-next';
 
-import { computed, ref } from 'vue';
+import { computed, h, ref } from 'vue';
 import { message } from 'antdv-next';
 
 import type { DynamicFormSchema } from '@package/common-ui';
@@ -153,14 +153,20 @@ const lastPreviousValue = ref('-');
 const schema: DynamicFormSchema<DemoFormData> = [
   {
     fieldName: 'accountName',
-    label: ({ values }) => (values.customerType === 'company' ? '企业名称' : '客户姓名'),
+    label: ({ values }) =>
+      values.customerType === 'company'
+        ? h('span', { class: 'text-red' }, '企业名称')
+        : h('span', '客户姓名'),
     component: 'text',
     required: true,
     requiredMessage: '请输入客户名称',
-    fieldProps: ({ values }) => ({
-      allowClear: true,
-      placeholder: values.customerType === 'company' ? '请输入企业名称' : '请输入客户姓名',
-    }),
+    fieldProps: ({ values }) => {
+      return {
+        allowClear: true,
+        autocomplete: 'off',
+        placeholder: values.customerType === 'company' ? '请输入企业名称' : '请输入客户姓名',
+      };
+    },
     onChange: ({ value, oldValue, fieldName }) => {
       lastChangedField.value = String(fieldName);
       lastChangedValue.value = String(value ?? '-');
@@ -188,7 +194,6 @@ const schema: DynamicFormSchema<DemoFormData> = [
     fieldProps: {
       type: 'password',
       autocomplete: 'new-password',
-      placeholder: '请输入登录密码',
     },
     rules: [{ min: 6, message: '登录密码至少 6 个字符' }],
   },
@@ -202,7 +207,6 @@ const schema: DynamicFormSchema<DemoFormData> = [
       min: 1,
       max: 100000,
       precision: 0,
-      placeholder: '请输入员工人数',
     },
   },
   {
@@ -212,9 +216,7 @@ const schema: DynamicFormSchema<DemoFormData> = [
     if: ({ values }) => values.customerType === 'company',
     required: ({ values }) => values.customerType === 'company',
     fieldProps: {
-      allowClear: true,
       options: selectOptions,
-      placeholder: '请选择所属行业',
     },
     request: {
       api: ({ values, signal }) => getIndustryOptionsApi(values.customerType, signal),
@@ -259,7 +261,6 @@ const schema: DynamicFormSchema<DemoFormData> = [
     component: 'cascader',
     fieldProps: {
       options: regionOptions,
-      placeholder: '请选择区域',
     },
   },
   {
@@ -269,7 +270,6 @@ const schema: DynamicFormSchema<DemoFormData> = [
     fieldProps: {
       treeData,
       allowClear: true,
-      placeholder: '请选择组织区域',
     },
   },
   {
@@ -283,8 +283,6 @@ const schema: DynamicFormSchema<DemoFormData> = [
     },
     request: {
       api: ({ signal, values }) => {
-        console.log('valuestreeRegion', values.treeRegion);
-
         return getNotificationOptionsApi(signal);
       },
     },
@@ -294,17 +292,13 @@ const schema: DynamicFormSchema<DemoFormData> = [
     label: '成立日期',
     component: 'datePicker',
     if: ({ values }) => values.customerType === 'company',
-    fieldProps: {
-      placeholder: '请选择成立日期',
-    },
+    fieldProps: {},
   },
   {
     fieldName: 'contactTime',
     label: '联系时间',
     component: 'timePicker',
-    fieldProps: {
-      placeholder: '请选择联系时间',
-    },
+    fieldProps: {},
   },
   {
     fieldName: 'remark',
@@ -315,7 +309,6 @@ const schema: DynamicFormSchema<DemoFormData> = [
       maxlength: 300,
       showCount: true,
       autoSize: { minRows: 3, maxRows: 6 },
-      placeholder: '请输入备注',
     },
   },
 ];

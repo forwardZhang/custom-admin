@@ -1,6 +1,6 @@
 <template>
   <FieldRequestWrapper :enabled="hasRequest" :loading="loading">
-    <Select v-bind="requestFieldProps" v-model:value="modelValue" class="w-full">
+    <Select v-model:value="modelValue" allow-clear show-search v-bind="requestFieldProps">
       <template v-for="(_, slotName) in $slots" #[slotName]="slotProps">
         <slot :name="slotName" v-bind="slotProps ?? {}" />
       </template>

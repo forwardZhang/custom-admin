@@ -1,6 +1,6 @@
 <template>
   <FieldRequestWrapper :enabled="hasRequest" :loading="loading">
-    <Cascader v-bind="requestFieldProps" v-model:value="modelValue" class="w-full">
+    <Cascader v-bind="requestFieldProps" v-model:value="modelValue">
       <template v-for="(_, slotName) in $slots" #[slotName]="slotProps">
         <slot :name="slotName" v-bind="slotProps ?? {}" />
       </template>

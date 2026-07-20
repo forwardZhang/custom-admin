@@ -1,5 +1,5 @@
 <template>
-  <DateRangePicker v-bind="props.fieldProps" v-model:value="pickerValue" class="w-full">
+  <DateRangePicker v-bind="props.fieldProps" v-model:value="pickerValue">
     <template v-for="(_, slotName) in $slots" #[slotName]="slotProps">
       <slot :name="slotName" v-bind="slotProps ?? {}" />
     </template>

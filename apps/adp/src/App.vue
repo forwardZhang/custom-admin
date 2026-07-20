@@ -24,6 +24,9 @@ const theme = computed(() => {
         headerBg: '#fff',
         headerHeight: 50,
       },
+      InputNumber: {
+        controlWidth: '100%' as unknown as number,
+      },
     },
   };
   return theme;
