@@ -36,6 +36,7 @@ export class DynamicFormState<T extends FormData = FormData> implements DynamicF
   private callbacks: FormApiCallbacks<T> = {};
 
   constructor(options: UseDynamicFormOptions<T>) {
+    // schema.defaultValue 只在初始化时补齐，之后 reset 始终回到这份稳定快照。
     const schema = cloneSchema(options.schema);
     const initialValues = applySchemaDefaults(options.initialValues, schema);
 
@@ -58,6 +59,7 @@ export class DynamicFormState<T extends FormData = FormData> implements DynamicF
   }
 
   syncExternalValues(values: T) {
+    // 原地同步而非替换 formData，避免依赖该 Ref 的字段组件丢失响应式连接。
     if (isEqual(this.formData.value, values)) return;
     syncValues(this.formData.value, values);
   }
@@ -67,6 +69,7 @@ export class DynamicFormState<T extends FormData = FormData> implements DynamicF
   }
 
   setValues(values: DeepPartial<T>) {
+    // mergeValues 对数组采用替换语义，避免按索引残留旧数据。
     const nextValues = mergeValues(this.formData.value, values);
     if (isEqual(nextValues, this.formData.value)) return;
     syncValues(this.formData.value, nextValues);
@@ -127,6 +130,7 @@ export class DynamicFormState<T extends FormData = FormData> implements DynamicF
   }
 
   async submit(): Promise<T> {
+    // 只有校验错误才转成 finishFailed；业务提交异常应原样向调用方传播。
     try {
       const values = await this.validate();
       await this.finish(values);
@@ -169,6 +173,7 @@ export class DynamicFormState<T extends FormData = FormData> implements DynamicF
   }
 
   setSchema(schema: DynamicFormSchema<T>) {
+    // 对外返回/保存的 schema 都是深拷贝，防止调用方后续修改绕过 API。
     this.schema.value = cloneSchema(schema);
     this.state.value = {
       ...this.state.value,

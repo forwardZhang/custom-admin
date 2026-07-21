@@ -9,6 +9,7 @@ export function useDynamicTableFullscreen({ onChange }: UseDynamicTableFullscree
   const isFullscreen = ref(false);
   let originalBodyOverflow = '';
 
+  /** 切换全屏并同步锁定 body 滚动；force 可用于明确进入或退出。 */
   function toggleFullscreen(force?: boolean): void {
     const nextValue = force ?? !isFullscreen.value;
     if (nextValue === isFullscreen.value) return;
@@ -24,6 +25,7 @@ export function useDynamicTableFullscreen({ onChange }: UseDynamicTableFullscree
     onChange(nextValue);
   }
 
+  /** 全屏状态下允许通过 Escape 退出。 */
   function handleKeydown(event: KeyboardEvent): void {
     if (event.key === 'Escape' && isFullscreen.value) toggleFullscreen(false);
   }

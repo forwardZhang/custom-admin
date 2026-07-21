@@ -78,6 +78,7 @@ import type { DynamicTableKey, DynamicTableReloadOptions } from '../types';
 
 defineOptions({ name: 'DynamicTableToolbar' });
 
+// 工具栏同时服务普通模式和批量选择模式，selectedRows/clearSelection/reload 会传给批量插槽。
 withDefaults(
   defineProps<{
     batchMode: boolean;

@@ -31,9 +31,13 @@ import type { DynamicFormFieldSchema, FormData, FormPath, NormalizedFormPath } f
 
 const props = withDefaults(
   defineProps<{
+    /** 当前字段完整配置。 */
     schema: DynamicFormFieldSchema<FormData>;
+    /** 嵌套字段的父级数据路径。 */
     basePath?: FormPath;
+    /** 用于 DOM 测量和折叠隐藏集合匹配的稳定 key。 */
     fieldKey: string;
+    /** 是否因表单折叠而隐藏，不影响 schema.show/if。 */
     collapseHidden?: boolean;
   }>(),
   {

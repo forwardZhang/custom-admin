@@ -4,12 +4,14 @@ import { normalizePath, pathToString } from './path';
 
 import type { DeepPartial, DynamicFormFieldSchema, DynamicFormSchema, FormData } from '../types';
 
+/** 深拷贝 schema，隔离调用方配置与运行时动态修改。 */
 export function cloneSchema<T extends FormData>(
   schema: DynamicFormSchema<T>,
 ): DynamicFormSchema<T> {
   return cloneDeep(schema);
 }
 
+/** 仅为空值字段应用 schema.defaultValue，显式传入的初始值优先。 */
 export function applySchemaDefaults<T extends FormData>(
   values: DeepPartial<T> | undefined,
   schema: DynamicFormSchema<T>,
@@ -23,6 +25,7 @@ export function applySchemaDefaults<T extends FormData>(
   return result;
 }
 
+/** 按规范化字段路径批量浅合并 schema，未命中的字段保持原顺序。 */
 export function patchSchema<T extends FormData>(
   schema: DynamicFormSchema<T>,
   patches: Array<

@@ -51,6 +51,7 @@ export function useDynamicTableSelection<TRecord extends object>({
     () => selectionType.value === 'checkbox' && selectedRowKeys.value.length > 0,
   );
 
+  // 受控 selectedRowKeys 只作为输入同步到内部状态，事件回调始终返回新数组，避免引用被外部修改。
   const mergedRowSelection = computed<TableRowSelection<TRecord> | undefined>(() => {
     if (selectionType.value === false) return undefined;
 
@@ -75,6 +76,7 @@ export function useDynamicTableSelection<TRecord extends object>({
     };
   });
 
+  /** 清除行和 key 两份缓存，并保持 v-model 与 selectionChange 同步。 */
   function clearSelection(): void {
     selectedRowKeys.value = [];
     selectedRows.value = [];

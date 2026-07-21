@@ -67,6 +67,7 @@ import type {
 
 defineOptions({ name: 'DynamicForm', inheritAttrs: false });
 
+// 组件模式下 props 是唯一外部数据入口；useDynamicForm 模式则由注入的 formApi 提供状态。
 const props = withDefaults(defineProps<DynamicFormProps<T>>(), {
   modelValue: () => ({}) as T,
   disabled: false,
@@ -84,6 +85,7 @@ const props = withDefaults(defineProps<DynamicFormProps<T>>(), {
 
 const emit = defineEmits<DynamicFormEmits<T>>();
 
+// 嵌套在 useDynamicForm 返回的组件中时复用同一个 API，避免创建两套表单状态。
 const injectedFormApi = inject(dynamicFormStateKey) as DynamicFormState<T> | undefined;
 const ownsFormApi = !injectedFormApi;
 const formApi =
@@ -128,6 +130,7 @@ provideDynamicFormContext<T>({
   disabled,
 });
 
+// 将命令式 API 的回调桥接为组件事件，同时保留 useDynamicForm 的业务回调。
 formApi.setCallbacks({
   onValuesChange(values, fieldsChanged) {
     emit('update:modelValue', values);
@@ -171,6 +174,7 @@ if (ownsFormApi) {
   );
 }
 
+/** 切换折叠状态并让 DOM 测量逻辑重新计算隐藏字段。 */
 const toggleCollapsed = () => {
   currentCollapsed.value = !currentCollapsed.value;
   emit('collapsedChange', currentCollapsed.value);
@@ -178,22 +182,30 @@ const toggleCollapsed = () => {
   void calculateCollapseRows();
 };
 
+/** 统一走 API 提交流程，使按钮提交和外部 api.submit 行为一致。 */
 const handleSubmit = () => {
   void formApi.submit().catch(() => undefined);
 };
 
+/** 重置字段值和 Antdv 的校验状态。 */
 const handleReset = () => {
   formApi.resetFields();
 };
 
+/** 接收 Antdv 校验后的值，交由 API 执行业务提交回调。 */
 const handleFinish = (values: Record<string, unknown>) => {
   void formApi.finish(values as T);
 };
 
+/** 统一标准化 Antdv 校验错误并触发 finishFailed。 */
 const handleFinishFailed = (error: unknown) => {
   formApi.handleFinishFailed(error);
 };
 
+/**
+ * 按字段实际 top 值识别网格行，折叠时只保留前 collapsedRows 行。
+ * 依赖 nextTick 和 ResizeObserver，确保响应式字段/窗口尺寸变化后测量的是最新 DOM。
+ */
 async function calculateCollapseRows() {
   await nextTick();
   const wrapper = wrapperRef.value;
@@ -228,6 +240,7 @@ async function calculateCollapseRows() {
   updateCollapseHiddenKeys(hidden);
 }
 
+/** 仅在隐藏字段集合真正变化时更新，避免测量触发不必要的重渲染。 */
 function updateCollapseHiddenKeys(hidden: Set<string>) {
   if (isEqual(collapseHiddenKeys.value, hidden)) return;
   collapseHiddenKeys.value = hidden;

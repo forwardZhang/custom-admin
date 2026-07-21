@@ -63,6 +63,7 @@ import type {
 
 defineOptions({ name: 'DynamicTable', inheritAttrs: false });
 
+// DynamicTable 自有 props 与 Antdv Table props 混合，后续会在 mergedTableProps 中拆分处理。
 const props = withDefaults(defineProps<DynamicTablePublicProps<TRecord>>(), {
   immediate: true,
   showFullscreen: true,
@@ -107,6 +108,7 @@ const nativeLoading = computed(
 );
 const nativeOnChange = computed(() => tablePropSource.value.onChange);
 
+// 选择、请求、全屏分别封装，组件这里只负责把状态拼装成 Table 和工具栏需要的 props。
 const selectionState = useDynamicTableSelection({
   props,
   emitSelectedRowKeys: (keys) => emit('update:selectedRowKeys', keys),
@@ -143,6 +145,7 @@ const forwardedSlotNames = computed(() =>
   ),
 );
 
+// 配置 request 时完全使用异步结果；未配置时保留原生 dataSource 行为。
 const tableData = computed(() => (props.request ? requestData.value : nativeDataSource.value));
 
 const mergedLoading = computed<TableProps<TRecord>['loading']>(() => {
@@ -153,6 +156,7 @@ const mergedLoading = computed<TableProps<TRecord>['loading']>(() => {
   return true;
 });
 
+/** 清除 DynamicTable 专属 props，并合并请求、选择和样式状态后交给原生 Table。 */
 const mergedTableProps = computed(() => {
   const nextAttrs: TableAttrs = { ...tablePropSource.value };
   [
@@ -189,6 +193,7 @@ const mergedTableProps = computed(() => {
   } as Partial<TableProps<TRecord>>;
 });
 
+/** Vue 事件监听器可能是函数或函数数组，统一透传给原生 Table。 */
 function invokeListener(listener: unknown, args: unknown[]): void {
   if (isArray(listener)) {
     listener.forEach((item) => invokeListener(item, args));
@@ -197,11 +202,13 @@ function invokeListener(listener: unknown, args: unknown[]): void {
   if (typeof listener === 'function') listener(...args);
 }
 
+/** 工具栏刷新同时通知外部并强制绕过查询去重。 */
 function handleRefresh(): void {
   emit('refresh');
   void reload();
 }
 
+/** 先同步请求分页/筛选/排序，再按原生 Table 约定透传 change 事件。 */
 function handleTableChange(...args: ChangeArgs): void {
   const [pagination, nextFilters, nextSorter, extra] = args;
   const { current, pageSize } = handleRequestTableChange(pagination, nextFilters, nextSorter);

@@ -37,9 +37,13 @@ import { omit } from 'lodash-es';
 
 const props = withDefaults(
   defineProps<{
+    /** 当前是否处于折叠状态，用于切换按钮文案。 */
     collapsed?: boolean;
+    /** 是否显示展开/收起按钮。 */
     showCollapseButton?: boolean;
+    /** 提交按钮的文案、显隐和 Antdv Button 属性。 */
     submitButtonOptions?: DynamicFormButtonOptions;
+    /** 重置按钮的文案、显隐和 Antdv Button 属性。 */
     resetButtonOptions?: DynamicFormButtonOptions;
   }>(),
   {

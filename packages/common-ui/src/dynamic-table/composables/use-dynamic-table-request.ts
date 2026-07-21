@@ -82,6 +82,7 @@ export function useDynamicTableRequest<TRecord extends object>({
     return merged;
   });
 
+  /** 只把 request 关心的分页/筛选/排序字段纳入去重比较。 */
   function getRequestQuery(): RequestQuery<TRecord> {
     return {
       current: pageState.current,
@@ -91,6 +92,7 @@ export function useDynamicTableRequest<TRecord extends object>({
     };
   }
 
+  /** 判断 request 是否返回服务端分页格式，而不是一次性数组。 */
   function isPagedResult(
     result: DynamicTableRequestResult<TRecord>,
   ): result is Extract<
@@ -106,6 +108,7 @@ export function useDynamicTableRequest<TRecord extends object>({
     );
   }
 
+  /** 执行一次请求；新请求会取消旧请求，版本号再过滤无法取消的过期响应。 */
   async function loadData(force = false): Promise<void> {
     const currentRequest = request();
     if (!currentRequest) return;
@@ -153,11 +156,13 @@ export function useDynamicTableRequest<TRecord extends object>({
     }
   }
 
+  /** 对外刷新入口，force 确保相同查询条件也会重新请求。 */
   async function reload(options: DynamicTableReloadOptions = {}): Promise<void> {
     if (options.resetPage) pageState.current = 1;
     await loadData(true);
   }
 
+  /** 同步 Table 变化到请求状态；数组模式下不重复触发服务端分页请求。 */
   function handleTableChange(
     paginationValue: DynamicTableChangeArgs<TRecord>[0],
     nextFilters: DynamicTableChangeArgs<TRecord>[1],
