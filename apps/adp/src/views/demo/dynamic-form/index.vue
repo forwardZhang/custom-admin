@@ -76,7 +76,7 @@
 <script setup lang="ts">
 import type { SelectProps, TreeSelectProps } from 'antdv-next';
 
-import { computed, h, ref } from 'vue';
+import { computed, h, nextTick, ref } from 'vue';
 import { message } from 'antdv-next';
 
 import type {
@@ -218,8 +218,8 @@ const contactSchema: DynamicFormSchema<DemoFormData> = [
     required: true,
     requiredMessage: '请输入联系人姓名',
     listColumnProps: { minWidth: 160 },
-    onChange: ({ field }) =>
-      recordFieldChange(field.path, field.value, field.oldValue, field.listIndex, field.itemPath),
+    onChange: ({ field, oldValue, value }) =>
+      recordFieldChange(field.path, value, oldValue, field.listIndex, field.itemPath),
   },
   {
     fieldName: 'phone',
@@ -230,8 +230,8 @@ const contactSchema: DynamicFormSchema<DemoFormData> = [
     disabled: false,
     listColumnProps: { minWidth: 180 },
     fieldProps: { maxlength: 20 },
-    onChange: ({ field }) =>
-      recordFieldChange(field.path, field.value, field.oldValue, field.listIndex, field.itemPath),
+    onChange: ({ field, oldValue, value }) =>
+      recordFieldChange(field.path, value, oldValue, field.listIndex, field.itemPath),
   },
   {
     fieldName: 'role',
@@ -246,10 +246,10 @@ const contactSchema: DynamicFormSchema<DemoFormData> = [
       ],
     },
     onChange: (data) => {
-      const { field } = data;
+      const { field, oldValue, value } = data;
       console.log('data', data);
 
-      recordFieldChange(field.path, field.value, field.oldValue, field.listIndex, field.itemPath);
+      recordFieldChange(field.path, value, oldValue, field.listIndex, field.itemPath);
     },
   },
 ];
@@ -267,28 +267,30 @@ const schema: DynamicFormSchema<DemoFormData> = [
     fieldProps: ({ values }) => {
       return {
         allowClear: true,
-        autocomplete: 'off',
+        // autocomplete: 'off',
         placeholder: values.customerType === 'company' ? '请输入企业名称' : '请输入客户姓名',
       };
     },
-    onChange: ({ field }) =>
-      recordFieldChange(field.path, field.value, field.oldValue, field.listIndex, field.itemPath),
+    onChange: ({ field, oldValue, value }) =>
+      recordFieldChange(field.path, value, oldValue, field.listIndex, field.itemPath),
   },
   {
     fieldName: 'customerType',
     label: '客户类型',
     component: 'radio',
     required: true,
-    fieldProps: {
-      optionType: 'button',
-      options: [
-        { label: '个人客户', value: 'individual' },
-        { label: '企业客户', value: 'company' },
-      ],
+    fieldProps: () => {
+      return {
+        optionType: 'button',
+        options: [
+          { label: '个人客户', value: 'individual' },
+          { label: '企业客户', value: 'company' },
+        ],
+      };
     },
     onChange: (api) => {
-      console.log('data', api);
       api.setValue('loginPassword', '');
+      api.setValue('accountName', '');
     },
   },
   {
@@ -296,9 +298,13 @@ const schema: DynamicFormSchema<DemoFormData> = [
     label: '登录密码',
     component: 'text',
     required: true,
-    fieldProps: {
-      type: 'password',
-      autocomplete: 'new-password',
+    fieldProps: () => {
+      console.log('passporwd');
+
+      return {
+        type: 'password',
+        autocomplete: 'new-password',
+      };
     },
     rules: [{ min: 6, message: '登录密码至少 6 个字符' }],
   },
@@ -306,7 +312,11 @@ const schema: DynamicFormSchema<DemoFormData> = [
     fieldName: 'employeeCount',
     label: '员工人数',
     component: 'number',
-    if: ({ values }) => values.customerType === 'company',
+    if: (data) => {
+      const { values } = data;
+
+      return values.customerType === 'company';
+    },
     required: ({ values }) => values.customerType === 'company',
     fieldProps: {
       min: 1,
@@ -324,7 +334,7 @@ const schema: DynamicFormSchema<DemoFormData> = [
       options: selectOptions,
     },
     request: {
-      api: ({ values, field }) => getIndustryOptionsApi(values.customerType, field.signal),
+      api: ({ signal, values }) => getIndustryOptionsApi(values.customerType, signal),
       loadOn: 'open',
       labelField: 'name',
       valueField: 'code',
@@ -387,8 +397,8 @@ const schema: DynamicFormSchema<DemoFormData> = [
       options: [{ label: '邮件', value: 'email' }],
     },
     request: {
-      api: ({ field }) => {
-        return getNotificationOptionsApi(field.signal);
+      api: ({ signal }) => {
+        return getNotificationOptionsApi(signal);
       },
     },
   },
@@ -445,7 +455,7 @@ const formattedValues = computed(() => JSON.stringify(formApi.values, null, 2));
 function fillForm() {
   formApi.setValues({
     accountName: '示例客户',
-    loginPassword: 'demo1234',
+    loginPassword: '123',
     customerType: 'company',
     employeeCount: 120,
     industry: 'software',

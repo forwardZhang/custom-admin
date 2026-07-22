@@ -11,6 +11,7 @@ import { cloneValue, mergeValues, syncValues } from '../utils/value';
 import type {
   DeepPartial,
   DynamicFormApi,
+  DynamicFormFieldApi,
   DynamicFormFieldSchema,
   DynamicFormFieldInfo,
   DynamicFormSchema,
@@ -228,7 +229,6 @@ export class DynamicFormState<T extends FormData = FormData> {
       get values() {
         return getReadonlyValues();
       },
-      field: undefined,
       getValues: () => this.getValues(),
       setValues: (values) => this.setValues(values),
       getValue: (fieldName) => this.getValue(fieldName),
@@ -248,16 +248,20 @@ export class DynamicFormState<T extends FormData = FormData> {
 }
 
 /** 在同一套表单 API 上附加字段信息，不引入第二套 context API。 */
-export function scopeDynamicFormApi<T extends FormData, TField extends DynamicFormFieldInfo>(
-  api: DynamicFormApi<T, DynamicFormFieldInfo | undefined>,
-  getField: () => TField,
-): DynamicFormApi<T, TField> {
-  return {
+export function scopeDynamicFormApi<T extends FormData, TValue, TExtra extends object = object>(
+  api: DynamicFormApi<T>,
+  getScope: () => { field: DynamicFormFieldInfo; value: TValue },
+  extra?: TExtra,
+): DynamicFormFieldApi<T, TValue> & Readonly<TExtra> {
+  const scopedApi: DynamicFormFieldApi<T, TValue> = {
     get values() {
       return api.values;
     },
+    get value() {
+      return getScope().value;
+    },
     get field() {
-      return getField();
+      return getScope().field;
     },
     getValues: api.getValues,
     setValues: api.setValues,
@@ -274,4 +278,5 @@ export function scopeDynamicFormApi<T extends FormData, TField extends DynamicFo
     getFormInstance: api.getFormInstance,
     setState: api.setState,
   };
+  return Object.assign(scopedApi, extra);
 }

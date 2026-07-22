@@ -1,16 +1,15 @@
-import type { TableEmits, TablePaginationConfig, TableProps } from 'antdv-next';
+import type { TablePaginationConfig, TableProps } from 'antdv-next';
 import { computed, onBeforeUnmount, onMounted, reactive, shallowRef, watch } from 'vue';
 import { isArray, isEqual, isObject } from 'lodash-es';
 
 import type {
+  DynamicTableChangeArgs,
   DynamicTableReloadOptions,
   DynamicTableRequest,
   DynamicTableRequestResult,
 } from '../types';
 
-export type DynamicTableChangeArgs<TRecord extends object> = Parameters<
-  TableEmits<TRecord>['change']
->;
+export type { DynamicTableChangeArgs } from '../types';
 
 type RequestMode = 'array' | 'paged' | undefined;
 type RequestQuery<TRecord extends object> = {

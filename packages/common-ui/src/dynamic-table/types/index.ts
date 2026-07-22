@@ -20,6 +20,14 @@ export type DynamicTableSorter<TRecord extends object = Record<string, unknown>>
   TableEmits<TRecord>['change']
 >[2];
 
+export type DynamicTableChangeArgs<TRecord extends object = Record<string, unknown>> = Parameters<
+  TableEmits<TRecord>['change']
+>;
+
+export type DynamicTableChangeHandler<TRecord extends object = Record<string, unknown>> = (
+  ...args: DynamicTableChangeArgs<TRecord>
+) => void;
+
 export interface DynamicTableRequestContext<TRecord extends object = Record<string, unknown>> {
   /** 当前页码。 */
   current: number;
@@ -53,6 +61,10 @@ export type DynamicTableRowSelection<TRecord extends object = Record<string, unk
   'type' | 'selectedRowKeys'
 >;
 
+/** 低频 Antdv Table 配置；与顶层高频字段重名时，顶层字段优先。 */
+export type DynamicTableNativeProps<TRecord extends object = Record<string, unknown>> =
+  TableProps<TRecord>;
+
 export interface DynamicTableReloadOptions {
   /** 刷新前是否回到第一页，默认为 false。 */
   resetPage?: boolean;
@@ -74,9 +86,25 @@ export interface DynamicTableInstance<TRecord extends object = Record<string, un
   getTableInstance(): DynamicTableNativeInstance | undefined;
 }
 
-export interface DynamicTablePublicProps<
-  TRecord extends object = Record<string, unknown>,
-> extends /* @vue-ignore */ Omit<TableProps<TRecord>, 'rowSelection' | 'title'> {
+export interface DynamicTablePublicProps<TRecord extends object = Record<string, unknown>> {
+  /** 表格列配置。 */
+  columns?: TableProps<TRecord>['columns'];
+  /** 静态数据源；配置 request 后由异步结果覆盖。 */
+  dataSource?: TableProps<TRecord>['dataSource'];
+  /** 行数据唯一键，默认为 id。 */
+  rowKey?: TableProps<TRecord>['rowKey'];
+  /** 外部加载状态；异步请求中会与内部加载状态合并。 */
+  loading?: TableProps<TRecord>['loading'];
+  /** 分页配置。 */
+  pagination?: TableProps<TRecord>['pagination'];
+  /** 表格滚动配置。 */
+  scroll?: TableProps<TRecord>['scroll'];
+  /** 表格尺寸。 */
+  size?: TableProps<TRecord>['size'];
+  /** 是否显示边框。 */
+  bordered?: TableProps<TRecord>['bordered'];
+  /** 不常用的 Antdv Table 属性，类型与官方 TableProps 保持同步。 */
+  tableProps?: DynamicTableNativeProps<TRecord>;
   /** 异步数据源；配置后优先于原生 dataSource。 */
   request?: DynamicTableRequest<TRecord>;
   /** 是否在挂载和 request 函数变化后立即请求，默认为 true。 */
@@ -105,6 +133,40 @@ export interface DynamicTablePublicProps<
   tableClass?: string;
   /** 底层 Table 内联样式。 */
   tableStyle?: CSSProperties;
+}
+
+/** useDynamicTable 创建包装组件时使用的运行时配置和业务回调。 */
+export interface UseDynamicTableOptions<
+  TRecord extends object = Record<string, unknown>,
+> extends DynamicTablePublicProps<TRecord> {
+  /** 表格分页、筛选或排序变化后的回调。 */
+  handleChange?: DynamicTableChangeHandler<TRecord>;
+  /** 选中行变化后的回调。 */
+  handleSelectionChange?: (keys: DynamicTableKey[], rows: TRecord[]) => void;
+  /** 受控选中 key 更新后的回调。 */
+  handleSelectedRowKeysChange?: (keys: DynamicTableKey[]) => void;
+  /** 异步请求成功后的回调。 */
+  handleRequestSuccess?: (result: DynamicTableRequestResult<TRecord>) => void;
+  /** 异步请求失败后的回调。 */
+  handleRequestError?: (error: unknown) => void;
+  /** 工具栏刷新后的回调。 */
+  handleRefresh?: () => void;
+  /** 全屏状态变化后的回调。 */
+  handleFullscreenChange?: (fullscreen: boolean) => void;
+  /** 分页状态变化后的回调。 */
+  handlePaginationChange?: (current: number, pageSize: number) => void;
+}
+
+/** useDynamicTable 返回的命令式 API。 */
+export interface DynamicTableApi<
+  TRecord extends object = Record<string, unknown>,
+> extends DynamicTableInstance<TRecord> {
+  /** 当前选中 key 的快照。 */
+  readonly selectedRowKeys: readonly DynamicTableKey[];
+  /** 当前选中行的快照。 */
+  readonly selectedRows: readonly TRecord[];
+  /** 更新包装组件的运行时配置。 */
+  setState(state: Partial<UseDynamicTableOptions<TRecord>>): void;
 }
 
 export type DynamicTablePagination = false | TablePaginationConfig;

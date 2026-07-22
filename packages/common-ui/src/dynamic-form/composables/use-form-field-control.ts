@@ -2,11 +2,15 @@ import type { Component, Ref } from 'vue';
 
 import { computed, defineComponent, h, toHandlerKey } from 'vue';
 
-import { scopeDynamicFormApi } from '../core/form-api';
 import { BUILTIN_FIELD_MAP } from '../field';
 import { cloneValue, valuesEqual } from '../utils/value';
 
-import type { DynamicFormFieldApi, DynamicFormFieldSchema, FormData } from '../types';
+import type {
+  DynamicFormFieldApi,
+  DynamicFormFieldEventApi,
+  DynamicFormFieldSchema,
+  FormData,
+} from '../types';
 
 interface FormFieldControlOptions<T extends FormData> {
   schema: Readonly<Ref<DynamicFormFieldSchema<T>>>;
@@ -38,16 +42,17 @@ export function useFormFieldControl<T extends FormData>(options: FormFieldContro
   /** 将控件新值写入表单，并用完整上下文触发 schema.onChange。 */
   const handleModelUpdate = (...args: unknown[]) => {
     const nextValue = args[0];
-    const oldValue = cloneValue(options.api.field.value);
+    const oldValue = cloneValue(options.api.value);
     if (valuesEqual(oldValue, nextValue)) return;
 
     options.api.setValue(options.api.field.path, nextValue);
-    const eventApi = scopeDynamicFormApi(options.api, () => ({
-      ...options.api.field,
+    const eventApi: DynamicFormFieldEventApi<T> = {
+      ...options.api,
       value: nextValue,
       oldValue,
       nativeArgs: args,
-    }));
+    };
+
     options.schema.value.onChange?.(eventApi);
   };
 
@@ -80,12 +85,12 @@ export function useFormFieldControl<T extends FormData>(options: FormFieldContro
           typeof options.schema.value.component === 'string'
             ? {
                 fieldProps: rawProps,
-                [modelPropName.value]: options.api.field.value,
+                [modelPropName.value]: options.api.value,
                 [modelListenerName.value]: updateHandler,
               }
             : {
                 ...rawProps,
-                [modelPropName.value]: options.api.field.value,
+                [modelPropName.value]: options.api.value,
                 [modelListenerName.value]: updateHandler,
               };
 

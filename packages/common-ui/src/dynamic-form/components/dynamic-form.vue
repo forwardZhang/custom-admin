@@ -151,13 +151,13 @@ formState.setCallbacks({
 
 watch(antFormRef, (value) => formState.setFormRef(value), { immediate: true });
 
-watch(
-  () => props.collapsed,
-  (value) => {
-    currentCollapsed.value = value;
-    void calculateCollapseRows();
-  },
-);
+// watch(
+//   () => props.collapsed,
+//   (value) => {
+//     currentCollapsed.value = value;
+//     void calculateCollapseRows();
+//   },
+// );
 
 if (ownsFormState) {
   watch(
@@ -245,17 +245,17 @@ function updateCollapseHiddenKeys(hidden: Set<string>) {
   collapseHiddenKeys.value = hidden;
 }
 
-const resizeObserver = useResizeObserver(wrapperRef, () => {
-  void calculateCollapseRows();
-});
+// const resizeObserver = useResizeObserver(wrapperRef, () => {
+//   void calculateCollapseRows();
+// });
 
-onMounted(() => {
-  void calculateCollapseRows();
-});
+// onMounted(() => {
+//   void calculateCollapseRows();
+// });
 
-onBeforeUnmount(() => {
-  resizeObserver.stop();
-});
+// onBeforeUnmount(() => {
+//   resizeObserver.stop();
+// });
 
 defineExpose<DynamicFormApi<T>>(formApi);
 </script>
