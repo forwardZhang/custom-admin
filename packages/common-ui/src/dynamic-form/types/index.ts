@@ -50,6 +50,8 @@ export type DynamicFormOptionComponentName = Extract<
 >;
 
 export type DynamicFormOptionLoadOn = 'mount' | 'open';
+export type DynamicFormListLayout = 'card' | 'table';
+export type DynamicFormListItem = Record<string, unknown>;
 
 export type BuiltinFieldPropsMap = {
   text: Omit<InputProps, 'value'>;
@@ -73,12 +75,31 @@ export interface DynamicFormButtonOptions extends Omit<ButtonProps, 'children'> 
   show?: boolean;
 }
 
-/** DynamicForm 对外暴露的命令式操作，可通过组件 ref 或 useDynamicForm 获取。 */
-export interface DynamicFormApi<T extends FormData = FormData> {
-  /** 当前响应式表单数据；读取快照时优先使用 getValues。 */
-  readonly formData: Readonly<Ref<T>>;
-  /** 底层 Antdv Form 实例，组件挂载前为 undefined。 */
-  readonly formRef: Readonly<Ref<FormInstance | undefined>>;
+/** 字段场景附加到统一 API 上的字段信息。 */
+export interface DynamicFormFieldInfo<TValue = unknown> {
+  /** 当前字段值。 */
+  readonly value: TValue;
+  /** schema 中声明的原始字段路径。 */
+  readonly name: FormPath;
+  /** 拼接 parentPath 后的完整字段路径。 */
+  readonly path: NormalizedFormPath;
+  /** 嵌套字段的父级路径。 */
+  readonly parentPath: NormalizedFormPath;
+  /** 当前字段所在最近一层 List 的行索引；普通字段为 undefined。 */
+  readonly listIndex?: number;
+  /** 当前字段所在 List 行的完整路径；普通字段为 undefined。 */
+  readonly itemPath?: NormalizedFormPath;
+}
+
+/** DynamicForm 唯一的公共 API；字段回调中只会额外提供 field 信息。 */
+export interface DynamicFormApi<
+  T extends FormData = FormData,
+  TField extends DynamicFormFieldInfo | undefined = undefined,
+> {
+  /** 当前响应式表单值；读取隔离快照时使用 getValues。 */
+  readonly values: Readonly<T>;
+  /** 当前字段信息；外部 useDynamicForm API 中为 undefined。 */
+  readonly field: TField;
   /** 返回深拷贝后的完整表单值，避免调用方意外修改内部状态。 */
   getValues(): T;
   /** 深度合并部分表单值，其中数组按整体替换。 */
@@ -109,35 +130,109 @@ export interface DynamicFormApi<T extends FormData = FormData> {
   setState(state: Partial<UseDynamicFormOptions<T>>): void;
 }
 
-/** 函数式字段配置的运行上下文。 */
-export interface DynamicFormResolveContext<T extends FormData = FormData, TValue = unknown> {
-  /** 当前完整表单值，只读且保持响应式依赖追踪。 */
-  values: Readonly<T>;
-  /** 当前字段值。 */
-  value: TValue;
-  /** schema 中声明的原始字段路径。 */
-  fieldName: FormPath;
-  /** 拼接 basePath 后的完整字段路径。 */
-  fieldPath: NormalizedFormPath;
-  /** 嵌套表单提供的父级路径。 */
-  basePath: NormalizedFormPath;
-  /** 当前表单的命令式 API。 */
-  api: DynamicFormApi<T>;
+export type DynamicFormFieldApi<T extends FormData = FormData, TValue = unknown> = DynamicFormApi<
+  T,
+  DynamicFormFieldInfo<TValue>
+>;
+
+/** List 新增、复制、删除操作附加的字段信息。 */
+export interface DynamicFormListActionField<
+  TItem extends DynamicFormListItem = DynamicFormListItem,
+> extends DynamicFormFieldInfo<readonly TItem[]> {
+  /** 当前 List 数组的完整路径。 */
+  listPath: NormalizedFormPath;
+  /** 当前操作影响的行索引。 */
+  listIndex: number;
+  /** 当前操作影响的行路径。 */
+  itemPath: NormalizedFormPath;
+  /** 当前行数据的深拷贝。 */
+  item: TItem;
+  /** 复制操作的源行索引；新增和删除时为 undefined。 */
+  sourceIndex?: number;
 }
 
-export interface DynamicFormOptionRequestContext<
+export type DynamicFormListActionApi<
   T extends FormData = FormData,
+  TItem extends DynamicFormListItem = DynamicFormListItem,
+> = DynamicFormApi<T, DynamicFormListActionField<TItem>>;
+
+/** List 子字段在 table 布局下可使用的列配置。 */
+export interface DynamicFormListColumnProps {
+  width?: string | number;
+  minWidth?: number;
+  align?: 'left' | 'center' | 'right';
+  fixed?: boolean | 'start' | 'end';
+}
+
+/** 自定义 List 布局组件接收的标准参数。 */
+export interface DynamicFormListLayoutComponentProps<
+  T extends FormData = FormData,
+  TItem extends DynamicFormListItem = DynamicFormListItem,
+> {
+  items: readonly TItem[];
+  schema: DynamicFormSchema<T>;
+  listPath: NormalizedFormPath;
+  rowKeys: readonly string[];
+  disabled: boolean;
+  reachedMin: boolean;
+  reachedMax: boolean;
+  showAdd: boolean;
+  showCopy: boolean;
+  showDelete: boolean;
+  addItem: () => void;
+  copyItem: (index: number) => void;
+  removeItem: (index: number) => void;
+}
+
+export interface DynamicFormListProps<
+  T extends FormData = FormData,
+  TItem extends DynamicFormListItem = DynamicFormListItem,
+> {
+  /** 展示布局，默认为 card。 */
+  layout?: DynamicFormListLayout | Component;
+  /** 最少保留的行数，默认为 0。 */
+  min?: number;
+  /** 最多允许的行数，不设置时不限制。 */
+  max?: number;
+  /** 是否禁用新增、复制和删除操作。 */
+  disabled?: boolean;
+  /** 创建新行数据；未配置时使用空对象。 */
+  createItem?: (api: DynamicFormListActionApi<T, TItem>) => TItem;
+  /** 是否显示新增按钮，默认为 true。 */
+  showAdd?: boolean;
+  /** 是否显示复制按钮，默认为 true。 */
+  showCopy?: boolean;
+  /** 是否显示删除按钮，默认为 true。 */
+  showDelete?: boolean;
+  /** 新增按钮文案。 */
+  addButtonText?: string;
+  /** 空数组时的提示文案。 */
+  emptyText?: string;
+  /** 新增完成后的回调。 */
+  onAdd?: (api: DynamicFormListActionApi<T, TItem>) => void;
+  /** 复制完成后的回调。 */
+  onCopy?: (api: DynamicFormListActionApi<T, TItem>) => void;
+  /** 删除完成后的回调。 */
+  onDelete?: (api: DynamicFormListActionApi<T, TItem>) => void;
+}
+
+export interface DynamicFormOptionRequestField<
   TValue = unknown,
-> extends DynamicFormResolveContext<T, TValue> {
+> extends DynamicFormFieldInfo<TValue> {
   readonly signal: AbortSignal;
 }
+
+export type DynamicFormOptionRequestApi<
+  T extends FormData = FormData,
+  TValue = unknown,
+> = DynamicFormApi<T, DynamicFormOptionRequestField<TValue>>;
 
 export interface DynamicFormOptionRequest<
   T extends FormData = FormData,
   TLoadOn extends DynamicFormOptionLoadOn = DynamicFormOptionLoadOn,
 > {
   /** 选项请求函数；依赖的表单值变化时会取消旧请求并重新执行。 */
-  api(context: DynamicFormOptionRequestContext<T>): Promise<unknown>;
+  api(api: DynamicFormOptionRequestApi<T>): Promise<unknown>;
   /** 请求触发时机：挂载时或选择控件首次打开时，默认为 mount。 */
   loadOn?: TLoadOn;
   /** 从响应对象中提取选项数组的路径，默认为 data；响应本身为数组时忽略。 */
@@ -151,19 +246,21 @@ export interface DynamicFormOptionRequest<
   /** 接口选项中映射为 disabled 的字段路径，默认为 disabled。 */
   disabledField?: string;
   /** 自定义请求错误处理；未提供时会输出带字段路径的警告。 */
-  onError?: (error: unknown, context: DynamicFormOptionRequestContext<T>) => void;
+  onError?: (error: unknown, api: DynamicFormOptionRequestApi<T>) => void;
 }
 
-export interface DynamicFormFieldEventContext<
+export interface DynamicFormFieldEventInfo<TValue = unknown> extends DynamicFormFieldInfo<TValue> {
+  readonly oldValue: unknown;
+  readonly nativeArgs: readonly unknown[];
+}
+
+export type DynamicFormFieldEventApi<
   T extends FormData = FormData,
   TValue = unknown,
-> extends DynamicFormResolveContext<T, TValue> {
-  oldValue: unknown;
-  nativeArgs: readonly unknown[];
-}
+> = DynamicFormApi<T, DynamicFormFieldEventInfo<TValue>>;
 
 export type DynamicFormResolver<T extends FormData, R, TValue = unknown> = (
-  context: DynamicFormResolveContext<T, TValue>,
+  api: DynamicFormFieldApi<T, TValue>,
 ) => R;
 
 export type DynamicFormContent<T extends FormData = FormData> =
@@ -171,7 +268,7 @@ export type DynamicFormContent<T extends FormData = FormData> =
   | DynamicFormResolver<T, VNodeChild>;
 
 export type DynamicFormFieldEventHandler<T extends FormData = FormData> = (
-  context: DynamicFormFieldEventContext<T>,
+  api: DynamicFormFieldEventApi<T>,
 ) => void;
 
 export interface DynamicFormComponentModel {
@@ -215,9 +312,9 @@ type DynamicFormFieldBase<T extends FormData> = {
   /** 字段值变化回调，包含新旧值和组件原始事件参数。 */
   onChange?: DynamicFormFieldEventHandler<T>;
   /** 返回传给字段组件的具名插槽。 */
-  renderComponentContent?: (
-    context: DynamicFormResolveContext<T>,
-  ) => Record<string, () => VNodeChild>;
+  renderComponentContent?: (api: DynamicFormFieldApi<T>) => Record<string, () => VNodeChild>;
+  /** table 布局下该字段对应的列配置。 */
+  listColumnProps?: DynamicFormListColumnProps;
 };
 
 type DynamicFormBuiltinRequest<
@@ -250,9 +347,19 @@ export interface DynamicFormCustomFieldSchema<
   fieldProps?: Record<string, unknown> | DynamicFormResolver<T, Record<string, unknown>>;
 }
 
+/** 以数组为值、以 schema 描述每一行字段的动态 List 容器。 */
+export interface DynamicFormListFieldSchema<
+  T extends FormData = FormData,
+> extends DynamicFormFieldBase<T> {
+  component: 'list';
+  listProps?: DynamicFormListProps<T>;
+  schema: DynamicFormSchema<T>;
+}
+
 export type DynamicFormFieldSchema<T extends FormData = FormData> =
   | DynamicFormBuiltinFieldSchema<T>
-  | DynamicFormCustomFieldSchema<T>;
+  | DynamicFormCustomFieldSchema<T>
+  | DynamicFormListFieldSchema<T>;
 
 export type DynamicFormSchema<T extends FormData = FormData> = DynamicFormFieldSchema<T>[];
 
@@ -338,11 +445,6 @@ export interface UseDynamicFormOptions<T extends FormData = FormData> extends Om
 }
 
 export interface DynamicFormFieldContext<T extends FormData = FormData> {
-  fieldPath: Readonly<Ref<NormalizedFormPath>>;
-  value: Readonly<Ref<unknown>>;
-  api: DynamicFormApi<T>;
+  api: DynamicFormFieldApi<T>;
   schema: Readonly<Ref<DynamicFormFieldSchema<T>>>;
-  resolveContext: Readonly<Ref<DynamicFormResolveContext<T>>>;
 }
-
-export type DynamicFormInstance<T extends FormData = FormData> = DynamicFormApi<T>;

@@ -2,7 +2,7 @@
   <Form
     ref="antFormRef"
     v-bind="mergedFormProps"
-    :model="formData"
+    :model="formApi.values"
     :layout="props.layout"
     :disabled="props.disabled"
     :scroll-to-first-error="props.scrollToFirstError"
@@ -58,8 +58,8 @@ import { pathToString } from '../utils/path';
 
 import type {
   DeepPartial,
+  DynamicFormApi,
   DynamicFormEmits,
-  DynamicFormInstance,
   DynamicFormProps,
   DynamicFormSchema,
   FormData,
@@ -86,10 +86,10 @@ const props = withDefaults(defineProps<DynamicFormProps<T>>(), {
 const emit = defineEmits<DynamicFormEmits<T>>();
 
 // 嵌套在 useDynamicForm 返回的组件中时复用同一个 API，避免创建两套表单状态。
-const injectedFormApi = inject(dynamicFormStateKey) as DynamicFormState<T> | undefined;
-const ownsFormApi = !injectedFormApi;
-const formApi =
-  injectedFormApi ??
+const injectedFormState = inject(dynamicFormStateKey) as DynamicFormState<T> | undefined;
+const ownsFormState = !injectedFormState;
+const formState =
+  injectedFormState ??
   new DynamicFormState<T>({
     schema: props.schema,
     initialValues: props.modelValue as DeepPartial<T>,
@@ -107,8 +107,8 @@ const formApi =
     resetButtonOptions: props.resetButtonOptions,
   });
 
-const formData = formApi.formData;
-const runtimeSchema = formApi.schema;
+const formApi = formState.api;
+const runtimeSchema = formState.schema;
 const runtimeSchemaForFields = computed(() => runtimeSchema.value as DynamicFormSchema<FormData>);
 const antFormRef = shallowRef<FormInstance>();
 const wrapperRef = ref<HTMLElement>();
@@ -124,18 +124,17 @@ const disabled = computed(() => Boolean(props.disabled));
 const contextProps = computed(() => props as unknown as DynamicFormProps<T>);
 
 provideDynamicFormContext<T>({
-  formData,
   formApi,
   props: contextProps,
   disabled,
 });
 
 // 将命令式 API 的回调桥接为组件事件，同时保留 useDynamicForm 的业务回调。
-formApi.setCallbacks({
+formState.setCallbacks({
   onValuesChange(values, fieldsChanged) {
     emit('update:modelValue', values);
     if (fieldsChanged.length) emit('valuesChange', values, fieldsChanged);
-    formApi.state.value.handleValuesChange?.(values, fieldsChanged);
+    formState.state.value.handleValuesChange?.(values, fieldsChanged);
   },
   onFinish(values) {
     emit('finish', values);
@@ -146,11 +145,11 @@ formApi.setCallbacks({
   onReset(values) {
     emit('update:modelValue', values);
     emit('reset', values);
-    formApi.state.value.handleReset?.(values);
+    formState.state.value.handleReset?.(values);
   },
 });
 
-watch(antFormRef, (value) => formApi.setFormRef(value), { immediate: true });
+watch(antFormRef, (value) => formState.setFormRef(value), { immediate: true });
 
 watch(
   () => props.collapsed,
@@ -160,16 +159,16 @@ watch(
   },
 );
 
-if (ownsFormApi) {
+if (ownsFormState) {
   watch(
     () => props.modelValue,
-    (value) => formApi.syncExternalValues(value),
+    (value) => formState.syncExternalValues(value),
     { deep: true },
   );
 
   watch(
     () => props.schema,
-    (value) => formApi.setSchema(value),
+    (value) => formState.setSchema(value),
     { deep: true },
   );
 }
@@ -178,7 +177,7 @@ if (ownsFormApi) {
 const toggleCollapsed = () => {
   currentCollapsed.value = !currentCollapsed.value;
   emit('collapsedChange', currentCollapsed.value);
-  formApi.state.value.handleCollapsedChange?.(currentCollapsed.value);
+  formState.state.value.handleCollapsedChange?.(currentCollapsed.value);
   void calculateCollapseRows();
 };
 
@@ -194,12 +193,12 @@ const handleReset = () => {
 
 /** 接收 Antdv 校验后的值，交由 API 执行业务提交回调。 */
 const handleFinish = (values: Record<string, unknown>) => {
-  void formApi.finish(values as T);
+  void formState.finish(values as T);
 };
 
 /** 统一标准化 Antdv 校验错误并触发 finishFailed。 */
 const handleFinishFailed = (error: unknown) => {
-  formApi.handleFinishFailed(error);
+  formState.handleFinishFailed(error);
 };
 
 /**
@@ -258,5 +257,5 @@ onBeforeUnmount(() => {
   resizeObserver.stop();
 });
 
-defineExpose<DynamicFormInstance<T>>(formApi);
+defineExpose<DynamicFormApi<T>>(formApi);
 </script>

@@ -5,12 +5,13 @@ import { computed } from 'vue';
 import { get, has } from 'lodash-es';
 
 import { useDynamicFormContext } from '../core/context';
+import { scopeDynamicFormApi } from '../core/form-api';
 import { normalizePath, resolveFormPath } from '../utils/path';
 import { getDefaultPlaceholder } from '../utils/placeholder';
 
 import type {
   DynamicFormFieldSchema,
-  DynamicFormResolveContext,
+  DynamicFormFieldApi,
   FormData,
   FormPath,
   NormalizedFormPath,
@@ -23,49 +24,41 @@ interface FormFieldSchemaProps<T extends FormData> {
 
 /**
  * 将原始字段 schema 解析成 FormItem 和字段控件可以直接消费的响应式状态。
- * 函数式配置统一通过 resolveContext 执行，因此会自动追踪它实际读取的表单值。
+ * 函数式配置统一接收字段 API，因此会自动追踪它实际读取的表单值。
  */
 export function useFormFieldSchema<T extends FormData>(props: FormFieldSchemaProps<T>) {
-  const {
-    formApi,
-    formData,
-    props: formProps,
-    disabled: formDisabled,
-  } = useDynamicFormContext<T>();
+  const { formApi, props: formProps, disabled: formDisabled } = useDynamicFormContext<T>();
 
   // basePath 用于嵌套表单；fieldPath 是字段在完整表单数据中的最终路径。
   const schemaRef = computed(() => props.schema);
   const basePath = computed<NormalizedFormPath>(() => normalizePath(props.basePath ?? []));
   const fieldPath = computed(() => resolveFormPath(basePath.value, props.schema.fieldName));
   const formItemName = computed(() => [...fieldPath.value]);
-
-  // values/value 使用 getter 延迟读取，只有函数式配置真正访问它们时才建立依赖。
-  const resolveContext = computed<DynamicFormResolveContext<T>>(() => {
-    const context = {
-      fieldName: props.schema.fieldName,
-      fieldPath: fieldPath.value,
-      basePath: basePath.value,
-      api: formApi,
-    } as DynamicFormResolveContext<T>;
-
-    Object.defineProperties(context, {
-      values: {
-        enumerable: true,
-        get: () => formData.value,
-      },
-      value: {
-        enumerable: true,
-        get: () => get(formData.value, fieldPath.value),
-      },
-    });
-
-    return context;
+  // List 子字段的 basePath 以当前行索引结尾，因此可以无额外 props 推导行上下文。
+  const listIndex = computed(() => {
+    const lastSegment = basePath.value[basePath.value.length - 1];
+    return typeof lastSegment === 'number' ? lastSegment : undefined;
   });
+  const itemPath = computed(() =>
+    listIndex.value === undefined ? undefined : [...basePath.value],
+  );
+
+  // field.value 使用 getter 延迟读取，只有函数式配置真正访问时才建立依赖。
+  const fieldApi = scopeDynamicFormApi(formApi, () => ({
+    get value() {
+      return get(formApi.values, fieldPath.value);
+    },
+    name: props.schema.fieldName,
+    path: fieldPath.value,
+    parentPath: basePath.value,
+    listIndex: listIndex.value,
+    itemPath: itemPath.value,
+  })) as DynamicFormFieldApi<T>;
 
   /** 统一解析静态值和接收字段上下文的函数式配置。 */
-  function resolveValue<R>(value: R | ((context: DynamicFormResolveContext<T>) => R)): R {
+  function resolveValue<R>(value: R | ((api: DynamicFormFieldApi<T>) => R)): R {
     return typeof value === 'function'
-      ? (value as (context: DynamicFormResolveContext<T>) => R)(resolveContext.value)
+      ? (value as (api: DynamicFormFieldApi<T>) => R)(fieldApi)
       : value;
   }
 
@@ -92,8 +85,8 @@ export function useFormFieldSchema<T extends FormData>(props: FormFieldSchemaPro
 
   /** 解析 label、help、description 等允许返回 VNodeChild 的内容配置。 */
   const resolveContent = (
-    content: VNodeChild | ((context: DynamicFormResolveContext<T>) => VNodeChild) | undefined,
-  ) => (typeof content === 'function' ? content(resolveContext.value) : content);
+    content: VNodeChild | ((api: DynamicFormFieldApi<T>) => VNodeChild) | undefined,
+  ) => (typeof content === 'function' ? content(fieldApi) : content);
 
   const resolvedLabel = computed<FormItemProps['label']>(
     () => resolveContent(props.schema.label) as FormItemProps['label'],
@@ -121,7 +114,9 @@ export function useFormFieldSchema<T extends FormData>(props: FormFieldSchemaPro
 
   // model 值由 DynamicForm 接管，需删除 fieldProps 中可能冲突的受控属性。
   const resolvedFieldProps = computed<Record<string, unknown>>(() => {
-    const rawProps = resolveValue(props.schema.fieldProps ?? {}) as Record<string, unknown>;
+    const rawProps = resolveValue(
+      'fieldProps' in props.schema ? (props.schema.fieldProps ?? {}) : {},
+    ) as Record<string, unknown>;
     const nextProps = { ...rawProps };
     const modelPropName = props.schema.componentModel?.prop ?? 'modelValue';
 
@@ -135,7 +130,11 @@ export function useFormFieldSchema<T extends FormData>(props: FormFieldSchemaPro
       nextProps.disabled = resolvedDisabled.value || rawProps.disabled === true;
     }
 
-    if (typeof props.schema.component === 'string' && !has(rawProps, 'placeholder')) {
+    if (
+      typeof props.schema.component === 'string' &&
+      props.schema.component !== 'list' &&
+      !has(rawProps, 'placeholder')
+    ) {
       const placeholder = getDefaultPlaceholder(props.schema.component, resolvedLabel.value);
       if (placeholder !== undefined) nextProps.placeholder = placeholder;
     }
@@ -156,15 +155,16 @@ export function useFormFieldSchema<T extends FormData>(props: FormFieldSchemaPro
   });
 
   return {
-    formApi,
-    formData,
+    fieldApi,
     schemaRef,
     basePath,
     fieldPath,
     formItemName,
-    resolveContext,
+    listIndex,
+    itemPath,
     resolvedIf,
     resolvedShow,
+    resolvedDisabled,
     resolvedLabel,
     resolvedHelp,
     resolvedDescription,

@@ -22,6 +22,7 @@ defineOptions({ name: 'DynamicFormSelect', inheritAttrs: false });
 const props = withDefaults(defineProps<{ fieldProps?: SelectProps }>(), {
   fieldProps: () => ({}),
 });
+
 const modelValue = defineModel<SelectProps['value']>();
 const { hasRequest, loading, requestFieldProps } = useFormFieldRequest(
   toRef(() => props.fieldProps),

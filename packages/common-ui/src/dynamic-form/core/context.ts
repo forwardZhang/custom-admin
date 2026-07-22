@@ -12,7 +12,6 @@ import type {
 import type { DynamicFormState } from './form-api';
 
 export interface DynamicFormContext<T extends FormData = FormData> {
-  formData: Readonly<Ref<T>>;
   formApi: DynamicFormApi<T>;
   props: Readonly<Ref<DynamicFormProps<T>>>;
   disabled: Readonly<Ref<boolean>>;
@@ -43,10 +42,10 @@ export function provideDynamicFormFieldContext<T extends FormData>(
   provide(dynamicFormFieldContextKey, context as DynamicFormFieldContext);
 }
 
-export function useDynamicFormField<T extends FormData>() {
+export function useDynamicFormFieldContext<T extends FormData>() {
   const context = inject(dynamicFormFieldContextKey);
   if (!context) {
-    throw new Error('[DynamicForm] useDynamicFormField must be used inside a field');
+    throw new Error('[DynamicForm] useDynamicFormFieldContext must be used inside a field');
   }
   return context as DynamicFormFieldContext<T>;
 }

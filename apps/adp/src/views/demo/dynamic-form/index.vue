@@ -12,6 +12,11 @@
         </div>
 
         <a-space wrap>
+          <a-segmented
+            :options="listLayoutOptions"
+            :value="listLayout"
+            @change="changeListLayout"
+          />
           <a-button @click="fillForm">填充样例</a-button>
           <a-button @click="validateForm">校验</a-button>
           <a-button @click="resetForm">重置</a-button>
@@ -43,6 +48,16 @@
               <dt class="text-[var(--ant-color-text-secondary)]">最近旧值</dt>
               <dd class="m-0 text-right text-[var(--ant-color-text)]">{{ lastPreviousValue }}</dd>
             </div>
+            <div class="flex justify-between gap-4">
+              <dt class="text-[var(--ant-color-text-secondary)]">List 条目索引</dt>
+              <dd class="m-0 text-right text-[var(--ant-color-text)]">{{ lastListIndex }}</dd>
+            </div>
+            <div class="flex justify-between gap-4">
+              <dt class="text-[var(--ant-color-text-secondary)]">List 条目路径</dt>
+              <dd class="m-0 max-w-44 text-right break-all text-[var(--ant-color-text)]">
+                {{ lastItemPath }}
+              </dd>
+            </div>
           </dl>
         </section>
 
@@ -50,7 +65,7 @@
           <h2 class="m-0 text-base font-medium text-[var(--ant-color-text)]">实时数据</h2>
           <pre
             class="mt-3 max-h-[520px] overflow-auto whitespace-pre-wrap break-words text-xs text-[var(--ant-color-text-secondary)]"
-            >{{ formattedFormData }}</pre
+            >{{ formattedValues }}</pre
           >
         </section>
       </aside>
@@ -64,16 +79,22 @@ import type { SelectProps, TreeSelectProps } from 'antdv-next';
 import { computed, h, ref } from 'vue';
 import { message } from 'antdv-next';
 
-import type { DynamicFormSchema } from '@package/common-ui';
+import type {
+  DynamicFormListLayout,
+  DynamicFormListProps,
+  DynamicFormSchema,
+} from '@package/common-ui';
 import { useDynamicForm } from '@package/common-ui';
 import { getIndustryOptionsApi, getNotificationOptionsApi } from '@/api/dynamic-form';
 
 import ServiceLevelPicker from './components/service-level-picker.vue';
+import ContactListLayout from './components/contact-list-layout.vue';
 
 defineOptions({ name: 'DemoDynamicForm' });
 
 type CustomerType = 'individual' | 'company';
 type ServiceLevel = 'standard' | 'priority' | 'dedicated';
+type DemoListLayout = DynamicFormListLayout | 'custom';
 
 interface SelectOption {
   label: string;
@@ -82,6 +103,12 @@ interface SelectOption {
 
 interface RegionOption extends SelectOption {
   children: SelectOption[];
+}
+
+interface ContactItem extends Record<string, unknown> {
+  name?: string;
+  phone?: string;
+  role?: string;
 }
 
 interface DemoFormData {
@@ -99,6 +126,7 @@ interface DemoFormData {
   foundedDate?: unknown;
   contactTime?: unknown;
   remark?: string;
+  contacts?: ContactItem[];
 }
 
 const regionOptions: RegionOption[] = [
@@ -139,16 +167,92 @@ const treeData: TreeSelectProps['treeData'] = [
 
 const selectOptions: SelectProps['options'] = industryOptions;
 
+const listLayoutOptions = [
+  { label: '卡片', value: 'card' },
+  { label: '表格', value: 'table' },
+];
+listLayoutOptions.push({ label: '自定义', value: 'custom' });
+const listLayout = ref<DemoListLayout>('card');
+
+const contactListProps: DynamicFormListProps<DemoFormData, ContactItem> = {
+  layout: 'card',
+  min: 1,
+  max: 6,
+  addButtonText: '新增联系人',
+  createItem: () => ({ name: '', phone: '', role: 'member' }),
+};
+
 const initialValues: DemoFormData = {
   customerType: 'individual',
   active: true,
   serviceLevel: 'standard',
   notificationChannels: ['email'],
+  contacts: [{ name: '张三', phone: '13800138000', role: 'owner' }],
 };
 
 const lastChangedField = ref('');
 const lastChangedValue = ref('-');
 const lastPreviousValue = ref('-');
+const lastListIndex = ref('-');
+const lastItemPath = ref('-');
+
+function recordFieldChange(
+  fieldPath: readonly (string | number)[],
+  value: unknown,
+  oldValue: unknown,
+  listIndex?: number,
+  itemPath?: readonly (string | number)[],
+) {
+  lastChangedField.value = fieldPath.join('.');
+  lastChangedValue.value = String(value ?? '-');
+  lastPreviousValue.value = String(oldValue ?? '-');
+  lastListIndex.value = listIndex === undefined ? '-' : String(listIndex);
+  lastItemPath.value = itemPath?.join('.') ?? '-';
+}
+
+const contactSchema: DynamicFormSchema<DemoFormData> = [
+  {
+    fieldName: 'name',
+    label: '姓名',
+    component: 'text',
+    required: true,
+    requiredMessage: '请输入联系人姓名',
+    listColumnProps: { minWidth: 160 },
+    onChange: ({ field }) =>
+      recordFieldChange(field.path, field.value, field.oldValue, field.listIndex, field.itemPath),
+  },
+  {
+    fieldName: 'phone',
+    label: '手机号',
+    component: 'text',
+    required: true,
+    requiredMessage: '请输入手机号',
+    disabled: false,
+    listColumnProps: { minWidth: 180 },
+    fieldProps: { maxlength: 20 },
+    onChange: ({ field }) =>
+      recordFieldChange(field.path, field.value, field.oldValue, field.listIndex, field.itemPath),
+  },
+  {
+    fieldName: 'role',
+    label: '角色',
+    component: 'select',
+    required: ({ field }) => field.listIndex === 0,
+    listColumnProps: { minWidth: 150 },
+    fieldProps: {
+      options: [
+        { label: '负责人', value: 'owner' },
+        { label: '成员', value: 'member' },
+      ],
+    },
+    onChange: (data) => {
+      const { field } = data;
+      console.log('data', data);
+
+      recordFieldChange(field.path, field.value, field.oldValue, field.listIndex, field.itemPath);
+    },
+  },
+];
 
 const schema: DynamicFormSchema<DemoFormData> = [
   {
@@ -167,11 +271,8 @@ const schema: DynamicFormSchema<DemoFormData> = [
         placeholder: values.customerType === 'company' ? '请输入企业名称' : '请输入客户姓名',
       };
     },
-    onChange: ({ value, oldValue, fieldName }) => {
-      lastChangedField.value = String(fieldName);
-      lastChangedValue.value = String(value ?? '-');
-      lastPreviousValue.value = String(oldValue ?? '-');
-    },
+    onChange: ({ field }) =>
+      recordFieldChange(field.path, field.value, field.oldValue, field.listIndex, field.itemPath),
   },
   {
     fieldName: 'customerType',
@@ -184,6 +285,10 @@ const schema: DynamicFormSchema<DemoFormData> = [
         { label: '个人客户', value: 'individual' },
         { label: '企业客户', value: 'company' },
       ],
+    },
+    onChange: (api) => {
+      console.log('data', api);
+      api.setValue('loginPassword', '');
     },
   },
   {
@@ -219,7 +324,7 @@ const schema: DynamicFormSchema<DemoFormData> = [
       options: selectOptions,
     },
     request: {
-      api: ({ values, signal }) => getIndustryOptionsApi(values.customerType, signal),
+      api: ({ values, field }) => getIndustryOptionsApi(values.customerType, field.signal),
       loadOn: 'open',
       labelField: 'name',
       valueField: 'code',
@@ -282,8 +387,8 @@ const schema: DynamicFormSchema<DemoFormData> = [
       options: [{ label: '邮件', value: 'email' }],
     },
     request: {
-      api: ({ signal, values }) => {
-        return getNotificationOptionsApi(signal);
+      api: ({ field }) => {
+        return getNotificationOptionsApi(field.signal);
       },
     },
   },
@@ -311,6 +416,15 @@ const schema: DynamicFormSchema<DemoFormData> = [
       autoSize: { minRows: 3, maxRows: 6 },
     },
   },
+  {
+    fieldName: 'contacts',
+    label: '联系人',
+    component: 'list',
+    itemClass: 'md:col-span-2',
+    defaultValue: [],
+    listProps: contactListProps,
+    schema: contactSchema,
+  },
 ];
 
 const [Form, formApi] = useDynamicForm<DemoFormData>({
@@ -326,7 +440,7 @@ const [Form, formApi] = useDynamicForm<DemoFormData>({
   },
 });
 
-const formattedFormData = computed(() => JSON.stringify(formApi.formData.value, null, 2));
+const formattedValues = computed(() => JSON.stringify(formApi.values, null, 2));
 
 function fillForm() {
   formApi.setValues({
@@ -340,6 +454,10 @@ function fillForm() {
     notificationChannels: ['email', 'wechat'],
     region: ['zhejiang', 'hangzhou'],
     treeRegion: 'hangzhou',
+    contacts: [
+      { name: '张三', phone: '13800138000', role: 'owner' },
+      { name: '李四', phone: '13900139000', role: 'member' },
+    ],
   });
   message.success('已填充样例数据');
 }
@@ -359,5 +477,18 @@ function resetForm() {
 
 function submitForm() {
   void formApi.submit().catch(() => undefined);
+}
+
+function changeListLayout(value: string | number) {
+  listLayout.value = value as DemoListLayout;
+  formApi.updateSchema([
+    {
+      fieldName: 'contacts',
+      listProps: {
+        ...contactListProps,
+        layout: listLayout.value === 'custom' ? ContactListLayout : listLayout.value,
+      },
+    },
+  ]);
 }
 </script>

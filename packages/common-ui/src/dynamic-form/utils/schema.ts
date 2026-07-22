@@ -1,8 +1,14 @@
 import { cloneDeep, get, set } from 'lodash-es';
 
-import { normalizePath, pathToString } from './path';
+import { normalizePath, pathToString, resolveFormPath } from './path';
 
-import type { DeepPartial, DynamicFormFieldSchema, DynamicFormSchema, FormData } from '../types';
+import type {
+  DeepPartial,
+  DynamicFormFieldSchema,
+  DynamicFormSchema,
+  FormData,
+  FormPath,
+} from '../types';
 
 /** 深拷贝 schema，隔离调用方配置与运行时动态修改。 */
 export function cloneSchema<T extends FormData>(
@@ -17,12 +23,27 @@ export function applySchemaDefaults<T extends FormData>(
   schema: DynamicFormSchema<T>,
 ): T {
   const result = cloneDeep((values ?? {}) as T);
-  for (const field of schema) {
-    if (field.defaultValue === undefined) continue;
-    const path = normalizePath(field.fieldName);
-    if (get(result, path) === undefined) set(result, path, cloneDeep(field.defaultValue));
-  }
+  applyFieldDefaults(result, schema, []);
   return result;
+}
+
+/** 递归处理 List 子 schema，使嵌套字段的 defaultValue 与顶层字段行为一致。 */
+function applyFieldDefaults<T extends FormData>(
+  result: T,
+  schema: DynamicFormSchema<T>,
+  basePath: FormPath,
+): void {
+  for (const field of schema) {
+    const path = resolveFormPath(basePath, field.fieldName);
+    if (field.defaultValue !== undefined && get(result, path) === undefined) {
+      set(result, path, cloneDeep(field.defaultValue));
+    }
+
+    if (field.component !== 'list') continue;
+    const rows = get(result, path);
+    if (!Array.isArray(rows)) continue;
+    rows.forEach((_row, index) => applyFieldDefaults(result, field.schema, [...path, index]));
+  }
 }
 
 /** 按规范化字段路径批量浅合并 schema，未命中的字段保持原顺序。 */

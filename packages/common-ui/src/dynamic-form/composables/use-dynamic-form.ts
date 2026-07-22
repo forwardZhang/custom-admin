@@ -13,13 +13,14 @@ import type { FormData, UseDynamicFormOptions } from '../types';
  * 组件通过闭包持有 formApi，因此调用方无需手动同步 schema、表单值和实例引用。
  */
 export function useDynamicForm<T extends FormData = FormData>(options: UseDynamicFormOptions<T>) {
-  const formApi = new DynamicFormState<T>(options);
+  const formState = new DynamicFormState<T>(options);
+  const formApi = formState.api;
 
   // 每次渲染都从 formApi 读取最新状态，使 setState、setSchema 等命令式操作立即反映到组件。
   const Form = defineComponent(
     (_props, { attrs, slots }) => {
-      provide(dynamicFormStateKey, formApi);
-      onBeforeUnmount(() => formApi.setFormRef(undefined));
+      provide(dynamicFormStateKey, formState);
+      onBeforeUnmount(() => formState.setFormRef(undefined));
 
       return () => {
         // 这些回调由 DynamicFormState 自己消费，不应继续作为组件 props 透传。
@@ -32,15 +33,15 @@ export function useDynamicForm<T extends FormData = FormData>(options: UseDynami
           handleSchemaChange: _handleSchemaChange,
           handleCollapsedChange: _handleCollapsedChange,
           ...formOptions
-        } = formApi.state.value;
+        } = formState.state.value;
 
         return h(
           DynamicForm as Component,
           {
             ...formOptions,
             ...attrs,
-            schema: formApi.schema.value,
-            modelValue: formApi.formData.value,
+            schema: formState.schema.value,
+            modelValue: formApi.values,
           },
           slots,
         );

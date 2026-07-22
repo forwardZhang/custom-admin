@@ -1,5 +1,6 @@
 export { default as DynamicForm } from './components/dynamic-form.vue';
-export { useDynamicFormField } from './core/context';
+export { default as DynamicFormList } from './field/list/index.vue';
+export { useDynamicFormFieldContext } from './core/context';
 export { useDynamicForm } from './composables/use-dynamic-form';
 export { normalizePath, pathToString, resolveFormPath } from './utils/path';
 
@@ -13,17 +14,22 @@ export type {
   DynamicFormContent,
   DynamicFormCustomFieldSchema,
   DynamicFormEmits,
-  DynamicFormFieldContext,
-  DynamicFormFieldEventContext,
   DynamicFormFieldEventHandler,
+  DynamicFormFieldEventInfo,
+  DynamicFormFieldInfo,
   DynamicFormFieldSchema,
-  DynamicFormInstance,
+  DynamicFormListActionField,
+  DynamicFormListColumnProps,
+  DynamicFormListFieldSchema,
+  DynamicFormListItem,
+  DynamicFormListLayout,
+  DynamicFormListLayoutComponentProps,
+  DynamicFormListProps,
   DynamicFormOptionComponentName,
   DynamicFormOptionLoadOn,
   DynamicFormOptionRequest,
-  DynamicFormOptionRequestContext,
+  DynamicFormOptionRequestField,
   DynamicFormProps,
-  DynamicFormResolveContext,
   DynamicFormResolver,
   DynamicFormSchema,
   DynamicFormValidateError,
