@@ -1,11 +1,9 @@
 <template>
   <FormItem
     v-if="resolvedIf"
-    v-show="resolvedShow && !collapseHidden"
+    v-show="resolvedShow"
     v-bind="resolvedFormItemProps"
     :class="['min-w-0', schema.itemClass, { 'dynamic-form-field--compact': compact }]"
-    :data-dynamic-form-field="collapseManaged ? fieldKey : undefined"
-    :data-dynamic-form-always-show="collapseManaged && schema.alwaysShow ? true : undefined"
     :label="hideLabel ? undefined : resolvedLabel"
     :name="formItemName"
     :rules="resolvedRules"
@@ -13,12 +11,10 @@
     :extra="resolvedDescription"
   >
     <DynamicFormList v-if="isListField" :disabled="resolvedDisabled">
-      <template #field="{ compact: childCompact, field, itemIndex, itemKey }">
+      <template #field="{ compact: childCompact, field, itemIndex }">
         <FormField
           :base-path="[...fieldPath, itemIndex]"
-          :collapse-managed="false"
           :compact="childCompact"
-          :field-key="`${fieldKey}-${itemKey}-${pathToString(field.fieldName)}`"
           :hide-label="childCompact"
           :schema="field"
         />
@@ -38,8 +34,6 @@ import DynamicFormList from '../field/list/index.vue';
 import { provideDynamicFormFieldContext } from '../core/context';
 import { useFormFieldControl } from '../composables/use-form-field-control';
 import { useFormFieldSchema } from '../composables/use-form-field-schema';
-import { pathToString } from '../utils/path';
-
 import type { DynamicFormFieldSchema, FormData, FormPath } from '../types';
 
 defineOptions({ name: 'FormField' });
@@ -50,12 +44,6 @@ const props = withDefaults(
     schema: DynamicFormFieldSchema<FormData>;
     /** 嵌套字段的父级数据路径。 */
     basePath?: FormPath;
-    /** 用于 DOM 测量和折叠隐藏集合匹配的稳定 key。 */
-    fieldKey: string;
-    /** 是否因表单折叠而隐藏，不影响 schema.show/if。 */
-    collapseHidden?: boolean;
-    /** 是否参与顶层表单折叠行测量。 */
-    collapseManaged?: boolean;
     /** 是否使用无外边距的紧凑样式。 */
     compact?: boolean;
     /** 是否隐藏字段标签，table 布局由表头展示 label。 */
@@ -63,8 +51,6 @@ const props = withDefaults(
   }>(),
   {
     basePath: undefined,
-    collapseHidden: false,
-    collapseManaged: true,
     compact: false,
     hideLabel: false,
   },

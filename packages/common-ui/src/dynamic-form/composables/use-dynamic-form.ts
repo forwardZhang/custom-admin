@@ -31,7 +31,6 @@ export function useDynamicForm<T extends FormData = FormData>(options: UseDynami
           handleValuesChange: _handleValuesChange,
           handleFinishFailed: _handleFinishFailed,
           handleSchemaChange: _handleSchemaChange,
-          handleCollapsedChange: _handleCollapsedChange,
           ...formOptions
         } = formState.state.value;
 

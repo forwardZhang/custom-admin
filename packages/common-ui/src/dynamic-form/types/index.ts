@@ -276,8 +276,6 @@ type DynamicFormFieldBase<T extends FormData> = {
   description?: DynamicFormContent<T>;
   /** modelValue/initialValues 未提供该字段时使用的初始值。 */
   defaultValue?: unknown;
-  /** 折叠表单时始终显示该字段。 */
-  alwaysShow?: boolean;
   /** 是否创建字段节点；为 false 时字段会从 DOM 中移除。 */
   if?: boolean | DynamicFormResolver<T, boolean>;
   /** 是否显示字段；为 false 时保留节点但通过 v-show 隐藏。 */
@@ -366,7 +364,6 @@ export type DynamicFormEmits<T extends FormData = FormData> = {
   finishFailed: [error: DynamicFormValidateError<T>];
   reset: [values: T];
   schemaChange: [schema: DynamicFormSchema<T>];
-  collapsedChange: [collapsed: boolean];
 };
 
 export interface DynamicFormProps<T extends FormData = FormData> {
@@ -384,12 +381,6 @@ export interface DynamicFormProps<T extends FormData = FormData> {
   wrapperClass?: string;
   /** 是否显示内置提交、重置操作区，默认为 true。 */
   showDefaultActions?: boolean;
-  /** 是否显示展开/收起按钮，默认为 false。 */
-  showCollapseButton?: boolean;
-  /** 折叠状态；变化时会重新计算需要隐藏的字段。 */
-  collapsed?: boolean;
-  /** 折叠后保留的可见行数，最小为 1。 */
-  collapsedRows?: number;
   /** 校验失败时是否滚动到首个错误字段。 */
   scrollToFirstError?: FormProps['scrollToFirstError'];
   /** 透传给 Antdv Form 的补充属性，model 与核心事件由 DynamicForm 接管。 */
@@ -427,8 +418,6 @@ export interface UseDynamicFormOptions<T extends FormData = FormData> extends Om
   handleFinishFailed?: (error: DynamicFormValidateError<T>) => void;
   /** 运行时 schema 被替换或更新后的回调。 */
   handleSchemaChange?: (schema: DynamicFormSchema<T>) => void;
-  /** 折叠状态切换后的回调。 */
-  handleCollapsedChange?: (collapsed: boolean) => void;
 }
 
 export interface DynamicFormFieldContext<T extends FormData = FormData> {
