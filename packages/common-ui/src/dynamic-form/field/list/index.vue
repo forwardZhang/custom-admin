@@ -195,7 +195,7 @@ const listProps = computed(() => listSchema.value.listProps ?? {});
 const layout = computed<DynamicFormListLayout | Component>(() => listProps.value.layout ?? 'card');
 const isCustomLayout = computed(() => typeof layout.value !== 'string');
 const items = computed<DynamicFormListItem[]>(() =>
-  Array.isArray(api.field.value) ? (api.field.value as DynamicFormListItem[]) : [],
+  Array.isArray(api.state) ? (api.state as DynamicFormListItem[]) : [],
 );
 const listPath = computed<NormalizedFormPath>(() => [...api.field.path]);
 const reachedMin = computed(() => items.value.length <= Math.max(listProps.value.min ?? 0, 0));
@@ -227,7 +227,7 @@ onMounted(() => {
   const nextItems = items.value.map(
     (item) => applySchemaDefaults(normalizeItem(item), childSchema.value) as DynamicFormListItem,
   );
-  if (!isEqual(nextItems, items.value)) api.setValue(listPath.value, nextItems);
+  if (!isEqual(nextItems, items.value)) api.setState(listPath.value, nextItems);
 });
 
 const tableColumns = computed<ListTableColumn[]>(() => {
@@ -273,28 +273,39 @@ function createActionContext(
   sourceIndex?: number,
 ): DynamicFormListActionApi<FormData> {
   const itemPath = [...listPath.value, index];
-  return scopeDynamicFormApi(api, () => ({
-    ...api.field,
-    value: items.value,
-    listPath: listPath.value,
-    listIndex: index,
-    itemPath,
-    item: cloneDeep(item),
-    sourceIndex,
-  }));
+  return scopeDynamicFormApi(
+    api,
+    () => ({
+      field: {
+        ...api.field,
+        listIndex: index,
+        itemPath,
+      },
+      state: items.value,
+    }),
+    {
+      listPath: listPath.value,
+      listIndex: index,
+      itemPath,
+      item: cloneDeep(item),
+      sourceIndex,
+    },
+  );
 }
 
 function commitItems(nextItems: DynamicFormListItem[], nativeArgs: readonly unknown[]): void {
   const oldValue = cloneDeep(items.value);
-  api.setValue(listPath.value, nextItems);
+  api.setState(listPath.value, nextItems);
 
   schema.value.onChange?.(
-    scopeDynamicFormApi(api, () => ({
-      ...api.field,
-      value: cloneDeep(nextItems),
-      oldValue,
-      nativeArgs,
-    })),
+    scopeDynamicFormApi(
+      api,
+      () => ({
+        field: api.field,
+        state: cloneDeep(nextItems),
+      }),
+      { oldValue, nativeArgs },
+    ),
   );
 }
 

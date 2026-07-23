@@ -1,5 +1,5 @@
 <template>
-  <Input v-model:value="modelValue" allow-clear v-bind="props.fieldProps">
+  <Input v-model:value="modelValue" allow-clear auto-complete="off" v-bind="props.fieldProps">
     <template v-for="(_, slotName) in $slots" #[slotName]="slotProps">
       <slot :name="slotName" v-bind="slotProps ?? {}" />
     </template>

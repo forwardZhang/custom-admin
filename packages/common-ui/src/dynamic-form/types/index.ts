@@ -91,16 +91,16 @@ export interface DynamicFormFieldInfo {
 
 /** DynamicForm 唯一的公共 API；字段回调中只会额外提供 field 信息。 */
 export interface DynamicFormApi<T extends FormData = FormData> {
-  /** 当前响应式表单值；读取隔离快照时使用 getValues。 */
-  readonly values: Readonly<T>;
+  /** 当前响应式表单状态；读取隔离快照时使用 getStates。 */
+  readonly states: Readonly<T>;
   /** 返回深拷贝后的完整表单值，避免调用方意外修改内部状态。 */
-  getValues(): T;
+  getStates(): T;
   /** 深度合并部分表单值，其中数组按整体替换。 */
-  setValues(values: DeepPartial<T>): void;
+  setStates(states: DeepPartial<T>): void;
   /** 按字段路径读取值，返回值与内部状态隔离。 */
-  getValue(fieldName: FormPath): unknown;
+  getState(fieldName: FormPath): unknown;
   /** 更新单个字段并触发表单值变更回调。 */
-  setValue(fieldName: FormPath, value: unknown): void;
+  setState(fieldName: FormPath, state: unknown): void;
   /** 重置全部字段，或仅重置指定路径到初始值。 */
   resetFields(fieldNames?: FormPath[]): void;
   /** 校验全部字段或指定字段，成功后返回当前完整值。 */
@@ -119,8 +119,8 @@ export interface DynamicFormApi<T extends FormData = FormData> {
   updateSchema(patches: Array<Partial<DynamicFormFieldSchema<T>> & { fieldName: FormPath }>): void;
   /** 获取底层 Antdv Form 实例。 */
   getFormInstance(): FormInstance | undefined;
-  /** 更新 useDynamicForm 的运行时配置。 */
-  setState(state: Partial<UseDynamicFormOptions<T>>): void;
+  /** 合并更新 useDynamicForm 的运行时配置。 */
+  setOptions(options: Partial<UseDynamicFormOptions<T>>): void;
 }
 
 export type DynamicFormFieldApi<
@@ -128,7 +128,7 @@ export type DynamicFormFieldApi<
   TValue = unknown,
 > = DynamicFormApi<T> & {
   /** 当前字段值。 */
-  readonly value: TValue;
+  readonly state: TValue;
   /** 当前字段元信息。 */
   readonly field: DynamicFormFieldInfo;
 };
@@ -351,7 +351,7 @@ export type DynamicFormFieldSchema<T extends FormData = FormData> =
 export type DynamicFormSchema<T extends FormData = FormData> = DynamicFormFieldSchema<T>[];
 
 export interface DynamicFormValidateError<T extends FormData = FormData> {
-  values: T;
+  states: T;
   errorFields: Array<{
     name: FormPath;
     errors: string[];

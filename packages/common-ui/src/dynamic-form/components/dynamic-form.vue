@@ -2,7 +2,7 @@
   <Form
     ref="antFormRef"
     v-bind="mergedFormProps"
-    :model="formApi.values"
+    :model="formApi.states"
     :layout="props.layout"
     :disabled="props.disabled"
     :scroll-to-first-error="props.scrollToFirstError"

@@ -218,8 +218,8 @@ const contactSchema: DynamicFormSchema<DemoFormData> = [
     required: true,
     requiredMessage: '请输入联系人姓名',
     listColumnProps: { minWidth: 160 },
-    onChange: ({ field, oldValue, value }) =>
-      recordFieldChange(field.path, value, oldValue, field.listIndex, field.itemPath),
+    onChange: ({ field, oldValue, state }) =>
+      recordFieldChange(field.path, state, oldValue, field.listIndex, field.itemPath),
   },
   {
     fieldName: 'phone',
@@ -230,8 +230,8 @@ const contactSchema: DynamicFormSchema<DemoFormData> = [
     disabled: false,
     listColumnProps: { minWidth: 180 },
     fieldProps: { maxlength: 20 },
-    onChange: ({ field, oldValue, value }) =>
-      recordFieldChange(field.path, value, oldValue, field.listIndex, field.itemPath),
+    onChange: ({ field, oldValue, state }) =>
+      recordFieldChange(field.path, state, oldValue, field.listIndex, field.itemPath),
   },
   {
     fieldName: 'role',
@@ -246,10 +246,10 @@ const contactSchema: DynamicFormSchema<DemoFormData> = [
       ],
     },
     onChange: (data) => {
-      const { field, oldValue, value } = data;
+      const { field, oldValue, state } = data;
       console.log('data', data);
 
-      recordFieldChange(field.path, value, oldValue, field.listIndex, field.itemPath);
+      recordFieldChange(field.path, state, oldValue, field.listIndex, field.itemPath);
     },
   },
 ];
@@ -257,22 +257,22 @@ const contactSchema: DynamicFormSchema<DemoFormData> = [
 const schema: DynamicFormSchema<DemoFormData> = [
   {
     fieldName: 'accountName',
-    label: ({ values }) =>
-      values.customerType === 'company'
+    label: ({ states }) =>
+      states.customerType === 'company'
         ? h('span', { class: 'text-red' }, '企业名称')
         : h('span', '客户姓名'),
     component: 'text',
     required: true,
     requiredMessage: '请输入客户名称',
-    fieldProps: ({ values }) => {
+    fieldProps: ({ states }) => {
       return {
         allowClear: true,
         // autocomplete: 'off',
-        placeholder: values.customerType === 'company' ? '请输入企业名称' : '请输入客户姓名',
+        placeholder: states.customerType === 'company' ? '请输入企业名称' : '请输入客户姓名',
       };
     },
-    onChange: ({ field, oldValue, value }) =>
-      recordFieldChange(field.path, value, oldValue, field.listIndex, field.itemPath),
+    onChange: ({ field, oldValue, state }) =>
+      recordFieldChange(field.path, state, oldValue, field.listIndex, field.itemPath),
   },
   {
     fieldName: 'customerType',
@@ -289,8 +289,8 @@ const schema: DynamicFormSchema<DemoFormData> = [
       };
     },
     onChange: (api) => {
-      api.setValue('loginPassword', '');
-      api.setValue('accountName', '');
+      api.setState('loginPassword', '');
+      api.setState('accountName', '');
     },
   },
   {
@@ -313,11 +313,11 @@ const schema: DynamicFormSchema<DemoFormData> = [
     label: '员工人数',
     component: 'number',
     if: (data) => {
-      const { values } = data;
+      const { states } = data;
 
-      return values.customerType === 'company';
+      return states.customerType === 'company';
     },
-    required: ({ values }) => values.customerType === 'company',
+    required: ({ states }) => states.customerType === 'company',
     fieldProps: {
       min: 1,
       max: 100000,
@@ -328,13 +328,13 @@ const schema: DynamicFormSchema<DemoFormData> = [
     fieldName: 'industry',
     label: '所属行业',
     component: 'select',
-    if: ({ values }) => values.customerType === 'company',
-    required: ({ values }) => values.customerType === 'company',
+    if: ({ states }) => states.customerType === 'company',
+    required: ({ states }) => states.customerType === 'company',
     fieldProps: {
       options: selectOptions,
     },
     request: {
-      api: ({ signal, values }) => getIndustryOptionsApi(values.customerType, signal),
+      api: ({ signal, states }) => getIndustryOptionsApi(states.customerType, signal),
       loadOn: 'open',
       labelField: 'name',
       valueField: 'code',
@@ -358,13 +358,13 @@ const schema: DynamicFormSchema<DemoFormData> = [
       event: 'update:selected',
     },
     required: true,
-    disabled: ({ values }) => !values.active,
+    disabled: ({ states }) => !states.active,
   },
   {
     fieldName: 'servicePeriod',
     label: '服务周期',
     component: 'rangePicker',
-    disabled: ({ values }) => !values.active,
+    disabled: ({ states }) => !states.active,
     fieldProps: {
       allowClear: true,
       placeholder: ['开始日期', '结束日期'],
@@ -406,7 +406,7 @@ const schema: DynamicFormSchema<DemoFormData> = [
     fieldName: 'foundedDate',
     label: '成立日期',
     component: 'datePicker',
-    if: ({ values }) => values.customerType === 'company',
+    if: ({ states }) => states.customerType === 'company',
     fieldProps: {},
   },
   {
@@ -450,10 +450,10 @@ const [Form, formApi] = useDynamicForm<DemoFormData>({
   },
 });
 
-const formattedValues = computed(() => JSON.stringify(formApi.values, null, 2));
+const formattedValues = computed(() => JSON.stringify(formApi.states, null, 2));
 
 function fillForm() {
-  formApi.setValues({
+  formApi.setStates({
     accountName: '示例客户',
     loginPassword: '123',
     customerType: 'company',

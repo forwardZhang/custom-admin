@@ -16,7 +16,7 @@ export function useDynamicForm<T extends FormData = FormData>(options: UseDynami
   const formState = new DynamicFormState<T>(options);
   const formApi = formState.api;
 
-  // 每次渲染都从 formApi 读取最新状态，使 setState、setSchema 等命令式操作立即反映到组件。
+  // 每次渲染都从 formApi 读取最新状态，使 setOptions、setSchema 等命令式操作立即反映到组件。
   const Form = defineComponent(
     (_props, { attrs, slots }) => {
       provide(dynamicFormStateKey, formState);
@@ -41,7 +41,7 @@ export function useDynamicForm<T extends FormData = FormData>(options: UseDynami
             ...formOptions,
             ...attrs,
             schema: formState.schema.value,
-            modelValue: formApi.values,
+            modelValue: formApi.states,
           },
           slots,
         );

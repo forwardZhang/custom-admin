@@ -42,13 +42,13 @@ export function useFormFieldControl<T extends FormData>(options: FormFieldContro
   /** 将控件新值写入表单，并用完整上下文触发 schema.onChange。 */
   const handleModelUpdate = (...args: unknown[]) => {
     const nextValue = args[0];
-    const oldValue = cloneValue(options.api.value);
+    const oldValue = cloneValue(options.api.state);
     if (valuesEqual(oldValue, nextValue)) return;
 
-    options.api.setValue(options.api.field.path, nextValue);
+    options.api.setState(options.api.field.path, nextValue);
     const eventApi: DynamicFormFieldEventApi<T> = {
       ...options.api,
-      value: nextValue,
+      state: nextValue,
       oldValue,
       nativeArgs: args,
     };
@@ -85,12 +85,12 @@ export function useFormFieldControl<T extends FormData>(options: FormFieldContro
           typeof options.schema.value.component === 'string'
             ? {
                 fieldProps: rawProps,
-                [modelPropName.value]: options.api.value,
+                [modelPropName.value]: options.api.state,
                 [modelListenerName.value]: updateHandler,
               }
             : {
                 ...rawProps,
-                [modelPropName.value]: options.api.value,
+                [modelPropName.value]: options.api.state,
                 [modelListenerName.value]: updateHandler,
               };
 

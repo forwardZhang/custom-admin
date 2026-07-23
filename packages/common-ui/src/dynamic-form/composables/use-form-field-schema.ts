@@ -43,10 +43,10 @@ export function useFormFieldSchema<T extends FormData>(props: FormFieldSchemaPro
     listIndex.value === undefined ? undefined : [...basePath.value],
   );
 
-  // value 使用 getter 延迟读取，只有函数式配置真正访问时才建立依赖。
+  // state 使用 getter 延迟读取，只有函数式配置真正访问时才建立依赖。
   const fieldApi = scopeDynamicFormApi(formApi, () => ({
-    get value() {
-      return get(formApi.values, fieldPath.value);
+    get state() {
+      return get(formApi.states, fieldPath.value);
     },
     field: {
       name: props.schema.fieldName,

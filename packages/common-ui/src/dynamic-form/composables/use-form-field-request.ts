@@ -30,7 +30,7 @@ export function useFormFieldRequest<TProps extends object>(fieldProps: Readonly<
 
   const hasRequest = computed(() => Boolean(requestConfig.value));
 
-  // watchEffect 同时追踪 request 配置，以及 api 同步读取到的 values/value 依赖。
+  // watchEffect 同时追踪 request 配置，以及 api 同步读取到的 states/state 依赖。
   // 依赖变化或组件卸载时会中止旧请求，避免过期响应覆盖新选项。
   watchEffect(async (onCleanup) => {
     const config = requestConfig.value;
@@ -46,7 +46,7 @@ export function useFormFieldRequest<TProps extends object>(fieldProps: Readonly<
     }
 
     const controller = new AbortController();
-    const requestApi = scopeDynamicFormApi(api, () => ({ value: api.value, field: api.field }), {
+    const requestApi = scopeDynamicFormApi(api, () => ({ state: api.state, field: api.field }), {
       signal: controller.signal,
     });
 
