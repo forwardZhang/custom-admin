@@ -4,13 +4,13 @@ import { inject, provide } from 'vue';
 import type {
   DynamicFormApi,
   DynamicFormFieldContext,
-  DynamicFormFieldSchema,
   DynamicFormProps,
   FormData,
   NormalizedFormPath,
 } from '../types';
 import type { DynamicFormState } from './form-api';
 
+/** 表单级上下文：formApi + 表单 props。 */
 export interface DynamicFormContext<T extends FormData = FormData> {
   formApi: DynamicFormApi<T>;
   props: Readonly<Ref<DynamicFormProps<T>>>;
@@ -24,6 +24,7 @@ export const dynamicFormFieldContextKey: InjectionKey<DynamicFormFieldContext> =
   'dynamic-form-field-context',
 );
 
+/** useDynamicForm 把 state 注入给内部 DynamicForm，避免重复创建。 */
 export const dynamicFormStateKey: InjectionKey<unknown> = Symbol('dynamic-form-state');
 
 export function provideDynamicFormContext<T extends FormData>(context: DynamicFormContext<T>) {
@@ -50,4 +51,4 @@ export function useDynamicFormFieldContext<T extends FormData>() {
   return context as DynamicFormFieldContext<T>;
 }
 
-export type { NormalizedFormPath };
+export type { DynamicFormState, NormalizedFormPath };

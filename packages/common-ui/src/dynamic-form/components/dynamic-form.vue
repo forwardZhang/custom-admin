@@ -50,7 +50,7 @@ import type {
 
 defineOptions({ name: 'DynamicForm', inheritAttrs: false });
 
-// 组件模式下 props 是唯一外部数据入口；useDynamicForm 模式则由注入的 formApi 提供状态。
+// 组件模式读 props；useDynamicForm 模式复用注入的 DynamicFormState。
 const props = withDefaults(defineProps<DynamicFormProps<T>>(), {
   modelValue: () => ({}) as T,
   disabled: false,
@@ -65,7 +65,6 @@ const props = withDefaults(defineProps<DynamicFormProps<T>>(), {
 
 const emit = defineEmits<DynamicFormEmits<T>>();
 
-// 嵌套在 useDynamicForm 返回的组件中时复用同一个 API，避免创建两套表单状态。
 const injectedFormState = inject(dynamicFormStateKey, undefined) as DynamicFormState<T> | undefined;
 const ownsFormState = !injectedFormState;
 const formState =
@@ -103,7 +102,7 @@ provideDynamicFormContext<T>({
   disabled,
 });
 
-// 将命令式 API 的回调桥接为组件事件，同时保留 useDynamicForm 的业务回调。
+// 统一桥接：组件事件 + useDynamicForm 业务回调。
 formState.setCallbacks({
   onValuesChange(values, fieldsChanged) {
     emit('update:modelValue', values);

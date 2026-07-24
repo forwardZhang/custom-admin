@@ -28,6 +28,34 @@ interface FormApiCallbacks<T extends FormData> {
   onReset?: (values: T) => void;
 }
 
+/** 公共 API 方法名；createPublicApi / createFieldApi 共用，避免重复罗列。 */
+const FORM_API_METHODS = [
+  'getStates',
+  'setStates',
+  'getState',
+  'setState',
+  'resetFields',
+  'validate',
+  'submit',
+  'clearValidate',
+  'scrollToField',
+  'getSchema',
+  'setSchema',
+  'updateSchema',
+  'getFormInstance',
+  'setOptions',
+] as const satisfies readonly (keyof DynamicFormApi)[];
+
+type FormApiMethodName = (typeof FORM_API_METHODS)[number];
+
+function toAntdPaths(fieldNames?: FormPath[]): string[][] | undefined {
+  return fieldNames?.map((fieldName) => normalizePath(fieldName) as string[]);
+}
+
+/**
+ * 表单状态与命令式 API 的唯一实现。
+ * DynamicForm 组件和 useDynamicForm 都挂在这上面，不另起一套状态。
+ */
 export class DynamicFormState<T extends FormData = FormData> {
   readonly api: DynamicFormApi<T>;
   readonly formRef: ShallowRef<FormInstance | undefined> = shallowRef();
@@ -39,7 +67,7 @@ export class DynamicFormState<T extends FormData = FormData> {
   private callbacks: FormApiCallbacks<T> = {};
 
   constructor(options: UseDynamicFormOptions<T>) {
-    // schema.defaultValue 只在初始化时补齐，之后 reset 始终回到这份稳定快照。
+    // schema.defaultValue 只在初始化时补齐，reset 始终回到这份快照。
     const schema = cloneSchema(options.schema);
     const initialValues = applySchemaDefaults(options.initialValues, schema);
 
@@ -63,7 +91,7 @@ export class DynamicFormState<T extends FormData = FormData> {
   }
 
   syncExternalValues(values: T) {
-    // 原地同步而非替换 states，避免依赖该响应式对象的字段组件丢失连接。
+    // 原地同步，保留根对象响应式引用。
     if (isEqual(this.statesRef.value, values)) return;
     syncValues(this.statesRef.value, values);
   }
@@ -73,7 +101,7 @@ export class DynamicFormState<T extends FormData = FormData> {
   }
 
   setStates(states: DeepPartial<T>) {
-    // mergeValues 对数组采用替换语义，避免按索引残留旧数据。
+    // 数组按整体替换，避免按索引残留旧数据。
     const nextStates = mergeValues(this.statesRef.value, states);
     if (isEqual(nextStates, this.statesRef.value)) return;
     syncValues(this.statesRef.value, nextStates);
@@ -100,49 +128,31 @@ export class DynamicFormState<T extends FormData = FormData> {
       for (const fieldName of fieldNames) {
         const path = normalizePath(fieldName);
         const initialValue = get(this.initialValues, path);
-        if (initialValue === undefined) {
-          unset(this.statesRef.value, path);
-        } else {
-          set(this.statesRef.value, path, cloneValue(initialValue));
-        }
+        if (initialValue === undefined) unset(this.statesRef.value, path);
+        else set(this.statesRef.value, path, cloneValue(initialValue));
       }
     }
 
-    this.formRef.value?.resetFields(
-      fieldNames?.map((fieldName) => normalizePath(fieldName) as string[]) as
-        | string[][]
-        | undefined,
-    );
-    this.formRef.value?.clearValidate(
-      fieldNames?.map((fieldName) => normalizePath(fieldName) as string[]) as
-        | string[][]
-        | undefined,
-    );
+    this.formRef.value?.resetFields(toAntdPaths(fieldNames));
+    this.formRef.value?.clearValidate(toAntdPaths(fieldNames));
     this.callbacks.onReset?.(this.getStates());
     this.callbacks.onValuesChange?.(this.getStates(), []);
   }
 
   async validate(fieldNames?: FormPath[]): Promise<T> {
-    if (!this.formRef.value) {
-      throw new Error('[DynamicForm] Form is not mounted');
-    }
-
-    await this.formRef.value.validateFields(
-      fieldNames?.map((fieldName) => normalizePath(fieldName) as string[]),
-    );
+    if (!this.formRef.value) throw new Error('[DynamicForm] Form is not mounted');
+    await this.formRef.value.validateFields(toAntdPaths(fieldNames));
     return this.getStates();
   }
 
   async submit(): Promise<T> {
-    // 只有校验错误才转成 finishFailed；业务提交异常应原样向调用方传播。
+    // 校验错误走 finishFailed；业务 submit 异常原样抛出。
     try {
       const values = await this.validate();
       await this.finish(values);
       return values;
     } catch (error) {
-      if (this.isValidationError(error)) {
-        this.handleFinishFailed(error);
-      }
+      if (this.isValidationError(error)) this.handleFinishFailed(error);
       throw error;
     }
   }
@@ -161,11 +171,7 @@ export class DynamicFormState<T extends FormData = FormData> {
   }
 
   clearValidate(fieldNames?: FormPath[]) {
-    this.formRef.value?.clearValidate(
-      fieldNames?.map((fieldName) => normalizePath(fieldName) as string[]) as
-        | string[][]
-        | undefined,
-    );
+    this.formRef.value?.clearValidate(toAntdPaths(fieldNames));
   }
 
   scrollToField(fieldName: FormPath) {
@@ -177,7 +183,6 @@ export class DynamicFormState<T extends FormData = FormData> {
   }
 
   setSchema(schema: DynamicFormSchema<T>) {
-    // 对外返回/保存的 schema 都是深拷贝，防止调用方后续修改绕过 API。
     this.schema.value = cloneSchema(schema);
     this.state.value = {
       ...this.state.value,
@@ -222,61 +227,57 @@ export class DynamicFormState<T extends FormData = FormData> {
     return Boolean(error && typeof error === 'object' && 'errorFields' in error);
   }
 
-  /** 创建只包含公共能力的普通对象，方法均为自身属性，便于调试与解构调用。 */
+  /** 创建普通对象 API，方法是自身属性，便于调试与解构。 */
   private createPublicApi(): DynamicFormApi<T> {
-    const getReadonlyStates = () => readonly(this.statesRef.value) as Readonly<T>;
-    return {
-      get states() {
-        return getReadonlyStates();
-      },
-      getStates: () => this.getStates(),
-      setStates: (states) => this.setStates(states),
-      getState: (fieldName) => this.getState(fieldName),
-      setState: (fieldName, state) => this.setState(fieldName, state),
-      resetFields: (fieldNames) => this.resetFields(fieldNames),
-      validate: (fieldNames) => this.validate(fieldNames),
-      submit: () => this.submit(),
-      clearValidate: (fieldNames) => this.clearValidate(fieldNames),
-      scrollToField: (fieldName) => this.scrollToField(fieldName),
-      getSchema: () => this.getSchema(),
-      setSchema: (schema) => this.setSchema(schema),
-      updateSchema: (patches) => this.updateSchema(patches),
-      getFormInstance: () => this.getFormInstance(),
-      setOptions: (options) => this.setOptions(options),
-    };
+    const api: Partial<DynamicFormApi<T>> = {};
+
+    // states 需要读私有 ref，单独用闭包实现。
+    Object.defineProperty(api, 'states', {
+      enumerable: true,
+      get: () => readonly(this.statesRef.value) as Readonly<T>,
+    });
+
+    for (const method of FORM_API_METHODS) {
+      const fn = this[method as FormApiMethodName] as (...args: unknown[]) => unknown;
+      api[method] = fn.bind(this) as never;
+    }
+
+    return api as DynamicFormApi<T>;
   }
 }
 
-/** 在同一套表单 API 上附加字段信息，不引入第二套 context API。 */
-export function scopeDynamicFormApi<T extends FormData, TValue, TExtra extends object = object>(
+/**
+ * 在同一套表单 API 上附加字段 scope（state / field 元信息）。
+ * 字段回调、request、list 动作都复用它，不另造 API。
+ */
+export function createFieldApi<T extends FormData, TValue, TExtra extends object = object>(
   api: DynamicFormApi<T>,
   getScope: () => { field: DynamicFormFieldInfo; state: TValue },
   extra?: TExtra,
 ): DynamicFormFieldApi<T, TValue> & Readonly<TExtra> {
-  const scopedApi: DynamicFormFieldApi<T, TValue> = {
-    get states() {
-      return api.states;
+  const fieldApi: Partial<DynamicFormFieldApi<T, TValue>> = {};
+
+  Object.defineProperties(fieldApi, {
+    states: {
+      enumerable: true,
+      get: () => api.states,
     },
-    get state() {
-      return getScope().state;
+    state: {
+      enumerable: true,
+      get: () => getScope().state,
     },
-    get field() {
-      return getScope().field;
+    field: {
+      enumerable: true,
+      get: () => getScope().field,
     },
-    getStates: api.getStates,
-    setStates: api.setStates,
-    getState: api.getState,
-    setState: api.setState,
-    resetFields: api.resetFields,
-    validate: api.validate,
-    submit: api.submit,
-    clearValidate: api.clearValidate,
-    scrollToField: api.scrollToField,
-    getSchema: api.getSchema,
-    setSchema: api.setSchema,
-    updateSchema: api.updateSchema,
-    getFormInstance: api.getFormInstance,
-    setOptions: api.setOptions,
-  };
-  return Object.assign(scopedApi, extra);
+  });
+
+  for (const method of FORM_API_METHODS) {
+    fieldApi[method] = api[method] as never;
+  }
+
+  return Object.assign(fieldApi, extra) as DynamicFormFieldApi<T, TValue> & Readonly<TExtra>;
 }
+
+/** @deprecated 使用 createFieldApi；保留别名避免遗漏引用。 */
+export const scopeDynamicFormApi = createFieldApi;

@@ -32,8 +32,7 @@ import { FormItem } from 'antdv-next';
 
 import DynamicFormList from '../field/list/index.vue';
 import { provideDynamicFormFieldContext } from '../core/context';
-import { useFormFieldControl } from '../composables/use-form-field-control';
-import { useFormFieldSchema } from '../composables/use-form-field-schema';
+import { useFormField } from '../composables/use-form-field';
 import type { DynamicFormFieldSchema, FormData, FormPath } from '../types';
 
 defineOptions({ name: 'FormField' });
@@ -70,15 +69,9 @@ const {
   resolvedHelp,
   resolvedDescription,
   resolvedRules,
-  resolvedFieldProps,
   resolvedFormItemProps,
-} = useFormFieldSchema(props);
-
-const { FieldControl } = useFormFieldControl({
-  schema: schemaRef,
-  api: fieldApi,
-  fieldProps: resolvedFieldProps,
-});
+  FieldControl,
+} = useFormField(props);
 
 provideDynamicFormFieldContext<FormData>({
   api: fieldApi,

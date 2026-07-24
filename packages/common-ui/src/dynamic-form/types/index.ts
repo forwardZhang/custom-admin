@@ -1,3 +1,18 @@
+/**
+ * DynamicForm 类型总览（按阅读顺序）
+ *
+ * 1. 基础：FormData / FormPath / DeepPartial / 内置组件名
+ * 2. API：DynamicFormApi / FieldApi / ListActionApi / OptionRequestApi
+ * 3. Schema：字段配置（builtin / custom / list）与 request
+ * 4. 组件：DynamicFormProps / Emits / useDynamicForm options
+ *
+ * 业务侧通常只需要：
+ * - DynamicFormSchema
+ * - UseDynamicFormOptions / DynamicFormApi
+ * - DynamicFormListProps（如果用 list）
+ * - DynamicFormOptionRequest（如果用远程 options）
+ */
+
 import type {
   ButtonProps,
   CascaderProps,

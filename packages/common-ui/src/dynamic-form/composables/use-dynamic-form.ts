@@ -9,21 +9,20 @@ import { DynamicFormState } from '../core/form-api';
 import type { FormData, UseDynamicFormOptions } from '../types';
 
 /**
- * 创建一个由 DynamicFormState 驱动的表单组件，并返回对应的命令式 API。
- * 组件通过闭包持有 formApi，因此调用方无需手动同步 schema、表单值和实例引用。
+ * 命令式入口：返回 [Form, formApi]。
+ * Form 内部 provide DynamicFormState，DynamicForm 直接复用，不再创建第二份状态。
  */
 export function useDynamicForm<T extends FormData = FormData>(options: UseDynamicFormOptions<T>) {
   const formState = new DynamicFormState<T>(options);
   const formApi = formState.api;
 
-  // 每次渲染都从 formApi 读取最新状态，使 setOptions、setSchema 等命令式操作立即反映到组件。
   const Form = defineComponent(
     (_props, { attrs, slots }) => {
       provide(dynamicFormStateKey, formState);
       onBeforeUnmount(() => formState.setFormRef(undefined));
 
       return () => {
-        // 这些回调由 DynamicFormState 自己消费，不应继续作为组件 props 透传。
+        // 这些回调由 DynamicFormState 自己消费，不要再透传成组件 props。
         const {
           initialValues: _initialValues,
           handleSubmit: _handleSubmit,
