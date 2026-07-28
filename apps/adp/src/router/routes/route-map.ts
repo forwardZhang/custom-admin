@@ -47,4 +47,8 @@ export const routeMap: Record<string, RouteMapItem> = {
     path: '/demo/dynamic-table',
     component: () => import('@/views/demo/dynamic-table/index.vue'),
   },
+  DemoDynamicButton: {
+    path: '/demo/dynamic-button',
+    component: () => import('@/views/demo/dynamic-button/index.vue'),
+  },
 };

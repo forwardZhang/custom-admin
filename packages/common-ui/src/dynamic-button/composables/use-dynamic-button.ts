@@ -10,7 +10,7 @@ import { resolveDynamicButtonDisabled, resolveDynamicButtonLabel } from '../util
 import type {
   DynamicButtonActionContext,
   DynamicButtonCancelReason,
-  DynamicButtonEmit,
+  DynamicButtonDispatch,
   DynamicButtonLayerLifecycle,
   DynamicButtonLayerRender,
   DynamicButtonLayerSession,
@@ -24,8 +24,16 @@ import type {
  * 调度 click、confirm、modal、drawer 四种行为。
  * phase 只表示当前异步步骤，并据此决定 loading 应显示在外层按钮还是弹层按钮。
  */
-export function useDynamicButton(props: DynamicButtonProps, emit: DynamicButtonEmit) {
+export function useDynamicButton(props: DynamicButtonProps) {
   const localPhase = shallowRef<DynamicButtonPhase | null>(null);
+
+  /** 生命周期不再通过组件 emits 暴露，统一调用当前 config.events。 */
+  const dispatch: DynamicButtonDispatch = (event, payload) => {
+    const handler = props.config.events?.[event] as
+      | ((currentPayload: typeof payload) => void)
+      | undefined;
+    handler?.(payload);
+  };
 
   /**
    * 只在当前按钮确实使用 Modal 或 Drawer 时创建弹层生命周期。
@@ -34,7 +42,7 @@ export function useDynamicButton(props: DynamicButtonProps, emit: DynamicButtonE
   function createLayerLifecycle(): DynamicButtonLayerLifecycle {
     return {
       onPhaseChange(phase, session) {
-        emit('loading-change', {
+        dispatch('loading-change', {
           loading: phase !== null,
           phase,
           type: session.render.type,
@@ -42,14 +50,14 @@ export function useDynamicButton(props: DynamicButtonProps, emit: DynamicButtonE
         });
       },
       onOpenChange(open, session) {
-        emit('open-change', {
+        dispatch('open-change', {
           open,
           type: session.render.type,
           record: session.record,
         });
       },
       onSuccess(session, value) {
-        emit('success', {
+        dispatch('success', {
           type: session.render.type,
           record: session.record,
           event: session.event,
@@ -57,7 +65,7 @@ export function useDynamicButton(props: DynamicButtonProps, emit: DynamicButtonE
         });
       },
       onError(error, phase, session, value) {
-        emit('error', {
+        dispatch('error', {
           type: session.render.type,
           phase,
           error,
@@ -67,7 +75,7 @@ export function useDynamicButton(props: DynamicButtonProps, emit: DynamicButtonE
         });
       },
       onCancel(reason, session, value) {
-        emit('cancel', {
+        dispatch('cancel', {
           type: session.render.type,
           reason,
           record: session.record,
@@ -115,7 +123,7 @@ export function useDynamicButton(props: DynamicButtonProps, emit: DynamicButtonE
   /** 只有 confirm 类型才创建受控确认框会话，其他按钮不承担这部分状态开销。 */
   const confirm =
     initialRenderType === 'confirm'
-      ? useDynamicConfirm(props, emit, unavailableWithoutConfirm)
+      ? useDynamicConfirm(props, dispatch, unavailableWithoutConfirm)
       : undefined;
 
   /** 当前是否有默认值、提交、校验或取消任务正在执行。 */
@@ -137,8 +145,8 @@ export function useDynamicButton(props: DynamicButtonProps, emit: DynamicButtonE
       confirm?.phase.value === 'load-default',
   );
 
-  const loading = computed<ButtonProps['loading']>(() =>
-    internalButtonLoading.value ? true : externalLoading.value,
+  const loading = computed<NonNullable<ButtonProps['loading']>>(() =>
+    internalButtonLoading.value ? true : (externalLoading.value ?? false),
   );
 
   /** Confirm 自己的打开和执行状态最后合并，防止确认期间再次触发外层按钮。 */
@@ -161,7 +169,7 @@ export function useDynamicButton(props: DynamicButtonProps, emit: DynamicButtonE
     if (localPhase.value === nextPhase) return;
 
     localPhase.value = nextPhase;
-    emit('loading-change', {
+    dispatch('loading-change', {
       loading: nextPhase !== null,
       phase: nextPhase,
       type,
@@ -202,9 +210,9 @@ export function useDynamicButton(props: DynamicButtonProps, emit: DynamicButtonE
       failedPhase = 'submit';
       setLocalPhase('submit', render.type, record);
       await render.submit(createActionContext(record, event, value));
-      emit('success', { type: render.type, record, event, value: cloneDeep(value) });
+      dispatch('success', { type: render.type, record, event, value: cloneDeep(value) });
     } catch (error) {
-      emit('error', {
+      dispatch('error', {
         type: render.type,
         phase: failedPhase,
         error,
@@ -251,7 +259,7 @@ export function useDynamicButton(props: DynamicButtonProps, emit: DynamicButtonE
       // layer 已在 setup 时根据 render.type 精确选择，这里不再初始化另一套弹层状态。
       layer.open(session);
     } catch (error) {
-      emit('error', {
+      dispatch('error', {
         type: render.type,
         phase: 'load-default',
         error,
@@ -265,7 +273,7 @@ export function useDynamicButton(props: DynamicButtonProps, emit: DynamicButtonE
   }
 
   /** 基础按钮统一入口会根据 render.type 分发具体行为。 */
-  function handleClick(event: MouseEvent): void {
+  function handleClick(event: MouseEvent = new MouseEvent('click')): void {
     if (disabled.value) return;
 
     const render = props.config.render;

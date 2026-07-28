@@ -6,7 +6,16 @@
  * 组件映射和 meta 由前端 route-map.ts 维护。
  */
 
-export const mockMenus: any[] = [
+interface MockMenuItem {
+  children?: MockMenuItem[];
+  hideInMenu?: boolean;
+  icon?: string;
+  name: string;
+  order?: number;
+  title: string;
+}
+
+export const mockMenus: MockMenuItem[] = [
   {
     name: 'Dashboard',
     title: '仪表盘',
@@ -52,10 +61,16 @@ export const mockMenus: any[] = [
         order: 3,
       },
       {
+        name: 'DemoDynamicButton',
+        title: '动态按钮',
+        icon: 'ThunderboltOutlined',
+        order: 4,
+      },
+      {
         name: 'DemoKeepAlive',
         title: '缓存测试(403)',
         icon: 'ReloadOutlined',
-        order: 4,
+        order: 5,
       },
     ],
   },

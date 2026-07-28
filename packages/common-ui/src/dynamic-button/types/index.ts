@@ -166,6 +166,8 @@ export interface DynamicButtonConfig {
   disabled?: boolean | ((context: DynamicButtonRecordContext) => boolean);
   /** 透传给 Antdv Button 的原生属性。 */
   props?: ButtonProps;
+  /** 按钮生命周期回调，统一随配置传入。 */
+  events?: DynamicButtonEvents;
   /** 按钮点击后的具体行为。 */
   render: DynamicButtonRender;
 }
@@ -182,6 +184,12 @@ export interface DynamicButtonProps {
 export interface DynamicButtonContentExpose {
   /** 校验当前内容；返回新值时会替换当前 v-model 值。 */
   validate?: () => Awaitable<DynamicButtonValue | void>;
+}
+
+/** DynamicButton 组件实例对外开放的主动触发能力。 */
+export interface DynamicButtonExpose {
+  /** 主动触发按钮行为；不传事件时会创建一个程序化点击事件。 */
+  trigger: (event?: MouseEvent) => void;
 }
 
 /** DynamicButton 成功事件的扁平参数。 */
@@ -224,24 +232,24 @@ export interface DynamicButtonOpenPayload extends DynamicButtonRecordContext {
   type: Exclude<DynamicButtonType, 'click'>;
 }
 
-/** DynamicButton 对外发出的全部事件。 */
-export interface DynamicButtonEmits {
+/** DynamicButton 配置支持的全部生命周期回调。 */
+export interface DynamicButtonEvents {
   /** 行为成功完成。 */
-  success: [payload: DynamicButtonSuccessPayload];
+  success?: (payload: DynamicButtonSuccessPayload) => void;
   /** 任意异步阶段执行失败。 */
-  error: [payload: DynamicButtonErrorPayload];
+  error?: (payload: DynamicButtonErrorPayload) => void;
   /** 用户取消 Confirm、Modal 或 Drawer。 */
-  cancel: [payload: DynamicButtonCancelPayload];
+  cancel?: (payload: DynamicButtonCancelPayload) => void;
   /** 内部异步步骤变化。 */
-  'loading-change': [payload: DynamicButtonLoadingPayload];
+  'loading-change'?: (payload: DynamicButtonLoadingPayload) => void;
   /** Confirm、Modal 或 Drawer 打开状态变化。 */
-  'open-change': [payload: DynamicButtonOpenPayload];
+  'open-change'?: (payload: DynamicButtonOpenPayload) => void;
 }
 
-/** hooks 调用 SFC defineEmits 时使用的统一函数类型。 */
-export type DynamicButtonEmit = <EventName extends keyof DynamicButtonEmits>(
+/** composables 向当前配置分发生命周期回调时使用的统一函数类型。 */
+export type DynamicButtonDispatch = <EventName extends keyof DynamicButtonEvents>(
   event: EventName,
-  ...args: DynamicButtonEmits[EventName]
+  payload: Parameters<NonNullable<DynamicButtonEvents[EventName]>>[0],
 ) => void;
 
 /** hooks 打开 Modal 或 Drawer 时使用的内部会话。 */

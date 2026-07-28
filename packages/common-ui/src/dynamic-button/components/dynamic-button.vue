@@ -42,15 +42,12 @@ import { Popconfirm } from 'antdv-next';
 import DynamicButtonBase from './dynamic-button-base.vue';
 import { useDynamicButton } from '../composables/use-dynamic-button';
 
-import type { DynamicButtonEmits, DynamicButtonProps } from '../types';
+import type { DynamicButtonExpose, DynamicButtonProps } from '../types';
 
 defineOptions({ name: 'DynamicButton' });
 
 /** DynamicButton 只接收配置和当前业务数据，不使用 SFC 泛型。 */
 const props = defineProps<DynamicButtonProps>();
-
-/** 对外事件均携带当前 record 和明确的行为阶段。 */
-const emit = defineEmits<DynamicButtonEmits>();
 
 /** composable 负责行为分发，SFC 只拼装基础按钮、确认框和树内弹层组件。 */
 const {
@@ -66,5 +63,8 @@ const {
   handleConfirmOpenChange,
   submitConfirm,
   cancelConfirm,
-} = useDynamicButton(props, emit);
+} = useDynamicButton(props);
+
+/** 组件实例只开放主动触发入口，生命周期回调统一位于 config.events。 */
+defineExpose<DynamicButtonExpose>({ trigger: handleClick });
 </script>

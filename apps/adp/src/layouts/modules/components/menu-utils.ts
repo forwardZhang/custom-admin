@@ -20,6 +20,7 @@ import {
   ShopOutlined,
   SlidersOutlined,
   TeamOutlined,
+  ThunderboltOutlined,
   UsergroupAddOutlined,
   UserOutlined,
 } from '@antdv-next/icons';
@@ -46,6 +47,7 @@ const iconRegistry: Record<string, Component> = {
   ShopOutlined,
   SlidersOutlined,
   TeamOutlined,
+  ThunderboltOutlined,
   UsergroupAddOutlined,
   UserOutlined,
 };

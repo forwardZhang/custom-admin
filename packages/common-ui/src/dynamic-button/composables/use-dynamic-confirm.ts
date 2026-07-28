@@ -8,7 +8,7 @@ import type {
   DynamicButtonActionContext,
   DynamicButtonCancelReason,
   DynamicButtonConfirmRender,
-  DynamicButtonEmit,
+  DynamicButtonDispatch,
   DynamicButtonPhase,
   DynamicButtonProps,
   DynamicButtonValue,
@@ -44,7 +44,7 @@ export interface DynamicButtonConfirmApi {
  */
 export function useDynamicConfirm(
   buttonProps: DynamicButtonProps,
-  emit: DynamicButtonEmit,
+  dispatch: DynamicButtonDispatch,
   unavailable: Readonly<Ref<boolean>>,
 ): DynamicButtonConfirmApi {
   const opened = shallowRef(false);
@@ -59,7 +59,7 @@ export function useDynamicConfirm(
     if (phase.value === nextPhase) return;
 
     phase.value = nextPhase;
-    emit('loading-change', {
+    dispatch('loading-change', {
       loading: nextPhase !== null,
       phase: nextPhase,
       type: 'confirm',
@@ -87,7 +87,7 @@ export function useDynamicConfirm(
     if (!current || !opened.value) return;
 
     opened.value = false;
-    emit('open-change', { open: false, type: 'confirm', record: current.record });
+    dispatch('open-change', { open: false, type: 'confirm', record: current.record });
     session.value = undefined;
   }
 
@@ -109,9 +109,9 @@ export function useDynamicConfirm(
         : undefined;
       session.value = { render, ...createActionContext(record, event, value) };
       opened.value = true;
-      emit('open-change', { open: true, type: 'confirm', record });
+      dispatch('open-change', { open: true, type: 'confirm', record });
     } catch (error) {
-      emit('error', {
+      dispatch('error', {
         type: 'confirm',
         phase: 'load-default',
         error,
@@ -139,14 +139,14 @@ export function useDynamicConfirm(
         createActionContext(current.record, current.event, current.value),
       );
       succeeded = true;
-      emit('success', {
+      dispatch('success', {
         type: 'confirm',
         record: current.record,
         event: current.event,
         value: cloneDeep(current.value),
       });
     } catch (error) {
-      emit('error', {
+      dispatch('error', {
         type: 'confirm',
         phase: 'submit',
         error,
@@ -176,7 +176,7 @@ export function useDynamicConfirm(
         reason,
       });
       succeeded = true;
-      emit('cancel', {
+      dispatch('cancel', {
         type: 'confirm',
         reason,
         record: current.record,
@@ -184,7 +184,7 @@ export function useDynamicConfirm(
         value: cloneDeep(current.value),
       });
     } catch (error) {
-      emit('error', {
+      dispatch('error', {
         type: 'confirm',
         phase: 'cancel',
         error,

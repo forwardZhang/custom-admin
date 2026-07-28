@@ -36,7 +36,7 @@ const props = defineProps<{
   /** 合并业务禁用和内部执行状态后的最终值。 */
   disabled: boolean;
   /** 合并外部 loading 和内部执行阶段后的最终值。 */
-  loading: ButtonProps['loading'];
+  loading: NonNullable<ButtonProps['loading']>;
 }>();
 
 /** 基础按钮只向上抛出原始点击事件。 */
