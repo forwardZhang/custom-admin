@@ -1,39 +1,57 @@
 <template>
-  <DynamicForm
-    ref="formRef"
-    :disabled="props.disabled"
-    :form-props="mergedFormProps"
-    :label-width="props.labelWidth"
-    :layout="props.layout"
-    :model-value="props.modelValue"
-    :schema="searchSchema"
-    :scroll-to-first-error="props.scrollToFirstError"
-    :show-default-actions="false"
-    wrapper-class="contents"
-    @finish="handleFinish"
-    @finish-failed="emit('finishFailed', $event)"
-    @reset="emit('reset', $event)"
-    @update:model-value="emit('update:modelValue', $event)"
-    @values-change="emit('valuesChange', $event, $event2)"
-  >
-  </DynamicForm>
+  <Form>
+    <template #actions>
+      <div :class="DYNAMIC_SEARCH_ACTIONS_CLASS">
+        <Button
+          v-if="showResetButton"
+          v-bind="resetButtonProps"
+          html-type="button"
+          @click="handleReset"
+        >
+          {{ props.resetButtonOptions?.content ?? '重置' }}
+        </Button>
+        <Button
+          v-if="showSearchButton"
+          v-bind="searchButtonProps"
+          html-type="button"
+          type="primary"
+          @click="handleSearch"
+        >
+          <template #icon><SearchOutlined /></template>
+          {{ props.searchButtonOptions?.content ?? '查询' }}
+        </Button>
+        <Button
+          v-if="showCollapseButton"
+          v-bind="collapseButtonProps"
+          html-type="button"
+          type="text"
+          @click="toggleExpand()"
+        >
+          <template #icon>
+            <UpOutlined v-if="expanded" />
+            <DownOutlined v-else />
+          </template>
+          {{ expanded ? '收起' : '展开' }}
+        </Button>
+      </div>
+    </template>
+  </Form>
 </template>
 
 <script setup lang="ts" generic="T extends FormData = FormData">
-import type { DynamicFormApi, DynamicFormFieldSchema, FormData } from '../../dynamic-form';
-import type {
-  DynamicSearchApi,
-  DynamicSearchColumns,
-  DynamicSearchEmits,
-  DynamicSearchProps,
-} from '../types';
+import type { DeepPartial, FormData, UseDynamicFormOptions } from '../../dynamic-form';
+import type { DynamicSearchEmits, DynamicSearchInstance, DynamicSearchProps } from '../types';
 
-import { computed, h, shallowRef } from 'vue';
+import { computed, shallowRef, watch } from 'vue';
 import { Button } from 'antdv-next';
 import { DownOutlined, SearchOutlined, UpOutlined } from '@antdv-next/icons';
-import { omit } from 'lodash-es';
+import { isEqual } from 'lodash-es';
 
-import { DynamicForm } from '../../dynamic-form';
+import { useDynamicForm } from '../../dynamic-form';
+import { useDynamicSearchLayout } from '../composables/use-dynamic-search-layout';
+import { DEFAULT_SEARCH_COLUMNS, DYNAMIC_SEARCH_ACTIONS_CLASS } from '../constants/layout';
+import { resolveButtonProps } from '../utils/button';
+import { createSearchApiProxy } from '../utils/create-api';
 
 defineOptions({ name: 'DynamicSearch', inheritAttrs: false });
 
@@ -43,7 +61,7 @@ const props = withDefaults(defineProps<DynamicSearchProps<T>>(), {
   labelWidth: undefined,
   layout: 'horizontal',
   responsive: true,
-  columns: 4,
+  columns: DEFAULT_SEARCH_COLUMNS,
   collapsedCount: undefined,
   collapsible: true,
   defaultExpanded: false,
@@ -55,52 +73,48 @@ const props = withDefaults(defineProps<DynamicSearchProps<T>>(), {
 });
 
 const emit = defineEmits<DynamicSearchEmits<T>>();
-const formRef = shallowRef<DynamicFormApi<T>>();
 const expanded = shallowRef(props.defaultExpanded);
+const {
+  canCollapse,
+  formProps: mergedFormProps,
+  schema: searchSchema,
+} = useDynamicSearchLayout(props, expanded);
 
-const responsiveFieldClasses: Record<DynamicSearchColumns, string> = {
-  1: 'w-full',
-  2: 'w-full md:w-[calc((100%-1.5rem)/2)]',
-  3: 'w-full md:w-[calc((100%-1.5rem)/2)] xl:w-[calc((100%-3rem)/3)]',
-  4: 'w-full md:w-[calc((100%-1.5rem)/2)] lg:w-[calc((100%-3rem)/3)] xl:w-[calc((100%-4.5rem)/4)]',
-  5: 'w-full md:w-[calc((100%-1.5rem)/2)] lg:w-[calc((100%-3rem)/3)] xl:w-[calc((100%-4.5rem)/4)] 2xl:w-[calc((100%-6rem)/5)]',
-  6: 'w-full md:w-[calc((100%-1.5rem)/2)] lg:w-[calc((100%-3rem)/3)] xl:w-[calc((100%-4.5rem)/4)] 2xl:w-[calc((100%-7.5rem)/6)]',
-};
+const [Form, formApi] = useDynamicForm<T>({
+  schema: searchSchema.value,
+  initialValues: props.modelValue as DeepPartial<T>,
+  layout: props.layout,
+  disabled: props.disabled,
+  labelWidth: props.labelWidth,
+  wrapperClass: 'contents',
+  showDefaultActions: false,
+  scrollToFirstError: props.scrollToFirstError,
+  formProps: mergedFormProps.value,
+  handleSubmit: handleFinish,
+  handleReset: (values) => emit('reset', values),
+  handleValuesChange,
+  handleFinishFailed: (error) => emit('finishFailed', error),
+  handleSchemaChange: (schema) => emit('schemaChange', schema),
+});
 
-const fixedFieldClasses: Record<DynamicSearchColumns, string> = {
-  1: 'w-full',
-  2: 'w-[calc((100%-1.5rem)/2)]',
-  3: 'w-[calc((100%-3rem)/3)]',
-  4: 'w-[calc((100%-4.5rem)/4)]',
-  5: 'w-[calc((100%-6rem)/5)]',
-  6: 'w-[calc((100%-7.5rem)/6)]',
-};
+const runtimeFormOptions = computed<Partial<UseDynamicFormOptions<T>>>(() => ({
+  layout: props.layout,
+  disabled: props.disabled,
+  labelWidth: props.labelWidth,
+  wrapperClass: 'contents',
+  showDefaultActions: false,
+  scrollToFirstError: props.scrollToFirstError,
+  formProps: mergedFormProps.value,
+}));
 
-const resolvedCollapsedCount = computed(() =>
-  Math.max(0, props.collapsedCount ?? Math.max(props.columns - 1, 1)),
-);
-const canCollapse = computed(
-  () => props.collapsible && props.schema.length > resolvedCollapsedCount.value,
-);
-const fieldLayoutClass = computed(
-  () =>
-    `shrink-0 ${
-      props.responsive ? responsiveFieldClasses[props.columns] : fixedFieldClasses[props.columns]
-    }`,
-);
-
-/** 保留完整 schema，只通过 show 隐藏折叠项，避免丢失字段状态和默认值。 */
-const searchSchema = computed(() =>
-  props.schema.map((field, index) => {
-    const hiddenByCollapse =
-      canCollapse.value && !expanded.value && index >= resolvedCollapsedCount.value;
-
-    return {
-      ...field,
-      itemClass: [field.itemClass, fieldLayoutClass.value].filter(Boolean).join(' '),
-      show: hiddenByCollapse ? false : field.show,
-    } as DynamicFormFieldSchema<T>;
-  }),
+watch(searchSchema, (schema) => formApi.setSchema(schema), { deep: true });
+watch(runtimeFormOptions, (options) => formApi.setOptions(options), { deep: true });
+watch(
+  () => props.modelValue,
+  (values) => {
+    if (!isEqual(values, formApi.states)) formApi.setStates(values as DeepPartial<T>);
+  },
+  { deep: true },
 );
 
 const showSearchButton = computed(() => props.searchButtonOptions?.show !== false);
@@ -109,39 +123,26 @@ const showCollapseButton = computed(
   () => canCollapse.value && props.collapseButtonOptions?.show !== false,
 );
 
-const searchButtonProps = computed(() =>
-  omit(props.searchButtonOptions ?? {}, ['content', 'show', 'type', 'htmlType']),
-);
-const resetButtonProps = computed(() =>
-  omit(props.resetButtonOptions ?? {}, ['content', 'show', 'type', 'htmlType']),
-);
-const collapseButtonProps = computed(() =>
-  omit(props.collapseButtonOptions ?? {}, ['show', 'type', 'htmlType']),
-);
-
-const mergedFormProps = computed(() => ({
-  ...props.formProps,
-  class: [props.formProps?.class, 'flex flex-wrap gap-x-6'],
-}));
-
-function getFormApi(): DynamicFormApi<T> {
-  if (!formRef.value) throw new Error('[DynamicSearch] Search form is not mounted');
-  return formRef.value;
-}
+const searchButtonProps = computed(() => resolveButtonProps(props.searchButtonOptions));
+const resetButtonProps = computed(() => resolveButtonProps(props.resetButtonOptions));
+const collapseButtonProps = computed(() => resolveButtonProps(props.collapseButtonOptions));
 
 function handleSearch(): void {
-  void getFormApi()
-    .submit()
-    .catch(() => undefined);
+  void formApi.submit().catch(() => undefined);
 }
 
 function handleReset(): void {
-  getFormApi().resetFields();
+  formApi.resetFields();
 }
 
 function handleFinish(values: T): void {
   emit('search', values);
   emit('finish', values);
+}
+
+function handleValuesChange(values: T, fieldsChanged: string[]): void {
+  emit('update:modelValue', values);
+  emit('valuesChange', values, fieldsChanged);
 }
 
 function toggleExpand(force?: boolean): void {
@@ -151,82 +152,12 @@ function toggleExpand(force?: boolean): void {
   emit('expandChange', nextExpanded);
 }
 
-const ActionButtons = () =>
-  h('div', { class: 'mb-6 ml-auto flex shrink-0 self-end items-center justify-end gap-2' }, [
-    showResetButton.value
-      ? h(
-          Button,
-          {
-            ...resetButtonProps.value,
-            htmlType: 'button',
-            onClick: handleReset,
-          },
-          () => props.resetButtonOptions?.content ?? '重置',
-        )
-      : null,
-    showSearchButton.value
-      ? h(
-          Button,
-          {
-            ...searchButtonProps.value,
-            htmlType: 'button',
-            type: 'primary',
-            onClick: handleSearch,
-          },
-          {
-            default: () => props.searchButtonOptions?.content ?? '查询',
-            icon: () => h(SearchOutlined),
-          },
-        )
-      : null,
-    showCollapseButton.value
-      ? h(
-          Button,
-          {
-            ...collapseButtonProps.value,
-            htmlType: 'button',
-            type: 'text',
-            onClick: () => toggleExpand(),
-          },
-          {
-            default: () => (expanded.value ? '收起' : '展开'),
-            icon: () => h(expanded.value ? UpOutlined : DownOutlined),
-          },
-        )
-      : null,
-  ]);
-
-const exposedApi: DynamicSearchApi<T> = {
-  get states() {
-    return getFormApi().states;
-  },
-  get expanded() {
-    return expanded.value;
-  },
-  getStates: () => getFormApi().getStates(),
-  setStates: (states) => getFormApi().setStates(states),
-  getState: (fieldName) => getFormApi().getState(fieldName),
-  setState: (fieldName, state) => getFormApi().setState(fieldName, state),
-  resetFields: (fieldNames) => getFormApi().resetFields(fieldNames),
-  validate: (fieldNames) => getFormApi().validate(fieldNames),
-  submit: () => getFormApi().submit(),
-  clearValidate: (fieldNames) => getFormApi().clearValidate(fieldNames),
-  scrollToField: (fieldName) => getFormApi().scrollToField(fieldName),
-  getSchema: () => getFormApi().getSchema(),
-  setSchema: (schema) => getFormApi().setSchema(schema),
-  updateSchema: (patches) => getFormApi().updateSchema(patches),
-  getFormInstance: () => getFormApi().getFormInstance(),
-  setOptions: (options) => getFormApi().setOptions(options),
+const exposedApi = createSearchApiProxy<T, Partial<UseDynamicFormOptions<T>>>({
+  formApi,
+  getExpanded: () => expanded.value,
+  setOptions: (options) => formApi.setOptions(options),
   toggleExpand,
-};
+});
 
-defineExpose<DynamicSearchApi<T>>(exposedApi);
-</script>
-
-<script lang="ts">
-export default {
-  setup() {
-    return () => h(ActionButtons);
-  },
-};
+defineExpose<DynamicSearchInstance<T>>(exposedApi);
 </script>

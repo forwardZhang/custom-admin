@@ -17,13 +17,15 @@
       />
     </div>
 
-    <FormActions
-      v-if="props.showDefaultActions"
-      :reset-button-options="props.resetButtonOptions"
-      :submit-button-options="props.submitButtonOptions"
-      @reset="handleReset"
-      @submit="handleSubmit"
-    />
+    <slot name="actions" :reset="handleReset" :submit="handleSubmit">
+      <FormActions
+        v-if="props.showDefaultActions"
+        :reset-button-options="props.resetButtonOptions"
+        :submit-button-options="props.submitButtonOptions"
+        @reset="handleReset"
+        @submit="handleSubmit"
+      />
+    </slot>
   </Form>
 </template>
 
@@ -64,6 +66,10 @@ const props = withDefaults(defineProps<DynamicFormProps<T>>(), {
 });
 
 const emit = defineEmits<DynamicFormEmits<T>>();
+
+defineSlots<{
+  actions(props: { reset: () => void; submit: () => void }): unknown;
+}>();
 
 const injectedFormState = inject(dynamicFormStateKey, undefined) as DynamicFormState<T> | undefined;
 const ownsFormState = !injectedFormState;
