@@ -5,9 +5,7 @@ defineOptions({ name: 'LoginBlobs' });
 <template>
   <div class="pointer-events-none absolute inset-0 overflow-hidden">
     <!-- 右上大圆 blob -->
-    <div
-      class="login-blob absolute -right-[300px] -top-[900px] max-sm:-right-[100px] max-sm:-top-[1170px]"
-    >
+    <div class="login-blob absolute -right-75 -top-225 max-sm:-right-25 max-sm:-top-292.5">
       <svg height="1337" width="1337" aria-hidden="true">
         <defs>
           <path
@@ -27,9 +25,7 @@ defineOptions({ name: 'LoginBlobs' });
     </div>
 
     <!-- 左下大圆 blob -->
-    <div
-      class="login-blob absolute -bottom-[400px] -left-[200px] max-sm:-bottom-[760px] max-sm:-left-[100px]"
-    >
+    <div class="login-blob absolute -bottom-100 -left-50 max-sm:-bottom-190 max-sm:-left-25">
       <svg height="896" width="967.8852157128662" aria-hidden="true">
         <defs>
           <path

@@ -7,8 +7,8 @@
       class="rounded-md border px-3 py-1.5 text-sm transition-colors"
       :class="
         selected === option.value
-          ? 'border-[var(--ant-color-primary)] bg-[var(--ant-color-primary-bg)] text-[var(--ant-color-primary)]'
-          : 'border-[var(--ant-color-border)] text-[var(--ant-color-text-secondary)] hover:border-[var(--ant-color-primary)]'
+          ? 'border-primary bg-primary-bg text-primary'
+          : 'border-border text-text-secondary hover:border-primary'
       "
       :disabled="disabled"
       :aria-pressed="selected === option.value"

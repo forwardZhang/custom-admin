@@ -1,16 +1,14 @@
 <template>
-  <div class="h-full overflow-auto bg-[var(--ant-color-fill-quaternary)]">
-    <header
-      class="border-b border-[var(--ant-color-border-secondary)] bg-[var(--ant-color-bg-container)] px-4 py-5 sm:px-6"
-    >
+  <div class="h-full overflow-auto bg-fill-quaternary">
+    <header class="border-b border-border-secondary bg-container px-4 py-5 sm:px-6">
       <div class="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-4">
         <div>
           <div class="mb-2 flex items-center gap-2">
             <Tag color="blue">COMMON UI</Tag>
-            <span class="text-xs text-[var(--ant-color-text-tertiary)]">DynamicButton</span>
+            <span class="text-xs text-text-tertiary">DynamicButton</span>
           </div>
-          <h1 class="m-0 text-2xl font-semibold text-[var(--ant-color-text)]">动态按钮</h1>
-          <p class="mt-1 mb-0 text-sm text-[var(--ant-color-text-secondary)]">
+          <h1 class="m-0 text-2xl font-semibold text-text">动态按钮</h1>
+          <p class="mt-1 mb-0 text-sm text-text-secondary">
             用一份配置统一直接操作、二次确认、Modal、Drawer 与异步生命周期。
           </p>
         </div>
@@ -19,10 +17,10 @@
           <div
             v-for="item in overview"
             :key="item.label"
-            class="min-w-16 rounded-lg bg-[var(--ant-color-fill-quaternary)] px-3 py-2"
+            class="min-w-16 rounded-lg bg-fill-quaternary px-3 py-2"
           >
-            <div class="text-base font-semibold text-[var(--ant-color-text)]">{{ item.value }}</div>
-            <div class="text-xs text-[var(--ant-color-text-secondary)]">{{ item.label }}</div>
+            <div class="text-base font-semibold text-text">{{ item.value }}</div>
+            <div class="text-xs text-text-secondary">{{ item.label }}</div>
           </div>
         </div>
       </div>
@@ -51,7 +49,7 @@
           </div>
 
           <div
-            class="mt-4 flex flex-wrap gap-x-6 gap-y-2 border-t border-[var(--ant-color-border-secondary)] pt-4 text-xs text-[var(--ant-color-text-secondary)]"
+            class="mt-4 flex flex-wrap gap-x-6 gap-y-2 border-t border-border-secondary pt-4 text-xs text-text-secondary"
           >
             <span>最近刷新：{{ lastRefreshedAt }}</span>
             <span>导出批次：{{ lastExportBatch }}</span>
@@ -70,11 +68,11 @@
             <Tag color="orange">render.type = confirm</Tag>
           </div>
 
-          <div class="overflow-hidden rounded-lg border border-[var(--ant-color-border-secondary)]">
+          <div class="overflow-hidden rounded-lg border border-border-secondary">
             <div
               v-for="member in members"
               :key="member.id"
-              class="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-4 border-b border-[var(--ant-color-border-secondary)] px-4 py-3 last:border-b-0"
+              class="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-4 border-b border-border-secondary px-4 py-3 last:border-b-0"
             >
               <div class="flex min-w-0 items-center gap-3">
                 <Avatar :style="{ backgroundColor: member.avatarColor }">
@@ -82,14 +80,14 @@
                 </Avatar>
                 <div class="min-w-0">
                   <div class="flex flex-wrap items-center gap-2">
-                    <span class="truncate text-sm font-medium text-[var(--ant-color-text)]">
+                    <span class="truncate text-sm font-medium text-text">
                       {{ member.name }}
                     </span>
                     <Tag :color="member.enabled ? 'green' : 'default'">
                       {{ member.enabled ? '已启用' : '已停用' }}
                     </Tag>
                   </div>
-                  <div class="mt-0.5 truncate text-xs text-[var(--ant-color-text-secondary)]">
+                  <div class="mt-0.5 truncate text-xs text-text-secondary">
                     {{ member.department }} · {{ member.role }}
                   </div>
                 </div>
@@ -98,7 +96,7 @@
               <DynamicButton :config="toggleMemberConfig" :record="member" />
             </div>
           </div>
-          <p class="mt-3 mb-0 text-xs text-[var(--ant-color-text-tertiary)]">
+          <p class="mt-3 mb-0 text-xs text-text-tertiary">
             管理员账号通过 `disabled({ record })` 禁止停用。
           </p>
         </section>
@@ -115,16 +113,16 @@
               <Tag color="purple">modal</Tag>
             </div>
 
-            <div class="rounded-lg bg-[var(--ant-color-fill-quaternary)] p-4">
+            <div class="rounded-lg bg-fill-quaternary p-4">
               <div class="mb-4 flex items-center gap-3">
                 <Avatar :style="{ backgroundColor: selectedMember.avatarColor }" :size="42">
                   {{ selectedMember.name.slice(0, 1) }}
                 </Avatar>
                 <div>
-                  <div class="font-medium text-[var(--ant-color-text)]">
+                  <div class="font-medium text-text">
                     {{ selectedMember.name }}
                   </div>
-                  <div class="text-xs text-[var(--ant-color-text-secondary)]">
+                  <div class="text-xs text-text-secondary">
                     {{ selectedMember.email }}
                   </div>
                 </div>
@@ -144,10 +142,8 @@
               <Tag color="cyan">drawer</Tag>
             </div>
 
-            <div
-              class="flex min-h-31 flex-col justify-between rounded-lg bg-[var(--ant-color-fill-quaternary)] p-4"
-            >
-              <p class="mt-0 text-sm text-[var(--ant-color-text-secondary)]">
+            <div class="flex min-h-31 flex-col justify-between rounded-lg bg-fill-quaternary p-4">
+              <p class="mt-0 text-sm text-text-secondary">
                 适合信息较多、需要保留页面上下文的新增或编辑任务。
               </p>
               <DynamicButton :config="createMemberConfig" />
@@ -201,9 +197,9 @@
             <div v-for="log in eventLogs" :key="log.id" class="event-log">
               <div class="flex items-center justify-between gap-3">
                 <Tag :color="eventColors[log.event]" class="m-0">{{ log.event }}</Tag>
-                <time class="text-xs text-[var(--ant-color-text-tertiary)]">{{ log.time }}</time>
+                <time class="text-xs text-text-tertiary">{{ log.time }}</time>
               </div>
-              <p class="mt-2 mb-0 text-xs leading-5 text-[var(--ant-color-text-secondary)]">
+              <p class="mt-2 mb-0 text-xs leading-5 text-text-secondary">
                 {{ log.summary }}
               </p>
             </div>

@@ -109,7 +109,7 @@ const demoAccounts = [
       >
         <template #prefix>
           <svg
-            class="h-[18px] w-[18px] text-text-quaternary"
+            class="h-4.5 w-4.5 text-text-quaternary"
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"
@@ -133,7 +133,7 @@ const demoAccounts = [
       >
         <template #prefix>
           <svg
-            class="h-[18px] w-[18px] text-text-quaternary"
+            class="h-4.5 w-4.5 text-text-quaternary"
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"

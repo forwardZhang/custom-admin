@@ -1,12 +1,10 @@
 <template>
-  <div class="h-full overflow-auto bg-[var(--ant-color-fill-quaternary)]">
-    <header
-      class="border-b border-[var(--ant-color-border-secondary)] bg-[var(--ant-color-bg-container)] px-4 py-4 sm:px-6"
-    >
+  <div class="h-full overflow-auto bg-fill-quaternary">
+    <header class="border-b border-border-secondary bg-container px-4 py-4 sm:px-6">
       <div class="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-4">
         <div>
-          <h1 class="m-0 text-xl font-semibold text-[var(--ant-color-text)]">动态表单</h1>
-          <p class="mt-1 mb-0 text-sm text-[var(--ant-color-text-secondary)]">
+          <h1 class="m-0 text-xl font-semibold text-text">动态表单</h1>
+          <p class="mt-1 mb-0 text-sm text-text-secondary">
             Schema 驱动的客户资料表单，展示字段联动、原生校验和命令式 API。
           </p>
         </div>
@@ -26,45 +24,45 @@
     </header>
 
     <main class="mx-auto grid max-w-7xl gap-4 p-4 sm:p-6 xl:grid-cols-[minmax(0,1fr)_320px]">
-      <section class="min-w-0 rounded-lg bg-[var(--ant-color-bg-container)] p-4 sm:p-6">
+      <section class="min-w-0 rounded-lg bg-container p-4 sm:p-6">
         <Form />
       </section>
 
       <aside class="min-w-0 xl:sticky xl:top-4 xl:self-start">
-        <section class="mb-4 rounded-lg bg-[var(--ant-color-bg-container)] p-4">
-          <h2 class="m-0 text-base font-medium text-[var(--ant-color-text)]">事件状态</h2>
+        <section class="mb-4 rounded-lg bg-container p-4">
+          <h2 class="m-0 text-base font-medium text-text">事件状态</h2>
           <dl class="mt-3 grid gap-2 text-sm">
             <div class="flex justify-between gap-4">
-              <dt class="text-[var(--ant-color-text-secondary)]">最近变化字段</dt>
-              <dd class="m-0 text-right text-[var(--ant-color-text)]">
+              <dt class="text-text-secondary">最近变化字段</dt>
+              <dd class="m-0 text-right text-text">
                 {{ lastChangedField || '-' }}
               </dd>
             </div>
             <div class="flex justify-between gap-4">
-              <dt class="text-[var(--ant-color-text-secondary)]">最近新值</dt>
-              <dd class="m-0 text-right text-[var(--ant-color-text)]">{{ lastChangedValue }}</dd>
+              <dt class="text-text-secondary">最近新值</dt>
+              <dd class="m-0 text-right text-text">{{ lastChangedValue }}</dd>
             </div>
             <div class="flex justify-between gap-4">
-              <dt class="text-[var(--ant-color-text-secondary)]">最近旧值</dt>
-              <dd class="m-0 text-right text-[var(--ant-color-text)]">{{ lastPreviousValue }}</dd>
+              <dt class="text-text-secondary">最近旧值</dt>
+              <dd class="m-0 text-right text-text">{{ lastPreviousValue }}</dd>
             </div>
             <div class="flex justify-between gap-4">
-              <dt class="text-[var(--ant-color-text-secondary)]">List 条目索引</dt>
-              <dd class="m-0 text-right text-[var(--ant-color-text)]">{{ lastListIndex }}</dd>
+              <dt class="text-text-secondary">List 条目索引</dt>
+              <dd class="m-0 text-right text-text">{{ lastListIndex }}</dd>
             </div>
             <div class="flex justify-between gap-4">
-              <dt class="text-[var(--ant-color-text-secondary)]">List 条目路径</dt>
-              <dd class="m-0 max-w-44 text-right break-all text-[var(--ant-color-text)]">
+              <dt class="text-text-secondary">List 条目路径</dt>
+              <dd class="m-0 max-w-44 text-right break-all text-text">
                 {{ lastItemPath }}
               </dd>
             </div>
           </dl>
         </section>
 
-        <section class="rounded-lg bg-[var(--ant-color-bg-container)] p-4">
-          <h2 class="m-0 text-base font-medium text-[var(--ant-color-text)]">实时数据</h2>
+        <section class="rounded-lg bg-container p-4">
+          <h2 class="m-0 text-base font-medium text-text">实时数据</h2>
           <pre
-            class="mt-3 max-h-[520px] overflow-auto whitespace-pre-wrap break-words text-xs text-[var(--ant-color-text-secondary)]"
+            class="mt-3 max-h-130 overflow-auto whitespace-pre-wrap break-words text-xs text-text-secondary"
             >{{ formattedValues }}</pre
           >
         </section>

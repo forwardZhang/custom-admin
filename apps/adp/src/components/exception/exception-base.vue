@@ -50,7 +50,7 @@ function goBack() {
     <!-- 装饰光晕 + 漂浮粒子 -->
     <div class="pointer-events-none absolute inset-0 overflow-hidden">
       <div
-        class="exception-halo absolute left-1/2 top-1/2 h-[520px] w-[520px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary/10 blur-2xl"
+        class="exception-halo absolute left-1/2 top-1/2 h-130 w-130 -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary/10 blur-2xl"
       />
       <span
         class="exception-dot absolute left-[18%] top-[28%] h-8 w-8 rounded-full bg-primary/15"
@@ -71,7 +71,7 @@ function goBack() {
       <div class="text-primary">
         <svg
           v-if="type === '404'"
-          class="h-[72px] w-[72px]"
+          class="h-18 w-18"
           viewBox="0 0 72 72"
           fill="none"
           stroke="currentColor"
@@ -87,7 +87,7 @@ function goBack() {
         </svg>
         <svg
           v-else-if="type === '403'"
-          class="h-[72px] w-[72px]"
+          class="h-18 w-18"
           viewBox="0 0 72 72"
           fill="none"
           stroke="currentColor"
@@ -103,7 +103,7 @@ function goBack() {
         </svg>
         <svg
           v-else
-          class="h-[72px] w-[72px]"
+          class="h-18 w-18"
           viewBox="0 0 72 72"
           fill="none"
           stroke="currentColor"
@@ -124,7 +124,7 @@ function goBack() {
       </div>
 
       <h1 class="text-h2 font-semibold text-text">{{ meta.title }}</h1>
-      <p class="max-w-[420px] text-sm leading-relaxed text-text-secondary">{{ meta.desc }}</p>
+      <p class="max-w-105 text-sm leading-relaxed text-text-secondary">{{ meta.desc }}</p>
 
       <!-- 操作按钮 -->
       <div class="mt-8 flex flex-wrap items-center justify-center gap-3">

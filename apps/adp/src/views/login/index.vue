@@ -28,7 +28,7 @@ function selectTheme(color: string) {
     <!-- 居中卡片 -->
     <div class="relative z-10 flex size-full items-center justify-center p-4">
       <div
-        class="login-card w-[420px] max-w-[92vw] overflow-hidden rounded-2xl bg-container shadow-2xl"
+        class="login-card w-105 max-w-[92vw] overflow-hidden rounded-2xl bg-container shadow-2xl"
       >
         <!-- 卡片头部 -->
         <header class="flex items-center justify-between px-8 pt-8 max-sm:px-6 max-sm:pt-6">
