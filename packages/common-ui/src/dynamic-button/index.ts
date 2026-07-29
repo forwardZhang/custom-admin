@@ -15,6 +15,7 @@ export type {
   DynamicButtonEvents,
   DynamicButtonErrorPayload,
   DynamicButtonExpose,
+  DynamicButtonFooterContext,
   DynamicButtonLayerCommon,
   DynamicButtonLayerRender,
   DynamicButtonLoadContext,

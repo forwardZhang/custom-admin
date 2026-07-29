@@ -42,6 +42,12 @@ export interface DynamicButtonActionContext extends DynamicButtonLoadContext {
   value: DynamicButtonValue;
 }
 
+/** 自定义底部扩展内容渲染时收到的参数。 */
+export interface DynamicButtonFooterContext extends DynamicButtonActionContext {
+  /** 当前异步阶段，可用于控制扩展按钮的 loading 或 disabled。 */
+  phase: DynamicButtonPhase | null;
+}
+
 /** 取消 Modal、Drawer 或 Confirm 时的参数。 */
 export interface DynamicButtonCancelContext extends DynamicButtonActionContext {
   /** 触发取消的具体入口。 */
@@ -86,6 +92,7 @@ type DynamicButtonControlledModalProp =
   | 'open'
   | 'confirmLoading'
   | 'destroyOnHidden'
+  | 'footer'
   | 'onOk'
   | 'onCancel'
   | 'afterOpenChange';
@@ -95,7 +102,7 @@ export type DynamicButtonModalProps = Omit<ModalProps, DynamicButtonControlledMo
 
 /** Drawer 底部操作区由 DynamicButton 补充的属性。 */
 export interface DynamicButtonDrawerFooterProps {
-  /** 确定按钮文案，默认为“确定”。 */
+  /** 确定按钮文案，默认为“提交”。 */
   okText?: ModalProps['okText'];
   /** 取消按钮文案，默认为“取消”。 */
   cancelText?: ModalProps['cancelText'];
@@ -131,6 +138,8 @@ export interface DynamicButtonLayerCommon {
   submit: (context: DynamicButtonActionContext) => Awaitable<void>;
   /** 用户主动关闭弹层时执行。 */
   cancel?: (context: DynamicButtonCancelContext) => Awaitable<void>;
+  /** 在取消和确定按钮前渲染额外操作。 */
+  footerExtra?: (context: DynamicButtonFooterContext) => VNodeChild;
 }
 
 /** Modal 和 Drawer 共用一个公共类型，同时保留各自 props 的类型收窄。 */

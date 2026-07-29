@@ -1,3 +1,4 @@
+import type { ButtonProps, DrawerProps, ModalProps } from 'antdv-next';
 import type { Component, Ref } from 'vue';
 
 import { Drawer, Modal } from 'antdv-next';
@@ -20,6 +21,20 @@ import type {
 
 /** Modal 和 Drawer 共同使用的容器类型。 */
 export type DynamicButtonModalDrawerType = DynamicButtonLayerRender['type'];
+
+/** Modal/Drawer 在内部渲染前归一化的共同属性。 */
+interface DynamicButtonLayerContainerProps {
+  [key: string]: unknown;
+  cancelButtonProps?: ButtonProps;
+  cancelText: ModalProps['cancelText'];
+  closable?: DrawerProps['closable'] | ModalProps['closable'];
+  keyboard?: boolean;
+  mask?: DrawerProps['mask'] | ModalProps['mask'];
+  maskClosable?: boolean;
+  okButtonProps?: ButtonProps;
+  okText: ModalProps['okText'];
+  okType?: ModalProps['okType'];
+}
 
 /** useDynamicModalDrawer 对 DynamicButton 暴露的组件实例能力。 */
 export interface DynamicButtonModalDrawerApi {
@@ -154,48 +169,6 @@ export function useDynamicModalDrawer(
     contentRef.value = undefined;
   }
 
-  /** Modal 和 Drawer 共用 footer，只有 Modal 需要额外兼容 okType。 */
-  function renderFooter(render: DynamicButtonLayerRender) {
-    if (render.type === 'modal') {
-      // props 必须在判别分支内读取，TypeScript 才能保留 Modal 专属属性类型。
-      const containerProps = render.props ?? {};
-      const configuredOkButton = containerProps.okButtonProps ?? {};
-      const danger = containerProps.okType === 'danger' || configuredOkButton.danger;
-      const okButtonProps = {
-        ...configuredOkButton,
-        type:
-          containerProps.okType === 'danger'
-            ? 'primary'
-            : (containerProps.okType ?? configuredOkButton.type),
-        danger,
-      };
-
-      return renderDynamicButtonFooter({
-        okText: containerProps.okText,
-        cancelText: containerProps.cancelText,
-        okButtonProps,
-        cancelButtonProps: containerProps.cancelButtonProps,
-        submitLoading: phase.value === 'validate' || phase.value === 'submit',
-        cancelLoading: phase.value === 'cancel',
-        onSubmit: () => void submit(),
-        onCancel: () => void cancel('cancel-button'),
-      });
-    }
-
-    // Drawer 没有原生 footer 按钮配置，这些字段来自 DynamicButton 的扩展属性。
-    const containerProps = render.props ?? {};
-    return renderDynamicButtonFooter({
-      okText: containerProps.okText,
-      cancelText: containerProps.cancelText,
-      okButtonProps: containerProps.okButtonProps,
-      cancelButtonProps: containerProps.cancelButtonProps,
-      submitLoading: phase.value === 'validate' || phase.value === 'submit',
-      cancelLoading: phase.value === 'cancel',
-      onSubmit: () => void submit(),
-      onCancel: () => void cancel('cancel-button'),
-    });
-  }
-
   /**
    * 组件实例仍由 DynamicButton 的 component :is 渲染在当前组件树内，
    * 因此 Modal/Drawer Teleport 后依然能够自然继承主题、locale 和 inject。
@@ -209,71 +182,67 @@ export function useDynamicModalDrawer(
         if (!current || current.render.type !== type) return null;
 
         const render = current.render;
-        const slots = {
-          default: () =>
-            h(render.component, {
-              // 调用方属性先展开，内部字段始终使用当前点击会话，避免 record 被覆盖。
-              ...current.componentProps,
-              record: current.record,
-              modelValue: value.value,
-              'onUpdate:modelValue': updateValue,
-              ref: setContentRef,
-            }),
-          footer: () => renderFooter(render),
+        const containerProps = {
+          ...render.props,
+          okText: render.props?.okText ?? '提交',
+          cancelText: render.props?.cancelText ?? '取消',
+        } as DynamicButtonLayerContainerProps;
+        // 底部按钮由 DynamicButton 接管，不再透传给容器本身。
+        const { okText, cancelText, okButtonProps, cancelButtonProps, ...layerProps } =
+          containerProps;
+        const configuredOkButton = okButtonProps ?? {};
+        const LayerComponent = render.type === 'modal' ? Modal : Drawer;
+        const handleClose = (event: MouseEvent | KeyboardEvent) => {
+          void cancel(resolveDynamicButtonCancelReason(event));
         };
-
-        if (render.type === 'modal') {
-          const modalProps = render.props ?? {};
-          const configuredMask = modalProps.mask;
-          const controlledMask =
-            busy.value && configuredMask && typeof configuredMask === 'object'
-              ? { ...configuredMask, closable: false }
-              : configuredMask;
-
-          return h(
-            Modal as Component,
-            {
-              ...modalProps,
-              open: opened.value,
-              destroyOnHidden: true,
-              closable: busy.value ? false : modalProps.closable,
-              keyboard: busy.value ? false : modalProps.keyboard,
-              mask: controlledMask,
-              maskClosable: busy.value ? false : modalProps.maskClosable,
-              onCancel: (event: MouseEvent | KeyboardEvent) => {
-                void cancel(resolveDynamicButtonCancelReason(event));
-              },
-              onAfterOpenChange: (open: boolean) => handleAfterOpenChange(open, current),
-            },
-            slots,
-          );
-        }
-
-        // Drawer 的 footer 扩展字段只服务于 DynamicButton，不能透传给原生 Drawer。
-        const { okText, cancelText, okButtonProps, cancelButtonProps, ...drawerProps } =
-          render.props ?? {};
-        const configuredMask = drawerProps.mask;
+        const configuredMask = layerProps.mask;
         const controlledMask =
           busy.value && configuredMask && typeof configuredMask === 'object'
             ? { ...configuredMask, closable: false }
             : configuredMask;
 
         return h(
-          Drawer as Component,
+          LayerComponent as Component,
           {
-            ...drawerProps,
+            ...layerProps,
             open: opened.value,
             destroyOnHidden: true,
-            closable: busy.value ? false : drawerProps.closable,
-            keyboard: busy.value ? false : drawerProps.keyboard,
+            closable: busy.value ? false : layerProps.closable,
+            keyboard: busy.value ? false : layerProps.keyboard,
             mask: controlledMask,
-            maskClosable: busy.value ? false : drawerProps.maskClosable,
-            onClose: (event: MouseEvent | KeyboardEvent) => {
-              void cancel(resolveDynamicButtonCancelReason(event));
-            },
+            maskClosable: busy.value ? false : layerProps.maskClosable,
+            ...(render.type === 'modal' ? { onCancel: handleClose } : { onClose: handleClose }),
             onAfterOpenChange: (open: boolean) => handleAfterOpenChange(open, current),
           },
-          slots,
+          {
+            default: () =>
+              h(render.component, {
+                // 调用方属性先展开，内部字段始终使用当前点击会话，避免 record 被覆盖。
+                ...current.componentProps,
+                record: current.record,
+                modelValue: value.value,
+                'onUpdate:modelValue': updateValue,
+                ref: setContentRef,
+              }),
+            footer: () =>
+              renderDynamicButtonFooter({
+                okText,
+                cancelText,
+                okButtonProps: {
+                  ...configuredOkButton,
+                  type: 'primary',
+                },
+                cancelButtonProps,
+                extra: render.footerExtra?.({
+                  ...createActionContext(current),
+                  phase: phase.value,
+                }),
+                submitLoading: phase.value === 'validate' || phase.value === 'submit',
+                cancelLoading: phase.value === 'cancel',
+                onSubmit: () => submit(),
+                onCancel: () => cancel('cancel-button'),
+              }),
+          },
         );
       };
     },

@@ -14,6 +14,8 @@ export interface DynamicButtonFooterOptions {
   okButtonProps?: ButtonProps;
   /** 调用方配置的取消按钮属性。 */
   cancelButtonProps?: ButtonProps;
+  /** 渲染在取消和确定按钮前的自定义内容。 */
+  extra?: VNodeChild;
   /** 校验和提交阶段的 loading。 */
   submitLoading: boolean;
   /** 异步取消阶段的 loading。 */
@@ -32,14 +34,10 @@ export function renderDynamicButtonFooter(options: DynamicButtonFooterOptions): 
   return h(
     'div',
     {
-      class: 'dynamic-button-layer-footer',
-      style: {
-        display: 'flex',
-        justifyContent: 'flex-end',
-        gap: '8px',
-      },
+      class: 'dynamic-button-layer-footer flex items-center justify-end gap-2',
     },
     [
+      options.extra,
       h(
         Button as Component,
         {
@@ -48,7 +46,7 @@ export function renderDynamicButtonFooter(options: DynamicButtonFooterOptions): 
           loading: options.cancelLoading,
           onClick: options.onCancel,
         },
-        { default: () => resolveFooterContent(options.cancelText, '取消') },
+        { default: () => resolveFooterContent(options.cancelText) },
       ),
       h(
         Button as Component,
@@ -59,15 +57,13 @@ export function renderDynamicButtonFooter(options: DynamicButtonFooterOptions): 
           loading: options.submitLoading,
           onClick: options.onSubmit,
         },
-        { default: () => resolveFooterContent(options.okText, '确定') },
+        { default: () => resolveFooterContent(options.okText) },
       ),
     ],
   );
 }
 
-/** Antdv 文案既可以是 VNode，也可以是返回 VNode 的函数。 */
-function resolveFooterContent(content: ModalProps['okText'], fallback: string): VNodeChild {
-  if (typeof content === 'function') return content();
-
-  return content ?? fallback;
+/** Antdv 文案可以是 VNode，也可以是返回 VNode 的函数。 */
+function resolveFooterContent(content: ModalProps['okText']): VNodeChild {
+  return typeof content === 'function' ? content() : content;
 }
