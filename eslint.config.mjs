@@ -1,9 +1,13 @@
 import js from '@eslint/js';
 import vue from 'eslint-plugin-vue';
 import prettier from 'eslint-config-prettier';
-import tseslint from '@vue/eslint-config-typescript';
+import { vueTsConfigs, withVueTs } from '@vue/eslint-config-typescript';
 
-export default [
+export default withVueTs(
+  {
+    rootDir: import.meta.dirname,
+    scriptLangs: ['ts', 'tsx'],
+  },
   {
     ignores: [
       '**/dist/**',
@@ -18,8 +22,8 @@ export default [
     ],
   },
   js.configs.recommended,
-  ...vue.configs['flat/recommended'],
-  ...tseslint(),
+  vue.configs['flat/recommended'],
+  vueTsConfigs.recommended,
   prettier,
   {
     files: ['**/*.{ts,tsx,vue}'],
@@ -35,4 +39,4 @@ export default [
       ],
     },
   },
-];
+);
