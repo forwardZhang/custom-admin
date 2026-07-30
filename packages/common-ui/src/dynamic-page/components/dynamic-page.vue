@@ -1,5 +1,5 @@
 <template>
-  <div v-bind="attrs" class="dynamic-page">
+  <div v-bind="attrs" class="dynamic-page p-3" :class="{ 'dynamic-page--fill': fill }">
     <section class="dynamic-page__search" aria-label="查询条件">
       <DynamicSearch :search-state="pageState.searchState" />
     </section>
@@ -41,6 +41,7 @@ defineOptions({ name: 'DynamicPage', inheritAttrs: false });
 const props = withDefaults(defineProps<DynamicPageInternalProps>(), {
   autoReload: true,
   clearSelectionOnSearch: true,
+  fill: undefined,
   searchConfig: undefined,
   tableConfig: undefined,
   pageState: undefined,
@@ -55,6 +56,16 @@ const pageState =
   new DynamicPageState<FormData, Record<string, unknown>>(props as UseDynamicPageOptions);
 
 const submittedSearchValues = pageState.submittedSearchValues;
+
+// 撑满模式由页面统一接管：props 优先，其次页面配置，最后回落到 tableConfig.fill。
+const fill = computed(() => {
+  const configured =
+    props.fill ?? pageState.state.value.fill ?? pageState.tableState.state.value.fill;
+  return configured === true;
+});
+
+// 页面容器与表格必须同时进入撑满模式，否则表体拿不到确定高度。
+watch(fill, (value) => pageState.tableApi.setState({ fill: value }), { immediate: true });
 
 // 组件模式下 props 是唯一配置来源；Hook 模式的配置直接改 State，不经过 props。
 if (ownsState) {
@@ -98,6 +109,21 @@ defineExpose<Record<string, unknown>>({
   display: grid;
   min-width: 0;
   gap: 16px;
+}
+
+/* 撑满模式：页面吃满父容器高度并禁止整页滚动，剩余高度全部交给表格区。 */
+.dynamic-page--fill {
+  display: flex;
+  height: 100%;
+  overflow: hidden;
+  flex-direction: column;
+}
+
+.dynamic-page--fill .dynamic-page__table {
+  display: flex;
+  min-height: 0;
+  flex: 1;
+  flex-direction: column;
 }
 
 .dynamic-page__search,

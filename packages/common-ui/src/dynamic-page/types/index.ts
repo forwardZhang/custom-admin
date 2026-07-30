@@ -44,6 +44,11 @@ export interface UseDynamicPageOptions<
   autoReload?: boolean;
   /** 查询或重置后是否自动清除选中行，默认为 true。 */
   clearSelectionOnSearch?: boolean;
+  /**
+   * 页面撑满父容器高度：整页不滚动，只有表体内部滚动，默认为 false。
+   * 开启后会同步接管 tableConfig.fill。
+   */
+  fill?: boolean;
 }
 
 export type DynamicPageProps<

@@ -1,7 +1,11 @@
 <template>
   <div
+    ref="rootRef"
     class="dynamic-table"
-    :class="[{ 'dynamic-table--fullscreen': isFullscreen }, attrs.class]"
+    :class="[
+      { 'dynamic-table--fullscreen': isFullscreen, 'dynamic-table--fill': resolved.fill },
+      attrs.class,
+    ]"
     :style="attrs.style"
   >
     <DynamicTableToolbar
@@ -38,7 +42,7 @@
       :pagination="mergedPagination"
       :row-key="resolved.rowKey"
       :row-selection="mergedRowSelection"
-      :scroll="options.scroll"
+      :scroll="mergedScroll"
       :size="options.size"
       :style="options.tableStyle"
       v-bind="options.tableProps"
@@ -59,6 +63,7 @@ import { Table } from 'antdv-next';
 import { computed, onBeforeUnmount, onMounted, shallowRef, useAttrs, useSlots, watch } from 'vue';
 
 import DynamicTableToolbar from './dynamic-table-toolbar.vue';
+import { useDynamicTableFillEffect } from '../composables/use-dynamic-table-fill';
 import { useDynamicTableFullscreenEffect } from '../composables/use-dynamic-table-fullscreen';
 import { DynamicTableState } from '../core/table-state';
 
@@ -105,6 +110,7 @@ const emit = defineEmits<{
 
 const attrs = useAttrs();
 const slots = useSlots();
+const rootRef = shallowRef<HTMLElement | null>(null);
 const tableRef = shallowRef<DynamicTableNativeInstance>();
 
 /** 从 props 里摘出配置部分，tableState 只是传递载体，不属于运行时配置。 */
@@ -120,10 +126,12 @@ const tableState =
 const options = computed(() => tableState.state.value);
 const {
   batchMode,
+  fillScrollY,
   isFullscreen,
   mergedLoading,
   mergedPagination,
   mergedRowSelection,
+  mergedScroll,
   requestLoading,
   resolved,
   selectedRowKeys,
@@ -160,6 +168,14 @@ tableState.attach({
 useDynamicTableFullscreenEffect({
   isFullscreen,
   exit: () => tableState.toggleFullscreen(false),
+});
+
+// 撑满模式下把容器剩余高度量成 scroll.y，走 Table 的官方滚动配置。
+useDynamicTableFillEffect({
+  fill: computed(() => resolved.value.fill),
+  rootRef,
+  getTableElement: () => tableRef.value?.nativeElement ?? undefined,
+  scrollY: fillScrollY,
 });
 
 // 组件模式下 props 是唯一配置来源；Hook 模式不建立这条同步，否则会与渲染成环。
@@ -224,5 +240,13 @@ defineExpose<DynamicTableApi>(tableState.api);
   position: relative;
   min-width: 0;
   background: var(--ant-color-bg-container);
+}
+
+/* 撑满模式：根节点吃满父容器高度，表体高度由量出的 scroll.y 决定，不改底层结构样式。 */
+.dynamic-table--fill {
+  display: flex;
+  height: 100%;
+  min-height: 0;
+  flex-direction: column;
 }
 </style>

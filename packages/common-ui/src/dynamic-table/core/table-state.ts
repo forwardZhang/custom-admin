@@ -164,7 +164,23 @@ export class DynamicTableState<TRecord extends object = Record<string, unknown>>
       showRefresh: options.showRefresh !== false,
       showFullscreen: options.showFullscreen !== false,
       rowKey: options.rowKey ?? 'id',
+      fill: options.fill === true,
     };
+  });
+
+  /** 撑满模式下由宿主量出的表体高度，未测量完成前为 undefined。 */
+  readonly fillScrollY: Ref<number | undefined> = shallowRef();
+
+  /**
+   * 撑满模式只是把量出的高度填进官方 scroll.y，让底层 Table 自己渲染固定表头与滚动表体。
+   * 显式配置的 scroll.y 优先，测量结果不覆盖业务给定的上限。
+   */
+  readonly mergedScroll: ComputedRef<TableProps<TRecord>['scroll']> = computed(() => {
+    const scroll = this.state.value.scroll;
+    if (!this.resolved.value.fill) return scroll;
+
+    const y = scroll?.y ?? this.fillScrollY.value;
+    return y === undefined ? scroll : { ...scroll, y };
   });
 
   private readonly attachGuard = createAttachGuard('DynamicTable');

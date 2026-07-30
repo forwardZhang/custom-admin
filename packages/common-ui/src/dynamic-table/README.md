@@ -34,6 +34,21 @@ State 只持有状态与纯派生，不触碰 DOM。全屏的 `body` 滚动锁�
 - 相同的分页/筛选/排序查询会被去重；工具栏刷新与 `reload()` 强制绕过去重。
 - `immediate` 默认为 `true`，`request` 引用变化后会重新请求。
 
+## 撑满高度
+
+`fill` 让表格吃满父容器高度：表头与分页固定，只有表体内部滚动。
+
+```vue
+<DynamicTable fill :columns="columns" :request="request" />
+```
+
+- 前提是父容器有确定高度（例如 flex 布局里的 `flex: 1` 容器），否则表体拿不到可分配的高度。
+- 实现只用官方的 `scroll` API：组件量出容器剩余高度（扣掉工具栏、表头、分页、横向滚动条），
+  把结果作为像素值填进 `scroll.y`，不覆盖 Table 的内部样式。容器或表格高度变化时自动重算。
+- 显式配置的 `scroll.y` 优先，此时按你给的高度处理；`scroll.x` 不受影响。
+- `scroll.y` 有值会让底层 Table 切换到固定表头结构（`table-layout: fixed`），建议给列配置 `width`。
+- 在 `DynamicPage` 里请改用页面级的 `fill`，由页面统一控制容器与表格。
+
 ## 单挂载不变量
 
 同一份 State 只应被一个组件挂载；同时挂载两个时命令式 API 只作用于最后挂载的那个，

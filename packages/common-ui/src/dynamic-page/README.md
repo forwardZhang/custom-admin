@@ -133,6 +133,32 @@ const pageOptions = {
 
 查询校验失败时不会更新搜索快照、清空选择或刷新表格。
 
+## 页面内滚动
+
+`fill` 让页面吃满父容器高度：整页不出现滚动条，搜索区、`between` 与工具栏、分页都固定，
+只有表体内部滚动。
+
+```vue
+<DynamicPage fill />
+```
+
+Hook 模式也可以写在配置里：
+
+```ts
+const [DynamicPage, searchApi, tableApi] = useDynamicPage({
+  searchConfig,
+  tableConfig,
+  fill: true,
+});
+```
+
+- 前提是父容器有确定高度（框架布局里的内容区已满足），否则表体拿不到可分配的高度。
+- 搜索区展开/收起后剩余高度会自动重新分配，页面依然不滚动。
+- 页面统一接管表格的撑满模式：优先级为 `fill` prop > 页面配置 `fill` > `tableConfig.fill`；
+  只配置 `tableConfig.fill` 时页面容器也会跟着进入撑满模式。
+- 表格侧只用官方 `scroll` API 实现（量出剩余高度填进 `scroll.y`），细节见 DynamicTable 的
+  「撑满高度」。窄屏（≤640px）同样是撑满布局，若页面以移动端为主，不要开启。
+
 ## 中间插槽
 
 `between` 位于搜索区和表格区之间，不附加面板样式：

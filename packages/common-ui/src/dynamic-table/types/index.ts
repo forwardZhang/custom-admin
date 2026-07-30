@@ -99,6 +99,12 @@ export interface DynamicTablePublicProps<TRecord extends object = Record<string,
   pagination?: TableProps<TRecord>['pagination'];
   /** 表格滚动配置。 */
   scroll?: TableProps<TRecord>['scroll'];
+  /**
+   * 撑满父容器高度，表头与分页固定，表体内部滚动。
+   * 需要父容器有确定高度；表体高度按容器剩余空间量出后填进 scroll.y，
+   * 显式配置的 scroll.y 优先生效。
+   */
+  fill?: boolean;
   /** 表格尺寸。 */
   size?: TableProps<TRecord>['size'];
   /** 是否显示边框。 */
