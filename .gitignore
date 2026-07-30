@@ -38,3 +38,4 @@ pro-naive-ui-master
 *.njsproj
 *.sln
 *.sw?
+.claude/*

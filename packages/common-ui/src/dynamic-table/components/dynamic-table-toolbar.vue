@@ -65,7 +65,7 @@
   </div>
 </template>
 
-<script setup lang="ts" generic="TRecord extends object = Record<string, unknown>">
+<script setup lang="ts">
 import { Button, Tooltip } from 'antdv-next';
 import {
   CloseOutlined,
@@ -85,7 +85,7 @@ withDefaults(
     fullscreen: boolean;
     loading: boolean;
     selectedRowKeys: DynamicTableKey[];
-    selectedRows: TRecord[];
+    selectedRows: Record<string, unknown>[];
     title?: string;
     showFullscreen: boolean;
     showRefresh: boolean;

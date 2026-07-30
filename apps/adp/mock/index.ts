@@ -2,6 +2,7 @@ import { authMockRoutes } from './modules/auth.ts';
 import { dashboardMockRoutes } from './modules/dashboard.ts';
 import { dynamicFormMockRoutes } from './modules/dynamic-form.ts';
 import { dynamicTableMockRoutes } from './modules/dynamic-table.ts';
+import { systemUserMockRoutes } from './modules/system-user.ts';
 import { userMockRoutes } from './modules/user.ts';
 
 export const mockRoutes = [
@@ -10,4 +11,5 @@ export const mockRoutes = [
   ...dashboardMockRoutes,
   ...dynamicFormMockRoutes,
   ...dynamicTableMockRoutes,
+  ...systemUserMockRoutes,
 ];

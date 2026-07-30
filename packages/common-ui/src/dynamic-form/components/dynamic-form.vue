@@ -29,17 +29,19 @@
   </Form>
 </template>
 
-<script setup lang="ts" generic="T extends FormData = FormData">
+<script setup lang="ts">
 import type { FormInstance } from 'antdv-next';
 
-import { computed, inject, shallowRef, watch } from 'vue';
+import { computed, onBeforeUnmount, shallowRef, watch } from 'vue';
 import { Form } from 'antdv-next';
 
 import FormActions from './form-actions.vue';
 import FormField from './form-field.vue';
-import { dynamicFormStateKey, provideDynamicFormContext } from '../core/context';
+import { provideDynamicFormContext } from '../core/context';
 import { DynamicFormState } from '../core/form-api';
 import { pathToString } from '../utils/path';
+
+import type { DynamicFormInternalProps } from '../core/internal-props';
 
 import type {
   DeepPartial,
@@ -52,9 +54,9 @@ import type {
 
 defineOptions({ name: 'DynamicForm', inheritAttrs: false });
 
-// 组件模式读 props；useDynamicForm 模式复用注入的 DynamicFormState。
-const props = withDefaults(defineProps<DynamicFormProps<T>>(), {
-  modelValue: () => ({}) as T,
+// 组件模式读 props 自建 State；useDynamicForm 模式通过 formState prop 复用同一份 State。
+const props = withDefaults(defineProps<DynamicFormInternalProps>(), {
+  modelValue: () => ({}) as FormData,
   disabled: false,
   labelWidth: undefined,
   wrapperClass: 'grid grid-cols-1 gap-x-6',
@@ -63,21 +65,21 @@ const props = withDefaults(defineProps<DynamicFormProps<T>>(), {
   formProps: undefined,
   submitButtonOptions: undefined,
   resetButtonOptions: undefined,
+  formState: undefined,
 });
 
-const emit = defineEmits<DynamicFormEmits<T>>();
+const emit = defineEmits<DynamicFormEmits>();
 
 defineSlots<{
   actions(props: { reset: () => void; submit: () => void }): unknown;
 }>();
 
-const injectedFormState = inject(dynamicFormStateKey, undefined) as DynamicFormState<T> | undefined;
-const ownsFormState = !injectedFormState;
+const ownsFormState = !props.formState;
 const formState =
-  injectedFormState ??
-  new DynamicFormState<T>({
+  props.formState ??
+  new DynamicFormState<FormData>({
     schema: props.schema,
-    initialValues: props.modelValue as DeepPartial<T>,
+    initialValues: props.modelValue as DeepPartial<FormData>,
     layout: props.layout,
     disabled: props.disabled,
     labelWidth: props.labelWidth,
@@ -100,35 +102,38 @@ const mergedFormProps = computed(() => ({
 }));
 
 const disabled = computed(() => Boolean(props.disabled));
-const contextProps = computed(() => props as unknown as DynamicFormProps<T>);
+const contextProps = computed(() => props as unknown as DynamicFormProps);
 
-provideDynamicFormContext<T>({
+provideDynamicFormContext({
   formApi,
   props: contextProps,
   disabled,
 });
 
 // 统一桥接：组件事件 + useDynamicForm 业务回调。
-formState.setCallbacks({
-  onValuesChange(values, fieldsChanged) {
-    emit('update:modelValue', values);
-    if (fieldsChanged.length) emit('valuesChange', values, fieldsChanged);
-    formState.state.value.handleValuesChange?.(values, fieldsChanged);
-  },
-  onFinish(values) {
-    emit('finish', values);
-  },
-  onFinishFailed(error) {
-    emit('finishFailed', error);
-  },
-  onReset(values) {
-    emit('update:modelValue', values);
-    emit('reset', values);
-    formState.state.value.handleReset?.(values);
+formState.attach({
+  formRef: antFormRef,
+  callbacks: {
+    onValuesChange(values, fieldsChanged) {
+      emit('update:modelValue', values);
+      if (fieldsChanged.length) emit('valuesChange', values, fieldsChanged);
+      formState.state.value.handleValuesChange?.(values, fieldsChanged);
+    },
+    onFinish(values) {
+      emit('finish', values);
+    },
+    onFinishFailed(error) {
+      emit('finishFailed', error);
+    },
+    onReset(values) {
+      emit('update:modelValue', values);
+      emit('reset', values);
+      formState.state.value.handleReset?.(values);
+    },
   },
 });
 
-watch(antFormRef, (value) => formState.setFormRef(value), { immediate: true });
+onBeforeUnmount(() => formState.detach());
 
 if (ownsFormState) {
   watch(
@@ -156,7 +161,7 @@ const handleReset = () => {
 
 /** 接收 Antdv 校验后的值，交由 API 执行业务提交回调。 */
 const handleFinish = (values: Record<string, unknown>) => {
-  void formState.finish(values as T);
+  void formState.finish(values as FormData);
 };
 
 /** 统一标准化 Antdv 校验错误并触发 finishFailed。 */
@@ -164,5 +169,5 @@ const handleFinishFailed = (error: unknown) => {
   formState.handleFinishFailed(error);
 };
 
-defineExpose<DynamicFormApi<T>>(formApi);
+defineExpose<DynamicFormApi>(formApi);
 </script>

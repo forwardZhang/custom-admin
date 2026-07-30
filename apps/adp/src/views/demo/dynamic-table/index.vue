@@ -45,10 +45,10 @@
           <DynamicTable
             ref="tableRef"
             v-model:selected-row-keys="selectedRowKeys"
-            :columns="columns"
+            :columns="tableColumns"
             :multiple="selectionMode === 'multiple'"
-            :request="loadUsers"
-            :row-selection="rowSelection"
+            :request="tableRequest"
+            :row-selection="tableRowSelection"
             :scroll="{ x: 920 }"
             :single="selectionMode === 'single'"
             @request-error="handleRequestError"
@@ -147,13 +147,15 @@ defineOptions({ name: 'DemoDynamicTable' });
 
 type DataMode = 'paged' | 'array';
 type SelectionMode = 'multiple' | 'single' | 'none';
+/** DynamicTable 组件模式的行数据类型；业务侧仍按 DynamicTableUser 声明配置。 */
+type TableRecord = Record<string, unknown>;
 
 const dataMode = ref<DataMode>('paged');
 const selectionMode = ref<SelectionMode>('multiple');
 const keyword = ref('');
 const selectedRowKeys = ref<DynamicTableKey[]>([]);
 const batchLoading = ref(false);
-const tableRef = ref<DynamicTableInstance<DynamicTableUser>>();
+const tableRef = ref<DynamicTableInstance>();
 
 const dataModeOptions = [
   { label: '分页数据', value: 'paged' },
@@ -263,6 +265,11 @@ const loadUsers: DynamicTableRequest<DynamicTableUser> = async (context) => {
   );
 };
 
+// 组件模式的 props 按宽松记录类型声明，这里把业务类型的表格配置做一次收口。
+const tableColumns = computed(() => columns.value as TableProps<TableRecord>['columns']);
+const tableRequest = loadUsers as unknown as DynamicTableRequest<TableRecord>;
+const tableRowSelection = rowSelection as unknown as DynamicTableRowSelection<TableRecord>;
+
 function searchUsers(): void {
   void tableRef.value?.reload({ resetPage: true });
 }
@@ -285,14 +292,14 @@ function getUserInitial(record: DynamicTableUser): string {
 }
 
 async function disableUsers(
-  rows: DynamicTableUser[],
+  rows: TableRecord[],
   clearSelection: () => void,
   reload: (options?: { resetPage?: boolean }) => Promise<void>,
 ): Promise<void> {
   if (!rows.length) return;
   batchLoading.value = true;
   try {
-    await disableDynamicTableUsersApi(rows.map((row) => row.id));
+    await disableDynamicTableUsersApi(rows.map((row) => Number(row.id)));
     message.success(`已停用 ${rows.length} 个用户`);
     clearSelection();
     await reload();

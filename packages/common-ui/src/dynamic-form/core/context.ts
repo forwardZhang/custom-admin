@@ -24,9 +24,6 @@ export const dynamicFormFieldContextKey: InjectionKey<DynamicFormFieldContext> =
   'dynamic-form-field-context',
 );
 
-/** useDynamicForm 把 state 注入给内部 DynamicForm，避免重复创建。 */
-export const dynamicFormStateKey: InjectionKey<unknown> = Symbol('dynamic-form-state');
-
 export function provideDynamicFormContext<T extends FormData>(context: DynamicFormContext<T>) {
   provide(dynamicFormContextKey, context as DynamicFormContext);
 }

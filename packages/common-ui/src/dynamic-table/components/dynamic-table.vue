@@ -5,20 +5,20 @@
     :style="attrs.style"
   >
     <DynamicTableToolbar
-      v-if="props.showToolbar"
+      v-if="resolved.showToolbar"
       :batch-mode="batchMode"
-      :clear-selection="clearSelection"
+      :clear-selection="handleClearSelection"
       :fullscreen="isFullscreen"
       :loading="requestLoading"
-      :reload="reload"
+      :reload="handleReload"
       :selected-row-keys="selectedRowKeys"
       :selected-rows="selectedRows"
-      :title="tableTitle"
-      :show-fullscreen="props.showFullscreen"
-      :show-refresh="props.showRefresh"
-      :toolbar-class="props.toolbarClass"
+      :title="options.title"
+      :show-fullscreen="resolved.showFullscreen"
+      :show-refresh="resolved.showRefresh"
+      :toolbar-class="options.toolbarClass"
       @refresh="handleRefresh"
-      @toggle-fullscreen="toggleFullscreen"
+      @toggle-fullscreen="handleToggleFullscreen"
     >
       <template v-if="slots.title" #title><slot name="title" /></template>
       <template #toolbar-left><slot name="toolbar-left" /></template>
@@ -30,18 +30,18 @@
 
     <Table
       ref="tableRef"
-      :bordered="props.bordered"
-      :class="props.tableClass"
-      :columns="props.columns"
+      :bordered="options.bordered"
+      :class="options.tableClass"
+      :columns="options.columns"
       :data-source="tableData"
       :loading="mergedLoading"
       :pagination="mergedPagination"
-      :row-key="props.rowKey"
+      :row-key="resolved.rowKey"
       :row-selection="mergedRowSelection"
-      :scroll="props.scroll"
-      :size="props.size"
-      :style="props.tableStyle"
-      v-bind="props.tableProps"
+      :scroll="options.scroll"
+      :size="options.size"
+      :style="options.tableStyle"
+      v-bind="options.tableProps"
       @change="handleTableChange"
     >
       <template v-if="slots.default" #default>
@@ -54,30 +54,29 @@
   </div>
 </template>
 
-<script setup lang="ts" generic="TRecord extends object = Record<string, unknown>">
-import type { TableProps } from 'antdv-next';
+<script setup lang="ts">
 import { Table } from 'antdv-next';
-import { computed, shallowRef, useAttrs, useSlots } from 'vue';
+import { computed, onBeforeUnmount, onMounted, shallowRef, useAttrs, useSlots, watch } from 'vue';
 
 import DynamicTableToolbar from './dynamic-table-toolbar.vue';
-import { useDynamicTableFullscreen } from '../composables/use-dynamic-table-fullscreen';
-import {
-  type DynamicTableChangeArgs,
-  useDynamicTableRequest,
-} from '../composables/use-dynamic-table-request';
-import { useDynamicTableSelection } from '../composables/use-dynamic-table-selection';
+import { useDynamicTableFullscreenEffect } from '../composables/use-dynamic-table-fullscreen';
+import { DynamicTableState } from '../core/table-state';
 
+import type { DynamicTableInternalProps } from '../core/internal-props';
 import type {
-  DynamicTableInstance,
+  DynamicTableApi,
+  DynamicTableChangeArgs,
   DynamicTableKey,
   DynamicTableNativeInstance,
-  DynamicTablePublicProps,
+  DynamicTableReloadOptions,
   DynamicTableRequestResult,
+  UseDynamicTableOptions,
 } from '../types';
 
 defineOptions({ name: 'DynamicTable', inheritAttrs: false });
 
-const props = withDefaults(defineProps<DynamicTablePublicProps<TRecord>>(), {
+// 组件模式读 props 自建 State；Hook / DynamicPage 模式通过 tableState prop 复用同一份 State。
+const props = withDefaults(defineProps<DynamicTableInternalProps>(), {
   immediate: true,
   showFullscreen: true,
   showRefresh: true,
@@ -86,15 +85,18 @@ const props = withDefaults(defineProps<DynamicTablePublicProps<TRecord>>(), {
   tableClass: undefined,
   tableStyle: undefined,
   rowKey: 'id',
+  tableState: undefined,
 });
 
-type ChangeArgs = DynamicTableChangeArgs<TRecord>;
+/** 组件模式不声明 SFC 泛型，行数据按宽松记录类型处理；精确类型由 Hook 与公开类型提供。 */
+type TableRecord = Record<string, unknown>;
+type ChangeArgs = DynamicTableChangeArgs;
 
 const emit = defineEmits<{
   change: ChangeArgs;
   'update:selectedRowKeys': [keys: DynamicTableKey[]];
-  selectionChange: [keys: DynamicTableKey[], rows: TRecord[]];
-  requestSuccess: [result: DynamicTableRequestResult<TRecord>];
+  selectionChange: [keys: DynamicTableKey[], rows: TableRecord[]];
+  requestSuccess: [result: DynamicTableRequestResult];
   requestError: [error: unknown];
   refresh: [];
   fullscreenChange: [fullscreen: boolean];
@@ -104,37 +106,85 @@ const emit = defineEmits<{
 const attrs = useAttrs();
 const slots = useSlots();
 const tableRef = shallowRef<DynamicTableNativeInstance>();
-const tableTitle = computed(() => props.title);
 
-// 选择、请求、全屏分别封装，组件这里只负责把状态拼装成 Table 和工具栏需要的 props。
-const selectionState = useDynamicTableSelection({
-  props,
-  emitSelectedRowKeys: (keys) => emit('update:selectedRowKeys', keys),
-  emitSelectionChange: (keys, rows) => emit('selectionChange', keys, rows),
-});
+/** 从 props 里摘出配置部分，tableState 只是传递载体，不属于运行时配置。 */
+function pickOptions(): UseDynamicTableOptions {
+  const { tableState: _tableState, ...options } = props;
+  return options as UseDynamicTableOptions;
+}
 
-const requestState = useDynamicTableRequest({
-  request: () => props.request,
-  immediate: () => props.immediate,
-  pagination: () => props.pagination,
-  onSuccess: (result) => emit('requestSuccess', result),
-  onError: (error) => emit('requestError', error),
-});
+const ownsState = !props.tableState;
+const tableState =
+  props.tableState ?? new DynamicTableState<TableRecord>(pickOptions(), { propsDriven: true });
 
-const fullscreenState = useDynamicTableFullscreen({
-  onChange: (fullscreen) => emit('fullscreenChange', fullscreen),
-});
-
-const { batchMode, clearSelection, mergedRowSelection, selectedRowKeys, selectedRows } =
-  selectionState;
-const { isFullscreen, toggleFullscreen } = fullscreenState;
+const options = computed(() => tableState.state.value);
 const {
-  handleTableChange: handleRequestTableChange,
+  batchMode,
+  isFullscreen,
+  mergedLoading,
   mergedPagination,
-  reload,
-  requestData,
+  mergedRowSelection,
   requestLoading,
-} = requestState;
+  resolved,
+  selectedRowKeys,
+  selectedRows,
+  tableData,
+} = tableState;
+
+tableState.attach({
+  tableRef,
+  callbacks: {
+    onSelectedRowKeysChange(keys) {
+      emit('update:selectedRowKeys', keys);
+      options.value.handleSelectedRowKeysChange?.([...keys]);
+    },
+    onSelectionChange(keys, rows) {
+      emit('selectionChange', keys, rows);
+      options.value.handleSelectionChange?.([...keys], [...rows]);
+    },
+    onRequestSuccess(result) {
+      emit('requestSuccess', result);
+      options.value.handleRequestSuccess?.(result);
+    },
+    onRequestError(error) {
+      emit('requestError', error);
+      options.value.handleRequestError?.(error);
+    },
+    onFullscreenChange(fullscreen) {
+      emit('fullscreenChange', fullscreen);
+      options.value.handleFullscreenChange?.(fullscreen);
+    },
+  },
+});
+
+useDynamicTableFullscreenEffect({
+  isFullscreen,
+  exit: () => tableState.toggleFullscreen(false),
+});
+
+// 组件模式下 props 是唯一配置来源；Hook 模式不建立这条同步，否则会与渲染成环。
+if (ownsState) {
+  watch(
+    () => pickOptions(),
+    (nextOptions) => tableState.syncOptions(nextOptions),
+    { deep: true },
+  );
+}
+
+watch(
+  () => tableState.request,
+  () => tableState.handleRequestChange(),
+);
+
+watch(
+  () => options.value.pagination,
+  () => tableState.syncPaginationConfig(),
+  { deep: true },
+);
+
+onMounted(() => void tableState.flushMount());
+
+onBeforeUnmount(() => tableState.detach());
 
 const forwardedSlotNames = computed(() =>
   Object.keys(slots).filter(
@@ -143,40 +193,30 @@ const forwardedSlotNames = computed(() =>
   ),
 );
 
-// 配置 request 时完全使用异步结果；未配置时保留原生 dataSource 行为。
-const tableData = computed(() => (props.request ? requestData.value : props.dataSource));
-
-const mergedLoading = computed<TableProps<TRecord>['loading']>(() => {
-  if (!requestLoading.value) return props.loading;
-  if (props.loading && typeof props.loading === 'object') {
-    return { ...props.loading, spinning: true };
-  }
-  return true;
-});
+const handleClearSelection = () => tableState.clearSelection();
+const handleReload = (reloadOptions?: DynamicTableReloadOptions) =>
+  tableState.reload(reloadOptions);
+const handleToggleFullscreen = () => tableState.toggleFullscreen();
 
 /** 工具栏刷新同时通知外部并强制绕过查询去重。 */
 function handleRefresh(): void {
   emit('refresh');
-  void reload();
+  options.value.handleRefresh?.();
+  void tableState.reload();
 }
 
 /** 先同步请求分页/筛选/排序，再按原生 Table 约定透传 change 事件。 */
 function handleTableChange(...args: ChangeArgs): void {
   const [pagination, nextFilters, nextSorter, extra] = args;
-  const { current, pageSize } = handleRequestTableChange(pagination, nextFilters, nextSorter);
+  const { current, pageSize } = tableState.handleTableChange(pagination, nextFilters, nextSorter);
 
   emit('change', pagination, nextFilters, nextSorter, extra);
+  options.value.handleChange?.(...args);
   emit('paginationChange', current, pageSize);
+  options.value.handlePaginationChange?.(current, pageSize);
 }
 
-defineExpose<DynamicTableInstance<TRecord>>({
-  reload,
-  clearSelection,
-  getSelectedRows: () => [...selectedRows.value],
-  getSelectedRowKeys: () => [...selectedRowKeys.value],
-  toggleFullscreen,
-  getTableInstance: () => tableRef.value,
-});
+defineExpose<DynamicTableApi>(tableState.api);
 </script>
 
 <style scoped>

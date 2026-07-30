@@ -1,43 +1,45 @@
-import { onBeforeUnmount, onMounted, ref } from 'vue';
+import type { Ref } from 'vue';
 
-interface UseDynamicTableFullscreenOptions {
-  onChange: (fullscreen: boolean) => void;
+import { onBeforeUnmount, onMounted, watch } from 'vue';
+
+interface UseDynamicTableFullscreenEffectOptions {
+  isFullscreen: Ref<boolean>;
+  exit: () => void;
 }
 
-/** 管理全屏状态以及 body 滚动锁定，避免污染表格主体逻辑。 */
-export function useDynamicTableFullscreen({ onChange }: UseDynamicTableFullscreenOptions) {
-  const isFullscreen = ref(false);
+/**
+ * 全屏的 DOM 副作用：锁定 body 滚动、支持 Escape 退出。
+ * 全屏状态本身由 DynamicTableState 持有，这里只负责宿主组件生命周期内的副作用。
+ */
+export function useDynamicTableFullscreenEffect({
+  isFullscreen,
+  exit,
+}: UseDynamicTableFullscreenEffectOptions) {
   let originalBodyOverflow = '';
 
-  /** 切换全屏并同步锁定 body 滚动；force 可用于明确进入或退出。 */
-  function toggleFullscreen(force?: boolean): void {
-    const nextValue = force ?? !isFullscreen.value;
-    if (nextValue === isFullscreen.value) return;
-
-    if (nextValue) {
-      originalBodyOverflow = document.body.style.overflow;
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = originalBodyOverflow;
-    }
-
-    isFullscreen.value = nextValue;
-    onChange(nextValue);
+  function lock(): void {
+    originalBodyOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
   }
 
-  /** 全屏状态下允许通过 Escape 退出。 */
+  function unlock(): void {
+    document.body.style.overflow = originalBodyOverflow;
+  }
+
   function handleKeydown(event: KeyboardEvent): void {
-    if (event.key === 'Escape' && isFullscreen.value) toggleFullscreen(false);
+    if (event.key === 'Escape' && isFullscreen.value) exit();
   }
+
+  watch(isFullscreen, (value) => (value ? lock() : unlock()));
 
   onMounted(() => {
     document.addEventListener('keydown', handleKeydown);
+    // Hook 模式下可能在挂载前就切到了全屏。
+    if (isFullscreen.value) lock();
   });
 
   onBeforeUnmount(() => {
     document.removeEventListener('keydown', handleKeydown);
-    if (isFullscreen.value) document.body.style.overflow = originalBodyOverflow;
+    if (isFullscreen.value) unlock();
   });
-
-  return { isFullscreen, toggleFullscreen };
 }

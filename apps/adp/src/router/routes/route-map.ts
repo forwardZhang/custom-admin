@@ -51,4 +51,9 @@ export const routeMap: Record<string, RouteMapItem> = {
     path: '/demo/dynamic-button',
     component: () => import('@/views/demo/dynamic-button/index.vue'),
   },
+
+  SystemUser: {
+    path: '/system/user',
+    component: () => import('@/views/system/user/index.vue'),
+  },
 };

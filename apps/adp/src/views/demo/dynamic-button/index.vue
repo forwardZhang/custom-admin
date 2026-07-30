@@ -213,7 +213,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, reactive, ref } from 'vue';
+import { computed, h, reactive, ref } from 'vue';
 import { Avatar, Button, Empty, Tag, message } from 'antdv-next';
 import {
   DeleteOutlined,
@@ -426,6 +426,18 @@ const editMemberConfig: DynamicButtonConfig = {
       mode: 'edit',
       description: `默认值来自 record：${String(record?.department ?? '-')}`,
     }),
+    footerExtra: ({ phase, value }) =>
+      h(
+        Button,
+        {
+          disabled: phase !== null,
+          onClick: () => {
+            const name = isMemberEditorValue(value) ? value.name : '未命名成员';
+            message.info(`当前编辑：${name}`);
+          },
+        },
+        { default: () => '预览' },
+      ),
     props: {
       title: '编辑成员',
       width: 620,
