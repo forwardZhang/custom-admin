@@ -1,13 +1,9 @@
-import { cloneDeep, get, isEqual, isPlainObject, mergeWith } from 'lodash-es';
+import { cloneDeep, isEqual, isPlainObject, mergeWith } from 'lodash-es';
 
-import type { DeepPartial, FormData, FormPath } from '../types';
+import type { DeepPartial, FormData } from '../types';
 
 export function cloneValue<T>(value: T): T {
   return cloneDeep(value);
-}
-
-export function getState<T extends FormData>(states: T, path: FormPath): unknown {
-  return get(states, path);
 }
 
 /** 深度合并部分表单值；对象递归合并，数组整体替换。 */

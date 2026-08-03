@@ -3,7 +3,6 @@ import type {
   DynamicFormButtonOptions,
   DynamicFormProps,
   DynamicFormValidateError,
-  DeepPartial,
   FormData,
 } from '../../dynamic-form';
 
@@ -32,47 +31,31 @@ export interface DynamicSearchProps<T extends FormData = FormData> extends Omit<
 }
 
 export type DynamicSearchEmits<T extends FormData = FormData> = {
-  'update:modelValue': [value: T];
+  'update:modelValue': [values: T];
   valuesChange: [values: T, fieldsChanged: string[]];
+  /** 点击查询并校验通过；与 finish 同时触发，语义更贴近搜索场景。 */
   search: [values: T];
   finish: [values: T];
   finishFailed: [error: DynamicFormValidateError<T>];
   reset: [values: T];
   expandChange: [expanded: boolean];
-  schemaChange: [schema: DynamicFormProps<T>['schema']];
 };
 
-export interface DynamicSearchInstance<T extends FormData = FormData> extends DynamicFormApi<T> {
+/** 事件的 onXxx prop 形式；Hook 生成的组件用它把 emits 表达成 props 类型。 */
+export interface DynamicSearchEventProps<T extends FormData = FormData> {
+  'onUpdate:modelValue'?: (values: T) => void;
+  onValuesChange?: (values: T, fieldsChanged: string[]) => void;
+  onSearch?: (values: T) => void;
+  onFinish?: (values: T) => void;
+  onFinishFailed?: (error: DynamicFormValidateError<T>) => void;
+  onReset?: (values: T) => void;
+  onExpandChange?: (expanded: boolean) => void;
+}
+
+/** DynamicSearch 的命令式 API：表单 API 加上展开状态控制。 */
+export interface DynamicSearchApi<T extends FormData = FormData> extends DynamicFormApi<T> {
   /** 当前是否已展开全部字段。 */
   readonly expanded: boolean;
   /** 切换展开状态；传入 force 时设置为指定状态。 */
   toggleExpand(force?: boolean): void;
 }
-
-export interface UseDynamicSearchOptions<T extends FormData = FormData> extends Omit<
-  DynamicSearchProps<T>,
-  'modelValue'
-> {
-  /** Hook 创建状态时使用的初始值，并会与 schema.defaultValue 合并。 */
-  initialValues?: DeepPartial<T>;
-  /** 查询校验成功后的业务处理。 */
-  handleSearch?: (values: T) => void | Promise<void>;
-  /** 重置后的业务处理。 */
-  handleReset?: (values: T) => void | Promise<void>;
-  /** 表单值变化后的业务处理。 */
-  handleValuesChange?: (values: T, fieldsChanged: string[]) => void;
-  /** 校验失败后的业务处理。 */
-  handleFinishFailed?: (error: DynamicFormValidateError<T>) => void;
-  /** Schema 运行时变化后的业务处理。 */
-  handleSchemaChange?: (schema: DynamicFormProps<T>['schema']) => void;
-  /** 展开状态变化后的业务处理。 */
-  handleExpandChange?: (expanded: boolean) => void;
-}
-
-export type DynamicSearchApi<T extends FormData = FormData> = Omit<
-  DynamicSearchInstance<T>,
-  'setOptions'
-> & {
-  /** 合并更新 Hook 的搜索表单配置。 */
-  setOptions(options: Partial<UseDynamicSearchOptions<T>>): void;
-};

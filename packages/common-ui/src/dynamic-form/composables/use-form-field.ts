@@ -5,7 +5,7 @@ import { computed, defineComponent, h, toHandlerKey } from 'vue';
 import { get, has } from 'lodash-es';
 
 import { useDynamicFormContext } from '../core/context';
-import { createFieldApi } from '../core/form-api';
+import { createFieldApi } from '../core/field-api';
 import { BUILTIN_FIELD_MAP } from '../field';
 import { normalizePath, resolveFormPath } from '../utils/path';
 import { getDefaultPlaceholder } from '../utils/placeholder';
@@ -30,7 +30,7 @@ interface UseFormFieldProps<T extends FormData> {
  * 读一个字段时只需要看这个文件。
  */
 export function useFormField<T extends FormData>(props: UseFormFieldProps<T>) {
-  const { formApi, props: formProps, disabled: formDisabled } = useDynamicFormContext<T>();
+  const { formApi, labelWidth, disabled: formDisabled } = useDynamicFormContext<T>();
 
   const schemaRef = computed(() => props.schema);
   const basePath = computed<NormalizedFormPath>(() => normalizePath(props.basePath ?? []));
@@ -47,8 +47,8 @@ export function useFormField<T extends FormData>(props: UseFormFieldProps<T>) {
   );
 
   const fieldApi = createFieldApi(formApi, () => ({
-    get state() {
-      return get(formApi.states, fieldPath.value);
+    get value() {
+      return get(formApi.values, fieldPath.value);
     },
     field: {
       name: props.schema.fieldName,
@@ -138,7 +138,7 @@ export function useFormField<T extends FormData>(props: UseFormFieldProps<T>) {
 
   const resolvedFormItemProps = computed(() => {
     const itemProps = { ...props.schema.formItemProps } as Record<string, unknown>;
-    const width = formProps.value.labelWidth;
+    const width = labelWidth.value;
     if (width !== undefined) {
       itemProps.labelCol = {
         flex: `0 0 ${typeof width === 'number' ? `${width}px` : width}`,
@@ -162,13 +162,13 @@ export function useFormField<T extends FormData>(props: UseFormFieldProps<T>) {
 
   const handleModelUpdate = (...args: unknown[]) => {
     const nextValue = args[0];
-    const oldValue = cloneValue(fieldApi.state);
+    const oldValue = cloneValue(fieldApi.value);
     if (valuesEqual(oldValue, nextValue)) return;
 
-    fieldApi.setState(fieldApi.field.path, nextValue);
+    fieldApi.setFieldValue(fieldApi.field.path, nextValue);
     const eventApi: DynamicFormFieldEventApi<T> = {
       ...fieldApi,
-      state: nextValue,
+      value: nextValue,
       oldValue,
       nativeArgs: args,
     };
@@ -198,12 +198,12 @@ export function useFormField<T extends FormData>(props: UseFormFieldProps<T>) {
           typeof props.schema.component === 'string'
             ? {
                 fieldProps: rawProps,
-                [modelPropName.value]: fieldApi.state,
+                [modelPropName.value]: fieldApi.value,
                 [modelListenerName.value]: updateHandler,
               }
             : {
                 ...rawProps,
-                [modelPropName.value]: fieldApi.state,
+                [modelPropName.value]: fieldApi.value,
                 [modelListenerName.value]: updateHandler,
               };
 

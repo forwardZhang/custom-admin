@@ -43,14 +43,13 @@
 
         <div class="table-panel__body">
           <DynamicTable
-            ref="tableRef"
             v-model:selected-row-keys="selectedRowKeys"
-            :columns="tableColumns"
-            :multiple="selectionMode === 'multiple'"
-            :request="tableRequest"
-            :row-selection="tableRowSelection"
+            :columns="columns"
+            :pagination-mode="dataMode === 'array' ? 'local' : 'server'"
+            :request="loadUsers"
+            :row-selection="rowSelection"
             :scroll="{ x: 920 }"
-            :single="selectionMode === 'single'"
+            :selection="tableSelection"
             @request-error="handleRequestError"
           >
             <template #title>
@@ -130,12 +129,12 @@ import { Avatar, Button, Input, Segmented, Tooltip, message } from 'antdv-next';
 import { EyeOutlined, PlusOutlined, SearchOutlined } from '@antdv-next/icons';
 
 import type {
-  DynamicTableInstance,
   DynamicTableKey,
   DynamicTableRequest,
   DynamicTableRowSelection,
+  DynamicTableSelectionMode,
 } from '@package/common-ui';
-import { DynamicTable } from '@package/common-ui';
+import { useDynamicTable } from '@package/common-ui';
 import type { DynamicTableUser, DynamicTableUserStatus } from '@/api/dynamic-table';
 import {
   disableDynamicTableUsersApi,
@@ -147,15 +146,14 @@ defineOptions({ name: 'DemoDynamicTable' });
 
 type DataMode = 'paged' | 'array';
 type SelectionMode = 'multiple' | 'single' | 'none';
-/** DynamicTable 组件模式的行数据类型；业务侧仍按 DynamicTableUser 声明配置。 */
-type TableRecord = Record<string, unknown>;
 
 const dataMode = ref<DataMode>('paged');
 const selectionMode = ref<SelectionMode>('multiple');
 const keyword = ref('');
 const selectedRowKeys = ref<DynamicTableKey[]>([]);
 const batchLoading = ref(false);
-const tableRef = ref<DynamicTableInstance>();
+
+const [DynamicTable, table] = useDynamicTable<DynamicTableUser>();
 
 const dataModeOptions = [
   { label: '分页数据', value: 'paged' },
@@ -225,6 +223,10 @@ const columns = computed<TableProps<DynamicTableUser>['columns']>(() => {
   ];
 });
 
+const tableSelection = computed<DynamicTableSelectionMode>(() =>
+  selectionMode.value === 'none' ? false : selectionMode.value,
+);
+
 const rowSelection: DynamicTableRowSelection<DynamicTableUser> = {
   getCheckboxProps: (record) => ({
     disabled: record.id === 1,
@@ -236,14 +238,16 @@ const loadUsers: DynamicTableRequest<DynamicTableUser> = async (context) => {
   if (dataMode.value === 'array') {
     const list = await getDynamicTableUserListApi(context.signal);
     const searchText = keyword.value.trim().toLowerCase();
-    if (!searchText) return list;
+    if (!searchText) return { list };
 
-    return list.filter(
-      (user) =>
-        user.name.toLowerCase().includes(searchText) ||
-        user.email.toLowerCase().includes(searchText) ||
-        user.department.toLowerCase().includes(searchText),
-    );
+    return {
+      list: list.filter(
+        (user) =>
+          user.name.toLowerCase().includes(searchText) ||
+          user.email.toLowerCase().includes(searchText) ||
+          user.department.toLowerCase().includes(searchText),
+      ),
+    };
   }
 
   const activeSorter = Array.isArray(context.sorter) ? context.sorter[0] : context.sorter;
@@ -265,13 +269,8 @@ const loadUsers: DynamicTableRequest<DynamicTableUser> = async (context) => {
   );
 };
 
-// 组件模式的 props 按宽松记录类型声明，这里把业务类型的表格配置做一次收口。
-const tableColumns = computed(() => columns.value as TableProps<TableRecord>['columns']);
-const tableRequest = loadUsers as unknown as DynamicTableRequest<TableRecord>;
-const tableRowSelection = rowSelection as unknown as DynamicTableRowSelection<TableRecord>;
-
 function searchUsers(): void {
-  void tableRef.value?.reload({ resetPage: true });
+  void table.reload({ resetPage: true });
 }
 
 function resetSearch(): void {
@@ -292,14 +291,14 @@ function getUserInitial(record: DynamicTableUser): string {
 }
 
 async function disableUsers(
-  rows: TableRecord[],
+  rows: DynamicTableUser[],
   clearSelection: () => void,
   reload: (options?: { resetPage?: boolean }) => Promise<void>,
 ): Promise<void> {
   if (!rows.length) return;
   batchLoading.value = true;
   try {
-    await disableDynamicTableUsersApi(rows.map((row) => Number(row.id)));
+    await disableDynamicTableUsersApi(rows.map((row) => row.id));
     message.success(`已停用 ${rows.length} 个用户`);
     clearSelection();
     await reload();
@@ -315,7 +314,7 @@ function handleRequestError(error: unknown): void {
 
 watch(dataMode, () => {
   selectedRowKeys.value = [];
-  void tableRef.value?.reload({ resetPage: true });
+  void table.reload({ resetPage: true });
 });
 
 watch(selectionMode, () => {

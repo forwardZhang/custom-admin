@@ -36,7 +36,7 @@
                 `click` 适合刷新、导出和状态切换；Promise 执行期间自动 loading 并阻止重复点击。
               </p>
             </div>
-            <Tag>render.type = click</Tag>
+            <Tag>action.type = click</Tag>
           </div>
 
           <div class="flex flex-wrap items-center gap-3">
@@ -65,7 +65,7 @@
                 `record` 驱动动态文案和禁用状态；确认、取消都支持异步回调。
               </p>
             </div>
-            <Tag color="orange">render.type = confirm</Tag>
+            <Tag color="orange">action.type = confirm</Tag>
           </div>
 
           <div class="overflow-hidden rounded-lg border border-border-secondary">
@@ -224,11 +224,11 @@ import {
 } from '@antdv-next/icons';
 
 import type {
+  DynamicButtonApi,
   DynamicButtonCancelPayload,
   DynamicButtonConfig,
   DynamicButtonErrorPayload,
-  DynamicButtonEvents,
-  DynamicButtonExpose,
+  DynamicButtonHandlers,
   DynamicButtonLoadingPayload,
   DynamicButtonOpenPayload,
   DynamicButtonSuccessPayload,
@@ -240,9 +240,19 @@ import type { MemberEditorValue } from './types';
 
 defineOptions({ name: 'DemoDynamicButton' });
 
-interface DemoMember extends Record<string, unknown>, MemberEditorValue {
+interface DemoMember extends MemberEditorValue {
   avatarColor: string;
   id: number;
+}
+
+/** 导出行为在打开前生成的批次号。 */
+interface ExportBatch {
+  batch: string;
+}
+
+/** 二次确认在打开前预取的目标状态。 */
+interface ToggleResult {
+  nextEnabled: boolean;
 }
 
 type EventName = 'cancel' | 'error' | 'loading' | 'open' | 'success';
@@ -263,7 +273,10 @@ const overview = [
 
 const configTips = [
   { key: 'label / icon', description: '静态或基于 record 动态渲染文案，并配置图标。' },
-  { key: 'props', description: '透传 Button、Popconfirm、Modal、Drawer 原生属性。' },
+  {
+    key: 'buttonProps / confirmProps',
+    description: '按容器透传 Button、Popconfirm、Modal、Drawer 原生属性。',
+  },
   { key: 'getDefaultValue', description: '打开前异步加载数据，失败会进入 error 事件。' },
   { key: 'submit / cancel', description: '统一 Promise 流程，内置 loading 与并发保护。' },
 ];
@@ -317,22 +330,23 @@ const lastRefreshedAt = ref('尚未刷新');
 const lastExportBatch = ref('-');
 
 const selectedMember = computed(() => members[1] ?? members[0]!);
-const quickActionButton = ref<DynamicButtonExpose>();
+const quickActionButton = ref<DynamicButtonApi>();
 
-const buttonEvents: DynamicButtonEvents = {
-  success: handleSuccess,
-  error: handleError,
-  cancel: handleCancel,
-  'loading-change': handleLoadingChange,
-  'open-change': handleOpenChange,
+/** 六种配置共用同一套日志回调；回调只读取 payload 的公共字段，与各自的泛型无关。 */
+const buttonHandlers: DynamicButtonHandlers<unknown, unknown> = {
+  onSuccess: handleSuccess,
+  onError: handleError,
+  onCancel: handleCancel,
+  onLoadingChange: handleLoadingChange,
+  onOpenChange: handleOpenChange,
 };
 
 const quickActionConfig: DynamicButtonConfig = {
   label: '刷新数据',
   icon: ReloadOutlined,
-  props: { type: 'primary' },
-  events: buttonEvents,
-  render: {
+  buttonProps: { type: 'primary' },
+  ...buttonHandlers,
+  action: {
     type: 'click',
     submit: () => {
       lastRefreshedAt.value = formatTime();
@@ -340,12 +354,12 @@ const quickActionConfig: DynamicButtonConfig = {
   },
 };
 
-const asyncActionConfig: DynamicButtonConfig = {
+const asyncActionConfig: DynamicButtonConfig<void, ExportBatch> = {
   label: '异步导出',
   icon: ThunderboltOutlined,
-  props: { color: 'primary', variant: 'outlined' },
-  events: buttonEvents,
-  render: {
+  buttonProps: { color: 'primary', variant: 'outlined' },
+  ...buttonHandlers,
+  action: {
     type: 'click',
     getDefaultValue: async () => {
       await delay(500);
@@ -353,29 +367,29 @@ const asyncActionConfig: DynamicButtonConfig = {
     },
     submit: async ({ value }) => {
       await delay(900);
-      lastExportBatch.value = readString(value, 'batch');
+      lastExportBatch.value = value?.batch ?? '-';
     },
   },
 };
 
 const externalLoadingConfig: DynamicButtonConfig = {
   label: '外部 Loading',
-  props: { loading: { delay: 200 }, type: 'dashed' },
-  events: buttonEvents,
-  render: { type: 'click', submit: () => undefined },
+  buttonProps: { loading: { delay: 200 }, type: 'dashed' },
+  ...buttonHandlers,
+  action: { type: 'click', submit: () => undefined },
 };
 
 const disabledActionConfig: DynamicButtonConfig = {
   label: '无权限操作',
   disabled: true,
-  render: { type: 'click', submit: () => undefined },
+  action: { type: 'click', submit: () => undefined },
 };
 
 const errorActionConfig: DynamicButtonConfig = {
   label: '模拟失败',
-  props: { danger: true, type: 'text' },
-  events: buttonEvents,
-  render: {
+  buttonProps: { danger: true, type: 'text' },
+  ...buttonHandlers,
+  action: {
     type: 'click',
     submit: async () => {
       await delay(500);
@@ -384,15 +398,15 @@ const errorActionConfig: DynamicButtonConfig = {
   },
 };
 
-const toggleMemberConfig: DynamicButtonConfig = {
+const toggleMemberConfig: DynamicButtonConfig<DemoMember, ToggleResult> = {
   label: ({ record }) => (record?.enabled ? '停用账号' : '启用账号'),
   icon: DeleteOutlined,
   disabled: ({ record }) => record?.role === '管理员',
-  props: { danger: true, size: 'small', type: 'text' },
-  events: buttonEvents,
-  render: {
+  buttonProps: { danger: true, size: 'small', type: 'text' },
+  ...buttonHandlers,
+  action: {
     type: 'confirm',
-    props: {
+    confirmProps: {
       title: '确认变更账号状态？',
       description: '操作会立即生效，之后仍可再次切换。',
       okText: '确认变更',
@@ -405,8 +419,8 @@ const toggleMemberConfig: DynamicButtonConfig = {
     },
     submit: async ({ record, value }) => {
       await delay(700);
-      const member = members.find((item) => item.id === Number(record?.id));
-      if (member) member.enabled = readBoolean(value, 'nextEnabled');
+      const member = members.find((item) => item.id === record?.id);
+      if (member && value) member.enabled = value.nextEnabled;
     },
     cancel: async () => {
       await delay(250);
@@ -414,17 +428,17 @@ const toggleMemberConfig: DynamicButtonConfig = {
   },
 };
 
-const editMemberConfig: DynamicButtonConfig = {
-  label: ({ record }) => `编辑 ${String(record?.name ?? '成员')}`,
+const editMemberConfig: DynamicButtonConfig<DemoMember, MemberEditorValue> = {
+  label: ({ record }) => `编辑 ${record?.name ?? '成员'}`,
   icon: EditOutlined,
-  props: { block: true, type: 'primary' },
-  events: buttonEvents,
-  render: {
+  buttonProps: { block: true, type: 'primary' },
+  ...buttonHandlers,
+  action: {
     type: 'modal',
     component: MemberEditor,
     componentProps: ({ record }) => ({
       mode: 'edit',
-      description: `默认值来自 record：${String(record?.department ?? '-')}`,
+      description: `默认值来自 record：${record?.department ?? '-'}`,
     }),
     footerExtra: ({ phase, value }) =>
       h(
@@ -432,13 +446,12 @@ const editMemberConfig: DynamicButtonConfig = {
         {
           disabled: phase !== null,
           onClick: () => {
-            const name = isMemberEditorValue(value) ? value.name : '未命名成员';
-            message.info(`当前编辑：${name}`);
+            message.info(`当前编辑：${value?.name || '未命名成员'}`);
           },
         },
         { default: () => '预览' },
       ),
-    props: {
+    modalProps: {
       title: '编辑成员',
       width: 620,
       centered: true,
@@ -451,8 +464,8 @@ const editMemberConfig: DynamicButtonConfig = {
     },
     submit: async ({ record, value }) => {
       await delay(900);
-      const member = members.find((item) => item.id === Number(record?.id));
-      if (!member || !isMemberEditorValue(value)) throw new Error('成员数据格式不正确');
+      const member = members.find((item) => item.id === record?.id);
+      if (!member || !value) throw new Error('成员数据格式不正确');
       Object.assign(member, value);
     },
     cancel: async () => {
@@ -461,19 +474,19 @@ const editMemberConfig: DynamicButtonConfig = {
   },
 };
 
-const createMemberConfig: DynamicButtonConfig = {
+const createMemberConfig: DynamicButtonConfig<void, MemberEditorValue> = {
   label: '新建成员',
   icon: UserAddOutlined,
-  props: { block: true, type: 'primary' },
-  events: buttonEvents,
-  render: {
+  buttonProps: { block: true, type: 'primary' },
+  ...buttonHandlers,
+  action: {
     type: 'drawer',
     component: MemberEditor,
     componentProps: {
       mode: 'create',
       description: 'Drawer 复用同一表单组件，并使用独立的初始值。',
     },
-    props: {
+    drawerProps: {
       title: '新建成员',
       placement: 'right',
       size: 'large',
@@ -487,7 +500,7 @@ const createMemberConfig: DynamicButtonConfig = {
     },
     submit: async ({ value }) => {
       await delay(900);
-      if (!isMemberEditorValue(value)) throw new Error('成员数据格式不正确');
+      if (!value) throw new Error('成员数据格式不正确');
       members.push({
         ...value,
         id: Math.max(...members.map((item) => item.id)) + 1,
@@ -500,25 +513,25 @@ const createMemberConfig: DynamicButtonConfig = {
   },
 };
 
-function handleSuccess(payload: DynamicButtonSuccessPayload): void {
+function handleSuccess(payload: DynamicButtonSuccessPayload<unknown, unknown>): void {
   addLog('success', `${payload.type} 执行成功${formatRecord(payload.record)}`);
   message.success(`${actionName[payload.type]}成功`);
 }
 
-function handleError(payload: DynamicButtonErrorPayload): void {
+function handleError(payload: DynamicButtonErrorPayload<unknown, unknown>): void {
   const errorMessage = payload.error instanceof Error ? payload.error.message : '未知错误';
   addLog('error', `${payload.type} 在 ${payload.phase} 阶段失败：${errorMessage}`);
   message.error(errorMessage);
 }
 
-function handleCancel(payload: DynamicButtonCancelPayload): void {
+function handleCancel(payload: DynamicButtonCancelPayload<unknown, unknown>): void {
   addLog(
     'cancel',
     `${payload.type} 已取消，来源：${payload.reason}${formatRecord(payload.record)}`,
   );
 }
 
-function handleLoadingChange(payload: DynamicButtonLoadingPayload): void {
+function handleLoadingChange(payload: DynamicButtonLoadingPayload<unknown>): void {
   activeTasks.value = payload.loading ? 1 : 0;
   addLog(
     'loading',
@@ -526,7 +539,7 @@ function handleLoadingChange(payload: DynamicButtonLoadingPayload): void {
   );
 }
 
-function handleOpenChange(payload: DynamicButtonOpenPayload): void {
+function handleOpenChange(payload: DynamicButtonOpenPayload<unknown>): void {
   openedLayers.value = Math.max(0, openedLayers.value + (payload.open ? 1 : -1));
   addLog(
     'open',
@@ -543,8 +556,11 @@ function clearLogs(): void {
   eventLogs.value = [];
 }
 
-function formatRecord(record?: Record<string, unknown>): string {
-  return record?.name ? ` · ${String(record.name)}` : '';
+/** 日志面板不关心 record 的具体类型，只在存在 name 字段时补一段后缀。 */
+function formatRecord(record: unknown): string {
+  if (!record || typeof record !== 'object') return '';
+  const name = (record as { name?: unknown }).name;
+  return typeof name === 'string' ? ` · ${name}` : '';
 }
 
 function formatTime(): string {
@@ -564,39 +580,13 @@ function createEmptyEditorValue(): MemberEditorValue {
   return { name: '', email: '', department: '', role: '', remark: '', enabled: true };
 }
 
-function toEditorValue(record?: Record<string, unknown>): MemberEditorValue {
-  return {
-    name: String(record?.name ?? ''),
-    email: String(record?.email ?? ''),
-    department: String(record?.department ?? ''),
-    role: String(record?.role ?? ''),
-    remark: String(record?.remark ?? ''),
-    enabled: Boolean(record?.enabled),
-  };
-}
+/** 编辑弹层的初始值直接取自当前行，字段类型由 DemoMember 保证。 */
+function toEditorValue(member: DemoMember | undefined): MemberEditorValue {
+  if (!member) return createEmptyEditorValue();
 
-function isMemberEditorValue(value: unknown): value is MemberEditorValue {
-  if (!value || typeof value !== 'object') return false;
-  const candidate = value as Partial<MemberEditorValue>;
-  return (
-    typeof candidate.name === 'string' &&
-    typeof candidate.email === 'string' &&
-    typeof candidate.department === 'string' &&
-    typeof candidate.role === 'string' &&
-    typeof candidate.remark === 'string' &&
-    typeof candidate.enabled === 'boolean'
-  );
-}
+  const { name, email, department, role, remark, enabled } = member;
 
-function readString(value: unknown, key: string): string {
-  if (!value || typeof value !== 'object') return '-';
-  const field = (value as Record<string, unknown>)[key];
-  return typeof field === 'string' ? field : '-';
-}
-
-function readBoolean(value: unknown, key: string): boolean {
-  if (!value || typeof value !== 'object') return false;
-  return Boolean((value as Record<string, unknown>)[key]);
+  return { name, email, department, role, remark, enabled };
 }
 
 const actionName: Record<DynamicButtonSuccessPayload['type'], string> = {

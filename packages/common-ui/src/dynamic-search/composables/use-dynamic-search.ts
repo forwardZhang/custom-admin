@@ -1,32 +1,27 @@
-import type { Component } from 'vue';
-
-import { defineComponent, h } from 'vue';
+import { defineComponent } from 'vue';
 
 import DynamicSearch from '../components/dynamic-search.vue';
-import { DynamicSearchState } from '../core/search-state';
+import { renderDynamicHost, useDynamicHost } from '../../internal/define-dynamic-hook';
+import { createSearchApiDefinition } from '../core/api-definition';
 
 import type { FormData } from '../../dynamic-form';
-import type { UseDynamicSearchOptions } from '../types';
+import type { DynamicSearchApi, DynamicSearchEventProps, DynamicSearchProps } from '../types';
 
 /**
- * 创建由运行时配置驱动的搜索组件，并返回对应的命令式 API。
- * State 在这里创建，通过 searchState prop 交给 DynamicSearch 复用，
- * 因此 searchApi 在组件挂载之前就可以读写表单值与 schema。
+ * 返回绑定了泛型的搜索组件与引用稳定的命令式 API。
+ * 配置全部写在模板上（与直接使用 DynamicSearch 完全一致），Hook 只解决泛型推断与 api 取用。
  */
-export function useDynamicSearch<T extends FormData = FormData>(
-  options: UseDynamicSearchOptions<T>,
-) {
-  const searchState = new DynamicSearchState<T>(options);
-
-  const Search = defineComponent(
-    (_props, { attrs, slots }) => {
-      return () => h(DynamicSearch as Component, { ...attrs, searchState }, slots);
-    },
-    {
-      name: 'UseDynamicSearch',
-      inheritAttrs: false,
-    },
+export function useDynamicSearch<T extends FormData = FormData>() {
+  const { instance, api } = useDynamicHost<DynamicSearchApi<T>>(
+    'DynamicSearch',
+    createSearchApiDefinition<T>(),
   );
 
-  return [Search, searchState.api] as const;
+  const Search = defineComponent(
+    (_props: DynamicSearchProps<T> & DynamicSearchEventProps<T>, ctx) =>
+      renderDynamicHost(DynamicSearch, instance, ctx),
+    { name: 'UseDynamicSearch', inheritAttrs: false },
+  );
+
+  return [Search, api] as const;
 }

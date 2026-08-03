@@ -5,7 +5,7 @@ import { computed, onMounted, ref, watch } from 'vue';
 import { cloneDeep, isEqual, isPlainObject } from 'lodash-es';
 
 import { useDynamicFormFieldContext } from '../core/context';
-import { createFieldApi } from '../core/form-api';
+import { createFieldApi } from '../core/field-api';
 import { normalizePath, pathToString } from '../utils/path';
 import { applySchemaDefaults } from '../utils/schema';
 
@@ -23,6 +23,9 @@ export interface ListTableColumn extends TableColumnType<DynamicFormListItem> {
   fieldIndex?: number;
 }
 
+/** 表格布局行上挂载稳定 key 的字段名，只在渲染副本上出现，不写回表单值。 */
+export const LIST_ROW_KEY = '__dynamicFormListRowKey';
+
 /**
  * List 字段逻辑：行 key、增删复制、table 列、onChange。
  * 模板只负责 card / table / custom 三种布局渲染。
@@ -32,21 +35,21 @@ export function useFormList(disabled: () => boolean) {
 
   const listSchema = computed(() => schema.value as DynamicFormListFieldSchema<FormData>);
   const childSchema = computed(() => listSchema.value.schema);
-  const listProps = computed(() => listSchema.value.listProps ?? {});
+  const listOptions = computed(() => listSchema.value.listOptions ?? {});
   const layout = computed<DynamicFormListLayout | Component>(
-    () => listProps.value.layout ?? 'card',
+    () => listOptions.value.layout ?? 'card',
   );
   const isCustomLayout = computed(() => typeof layout.value !== 'string');
   const items = computed<DynamicFormListItem[]>(() =>
-    Array.isArray(api.state) ? (api.state as DynamicFormListItem[]) : [],
+    Array.isArray(api.value) ? (api.value as DynamicFormListItem[]) : [],
   );
   const listPath = computed<NormalizedFormPath>(() => [...api.field.path]);
-  const reachedMin = computed(() => items.value.length <= Math.max(listProps.value.min ?? 0, 0));
+  const reachedMin = computed(() => items.value.length <= Math.max(listOptions.value.min ?? 0, 0));
   const reachedMax = computed(
-    () => listProps.value.max !== undefined && items.value.length >= listProps.value.max,
+    () => listOptions.value.max !== undefined && items.value.length >= listOptions.value.max,
   );
   const showActions = computed(
-    () => listProps.value.showCopy !== false || listProps.value.showDelete !== false,
+    () => listOptions.value.showCopy !== false || listOptions.value.showDelete !== false,
   );
 
   let rowKeySeed = 0;
@@ -70,7 +73,7 @@ export function useFormList(disabled: () => boolean) {
     const nextItems = items.value.map(
       (item) => applySchemaDefaults(normalizeItem(item), childSchema.value) as DynamicFormListItem,
     );
-    if (!isEqual(nextItems, items.value)) api.setState(listPath.value, nextItems);
+    if (!isEqual(nextItems, items.value)) api.setFieldValue(listPath.value, nextItems);
   });
 
   const tableColumns = computed<ListTableColumn[]>(() => {
@@ -96,9 +99,12 @@ export function useFormList(disabled: () => boolean) {
     return columns;
   });
 
-  function getRowKey(_item: DynamicFormListItem, index?: number): string {
-    return rowKeys.value[index ?? 0];
-  }
+  /**
+   * 表格布局的数据源：把稳定 rowKey 挂到行上，避免用底层 Table 已废弃的 `rowKey(item, index)`。
+   */
+  const tableRows = computed(() =>
+    items.value.map((item, index) => ({ ...item, [LIST_ROW_KEY]: rowKeys.value[index] })),
+  );
 
   function getColumnFieldIndex(column: TableColumnType<DynamicFormListItem>): number {
     return (column as ListTableColumn).fieldIndex ?? -1;
@@ -124,7 +130,7 @@ export function useFormList(disabled: () => boolean) {
           listIndex: index,
           itemPath,
         },
-        state: items.value,
+        value: items.value,
       }),
       {
         listPath: listPath.value,
@@ -138,14 +144,14 @@ export function useFormList(disabled: () => boolean) {
 
   function commitItems(nextItems: DynamicFormListItem[], nativeArgs: readonly unknown[]): void {
     const oldValue = cloneDeep(items.value);
-    api.setState(listPath.value, nextItems);
+    api.setFieldValue(listPath.value, nextItems);
 
     schema.value.onChange?.(
       createFieldApi(
         api,
         () => ({
           field: api.field,
-          state: cloneDeep(nextItems),
+          value: cloneDeep(nextItems),
         }),
         { oldValue, nativeArgs },
       ),
@@ -157,11 +163,11 @@ export function useFormList(disabled: () => boolean) {
 
     const index = items.value.length;
     const emptyContext = createActionContext(index, {});
-    const createdItem = normalizeItem(listProps.value.createItem?.(emptyContext) ?? {});
+    const createdItem = normalizeItem(listOptions.value.createItem?.(emptyContext) ?? {});
     const item = applySchemaDefaults(createdItem, childSchema.value) as DynamicFormListItem;
     rowKeys.value.push(createRowKey());
     commitItems([...items.value, item], ['add', index]);
-    listProps.value.onAdd?.(createActionContext(index, item));
+    listOptions.value.onAdd?.(createActionContext(index, item));
   }
 
   function copyItem(index: number): void {
@@ -173,7 +179,7 @@ export function useFormList(disabled: () => boolean) {
     nextItems.splice(insertIndex, 0, item);
     rowKeys.value.splice(insertIndex, 0, createRowKey());
     commitItems(nextItems, ['copy', index, insertIndex]);
-    listProps.value.onCopy?.(createActionContext(insertIndex, item, index));
+    listOptions.value.onCopy?.(createActionContext(insertIndex, item, index));
   }
 
   function removeItem(index: number): void {
@@ -194,12 +200,12 @@ export function useFormList(disabled: () => boolean) {
     if (affectedPaths.length) api.clearValidate(affectedPaths);
 
     commitItems(nextItems, ['delete', index]);
-    listProps.value.onDelete?.(createActionContext(index, item));
+    listOptions.value.onDelete?.(createActionContext(index, item));
   }
 
   return {
     childSchema,
-    listProps,
+    listOptions,
     layout,
     isCustomLayout,
     items,
@@ -209,7 +215,7 @@ export function useFormList(disabled: () => boolean) {
     showActions,
     rowKeys,
     tableColumns,
-    getRowKey,
+    tableRows,
     getColumnFieldIndex,
     addItem,
     copyItem,

@@ -3,7 +3,7 @@ import type { Ref } from 'vue';
 import { computed, ref, shallowRef, watchEffect } from 'vue';
 
 import { useDynamicFormFieldContext } from '../core/context';
-import { createFieldApi } from '../core/form-api';
+import { createFieldApi } from '../core/field-api';
 import { extractOptions, handleRequestError, normalizeOptions } from '../utils/options';
 
 import type { DynamicFormOptionRequest, FormData } from '../types';
@@ -40,7 +40,7 @@ export function useFormFieldRequest<TProps extends object>(fieldProps: Readonly<
     const controller = new AbortController();
     onCleanup(() => controller.abort());
 
-    const requestApi = createFieldApi(api, () => ({ state: api.state, field: api.field }), {
+    const requestApi = createFieldApi(api, () => ({ value: api.value, field: api.field }), {
       signal: controller.signal,
     });
 

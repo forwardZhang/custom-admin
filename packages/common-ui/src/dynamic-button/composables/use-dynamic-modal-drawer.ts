@@ -12,15 +12,14 @@ import type {
   DynamicButtonActionContext,
   DynamicButtonCancelReason,
   DynamicButtonContentExpose,
+  DynamicButtonLayerAction,
   DynamicButtonLayerLifecycle,
-  DynamicButtonLayerRender,
   DynamicButtonLayerSession,
   DynamicButtonPhase,
-  DynamicButtonValue,
 } from '../types';
 
 /** Modal 和 Drawer 共同使用的容器类型。 */
-export type DynamicButtonModalDrawerType = DynamicButtonLayerRender['type'];
+export type DynamicButtonModalDrawerType = DynamicButtonLayerAction['type'];
 
 /** Modal/Drawer 在内部渲染前归一化的共同属性。 */
 interface DynamicButtonLayerContainerProps {
@@ -37,7 +36,7 @@ interface DynamicButtonLayerContainerProps {
 }
 
 /** useDynamicModalDrawer 对 DynamicButton 暴露的组件实例能力。 */
-export interface DynamicButtonModalDrawerApi {
+export interface DynamicButtonModalDrawerApi<TRecord, TValue> {
   /** 关闭动画结束前保持组件存在，确保离场动画能够完整播放。 */
   mounted: Readonly<Ref<boolean>>;
   /** 当前 Modal 或 Drawer 是否打开。 */
@@ -47,23 +46,23 @@ export interface DynamicButtonModalDrawerApi {
   /** DynamicButton 通过 component :is 将它放进当前应用组件树。 */
   component: Component;
   /** 使用点击时捕获的稳定会话打开组件实例。 */
-  open: (session: DynamicButtonLayerSession) => void;
+  open: (session: DynamicButtonLayerSession<TRecord, TValue>) => void;
 }
 
 /**
  * 使用同一套状态机创建 Modal 或 Drawer 组件实例。
  * 两种容器只在原生属性和关闭事件上分支，value、校验、提交、取消及清理流程全部复用。
  */
-export function useDynamicModalDrawer(
+export function useDynamicModalDrawer<TRecord, TValue>(
   type: DynamicButtonModalDrawerType,
-  lifecycle: DynamicButtonLayerLifecycle,
-): DynamicButtonModalDrawerApi {
+  lifecycle: DynamicButtonLayerLifecycle<TRecord, TValue>,
+): DynamicButtonModalDrawerApi<TRecord, TValue> {
   const mounted = shallowRef(false);
   const opened = shallowRef(false);
   const phase = shallowRef<DynamicButtonPhase | null>(null);
-  const session = shallowRef<DynamicButtonLayerSession>();
-  const value = shallowRef<DynamicButtonValue>();
-  const contentRef = shallowRef<DynamicButtonContentExpose>();
+  const session = shallowRef<DynamicButtonLayerSession<TRecord, TValue>>();
+  const value = shallowRef<TValue>();
+  const contentRef = shallowRef<DynamicButtonContentExpose<TValue>>();
   const busy = computed(() => phase.value !== null);
 
   /** phase 同时决定 footer loading、关闭保护和错误阶段。 */
@@ -76,7 +75,9 @@ export function useDynamicModalDrawer(
   }
 
   /** 为 submit/cancel 创建当前值快照，避免回调修改组件实例的内部数据。 */
-  function createActionContext(current: DynamicButtonLayerSession): DynamicButtonActionContext {
+  function createActionContext(
+    current: DynamicButtonLayerSession<TRecord, TValue>,
+  ): DynamicButtonActionContext<TRecord, TValue> {
     return {
       record: current.record,
       event: current.event,
@@ -94,13 +95,18 @@ export function useDynamicModalDrawer(
   }
 
   /** 内容组件通过标准 v-model 更新当前编辑值。 */
-  function updateValue(nextValue: DynamicButtonValue): void {
+  function updateValue(nextValue: TValue | undefined): void {
     value.value = cloneDeep(nextValue);
+  }
+
+  /** validate 返回 void 时表示沿用当前 v-model 值，不做替换。 */
+  function isReplacementValue(validated: TValue | void | undefined): validated is TValue {
+    return validated !== undefined;
   }
 
   /** 保存内容组件暴露的实例，提交时按需调用 validate。 */
   function setContentRef(instance: unknown): void {
-    contentRef.value = instance as DynamicButtonContentExpose | undefined;
+    contentRef.value = instance as DynamicButtonContentExpose<TValue> | undefined;
   }
 
   /**
@@ -120,11 +126,11 @@ export function useDynamicModalDrawer(
       const validatedValue = await contentRef.value?.validate?.();
 
       // validate 返回新值时，用它替换 v-model 当前值并作为最终提交数据。
-      if (validatedValue !== undefined) updateValue(validatedValue);
+      if (isReplacementValue(validatedValue)) updateValue(validatedValue);
 
       failedPhase = 'submit';
       setPhase('submit');
-      await current.render.submit(createActionContext(current));
+      await current.action.submit(createActionContext(current));
       succeeded = true;
       lifecycle.onSuccess(current, cloneDeep(value.value));
     } catch (error) {
@@ -147,7 +153,7 @@ export function useDynamicModalDrawer(
 
     try {
       setPhase('cancel');
-      await current.render.cancel?.({ ...createActionContext(current), reason });
+      await current.action.cancel?.({ ...createActionContext(current), reason });
       succeeded = true;
       lifecycle.onCancel(reason, current, cloneDeep(value.value));
     } catch (error) {
@@ -160,7 +166,10 @@ export function useDynamicModalDrawer(
   }
 
   /** 关闭动画完成后卸载组件，并释放本次会话保存的 record、value 和内容引用。 */
-  function handleAfterOpenChange(open: boolean, current: DynamicButtonLayerSession): void {
+  function handleAfterOpenChange(
+    open: boolean,
+    current: DynamicButtonLayerSession<TRecord, TValue>,
+  ): void {
     if (open || opened.value || session.value !== current) return;
 
     mounted.value = false;
@@ -179,19 +188,21 @@ export function useDynamicModalDrawer(
       return () => {
         const current = session.value;
 
-        if (!current || current.render.type !== type) return null;
+        if (!current || current.action.type !== type) return null;
 
-        const render = current.render;
+        const action = current.action;
+        // 两种容器的透传属性分别声明，取值时按 type 收窄，避免混用彼此的原生属性。
+        const configuredProps = action.type === 'modal' ? action.modalProps : action.drawerProps;
         const containerProps = {
-          ...render.props,
-          okText: render.props?.okText ?? '提交',
-          cancelText: render.props?.cancelText ?? '取消',
+          ...configuredProps,
+          okText: configuredProps?.okText ?? '提交',
+          cancelText: configuredProps?.cancelText ?? '取消',
         } as DynamicButtonLayerContainerProps;
         // 底部按钮由 DynamicButton 接管，不再透传给容器本身。
         const { okText, cancelText, okButtonProps, cancelButtonProps, ...layerProps } =
           containerProps;
         const configuredOkButton = okButtonProps ?? {};
-        const LayerComponent = render.type === 'modal' ? Modal : Drawer;
+        const LayerComponent = action.type === 'modal' ? Modal : Drawer;
         const handleClose = (event: MouseEvent | KeyboardEvent) => {
           void cancel(resolveDynamicButtonCancelReason(event));
         };
@@ -211,12 +222,12 @@ export function useDynamicModalDrawer(
             keyboard: busy.value ? false : layerProps.keyboard,
             mask: controlledMask,
             maskClosable: busy.value ? false : layerProps.maskClosable,
-            ...(render.type === 'modal' ? { onCancel: handleClose } : { onClose: handleClose }),
+            ...(action.type === 'modal' ? { onCancel: handleClose } : { onClose: handleClose }),
             onAfterOpenChange: (open: boolean) => handleAfterOpenChange(open, current),
           },
           {
             default: () =>
-              h(render.component, {
+              h(action.component, {
                 // 调用方属性先展开，内部字段始终使用当前点击会话，避免 record 被覆盖。
                 ...current.componentProps,
                 record: current.record,
@@ -233,7 +244,7 @@ export function useDynamicModalDrawer(
                   type: 'primary',
                 },
                 cancelButtonProps,
-                extra: render.footerExtra?.({
+                extra: action.footerExtra?.({
                   ...createActionContext(current),
                   phase: phase.value,
                 }),
@@ -249,8 +260,8 @@ export function useDynamicModalDrawer(
   });
 
   /** 使用点击瞬间捕获的稳定会话打开对应的 Modal 或 Drawer 组件实例。 */
-  function open(nextSession: DynamicButtonLayerSession): void {
-    if (nextSession.render.type !== type || opened.value || busy.value) return;
+  function open(nextSession: DynamicButtonLayerSession<TRecord, TValue>): void {
+    if (nextSession.action.type !== type || opened.value || busy.value) return;
 
     session.value = nextSession;
     value.value = cloneDeep(nextSession.value);

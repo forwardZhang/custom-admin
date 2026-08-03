@@ -11,7 +11,13 @@
       show-icon
       type="info"
     />
-    <Form />
+    <Form
+      v-model="modelValue"
+      :initial-values="initialValues"
+      :schema="schema"
+      layout="vertical"
+      wrapper-class="grid grid-cols-1 gap-x-5 sm:grid-cols-2"
+    />
   </div>
 </template>
 
@@ -32,6 +38,9 @@ const props = withDefaults(
 );
 
 const modelValue = defineModel<SystemUserFormValue>({ required: true });
+
+/** 重置基线取挂载时的一份快照，之后的输入不会移动基线。 */
+const initialValues: SystemUserFormValue = { ...modelValue.value };
 
 const departmentOptions = [
   { label: '产品研发部', value: '产品研发部' },
@@ -149,22 +158,13 @@ const schema: DynamicFormSchema<SystemUserFormValue> = [
   },
 ];
 
-const [Form, formApi] = useDynamicForm<SystemUserFormValue>({
-  schema,
-  initialValues: modelValue.value,
-  layout: 'vertical',
-  wrapperClass: 'grid grid-cols-1 gap-x-5 sm:grid-cols-2',
-  showDefaultActions: false,
-  handleValuesChange(values) {
-    modelValue.value = values;
-  },
-});
+const [Form, formApi] = useDynamicForm<SystemUserFormValue>();
 
 async function validate(): Promise<SystemUserFormValue> {
   return formApi.validate();
 }
 
-defineExpose<DynamicButtonContentExpose>({ validate });
+defineExpose<DynamicButtonContentExpose<SystemUserFormValue>>({ validate });
 </script>
 
 <style scoped>

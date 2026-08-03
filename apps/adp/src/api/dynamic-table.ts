@@ -22,11 +22,10 @@ export interface DynamicTableUserQuery {
   sorterOrder?: 'ascend' | 'descend';
 }
 
+/** 分页接口返回结构，与 DynamicTable 的 request 契约保持一致。 */
 export interface DynamicTableUserPageResult {
-  data: {
-    list: DynamicTableUser[];
-    total: number;
-  };
+  list: DynamicTableUser[];
+  total: number;
 }
 
 export function getDynamicTableUsersApi(

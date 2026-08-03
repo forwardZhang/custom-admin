@@ -41,11 +41,10 @@ export interface SystemUserPageParams extends SystemUserQuery {
   sorterOrder?: 'ascend' | 'descend';
 }
 
+/** 分页接口返回结构，与 DynamicTable 的 request 契约保持一致。 */
 export interface SystemUserPageResult {
-  data: {
-    list: SystemUser[];
-    total: number;
-  };
+  list: SystemUser[];
+  total: number;
 }
 
 export function getSystemUserPageApi(

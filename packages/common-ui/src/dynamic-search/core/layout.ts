@@ -10,7 +10,7 @@ import {
 } from '../constants/layout';
 
 import type { DynamicFormFieldSchema, DynamicFormProps, FormData } from '../../dynamic-form';
-import type { UseDynamicSearchOptions } from '../types';
+import type { DynamicSearchProps } from '../types';
 
 export interface SearchLayout<T extends FormData> {
   canCollapse: ComputedRef<boolean>;
@@ -20,42 +20,40 @@ export interface SearchLayout<T extends FormData> {
 
 /**
  * 搜索区的纯派生：列宽 class、折叠隐藏、表单根 class。
- * 只依赖配置与展开状态，因此可以在 DynamicSearchState 构造期直接创建。
+ * 只依赖 props 与展开状态，没有自己的状态，因此可以直接在 setup 里创建。
  */
 export function createSearchLayout<T extends FormData>(
-  getOptions: () => UseDynamicSearchOptions<T>,
+  getProps: () => DynamicSearchProps<T>,
   expanded: Ref<boolean>,
 ): SearchLayout<T> {
   const collapsedCount = computed(() => {
-    const options = getOptions();
+    const props = getProps();
 
     return Math.max(
       0,
       Math.floor(
-        options.collapsedCount ?? Math.max((options.columns ?? DEFAULT_SEARCH_COLUMNS) - 1, 1),
+        props.collapsedCount ?? Math.max((props.columns ?? DEFAULT_SEARCH_COLUMNS) - 1, 1),
       ),
     );
   });
 
   const canCollapse = computed(() => {
-    const options = getOptions();
-    return options.collapsible !== false && options.schema.length > collapsedCount.value;
+    const props = getProps();
+    return props.collapsible !== false && props.schema.length > collapsedCount.value;
   });
 
   const fieldClass = computed(() => {
-    const options = getOptions();
-    const columns = options.columns ?? DEFAULT_SEARCH_COLUMNS;
+    const props = getProps();
+    const columns = props.columns ?? DEFAULT_SEARCH_COLUMNS;
     const widthClass =
-      options.responsive === false
-        ? FIXED_FIELD_CLASSES[columns]
-        : RESPONSIVE_FIELD_CLASSES[columns];
+      props.responsive === false ? FIXED_FIELD_CLASSES[columns] : RESPONSIVE_FIELD_CLASSES[columns];
 
     return `shrink-0 ${widthClass}`;
   });
 
   /** 保留完整 schema，只移除折叠项的节点，避免隐藏字段参与校验。 */
   const schema = computed(() =>
-    getOptions().schema.map((field, index) => {
+    getProps().schema.map((field, index) => {
       const hidden = canCollapse.value && !expanded.value && index >= collapsedCount.value;
 
       return {
@@ -67,13 +65,11 @@ export function createSearchLayout<T extends FormData>(
   );
 
   const formProps = computed(() => {
-    const options = getOptions();
+    const props = getProps();
 
     return {
-      ...options.formProps,
-      rootClass: [options.formProps?.rootClass, DYNAMIC_SEARCH_FORM_CLASS]
-        .filter(Boolean)
-        .join(' '),
+      ...props.formProps,
+      rootClass: [props.formProps?.rootClass, DYNAMIC_SEARCH_FORM_CLASS].filter(Boolean).join(' '),
     };
   });
 

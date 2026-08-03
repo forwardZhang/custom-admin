@@ -4,12 +4,13 @@
  * 1. 基础：FormData / FormPath / DeepPartial / 内置组件名
  * 2. API：DynamicFormApi / FieldApi / ListActionApi / OptionRequestApi
  * 3. Schema：字段配置（builtin / custom / list）与 request
- * 4. 组件：DynamicFormProps / Emits / useDynamicForm options
+ * 4. 组件：DynamicFormProps / DynamicFormEmits
  *
+ * 三条数据流各有唯一入口：配置走 props，命令走 DynamicFormApi，事件走 emits。
  * 业务侧通常只需要：
  * - DynamicFormSchema
- * - UseDynamicFormOptions / DynamicFormApi
- * - DynamicFormListProps（如果用 list）
+ * - DynamicFormProps / DynamicFormApi
+ * - DynamicFormListOptions（如果用 list）
  * - DynamicFormOptionRequest（如果用远程 options）
  */
 
@@ -104,38 +105,35 @@ export interface DynamicFormFieldInfo {
   readonly itemPath?: NormalizedFormPath;
 }
 
-/** DynamicForm 唯一的公共 API；字段回调中只会额外提供 field 信息。 */
+/**
+ * DynamicForm 的命令式 API：组件 expose 与 useDynamicForm 返回的是同一份类型。
+ * 这里只有「读值 / 写值 / 动作」，不包含任何配置写入——配置一律走 props。
+ */
 export interface DynamicFormApi<T extends FormData = FormData> {
-  /** 当前响应式表单状态；读取隔离快照时使用 getStates。 */
-  readonly states: Readonly<T>;
+  /** 当前响应式表单值；需要隔离快照时使用 getValues。 */
+  readonly values: Readonly<T>;
   /** 返回深拷贝后的完整表单值，避免调用方意外修改内部状态。 */
-  getStates(): T;
+  getValues(): T;
   /** 深度合并部分表单值，其中数组按整体替换。 */
-  setStates(states: DeepPartial<T>): void;
+  setValues(values: DeepPartial<T>): void;
   /** 按字段路径读取值，返回值与内部状态隔离。 */
-  getState(fieldName: FormPath): unknown;
-  /** 更新单个字段并触发表单值变更回调。 */
-  setState(fieldName: FormPath, state: unknown): void;
+  getFieldValue(fieldName: FormPath): unknown;
+  /** 更新单个字段并触发表单值变更事件。 */
+  setFieldValue(fieldName: FormPath, value: unknown): void;
   /** 重置全部字段，或仅重置指定路径到初始值。 */
   resetFields(fieldNames?: FormPath[]): void;
   /** 校验全部字段或指定字段，成功后返回当前完整值。 */
   validate(fieldNames?: FormPath[]): Promise<T>;
-  /** 执行校验和提交回调，任一步失败都会 reject。 */
-  submit(): Promise<T>;
   /** 清除全部字段或指定字段的校验状态。 */
   clearValidate(fieldNames?: FormPath[]): void;
+  /** 执行校验并触发 finish 事件，任一步失败都会 reject。 */
+  submit(): Promise<T>;
   /** 滚动到指定字段。 */
   scrollToField(fieldName: FormPath): void;
-  /** 返回深拷贝后的当前运行时 schema。 */
+  /** 返回深拷贝后的当前 schema，便于按当前配置做计算。 */
   getSchema(): DynamicFormSchema<T>;
-  /** 整体替换运行时 schema。 */
-  setSchema(schema: DynamicFormSchema<T>): void;
-  /** 按 fieldName 浅合并更新一个或多个字段 schema。 */
-  updateSchema(patches: Array<Partial<DynamicFormFieldSchema<T>> & { fieldName: FormPath }>): void;
-  /** 获取底层 Antdv Form 实例。 */
-  getFormInstance(): FormInstance | undefined;
-  /** 合并更新 useDynamicForm 的运行时配置。 */
-  setOptions(options: Partial<UseDynamicFormOptions<T>>): void;
+  /** 逃生舱：获取底层 Antdv Form 实例。 */
+  getNativeInstance(): FormInstance | undefined;
 }
 
 export type DynamicFormFieldApi<
@@ -143,7 +141,7 @@ export type DynamicFormFieldApi<
   TValue = unknown,
 > = DynamicFormApi<T> & {
   /** 当前字段值。 */
-  readonly state: TValue;
+  readonly value: TValue;
   /** 当前字段元信息。 */
   readonly field: DynamicFormFieldInfo;
 };
@@ -192,7 +190,7 @@ export interface DynamicFormListLayoutComponentProps<
   removeItem: (index: number) => void;
 }
 
-export interface DynamicFormListProps<
+export interface DynamicFormListOptions<
   T extends FormData = FormData,
   TItem extends DynamicFormListItem = DynamicFormListItem,
 > {
@@ -352,7 +350,8 @@ export interface DynamicFormListFieldSchema<
   T extends FormData = FormData,
 > extends DynamicFormFieldBase<T> {
   component: 'list';
-  listProps?: DynamicFormListProps<T>;
+  /** List 容器自身的配置（布局、增删限制、按钮显隐）。 */
+  listOptions?: DynamicFormListOptions<T>;
   schema: DynamicFormSchema<T>;
 }
 
@@ -364,7 +363,8 @@ export type DynamicFormFieldSchema<T extends FormData = FormData> =
 export type DynamicFormSchema<T extends FormData = FormData> = DynamicFormFieldSchema<T>[];
 
 export interface DynamicFormValidateError<T extends FormData = FormData> {
-  states: T;
+  /** 校验失败时的完整表单值。 */
+  values: T;
   errorFields: Array<{
     name: FormPath;
     errors: string[];
@@ -373,17 +373,21 @@ export interface DynamicFormValidateError<T extends FormData = FormData> {
 }
 
 export type DynamicFormEmits<T extends FormData = FormData> = {
-  'update:modelValue': [value: T];
+  'update:modelValue': [values: T];
   valuesChange: [values: T, fieldsChanged: string[]];
   finish: [values: T];
   finishFailed: [error: DynamicFormValidateError<T>];
   reset: [values: T];
-  schemaChange: [schema: DynamicFormSchema<T>];
 };
 
 export interface DynamicFormProps<T extends FormData = FormData> {
   /** 受控表单值，字段变化时通过 update:modelValue 同步。 */
   modelValue?: T;
+  /**
+   * 重置基线：resetFields 会回到这份值与 schema.defaultValue 的合并结果。
+   * 未配置时以挂载时的 modelValue 为基线；配置后变更只影响基线，不覆盖用户当前输入。
+   */
+  initialValues?: DeepPartial<T>;
   /** 字段配置列表，顺序即渲染顺序。 */
   schema: DynamicFormSchema<T>;
   /** Antdv Form 布局方式。 */
@@ -394,7 +398,7 @@ export interface DynamicFormProps<T extends FormData = FormData> {
   labelWidth?: string | number;
   /** 字段列表容器 class，可用于配置 grid 列数与间距。 */
   wrapperClass?: string;
-  /** 是否显示内置提交、重置操作区，默认为 true。 */
+  /** 是否显示内置提交、重置操作区，默认为 false。 */
   showDefaultActions?: boolean;
   /** 校验失败时是否滚动到首个错误字段。 */
   scrollToFirstError?: FormProps['scrollToFirstError'];
@@ -417,22 +421,13 @@ export interface DynamicFormProps<T extends FormData = FormData> {
   resetButtonOptions?: DynamicFormButtonOptions;
 }
 
-export interface UseDynamicFormOptions<T extends FormData = FormData> extends Omit<
-  DynamicFormProps<T>,
-  'modelValue'
-> {
-  /** useDynamicForm 创建状态时使用的初始值，并会与 schema.defaultValue 合并。 */
-  initialValues?: DeepPartial<T>;
-  /** 校验成功后的提交处理；Promise 完成后才触发组件 finish 事件。 */
-  handleSubmit?: (values: T) => void | Promise<void>;
-  /** 重置后的业务回调。 */
-  handleReset?: (values: T) => void | Promise<void>;
-  /** 表单值变化回调；API 批量更新时 fieldsChanged 可能为空数组。 */
-  handleValuesChange?: (values: T, fieldsChanged: string[]) => void;
-  /** 校验失败回调。 */
-  handleFinishFailed?: (error: DynamicFormValidateError<T>) => void;
-  /** 运行时 schema 被替换或更新后的回调。 */
-  handleSchemaChange?: (schema: DynamicFormSchema<T>) => void;
+/** 事件的 onXxx prop 形式；Hook 生成的组件用它把 emits 表达成 props 类型。 */
+export interface DynamicFormEventProps<T extends FormData = FormData> {
+  'onUpdate:modelValue'?: (values: T) => void;
+  onValuesChange?: (values: T, fieldsChanged: string[]) => void;
+  onFinish?: (values: T) => void;
+  onFinishFailed?: (error: DynamicFormValidateError<T>) => void;
+  onReset?: (values: T) => void;
 }
 
 export interface DynamicFormFieldContext<T extends FormData = FormData> {

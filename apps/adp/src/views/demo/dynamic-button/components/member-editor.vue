@@ -8,7 +8,13 @@
       type="info"
     />
 
-    <Form />
+    <Form
+      v-model="modelValue"
+      :initial-values="initialValues"
+      :schema="schema"
+      layout="vertical"
+      wrapper-class="grid grid-cols-1 gap-x-4 sm:grid-cols-2"
+    />
   </div>
 </template>
 
@@ -26,7 +32,7 @@ withDefaults(
   defineProps<{
     description?: string;
     mode?: 'create' | 'edit';
-    record?: Record<string, unknown>;
+    record?: MemberEditorValue;
   }>(),
   {
     description: '表单值通过标准 v-model 与 DynamicButton 同步。',
@@ -36,6 +42,9 @@ withDefaults(
 );
 
 const modelValue = defineModel<MemberEditorValue>({ required: true });
+
+/** 重置基线取挂载时的一份快照，之后的输入不会移动基线。 */
+const initialValues: MemberEditorValue = { ...modelValue.value };
 
 const departmentOptions = [
   { label: '产品设计', value: '产品设计' },
@@ -121,20 +130,11 @@ const schema: DynamicFormSchema<MemberEditorValue> = [
   },
 ];
 
-const [Form, formApi] = useDynamicForm<MemberEditorValue>({
-  schema,
-  initialValues: modelValue.value,
-  layout: 'vertical',
-  wrapperClass: 'grid grid-cols-1 gap-x-4 sm:grid-cols-2',
-  showDefaultActions: false,
-  handleValuesChange(values) {
-    modelValue.value = values;
-  },
-});
+const [Form, formApi] = useDynamicForm<MemberEditorValue>();
 
 async function validate(): Promise<MemberEditorValue> {
   return formApi.validate();
 }
 
-defineExpose<DynamicButtonContentExpose>({ validate });
+defineExpose<DynamicButtonContentExpose<MemberEditorValue>>({ validate });
 </script>

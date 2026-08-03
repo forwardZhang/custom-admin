@@ -1,5 +1,5 @@
 <template>
-  <DynamicPage fill>
+  <DynamicPage :search="searchProps" :table="tableProps" fill>
     <template #title>
       <h2>用户列表</h2>
     </template>
@@ -57,19 +57,14 @@ import { DeleteOutlined, EditOutlined, PlusOutlined } from '@antdv-next/icons';
 
 import type {
   DynamicButtonConfig,
-  DynamicButtonErrorPayload,
+  DynamicButtonHandlers,
   DynamicFormSchema,
   DynamicPageRequest,
-  DynamicPageSearchConfig,
-  DynamicPageTableConfig,
+  DynamicPageSearchProps,
+  DynamicPageTableProps,
 } from '@package/common-ui';
 import { DynamicButton, useDynamicPage } from '@package/common-ui';
-import type {
-  SystemUser,
-  SystemUserFormValue,
-  SystemUserQuery,
-  SystemUserStatus,
-} from '@/api/system-user';
+import type { SystemUser, SystemUserFormValue, SystemUserQuery } from '@/api/system-user';
 import {
   createSystemUserApi,
   deleteSystemUsersApi,
@@ -208,17 +203,16 @@ const searchSchema: DynamicFormSchema<SystemUserQuery> = [
   },
 ];
 
-const searchConfig: DynamicPageSearchConfig<SystemUserQuery> = {
+const searchProps: DynamicPageSearchProps<SystemUserQuery> = {
   schema: searchSchema,
   columns: 4,
   labelWidth: 76,
   initialValues: {},
 };
 
-const tableConfig: DynamicPageTableConfig<SystemUserQuery, SystemUser> = {
+const tableProps: DynamicPageTableProps<SystemUserQuery, SystemUser> = {
   columns,
   request: requestUsers,
-  multiple: true,
   pagination: {
     current: 1,
     pageSize: 10,
@@ -234,32 +228,30 @@ const tableConfig: DynamicPageTableConfig<SystemUserQuery, SystemUser> = {
   },
   scroll: { x: 1080 },
   size: 'middle',
-  handleRequestError(error) {
+  onRequestError(error) {
     showError(error, '加载用户列表失败');
   },
 };
 
-const [DynamicPage, , tableApi] = useDynamicPage<SystemUserQuery, SystemUser>({
-  searchConfig,
-  tableConfig,
-});
+const [DynamicPage, api] = useDynamicPage<SystemUserQuery, SystemUser>();
 
-const buttonEvents = {
-  error(payload: DynamicButtonErrorPayload) {
-    showError(payload.error, '操作失败');
+/** 五个按钮共用同一套错误提示；回调只读取 error，与各自的 record/value 泛型无关。 */
+const buttonHandlers: DynamicButtonHandlers<unknown, unknown> = {
+  onError({ error }) {
+    showError(error, '操作失败');
   },
 };
 
-const createButtonConfig: DynamicButtonConfig = {
+const createButtonConfig: DynamicButtonConfig<void, SystemUserFormValue> = {
   label: '新增用户',
   icon: PlusOutlined,
-  props: { type: 'primary' },
-  events: buttonEvents,
-  render: {
+  buttonProps: { type: 'primary' },
+  ...buttonHandlers,
+  action: {
     type: 'drawer',
     component: UserEditor,
     componentProps: { mode: 'create' },
-    props: {
+    drawerProps: {
       title: '新增用户',
       placement: 'right',
       size: 'large',
@@ -268,46 +260,46 @@ const createButtonConfig: DynamicButtonConfig = {
     },
     getDefaultValue: () => createEmptyFormValue(),
     async submit({ value }) {
-      await createSystemUserApi(readFormValue(value));
+      if (!value) throw new Error('用户表单数据无效');
+      await createSystemUserApi(value);
       message.success('用户创建成功');
-      await tableApi.reload({ resetPage: true });
+      await api.table.reload({ resetPage: true });
     },
   },
 };
 
-const editButtonConfig: DynamicButtonConfig = {
+const editButtonConfig: DynamicButtonConfig<SystemUser, SystemUserFormValue> = {
   label: '编辑',
   icon: EditOutlined,
-  props: { type: 'link' },
-  events: buttonEvents,
-  render: {
+  buttonProps: { type: 'link' },
+  ...buttonHandlers,
+  action: {
     type: 'modal',
     component: UserEditor,
     componentProps: { mode: 'edit' },
-    props: {
+    modalProps: {
       title: '编辑用户',
       width: 720,
     },
     getDefaultValue: ({ record }) => toFormValue(record),
     async submit({ record, value }) {
-      const id = Number(record?.id);
-      if (!Number.isInteger(id)) throw new Error('用户标识无效');
-      await updateSystemUserApi({ id, data: readFormValue(value) });
+      if (!record || !value) throw new Error('用户表单数据无效');
+      await updateSystemUserApi({ id: record.id, data: value });
       message.success('用户信息已更新');
-      await tableApi.reload();
+      await api.table.reload();
     },
   },
 };
 
-const deleteButtonConfig: DynamicButtonConfig = {
+const deleteButtonConfig: DynamicButtonConfig<SystemUser> = {
   label: '删除',
   icon: DeleteOutlined,
-  disabled: ({ record }) => Number(record?.id) === 1,
-  props: { danger: true, type: 'link' },
-  events: buttonEvents,
-  render: {
+  disabled: ({ record }) => record?.id === 1,
+  buttonProps: { danger: true, type: 'link' },
+  ...buttonHandlers,
+  action: {
     type: 'confirm',
-    props: {
+    confirmProps: {
       title: '确认删除该用户？',
       description: '删除后将无法恢复，请谨慎操作。',
       okText: '删除',
@@ -315,23 +307,22 @@ const deleteButtonConfig: DynamicButtonConfig = {
       okButtonProps: { danger: true },
     },
     async submit({ record }) {
-      const id = Number(record?.id);
-      if (!Number.isInteger(id)) throw new Error('用户标识无效');
-      await deleteSystemUsersApi([id]);
-      message.success(`已删除用户 ${String(record?.nickname ?? '')}`);
-      await tableApi.reload();
+      if (!record) throw new Error('用户标识无效');
+      await deleteSystemUsersApi([record.id]);
+      message.success(`已删除用户 ${record.nickname}`);
+      await api.table.reload();
     },
   },
 };
 
-const batchDeleteButtonConfig: DynamicButtonConfig = {
+const batchDeleteButtonConfig: DynamicButtonConfig<{ ids: number[] }> = {
   label: '批量删除',
   icon: DeleteOutlined,
-  props: { danger: true, size: 'small' },
-  events: buttonEvents,
-  render: {
+  buttonProps: { danger: true, size: 'small' },
+  ...buttonHandlers,
+  action: {
     type: 'confirm',
-    props: {
+    confirmProps: {
       title: '确认删除选中的用户？',
       description: '删除后将无法恢复，请谨慎操作。',
       okText: '批量删除',
@@ -339,12 +330,12 @@ const batchDeleteButtonConfig: DynamicButtonConfig = {
       okButtonProps: { danger: true },
     },
     async submit({ record }) {
-      const ids = Array.isArray(record?.ids) ? record.ids.map(Number).filter(Number.isInteger) : [];
+      const ids = record?.ids ?? [];
       if (!ids.length) throw new Error('请先选择需要删除的用户');
       await deleteSystemUsersApi(ids);
       message.success(`已删除 ${ids.length} 个用户`);
-      tableApi.clearSelection();
-      await tableApi.reload({ resetPage: true });
+      api.table.clearSelection();
+      await api.table.reload({ resetPage: true });
     },
   },
 };
@@ -363,34 +354,19 @@ function createEmptyFormValue(): SystemUserFormValue {
   };
 }
 
-function toFormValue(record: Record<string, unknown> | undefined): SystemUserFormValue {
-  return {
-    username: String(record?.username ?? ''),
-    nickname: String(record?.nickname ?? ''),
-    email: String(record?.email ?? ''),
-    phone: String(record?.phone ?? ''),
-    department: String(record?.department ?? ''),
-    role: String(record?.role ?? ''),
-    status: isUserStatus(record?.status) ? record.status : 'enabled',
-    remark: String(record?.remark ?? ''),
-  };
-}
+/** 编辑弹层的初始值直接取自当前行，字段类型由 SystemUser 保证。 */
+function toFormValue(user: SystemUser | undefined): SystemUserFormValue {
+  if (!user) return createEmptyFormValue();
 
-function readFormValue(value: unknown): SystemUserFormValue {
-  if (!value || typeof value !== 'object' || Array.isArray(value)) {
-    throw new Error('用户表单数据无效');
-  }
-  return value as SystemUserFormValue;
+  const { username, nickname, email, phone, department, role, status, remark } = user;
+
+  return { username, nickname, email, phone, department, role, status, remark };
 }
 
 function normalizeQuery(values: SystemUserQuery): SystemUserQuery {
   return Object.fromEntries(
     Object.entries(values).filter(([, value]) => value !== '' && value !== undefined),
   ) as SystemUserQuery;
-}
-
-function isUserStatus(value: unknown): value is SystemUserStatus {
-  return value === 'enabled' || value === 'disabled';
 }
 
 function getUserInitial(user: SystemUser): string {

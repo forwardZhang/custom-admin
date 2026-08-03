@@ -5,7 +5,6 @@ export type {
   DynamicSearchApi,
   DynamicSearchColumns,
   DynamicSearchEmits,
-  DynamicSearchInstance,
+  DynamicSearchEventProps,
   DynamicSearchProps,
-  UseDynamicSearchOptions,
 } from './types';

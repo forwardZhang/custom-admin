@@ -1,20 +1,26 @@
 <template>
-  <div v-bind="attrs" class="dynamic-page p-3" :class="{ 'dynamic-page--fill': fill }">
+  <div v-bind="attrs" class="dynamic-page p-3" :class="{ 'dynamic-page--fill': props.fill }">
     <section class="dynamic-page__search" aria-label="查询条件">
-      <DynamicSearch :search-state="pageState.searchState" />
+      <DynamicSearch
+        ref="searchRef"
+        v-bind="props.search"
+        @reset="handleReset"
+        @search="handleSearch"
+      />
     </section>
 
     <div v-if="slots.between" class="dynamic-page__between">
-      <slot
-        name="between"
-        :search-api="pageState.searchApi"
-        :search-values="submittedSearchValues"
-        :table-api="pageState.tableApi"
-      />
+      <slot name="between" :search="searchApi" :search-values="searchValues" :table="tableApi" />
     </div>
 
     <section class="dynamic-page__table">
-      <DynamicTable :table-state="pageState.tableState">
+      <DynamicTable
+        ref="tableRef"
+        v-bind="props.table"
+        :fill="props.fill"
+        :immediate="false"
+        :request="pageRequest"
+      >
         <template v-if="slots.default" #default><slot /></template>
         <template v-for="slotName in tableSlotNames" :key="slotName" #[slotName]="slotProps">
           <slot :name="slotName" v-bind="slotProps" />
@@ -24,84 +30,123 @@
   </div>
 </template>
 
-<script setup lang="ts">
-import { computed, useAttrs, watch } from 'vue';
+<script
+  setup
+  lang="ts"
+  generic="TSearch extends FormData = FormData, TRecord extends object = Record<string, unknown>"
+>
+import { cloneDeep } from 'lodash-es';
+import { computed, onMounted, shallowRef, useAttrs, watch } from 'vue';
 
 import { DynamicSearch } from '../../dynamic-search';
 import { DynamicTable } from '../../dynamic-table';
-import { DynamicPageState } from '../core/page-state';
+import { createSearchApiDefinition } from '../../dynamic-search/core/api-definition';
+import { createTableApiDefinition } from '../../dynamic-table/core/api-definition';
+import { useApiProxy } from '../../internal/use-api-proxy';
 
-import type { DynamicPageInternalProps } from '../core/internal-props';
 import type { FormData } from '../../dynamic-form';
-import type { UseDynamicPageOptions } from '../types';
+import type { DynamicSearchApi } from '../../dynamic-search';
+import type { DynamicTableApi, DynamicTableRequest } from '../../dynamic-table';
+import type { DynamicPageApi, DynamicPageEmits, DynamicPageProps } from '../types';
 
 defineOptions({ name: 'DynamicPage', inheritAttrs: false });
 
-// 组件模式读 props 自建 State；useDynamicPage 模式通过 pageState prop 复用同一份 State。
-const props = withDefaults(defineProps<DynamicPageInternalProps>(), {
+// 配置只从 props 来；默认值只写在这里一处。
+const props = withDefaults(defineProps<DynamicPageProps<TSearch, TRecord>>(), {
   autoReload: true,
   clearSelectionOnSearch: true,
-  fill: undefined,
-  searchConfig: undefined,
-  tableConfig: undefined,
-  pageState: undefined,
+  fill: false,
 });
+
+const emit = defineEmits<DynamicPageEmits<TSearch>>();
 
 const attrs = useAttrs();
 const slots = defineSlots<Record<string, (props?: Record<string, unknown>) => unknown>>();
 
-const ownsState = !props.pageState;
-const pageState =
-  props.pageState ??
-  new DynamicPageState<FormData, Record<string, unknown>>(props as UseDynamicPageOptions);
+const searchRef = shallowRef<DynamicSearchApi<TSearch>>();
+const tableRef = shallowRef<DynamicTableApi<TRecord>>();
 
-const submittedSearchValues = pageState.submittedSearchValues;
+/** 最近一次查询或重置后的搜索条件快照；挂载前回落到搜索区当前值。 */
+const submittedSearchValues = shallowRef<TSearch>();
 
-// 撑满模式由页面统一接管：props 优先，其次页面配置，最后回落到 tableConfig.fill。
-const fill = computed(() => {
-  const configured =
-    props.fill ?? pageState.state.value.fill ?? pageState.tableState.state.value.fill;
-  return configured === true;
+// 两个子 API 用代理取用：引用稳定，且挂载前的调用有统一的排队 / 兜底语义。
+const searchApi = useApiProxy<DynamicSearchApi<TSearch>>(
+  'DynamicPage',
+  () => searchRef.value,
+  createSearchApiDefinition<TSearch>(),
+);
+const tableApi = useApiProxy<DynamicTableApi<TRecord>>(
+  'DynamicPage',
+  () => tableRef.value,
+  createTableApiDefinition<TRecord>(),
+);
+
+function currentSearchValues(): TSearch {
+  return submittedSearchValues.value ?? searchApi.getValues();
+}
+
+const searchValues = computed<TSearch>(currentSearchValues);
+
+/**
+ * 把搜索条件补进表格 request 的上下文。
+ * 只依赖 props.table.request 的引用，条件在调用时才读，因此表格看到的 request 引用是稳定的。
+ */
+const pageRequest = computed<DynamicTableRequest<TRecord> | undefined>(() => {
+  const request = props.table.request;
+  if (!request) return undefined;
+
+  return (context) => request({ ...context, searchValues: cloneDeep(currentSearchValues()) });
 });
 
-// 页面容器与表格必须同时进入撑满模式，否则表体拿不到确定高度。
-watch(fill, (value) => pageState.tableApi.setState({ fill: value }), { immediate: true });
+/** 首屏与 request 变化后是否由页面发起请求。 */
+const shouldRequest = () => Boolean(props.table.request) && props.table.immediate !== false;
 
-// 组件模式下 props 是唯一配置来源；Hook 模式的配置直接改 State，不经过 props。
-if (ownsState) {
-  watch(
-    () => props.searchConfig,
-    (searchConfig) => searchConfig && pageState.searchApi.setOptions(searchConfig),
-  );
+/** 查询与重置成功后：先记录条件快照，再按配置清选中并刷新。 */
+function applySubmitted(values: TSearch): void {
+  submittedSearchValues.value = cloneDeep(values);
 
-  watch(
-    () => props.tableConfig,
-    (tableConfig) => tableConfig && pageState.tableApi.setState(tableConfig),
-  );
-
-  watch(
-    () => [props.autoReload, props.clearSelectionOnSearch] as const,
-    ([autoReload, clearSelectionOnSearch]) =>
-      pageState.setOptions({ autoReload, clearSelectionOnSearch }),
-  );
+  if (props.clearSelectionOnSearch) tableApi.clearSelection();
+  if (props.autoReload) void tableApi.reload({ resetPage: true });
 }
+
+function handleSearch(values: TSearch): void {
+  applySubmitted(values);
+  emit('search', values);
+}
+
+function handleReset(values: TSearch): void {
+  applySubmitted(values);
+  emit('reset', values);
+}
+
+// 首屏请求由页面编排：表格拿到的是 :immediate="false"，条件快照在这里才成立。
+onMounted(() => {
+  submittedSearchValues.value = cloneDeep(searchApi.getValues());
+  if (shouldRequest()) void tableApi.reload();
+});
+
+// request 换了函数就重新取数；post 刷新让这次请求晚于表格自身的 reset（否则会被它中止）。
+watch(
+  pageRequest,
+  () => {
+    if (shouldRequest()) void tableApi.reload();
+  },
+  { flush: 'post' },
+);
 
 const tableSlotNames = computed(() =>
   Object.keys(slots).filter((name) => !['between', 'default'].includes(name)),
 );
 
-// SFC 声明只保留运行时键，精确泛型由公开的 DynamicPageInstance 类型提供。
-defineExpose<Record<string, unknown>>({
-  get searchApi() {
-    return pageState.searchApi;
-  },
-  get tableApi() {
-    return pageState.tableApi;
-  },
+const pageApi: DynamicPageApi<TSearch, TRecord> = {
+  search: searchApi,
+  table: tableApi,
   get searchValues() {
-    return pageState.submittedSearchValues.value;
+    return currentSearchValues();
   },
-} as unknown as Record<string, unknown>);
+};
+
+defineExpose<DynamicPageApi<TSearch, TRecord>>(pageApi);
 </script>
 
 <style scoped>

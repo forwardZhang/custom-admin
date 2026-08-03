@@ -85,7 +85,7 @@ withDefaults(
     fullscreen: boolean;
     loading: boolean;
     selectedRowKeys: DynamicTableKey[];
-    selectedRows: Record<string, unknown>[];
+    selectedRows: object[];
     title?: string;
     showFullscreen: boolean;
     showRefresh: boolean;

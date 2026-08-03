@@ -1,52 +1,30 @@
-import type { Component } from 'vue';
-
-import { defineComponent, h } from 'vue';
+import { defineComponent } from 'vue';
 
 import DynamicForm from '../components/dynamic-form.vue';
-import { DynamicFormState } from '../core/form-api';
+import { renderDynamicHost, useDynamicHost } from '../../internal/define-dynamic-hook';
+import { createFormApiDefinition } from '../core/api-definition';
 
-import type { FormData, UseDynamicFormOptions } from '../types';
+import type { DynamicFormApi, DynamicFormEventProps, DynamicFormProps, FormData } from '../types';
 
 /**
  * 命令式入口：返回 [Form, formApi]。
- * State 在这里创建，通过 formState prop 交给 DynamicForm 复用，不再创建第二份状态。
+ * Hook 只做两件事——给出绑定了泛型的组件别名，以及引用稳定的 API 代理。
+ * 配置仍然全部写在模板上，与直接使用 DynamicForm 完全一致。
  */
-export function useDynamicForm<T extends FormData = FormData>(options: UseDynamicFormOptions<T>) {
-  const formState = new DynamicFormState<T>(options);
-  const formApi = formState.api;
+export function useDynamicForm<T extends FormData = FormData>() {
+  const { instance, api } = useDynamicHost<DynamicFormApi<T>>(
+    'DynamicForm',
+    createFormApiDefinition<T>(),
+  );
 
   const Form = defineComponent(
-    (_props, { attrs, slots }) => {
-      return () => {
-        // 这些回调由 DynamicFormState 自己消费，不要再透传成组件 props。
-        const {
-          initialValues: _initialValues,
-          handleSubmit: _handleSubmit,
-          handleReset: _handleReset,
-          handleValuesChange: _handleValuesChange,
-          handleFinishFailed: _handleFinishFailed,
-          handleSchemaChange: _handleSchemaChange,
-          ...formOptions
-        } = formState.state.value;
-
-        return h(
-          DynamicForm as Component,
-          {
-            ...formOptions,
-            ...attrs,
-            formState,
-            schema: formState.schema.value,
-            modelValue: formApi.states,
-          },
-          slots,
-        );
-      };
-    },
+    (_props: DynamicFormProps<T> & DynamicFormEventProps<T>, ctx) =>
+      renderDynamicHost(DynamicForm, instance, ctx),
     {
       name: 'UseDynamicForm',
       inheritAttrs: false,
     },
   );
 
-  return [Form, formApi] as const;
+  return [Form, api] as const;
 }

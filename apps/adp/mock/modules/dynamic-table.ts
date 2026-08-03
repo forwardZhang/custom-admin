@@ -82,10 +82,8 @@ export const dynamicTableMockRoutes: MockRoute[] = [
       await delay(current % 2 === 0 ? 520 : 260);
 
       return success({
-        data: {
-          list: filteredUsers.slice(start, start + pageSize),
-          total,
-        },
+        list: filteredUsers.slice(start, start + pageSize),
+        total,
       });
     },
   },

@@ -25,7 +25,14 @@
 
     <main class="mx-auto grid max-w-7xl gap-4 p-4 sm:p-6 xl:grid-cols-[minmax(0,1fr)_320px]">
       <section class="min-w-0 rounded-lg bg-container p-4 sm:p-6">
-        <Form />
+        <Form
+          :initial-values="initialValues"
+          :schema="schema"
+          show-default-actions
+          wrapper-class="grid grid-cols-1 gap-x-6 md:grid-cols-2"
+          @finish="handleFinish"
+          @finish-failed="handleFinishFailed"
+        />
       </section>
 
       <aside class="min-w-0 xl:sticky xl:top-4 xl:self-start">
@@ -74,14 +81,10 @@
 <script setup lang="ts">
 import type { SelectProps, TreeSelectProps } from 'antdv-next';
 
-import { computed, h, nextTick, ref } from 'vue';
+import { computed, ref } from 'vue';
 import { message } from 'antdv-next';
 
-import type {
-  DynamicFormListLayout,
-  DynamicFormListProps,
-  DynamicFormSchema,
-} from '@package/common-ui';
+import type { DynamicFormListOptions, DynamicFormSchema } from '@package/common-ui';
 import { useDynamicForm } from '@package/common-ui';
 import { getIndustryOptionsApi, getNotificationOptionsApi } from '@/api/dynamic-form';
 
@@ -92,7 +95,7 @@ defineOptions({ name: 'DemoDynamicForm' });
 
 type CustomerType = 'individual' | 'company';
 type ServiceLevel = 'standard' | 'priority' | 'dedicated';
-type DemoListLayout = DynamicFormListLayout | 'custom';
+type DemoListLayout = 'card' | 'table' | 'custom';
 
 interface SelectOption {
   label: string;
@@ -168,11 +171,11 @@ const selectOptions: SelectProps['options'] = industryOptions;
 const listLayoutOptions = [
   { label: '卡片', value: 'card' },
   { label: '表格', value: 'table' },
+  { label: '自定义', value: 'custom' },
 ];
-listLayoutOptions.push({ label: '自定义', value: 'custom' });
 const listLayout = ref<DemoListLayout>('card');
 
-const contactListProps: DynamicFormListProps<DemoFormData, ContactItem> = {
+const contactListOptions: DynamicFormListOptions<DemoFormData, ContactItem> = {
   layout: 'card',
   min: 1,
   max: 6,
@@ -216,8 +219,8 @@ const contactSchema: DynamicFormSchema<DemoFormData> = [
     required: true,
     requiredMessage: '请输入联系人姓名',
     listColumnProps: { minWidth: 160 },
-    onChange: ({ field, oldValue, state }) =>
-      recordFieldChange(field.path, state, oldValue, field.listIndex, field.itemPath),
+    onChange: ({ field, oldValue, value }) =>
+      recordFieldChange(field.path, value, oldValue, field.listIndex, field.itemPath),
   },
   {
     fieldName: 'phone',
@@ -228,8 +231,8 @@ const contactSchema: DynamicFormSchema<DemoFormData> = [
     disabled: false,
     listColumnProps: { minWidth: 180 },
     fieldProps: { maxlength: 20 },
-    onChange: ({ field, oldValue, state }) =>
-      recordFieldChange(field.path, state, oldValue, field.listIndex, field.itemPath),
+    onChange: ({ field, oldValue, value }) =>
+      recordFieldChange(field.path, value, oldValue, field.listIndex, field.itemPath),
   },
   {
     fieldName: 'role',
@@ -243,52 +246,40 @@ const contactSchema: DynamicFormSchema<DemoFormData> = [
         { label: '成员', value: 'member' },
       ],
     },
-    onChange: (data) => {
-      const { field, oldValue, state } = data;
-      console.log('data', data);
-
-      recordFieldChange(field.path, state, oldValue, field.listIndex, field.itemPath);
-    },
+    onChange: ({ field, oldValue, value }) =>
+      recordFieldChange(field.path, value, oldValue, field.listIndex, field.itemPath),
   },
 ];
 
-const schema: DynamicFormSchema<DemoFormData> = [
+const schema = computed<DynamicFormSchema<DemoFormData>>(() => [
   {
     fieldName: 'accountName',
-    label: ({ states }) =>
-      states.customerType === 'company'
-        ? h('span', { class: 'text-red' }, '企业名称')
-        : h('span', '客户姓名'),
+    label: ({ values }) => (values.customerType === 'company' ? '企业名称' : '客户姓名'),
     component: 'text',
     required: true,
     requiredMessage: '请输入客户名称',
-    fieldProps: ({ states }) => {
-      return {
-        allowClear: true,
-        // autocomplete: 'off',
-        placeholder: states.customerType === 'company' ? '请输入企业名称' : '请输入客户姓名',
-      };
-    },
-    onChange: ({ field, oldValue, state }) =>
-      recordFieldChange(field.path, state, oldValue, field.listIndex, field.itemPath),
+    fieldProps: ({ values }) => ({
+      allowClear: true,
+      placeholder: values.customerType === 'company' ? '请输入企业名称' : '请输入客户姓名',
+    }),
+    onChange: ({ field, oldValue, value }) =>
+      recordFieldChange(field.path, value, oldValue, field.listIndex, field.itemPath),
   },
   {
     fieldName: 'customerType',
     label: '客户类型',
     component: 'radio',
     required: true,
-    fieldProps: () => {
-      return {
-        optionType: 'button',
-        options: [
-          { label: '个人客户', value: 'individual' },
-          { label: '企业客户', value: 'company' },
-        ],
-      };
+    fieldProps: {
+      optionType: 'button',
+      options: [
+        { label: '个人客户', value: 'individual' },
+        { label: '企业客户', value: 'company' },
+      ],
     },
     onChange: (api) => {
-      api.setState('loginPassword', '');
-      api.setState('accountName', '');
+      api.setFieldValue('loginPassword', '');
+      api.setFieldValue('accountName', '');
     },
   },
   {
@@ -296,13 +287,9 @@ const schema: DynamicFormSchema<DemoFormData> = [
     label: '登录密码',
     component: 'text',
     required: true,
-    fieldProps: () => {
-      console.log('passporwd');
-
-      return {
-        type: 'password',
-        autocomplete: 'new-password',
-      };
+    fieldProps: {
+      type: 'password',
+      autocomplete: 'new-password',
     },
     rules: [{ min: 6, message: '登录密码至少 6 个字符' }],
   },
@@ -310,12 +297,8 @@ const schema: DynamicFormSchema<DemoFormData> = [
     fieldName: 'employeeCount',
     label: '员工人数',
     component: 'number',
-    if: (data) => {
-      const { states } = data;
-
-      return states.customerType === 'company';
-    },
-    required: ({ states }) => states.customerType === 'company',
+    if: ({ values }) => values.customerType === 'company',
+    required: ({ values }) => values.customerType === 'company',
     fieldProps: {
       min: 1,
       max: 100000,
@@ -326,13 +309,13 @@ const schema: DynamicFormSchema<DemoFormData> = [
     fieldName: 'industry',
     label: '所属行业',
     component: 'select',
-    if: ({ states }) => states.customerType === 'company',
-    required: ({ states }) => states.customerType === 'company',
+    if: ({ values }) => values.customerType === 'company',
+    required: ({ values }) => values.customerType === 'company',
     fieldProps: {
       options: selectOptions,
     },
     request: {
-      api: ({ signal, states }) => getIndustryOptionsApi(states.customerType, signal),
+      api: ({ signal, values }) => getIndustryOptionsApi(values.customerType, signal),
       loadOn: 'open',
       labelField: 'name',
       valueField: 'code',
@@ -356,13 +339,13 @@ const schema: DynamicFormSchema<DemoFormData> = [
       event: 'update:selected',
     },
     required: true,
-    disabled: ({ states }) => !states.active,
+    disabled: ({ values }) => !values.active,
   },
   {
     fieldName: 'servicePeriod',
     label: '服务周期',
     component: 'rangePicker',
-    disabled: ({ states }) => !states.active,
+    disabled: ({ values }) => !values.active,
     fieldProps: {
       allowClear: true,
       placeholder: ['开始日期', '结束日期'],
@@ -395,16 +378,14 @@ const schema: DynamicFormSchema<DemoFormData> = [
       options: [{ label: '邮件', value: 'email' }],
     },
     request: {
-      api: ({ signal }) => {
-        return getNotificationOptionsApi(signal);
-      },
+      api: ({ signal }) => getNotificationOptionsApi(signal),
     },
   },
   {
     fieldName: 'foundedDate',
     label: '成立日期',
     component: 'datePicker',
-    if: ({ states }) => states.customerType === 'company',
+    if: ({ values }) => values.customerType === 'company',
     fieldProps: {},
   },
   {
@@ -430,28 +411,29 @@ const schema: DynamicFormSchema<DemoFormData> = [
     component: 'list',
     itemClass: 'md:col-span-2',
     defaultValue: [],
-    listProps: contactListProps,
+    // 布局是配置的一部分：改布局就是改 schema prop，由这个 computed 重新算出来。
+    listOptions: {
+      ...contactListOptions,
+      layout: listLayout.value === 'custom' ? ContactListLayout : listLayout.value,
+    },
     schema: contactSchema,
   },
-];
+]);
 
-const [Form, formApi] = useDynamicForm<DemoFormData>({
-  schema,
-  initialValues,
-  wrapperClass: 'grid grid-cols-1 gap-x-6 md:grid-cols-2',
-  showDefaultActions: true,
-  handleSubmit(values) {
-    message.success(`已提交：${values.accountName ?? '未命名客户'}`);
-  },
-  handleFinishFailed() {
-    message.error('请先修正表单中的错误');
-  },
-});
+const [Form, formApi] = useDynamicForm<DemoFormData>();
 
-const formattedValues = computed(() => JSON.stringify(formApi.states, null, 2));
+const formattedValues = computed(() => JSON.stringify(formApi.values, null, 2));
+
+function handleFinish(values: DemoFormData): void {
+  message.success(`已提交：${values.accountName ?? '未命名客户'}`);
+}
+
+function handleFinishFailed(): void {
+  message.error('请先修正表单中的错误');
+}
 
 function fillForm() {
-  formApi.setStates({
+  formApi.setValues({
     accountName: '示例客户',
     loginPassword: '123',
     customerType: 'company',
@@ -489,14 +471,5 @@ function submitForm() {
 
 function changeListLayout(value: string | number) {
   listLayout.value = value as DemoListLayout;
-  formApi.updateSchema([
-    {
-      fieldName: 'contacts',
-      listProps: {
-        ...contactListProps,
-        layout: listLayout.value === 'custom' ? ContactListLayout : listLayout.value,
-      },
-    },
-  ]);
 }
 </script>

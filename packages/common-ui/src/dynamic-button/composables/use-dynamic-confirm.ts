@@ -7,17 +7,19 @@ import { computed, readonly, shallowRef } from 'vue';
 import type {
   DynamicButtonActionContext,
   DynamicButtonCancelReason,
-  DynamicButtonConfirmRender,
+  DynamicButtonConfirmAction,
   DynamicButtonDispatch,
   DynamicButtonPhase,
   DynamicButtonProps,
-  DynamicButtonValue,
 } from '../types';
 
 /** Confirm 打开期间保存点击瞬间的配置、record、event 和 value。 */
-interface DynamicButtonConfirmSession extends DynamicButtonActionContext {
+interface DynamicButtonConfirmSession<TRecord, TValue> extends DynamicButtonActionContext<
+  TRecord,
+  TValue
+> {
   /** 本次确认使用的配置快照，避免打开后受外部 config 变化影响。 */
-  render: DynamicButtonConfirmRender;
+  action: DynamicButtonConfirmAction<TRecord, TValue>;
 }
 
 /** useDynamicConfirm 对 DynamicButton 暴露的受控确认框能力。 */
@@ -42,14 +44,14 @@ export interface DynamicButtonConfirmApi {
  * 管理受控 Popconfirm 的完整会话。
  * 默认值、提交、取消和按钮 loading 都留在该 hook 内，DynamicButton 只负责行为分发。
  */
-export function useDynamicConfirm(
-  buttonProps: DynamicButtonProps,
-  dispatch: DynamicButtonDispatch,
+export function useDynamicConfirm<TRecord, TValue>(
+  buttonProps: DynamicButtonProps<TRecord, TValue>,
+  dispatch: DynamicButtonDispatch<TRecord, TValue>,
   unavailable: Readonly<Ref<boolean>>,
 ): DynamicButtonConfirmApi {
   const opened = shallowRef(false);
   const phase = shallowRef<DynamicButtonPhase | null>(null);
-  const session = shallowRef<DynamicButtonConfirmSession>();
+  const session = shallowRef<DynamicButtonConfirmSession<TRecord, TValue>>();
 
   /** phase 变化会同步通知外部；null 明确表示本轮异步任务结束。 */
   function setPhase(
@@ -59,7 +61,7 @@ export function useDynamicConfirm(
     if (phase.value === nextPhase) return;
 
     phase.value = nextPhase;
-    dispatch('loading-change', {
+    dispatch('onLoadingChange', {
       loading: nextPhase !== null,
       phase: nextPhase,
       type: 'confirm',
@@ -69,10 +71,10 @@ export function useDynamicConfirm(
 
   /** value 使用深拷贝，避免业务 submit/cancel 修改当前确认会话。 */
   function createActionContext(
-    record: DynamicButtonActionContext['record'],
+    record: TRecord | undefined,
     event: MouseEvent,
-    value: DynamicButtonValue,
-  ): DynamicButtonActionContext {
+    value: TValue | undefined,
+  ): DynamicButtonActionContext<TRecord, TValue> {
     return {
       record,
       event,
@@ -87,31 +89,31 @@ export function useDynamicConfirm(
     if (!current || !opened.value) return;
 
     opened.value = false;
-    dispatch('open-change', { open: false, type: 'confirm', record: current.record });
+    dispatch('onOpenChange', { open: false, type: 'confirm', record: current.record });
     session.value = undefined;
   }
 
   /** 打开前获取默认值；失败时不显示没有准备好数据的确认框。 */
   async function open(event: MouseEvent): Promise<void> {
-    const render = buttonProps.config.render;
+    const action = buttonProps.config.action;
 
-    if (render.type !== 'confirm' || unavailable.value || phase.value !== null || opened.value) {
+    if (action.type !== 'confirm' || unavailable.value || phase.value !== null || opened.value) {
       return;
     }
 
     const record = buttonProps.record;
-    let value: DynamicButtonValue;
+    let value: TValue | undefined;
 
     try {
       setPhase('load-default', record);
-      value = render.getDefaultValue
-        ? cloneDeep(await render.getDefaultValue({ record, event }))
+      value = action.getDefaultValue
+        ? cloneDeep(await action.getDefaultValue({ record, event }))
         : undefined;
-      session.value = { render, ...createActionContext(record, event, value) };
+      session.value = { action, ...createActionContext(record, event, value) };
       opened.value = true;
-      dispatch('open-change', { open: true, type: 'confirm', record });
+      dispatch('onOpenChange', { open: true, type: 'confirm', record });
     } catch (error) {
-      dispatch('error', {
+      dispatch('onError', {
         type: 'confirm',
         phase: 'load-default',
         error,
@@ -135,18 +137,18 @@ export function useDynamicConfirm(
 
     try {
       setPhase('submit', current.record);
-      await current.render.submit(
+      await current.action.submit(
         createActionContext(current.record, current.event, current.value),
       );
       succeeded = true;
-      dispatch('success', {
+      dispatch('onSuccess', {
         type: 'confirm',
         record: current.record,
         event: current.event,
         value: cloneDeep(current.value),
       });
     } catch (error) {
-      dispatch('error', {
+      dispatch('onError', {
         type: 'confirm',
         phase: 'submit',
         error,
@@ -171,12 +173,12 @@ export function useDynamicConfirm(
 
     try {
       setPhase('cancel', current.record);
-      await current.render.cancel?.({
+      await current.action.cancel?.({
         ...createActionContext(current.record, current.event, current.value),
         reason,
       });
       succeeded = true;
-      dispatch('cancel', {
+      dispatch('onCancel', {
         type: 'confirm',
         reason,
         record: current.record,
@@ -184,7 +186,7 @@ export function useDynamicConfirm(
         value: cloneDeep(current.value),
       });
     } catch (error) {
-      dispatch('error', {
+      dispatch('onError', {
         type: 'confirm',
         phase: 'cancel',
         error,
@@ -209,20 +211,10 @@ export function useDynamicConfirm(
    * 确保一个异步任务执行时不能启动另一个任务。
    */
   const props = computed<PopconfirmProps>(() => {
-    const render = session.value?.render;
-    const fallback =
-      buttonProps.config.render.type === 'confirm' ? buttonProps.config.render : undefined;
-    const configuredProps = (render?.props ?? fallback?.props ?? {}) as PopconfirmProps;
-    const {
-      open: _open,
-      defaultOpen: _defaultOpen,
-      disabled: _disabled,
-      onOpenChange: _onOpenChange,
-      'onUpdate:open': _onUpdateOpen,
-      onConfirm: _onConfirm,
-      onCancel: _onCancel,
-      ...nativeProps
-    } = configuredProps;
+    const configuredAction = buttonProps.config.action;
+    const action =
+      session.value?.action ?? (configuredAction.type === 'confirm' ? configuredAction : undefined);
+    const nativeProps = action?.confirmProps ?? {};
 
     return {
       ...nativeProps,

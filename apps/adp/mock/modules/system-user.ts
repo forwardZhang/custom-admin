@@ -118,10 +118,8 @@ export const systemUserMockRoutes: MockRoute[] = [
       const start = (current - 1) * pageSize;
       await delay();
       return success({
-        data: {
-          list: filteredUsers.slice(start, start + pageSize),
-          total,
-        },
+        list: filteredUsers.slice(start, start + pageSize),
+        total,
       });
     },
   },

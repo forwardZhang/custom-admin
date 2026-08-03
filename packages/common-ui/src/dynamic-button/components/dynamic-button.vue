@@ -9,7 +9,7 @@
     @open-change="handleConfirmOpenChange"
   >
     <DynamicButtonBase
-      :button-props="props.config.props"
+      :button-props="props.config.buttonProps"
       :disabled="disabled"
       :icon="props.config.icon"
       :label="label"
@@ -21,7 +21,7 @@
   <!-- click、modal、drawer 共用同一个基础按钮入口。 -->
   <DynamicButtonBase
     v-else
-    :button-props="props.config.props"
+    :button-props="props.config.buttonProps"
     :disabled="disabled"
     :icon="props.config.icon"
     :label="label"
@@ -36,18 +36,18 @@
   <component :is="layerComponent" v-if="layerMounted && layerComponent" />
 </template>
 
-<script setup lang="ts">
+<script setup lang="ts" generic="TRecord = void, TValue = void">
 import { Popconfirm } from 'antdv-next';
 
 import DynamicButtonBase from './dynamic-button-base.vue';
 import { useDynamicButton } from '../composables/use-dynamic-button';
 
-import type { DynamicButtonExpose, DynamicButtonProps } from '../types';
+import type { DynamicButtonApi, DynamicButtonProps } from '../types';
 
 defineOptions({ name: 'DynamicButton' });
 
-/** DynamicButton 只接收配置和当前业务数据，不使用 SFC 泛型。 */
-const props = defineProps<DynamicButtonProps>();
+/** 只接收配置和当前业务数据；record 与 value 的类型由 config 的泛型推断。 */
+const props = defineProps<DynamicButtonProps<TRecord, TValue>>();
 
 /** composable 负责行为分发，SFC 只拼装基础按钮、确认框和树内弹层组件。 */
 const {
@@ -65,6 +65,6 @@ const {
   cancelConfirm,
 } = useDynamicButton(props);
 
-/** 组件实例只开放主动触发入口，生命周期回调统一位于 config.events。 */
-defineExpose<DynamicButtonExpose>({ trigger: handleClick });
+/** 组件实例只开放主动触发入口，生命周期回调统一位于 config 的 onXxx。 */
+defineExpose<DynamicButtonApi>({ trigger: handleClick });
 </script>

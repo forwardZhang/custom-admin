@@ -1,14 +1,8 @@
 import { cloneDeep, get, set } from 'lodash-es';
 
-import { normalizePath, pathToString, resolveFormPath } from './path';
+import { resolveFormPath } from './path';
 
-import type {
-  DeepPartial,
-  DynamicFormFieldSchema,
-  DynamicFormSchema,
-  FormData,
-  FormPath,
-} from '../types';
+import type { DeepPartial, DynamicFormSchema, FormData, FormPath } from '../types';
 
 /** 深拷贝 schema，隔离调用方配置与运行时动态修改。 */
 export function cloneSchema<T extends FormData>(
@@ -19,10 +13,10 @@ export function cloneSchema<T extends FormData>(
 
 /** 仅为空值字段应用 schema.defaultValue，显式传入的初始值优先。 */
 export function applySchemaDefaults<T extends FormData>(
-  values: DeepPartial<T> | undefined,
+  values: DeepPartial<T> | T | undefined,
   schema: DynamicFormSchema<T>,
 ): T {
-  const result = cloneDeep((values ?? {}) as T);
+  const result = cloneDeep(values ?? {}) as T;
   applyFieldDefaults(result, schema, []);
   return result;
 }
@@ -44,18 +38,4 @@ function applyFieldDefaults<T extends FormData>(
     if (!Array.isArray(rows)) continue;
     rows.forEach((_row, index) => applyFieldDefaults(result, field.schema, [...path, index]));
   }
-}
-
-/** 按规范化字段路径批量浅合并 schema，未命中的字段保持原顺序。 */
-export function patchSchema<T extends FormData>(
-  schema: DynamicFormSchema<T>,
-  patches: Array<
-    Partial<DynamicFormFieldSchema<T>> & { fieldName: string | readonly (string | number)[] }
-  >,
-): DynamicFormSchema<T> {
-  const patchMap = new Map(patches.map((patch) => [pathToString(patch.fieldName), patch]));
-  return schema.map((field) => {
-    const patch = patchMap.get(pathToString(field.fieldName));
-    return patch ? ({ ...field, ...cloneDeep(patch) } as DynamicFormFieldSchema<T>) : field;
-  });
 }

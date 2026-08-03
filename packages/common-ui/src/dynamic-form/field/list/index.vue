@@ -13,9 +13,9 @@
       :remove-item="removeItem"
       :row-keys="rowKeys"
       :schema="childSchema"
-      :show-add="listProps.showAdd !== false"
-      :show-copy="listProps.showCopy !== false"
-      :show-delete="listProps.showDelete !== false"
+      :show-add="listOptions.showAdd !== false"
+      :show-copy="listOptions.showCopy !== false"
+      :show-delete="listOptions.showDelete !== false"
     >
       <template #field="fieldProps">
         <slot name="field" v-bind="fieldProps" />
@@ -33,7 +33,7 @@
         >
           <template v-if="showActions" #extra>
             <div class="dynamic-form-list__actions">
-              <Tooltip v-if="listProps.showCopy !== false" title="复制">
+              <Tooltip v-if="listOptions.showCopy !== false" title="复制">
                 <Button
                   aria-label="复制"
                   size="small"
@@ -44,7 +44,7 @@
                   <CopyOutlined />
                 </Button>
               </Tooltip>
-              <Tooltip v-if="listProps.showDelete !== false" title="删除">
+              <Tooltip v-if="listOptions.showDelete !== false" title="删除">
                 <Button
                   aria-label="删除"
                   danger
@@ -81,9 +81,9 @@
         v-else
         class="dynamic-form-list__table"
         :columns="tableColumns"
-        :data-source="items"
+        :data-source="tableRows"
         :pagination="false"
-        :row-key="getRowKey"
+        :row-key="LIST_ROW_KEY"
         :scroll="{ x: 'max-content' }"
         size="middle"
         bordered
@@ -99,7 +99,7 @@
             name="field"
           />
           <div v-else class="dynamic-form-list__actions dynamic-form-list__table-actions">
-            <Tooltip v-if="listProps.showCopy !== false" title="复制">
+            <Tooltip v-if="listOptions.showCopy !== false" title="复制">
               <Button
                 aria-label="复制"
                 size="small"
@@ -110,7 +110,7 @@
                 <CopyOutlined />
               </Button>
             </Tooltip>
-            <Tooltip v-if="listProps.showDelete !== false" title="删除">
+            <Tooltip v-if="listOptions.showDelete !== false" title="删除">
               <Button
                 aria-label="删除"
                 danger
@@ -127,10 +127,10 @@
       </Table>
     </template>
 
-    <Empty v-else :description="listProps.emptyText ?? '暂无数据'" />
+    <Empty v-else :description="listOptions.emptyText ?? '暂无数据'" />
 
     <Button
-      v-if="!isCustomLayout && listProps.showAdd !== false"
+      v-if="!isCustomLayout && listOptions.showAdd !== false"
       block
       class="dynamic-form-list__add"
       type="dashed"
@@ -138,7 +138,7 @@
       @click="addItem"
     >
       <template #icon><PlusOutlined /></template>
-      {{ listProps.addButtonText ?? '新增一项' }}
+      {{ listOptions.addButtonText ?? '新增一项' }}
     </Button>
   </div>
 </template>
@@ -147,7 +147,7 @@
 import { Button, Card, Empty, Table, Tooltip } from 'antdv-next';
 import { CopyOutlined, DeleteOutlined, PlusOutlined } from '@antdv-next/icons';
 
-import { useFormList } from '../../composables/use-form-list';
+import { LIST_ROW_KEY, useFormList } from '../../composables/use-form-list';
 import type { DynamicFormFieldSchema, FormData } from '../../types';
 
 defineOptions({ name: 'DynamicFormList', inheritAttrs: false });
@@ -168,7 +168,7 @@ defineSlots<{
 
 const {
   childSchema,
-  listProps,
+  listOptions,
   layout,
   isCustomLayout,
   items,
@@ -178,7 +178,7 @@ const {
   showActions,
   rowKeys,
   tableColumns,
-  getRowKey,
+  tableRows,
   getColumnFieldIndex,
   addItem,
   copyItem,

@@ -2,15 +2,13 @@ export { default as DynamicPage } from './components/dynamic-page.vue';
 export { useDynamicPage } from './composables/use-dynamic-page';
 
 export type {
+  DynamicPageApi,
   DynamicPageBetweenSlotProps,
-  DynamicPageComponent,
-  DynamicPageInstance,
+  DynamicPageEmits,
+  DynamicPageEventProps,
   DynamicPageProps,
   DynamicPageRequest,
   DynamicPageRequestContext,
-  DynamicPageSearchConfig,
-  DynamicPageTableApi,
-  DynamicPageTableConfig,
-  UseDynamicPageOptions,
-  UseDynamicPageReturn,
+  DynamicPageSearchProps,
+  DynamicPageTableProps,
 } from './types';

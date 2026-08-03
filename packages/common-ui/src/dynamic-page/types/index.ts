@@ -1,12 +1,15 @@
-import type { Component } from 'vue';
-
 import type { FormData } from '../../dynamic-form';
-import type { DynamicSearchApi, UseDynamicSearchOptions } from '../../dynamic-search';
+import type {
+  DynamicSearchApi,
+  DynamicSearchEventProps,
+  DynamicSearchProps,
+} from '../../dynamic-search';
 import type {
   DynamicTableApi,
+  DynamicTableEventProps,
+  DynamicTableProps,
   DynamicTableRequestContext,
   DynamicTableRequestResult,
-  UseDynamicTableOptions,
 } from '../../dynamic-table';
 
 export interface DynamicPageRequestContext<
@@ -17,6 +20,7 @@ export interface DynamicPageRequestContext<
   searchValues: Readonly<TSearch>;
 }
 
+/** 页面级 request：在表格请求上下文之上多拿到一份搜索条件。 */
 export type DynamicPageRequest<
   TSearch extends FormData = FormData,
   TRecord extends object = Record<string, unknown>,
@@ -24,68 +28,67 @@ export type DynamicPageRequest<
   context: DynamicPageRequestContext<TSearch, TRecord>,
 ) => Promise<DynamicTableRequestResult<TRecord>>;
 
-export type DynamicPageSearchConfig<TSearch extends FormData = FormData> =
-  UseDynamicSearchOptions<TSearch>;
+/** 搜索区配置：DynamicSearch 的 props 与事件原样透传。 */
+export type DynamicPageSearchProps<TSearch extends FormData = FormData> =
+  DynamicSearchProps<TSearch> & DynamicSearchEventProps<TSearch>;
 
-export type DynamicPageTableConfig<
+/**
+ * 表格区配置：DynamicTable 的 props 与事件原样透传，只有三处由页面接管——
+ * request 换成页面级签名，fill 只有页面一个来源，immediate 由页面编排首屏请求。
+ */
+export type DynamicPageTableProps<
   TSearch extends FormData = FormData,
   TRecord extends object = Record<string, unknown>,
-> = Omit<UseDynamicTableOptions<TRecord>, 'request'> & {
-  request?: DynamicPageRequest<TSearch, TRecord>;
-};
+> = Omit<DynamicTableProps<TRecord>, 'request' | 'fill'> &
+  DynamicTableEventProps<TRecord> & {
+    request?: DynamicPageRequest<TSearch, TRecord>;
+  };
 
-export interface UseDynamicPageOptions<
+export interface DynamicPageProps<
   TSearch extends FormData = FormData,
   TRecord extends object = Record<string, unknown>,
 > {
-  searchConfig: DynamicPageSearchConfig<TSearch>;
-  tableConfig: DynamicPageTableConfig<TSearch, TRecord>;
+  /** 搜索区配置。 */
+  search: DynamicPageSearchProps<TSearch>;
+  /** 表格区配置。 */
+  table: DynamicPageTableProps<TSearch, TRecord>;
   /** 查询或重置后是否自动回到第一页刷新，默认为 true。 */
   autoReload?: boolean;
   /** 查询或重置后是否自动清除选中行，默认为 true。 */
   clearSelectionOnSearch?: boolean;
-  /**
-   * 页面撑满父容器高度：整页不滚动，只有表体内部滚动，默认为 false。
-   * 开启后会同步接管 tableConfig.fill。
-   */
+  /** 页面撑满父容器高度：整页不滚动，只有表体内部滚动，默认为 false。 */
   fill?: boolean;
 }
 
-export type DynamicPageProps<
-  TSearch extends FormData = FormData,
-  TRecord extends object = Record<string, unknown>,
-> = UseDynamicPageOptions<TSearch, TRecord>;
-
-export type DynamicPageTableApi<
-  TSearch extends FormData = FormData,
-  TRecord extends object = Record<string, unknown>,
-> = Omit<DynamicTableApi<TRecord>, 'setState'> & {
-  /** 更新表格运行时配置；request 会继续收到 DynamicPage 搜索条件。 */
-  setState(state: Partial<DynamicPageTableConfig<TSearch, TRecord>>): void;
+export type DynamicPageEmits<TSearch extends FormData = FormData> = {
+  /** 查询校验通过、搜索条件快照已更新之后触发。 */
+  search: [values: TSearch];
+  /** 重置完成、搜索条件快照已更新之后触发。 */
+  reset: [values: TSearch];
 };
 
-export type DynamicPageComponent = Component;
+/** 事件的 onXxx prop 形式；Hook 生成的组件用它把 emits 表达成 props 类型。 */
+export interface DynamicPageEventProps<TSearch extends FormData = FormData> {
+  onSearch?: (values: TSearch) => void;
+  onReset?: (values: TSearch) => void;
+}
 
-/** DynamicPage 组件实例暴露的组合 API，组件模式无需 Hook 即可使用。 */
-export interface DynamicPageInstance<
+/**
+ * DynamicPage 的命令式 API：两个子 API 以命名空间形式组合，不做类型拼接。
+ */
+export interface DynamicPageApi<
   TSearch extends FormData = FormData,
   TRecord extends object = Record<string, unknown>,
 > {
-  readonly searchApi: DynamicSearchApi<TSearch>;
-  readonly tableApi: DynamicPageTableApi<TSearch, TRecord>;
+  /** 搜索区 API。 */
+  readonly search: DynamicSearchApi<TSearch>;
+  /** 表格区 API。 */
+  readonly table: DynamicTableApi<TRecord>;
+  /** 最近一次成功查询或重置后的搜索条件快照。 */
   readonly searchValues: Readonly<TSearch>;
 }
 
 export type DynamicPageBetweenSlotProps<
   TSearch extends FormData = FormData,
   TRecord extends object = Record<string, unknown>,
-> = DynamicPageInstance<TSearch, TRecord>;
-
-export type UseDynamicPageReturn<
-  TSearch extends FormData = FormData,
-  TRecord extends object = Record<string, unknown>,
-> = readonly [
-  DynamicPageComponent,
-  DynamicSearchApi<TSearch>,
-  DynamicPageTableApi<TSearch, TRecord>,
-];
+> = DynamicPageApi<TSearch, TRecord>;

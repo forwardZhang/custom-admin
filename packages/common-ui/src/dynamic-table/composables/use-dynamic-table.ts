@@ -1,31 +1,26 @@
-import type { Component } from 'vue';
-
-import { defineComponent, h } from 'vue';
+import { defineComponent } from 'vue';
 
 import DynamicTable from '../components/dynamic-table.vue';
-import { DynamicTableState } from '../core/table-state';
+import { renderDynamicHost, useDynamicHost } from '../../internal/define-dynamic-hook';
+import { createTableApiDefinition } from '../core/api-definition';
 
-import type { UseDynamicTableOptions } from '../types';
+import type { DynamicTableApi, DynamicTableEventProps, DynamicTableProps } from '../types';
 
 /**
- * 创建由运行时状态驱动的动态表格组件，并返回对应的命令式 API。
- * State 在这里创建，通过 tableState prop 交给 DynamicTable 复用；
- * 业务回调（handle 前缀）由 DynamicTable 从 State 里读取并调用，不会落到底层 Antdv Table。
+ * 返回绑定了泛型的表格组件与引用稳定的命令式 API。
+ * 配置全部写在模板上（与直接使用 DynamicTable 完全一致），Hook 只解决泛型推断与 api 取用。
  */
-export function useDynamicTable<TRecord extends object = Record<string, unknown>>(
-  options: UseDynamicTableOptions<TRecord>,
-) {
-  const tableState = new DynamicTableState<TRecord>(options);
-
-  const Table = defineComponent(
-    (_props, { attrs, slots }) => {
-      return () => h(DynamicTable as Component, { ...attrs, tableState }, slots);
-    },
-    {
-      name: 'UseDynamicTable',
-      inheritAttrs: false,
-    },
+export function useDynamicTable<TRecord extends object = Record<string, unknown>>() {
+  const { instance, api } = useDynamicHost<DynamicTableApi<TRecord>>(
+    'DynamicTable',
+    createTableApiDefinition<TRecord>(),
   );
 
-  return [Table, tableState.api] as const;
+  const Table = defineComponent(
+    (_props: DynamicTableProps<TRecord> & DynamicTableEventProps<TRecord>, ctx) =>
+      renderDynamicHost(DynamicTable, instance, ctx),
+    { name: 'UseDynamicTable', inheritAttrs: false },
+  );
+
+  return [Table, api] as const;
 }
