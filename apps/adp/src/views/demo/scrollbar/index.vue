@@ -1,190 +1,95 @@
 <template>
-  <div class="h-full p-4">
-    <div class="mx-auto">
-      <h1 class="mb-1 text-2xl font-semibold">Scrollbar Demo</h1>
-      <p class="mb-6 text-sm">基于 @package/common-ui 的 Scrollbar 组件，参考 element-plus 实现</p>
-
-      <!-- ── 基础用法：固定高度垂直滚动 ── -->
-      <DemoCard title="基础用法" description="height=300px，自定义滚动条替代原生">
-        <Scrollbar height="300px" class="rounded-lg border border-border">
-          <div class="space-y-3 p-4">
-            <p v-for="i in 30" :key="i" class="text-sm text-text">
-              第 {{ i }} 行 —
-              这是一段用于演示垂直滚动效果的占位文本，内容会超出容器高度从而出现滚动条。
-            </p>
+  <div class="demo-page">
+    <header class="demo-header">
+      <div class="demo-header__content">
+        <div>
+          <div class="mb-2 flex items-center gap-2">
+            <Tag color="blue">COMMON UI</Tag>
+            <span class="text-xs text-text-tertiary">Scrollbar</span>
           </div>
-        </Scrollbar>
-      </DemoCard>
-
-      <!-- ── always 始终显示 ── -->
-      <DemoCard title="始终显示" description="always=true，滚动条不会自动隐藏">
-        <Scrollbar height="200px" always class="rounded-lg border border-border">
-          <div class="space-y-3 p-4">
-            <p v-for="i in 20" :key="i" class="text-sm text-text">
-              第 {{ i }} 行 — always 模式下滚动条始终可见。
-            </p>
-          </div>
-        </Scrollbar>
-      </DemoCard>
-
-      <!-- ── native 原生滚动条 ── -->
-      <DemoCard title="原生滚动条" description="native=true，使用浏览器默认滚动条">
-        <Scrollbar height="200px" native class="rounded-lg border border-border">
-          <div class="space-y-3 p-4">
-            <p v-for="i in 20" :key="i" class="text-sm text-text">
-              第 {{ i }} 行 — native 模式下显示浏览器原生滚动条。
-            </p>
-          </div>
-        </Scrollbar>
-      </DemoCard>
-
-      <!-- ── 水平 + 垂直滚动 ── -->
-      <DemoCard title="水平 + 垂直滚动" description="内容宽高均超出容器">
-        <Scrollbar height="200px" class="rounded-lg border border-border">
-          <div class="w-150 space-y-3 p-4">
-            <p v-for="i in 20" :key="i" class="text-sm text-text">
-              第 {{ i }} 行 — 内容宽度 600px 超出容器，同时出现水平滚动条。
-            </p>
-          </div>
-        </Scrollbar>
-      </DemoCard>
-
-      <!-- ── 自定义颜色 ── -->
-      <DemoCard title="自定义样式" description="通过 CSS 变量自定义滚动条颜色和尺寸">
-        <Scrollbar
-          height="200px"
-          class="rounded-lg border border-border"
-          style="
-            --scrollbar-size: 10px;
-            --scrollbar-thumb-color: var(--ant-color-primary);
-            --scrollbar-thumb-hover-color: var(--ant-color-primary-hover);
-            --scrollbar-radius: 5px;
-          "
-        >
-          <div class="space-y-3 p-4">
-            <p v-for="i in 20" :key="i" class="text-sm text-text">
-              第 {{ i }} 行 — 使用 --scrollbar-* 变量自定义滚动条外观。
-            </p>
-          </div>
-        </Scrollbar>
-      </DemoCard>
-
-      <!-- ── 事件 & 方法 ── -->
-      <DemoCard
-        title="事件与方法"
-        description="监听 scroll / end-reached，调用 scrollTo / setScrollTop"
-      >
-        <div class="mb-3 flex flex-wrap gap-2">
-          <a-button size="small" @click="scrollToTop">scrollTo 顶部</a-button>
-          <a-button size="small" @click="scrollToBottom">scrollTo 底部</a-button>
-          <a-button size="small" @click="scrollToMiddle">setScrollTop 50%</a-button>
-          <a-button size="small" @click="updateScrollbar">手动 update</a-button>
+          <h1 class="demo-header__title">滚动条组件</h1>
+          <p class="demo-header__description">
+            自定义滚动条组件，替代浏览器原生滚动条，提供更好的视觉体验
+          </p>
         </div>
-        <div class="mb-3 flex gap-6 text-xs text-text-secondary">
-          <span
-            >scrollTop: <span class="font-mono text-text">{{ scrollInfo.scrollTop }}</span></span
-          >
-          <span
-            >scrollLeft: <span class="font-mono text-text">{{ scrollInfo.scrollLeft }}</span></span
-          >
-          <span
-            >end-reached:
-            <span class="font-mono text-primary">{{ endReachedDir || '-' }}</span></span
-          >
-        </div>
-        <Scrollbar
-          ref="demoScrollRef"
-          height="220px"
-          :distance="20"
-          class="rounded-lg border border-border"
-          @scroll="onScroll"
-          @end-reached="onEndReached"
-        >
-          <div class="space-y-3 p-4">
-            <p v-for="i in 30" :key="i" class="text-sm text-text">
-              第 {{ i }} 行 — 滚动时上方会实时显示 scrollTop / scrollLeft，到达边缘（20px 内）时触发
-              end-reached。
-            </p>
-          </div>
-        </Scrollbar>
-      </DemoCard>
+      </div>
+    </header>
 
-      <!-- ── maxHeight ── -->
-      <DemoCard title="maxHeight 模式" description="maxHeight=200px，内容少时不出现滚动条">
-        <Scrollbar max-height="200px" class="rounded-lg border border-border">
-          <div class="space-y-3 p-4">
-            <p v-for="i in 5" :key="i" class="text-sm text-text">
-              第 {{ i }} 行 — 内容未超出 maxHeight，不滚动。
-            </p>
-          </div>
-        </Scrollbar>
-      </DemoCard>
-    </div>
+    <main class="demo-content">
+      <Tabs v-model:active-key="activeTab" type="card" class="demo-tabs">
+        <TabPane key="basic" tab="基础用法">
+          <BasicExample />
+        </TabPane>
+        <TabPane key="options" tab="配置选项">
+          <OptionsExample />
+        </TabPane>
+        <TabPane key="events" tab="事件与方法">
+          <EventsExample />
+        </TabPane>
+        <TabPane key="custom" tab="自定义样式">
+          <CustomExample />
+        </TabPane>
+      </Tabs>
+    </main>
   </div>
 </template>
 
 <script setup lang="ts">
-import { defineComponent, h, ref } from 'vue';
-import { Scrollbar } from '@package/common-ui';
+import { ref } from 'vue';
+import { Tag, Tabs, TabPane } from 'antdv-next';
 
-import type { ScrollbarInstance, ScrollbarDirection } from '@package/common-ui';
+import BasicExample from './examples/basic.vue';
+import OptionsExample from './examples/options.vue';
+import EventsExample from './examples/events.vue';
+import CustomExample from './examples/custom.vue';
 
 defineOptions({ name: 'DemoScrollbar' });
 
-// ── 内联 DemoCard 组件 ──
-const DemoCard = defineComponent({
-  name: 'DemoCard',
-  props: {
-    title: { type: String, required: true },
-    description: { type: String, default: '' },
-  },
-  setup(props, { slots }) {
-    return () =>
-      h('div', { class: 'mb-6' }, [
-        h('div', { class: 'mb-2' }, [
-          h('h3', { class: 'text-base font-medium text-text' }, props.title),
-          props.description
-            ? h('p', { class: 'mt-0.5 text-xs text-text-secondary' }, props.description)
-            : null,
-        ]),
-        slots.default?.(),
-      ]);
-  },
-});
-
-// ── 事件 & 方法 demo ──
-const demoScrollRef = ref<ScrollbarInstance>();
-
-const scrollInfo = ref({ scrollTop: 0, scrollLeft: 0 });
-const endReachedDir = ref<ScrollbarDirection | ''>('');
-
-const onScroll = ({ scrollTop, scrollLeft }: { scrollTop: number; scrollLeft: number }) => {
-  scrollInfo.value = { scrollTop, scrollLeft };
-};
-
-const onEndReached = (dir: ScrollbarDirection) => {
-  endReachedDir.value = dir;
-};
-
-const scrollToTop = () => {
-  demoScrollRef.value?.scrollTo({ top: 0, behavior: 'smooth' });
-};
-
-const scrollToBottom = () => {
-  const wrap = demoScrollRef.value?.wrapRef;
-  if (wrap) {
-    demoScrollRef.value?.scrollTo({ top: wrap.scrollHeight, behavior: 'smooth' });
-  }
-};
-
-const scrollToMiddle = () => {
-  const wrap = demoScrollRef.value?.wrapRef;
-  if (wrap) {
-    demoScrollRef.value?.setScrollTop(Math.floor((wrap.scrollHeight - wrap.clientHeight) / 2));
-  }
-};
-
-const updateScrollbar = () => {
-  demoScrollRef.value?.update();
-};
+const activeTab = ref('basic');
 </script>
+
+<style scoped>
+.demo-page {
+  height: 100%;
+  overflow: auto;
+  background: var(--ant-color-fill-quaternary);
+}
+
+.demo-header {
+  border-bottom: 1px solid var(--ant-color-border-secondary);
+  background: var(--ant-color-bg-container);
+  padding: 24px;
+}
+
+.demo-header__content {
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+.demo-header__title {
+  margin: 0;
+  color: var(--ant-color-text);
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.demo-header__description {
+  margin: 8px 0 0;
+  color: var(--ant-color-text-secondary);
+  font-size: 14px;
+}
+
+.demo-content {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+.demo-tabs :deep(.ant-tabs-nav) {
+  margin-bottom: 20px;
+}
+
+.demo-tabs :deep(.ant-tabs-content) {
+  min-height: 400px;
+}
+</style>
