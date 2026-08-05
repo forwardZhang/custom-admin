@@ -2,12 +2,13 @@ import type { TableColumnType } from 'antdv-next';
 import type { Component } from 'vue';
 
 import { computed, onMounted, ref, watch } from 'vue';
-import { cloneDeep, isEqual, isPlainObject } from 'lodash-es';
+import { isEqual, isPlainObject } from 'lodash-es';
 
 import { useDynamicFormFieldContext } from '../core/context';
 import { createFieldApi } from '../core/field-api';
 import { normalizePath, pathToString } from '../utils/path';
 import { applySchemaDefaults } from '../utils/schema';
+import { cloneValue } from '../utils/value';
 
 import type {
   DynamicFormListActionApi,
@@ -111,7 +112,7 @@ export function useFormList(disabled: () => boolean) {
   }
 
   function normalizeItem(item: unknown): DynamicFormListItem {
-    if (isPlainObject(item)) return cloneDeep(item as DynamicFormListItem);
+    if (isPlainObject(item)) return cloneValue(item as DynamicFormListItem);
     console.warn('[DynamicForm] List createItem must return a plain object');
     return {};
   }
@@ -136,22 +137,28 @@ export function useFormList(disabled: () => boolean) {
         listPath: listPath.value,
         listIndex: index,
         itemPath,
-        item: cloneDeep(item),
+        // 三个调用点传进来的 item 都已是脱离表单状态的独立对象
+        // （空对象 / createItem 产物 / normalizeItem 克隆结果），不再重复克隆。
+        item,
         sourceIndex,
       },
     );
   }
 
   function commitItems(nextItems: DynamicFormListItem[], nativeArgs: readonly unknown[]): void {
-    const oldValue = cloneDeep(items.value);
+    const onChange = schema.value.onChange;
+    // 写入是原地进行的，oldValue 必须在写之前取快照；没有 onChange 就整个跳过。
+    const oldValue = onChange ? cloneValue(items.value) : undefined;
     api.setFieldValue(listPath.value, nextItems);
+    if (!onChange) return;
 
-    schema.value.onChange?.(
+    onChange(
       createFieldApi(
         api,
         () => ({
           field: api.field,
-          value: cloneDeep(nextItems),
+          // 写入已完成，直接读当前值的只读视图，不必再克隆 nextItems。
+          value: api.value,
         }),
         { oldValue, nativeArgs },
       ),

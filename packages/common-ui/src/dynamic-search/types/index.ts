@@ -31,7 +31,6 @@ export interface DynamicSearchProps<T extends FormData = FormData> extends Omit<
 }
 
 export type DynamicSearchEmits<T extends FormData = FormData> = {
-  'update:modelValue': [values: T];
   valuesChange: [values: T, fieldsChanged: string[]];
   /** 点击查询并校验通过；与 finish 同时触发，语义更贴近搜索场景。 */
   search: [values: T];
@@ -43,7 +42,6 @@ export type DynamicSearchEmits<T extends FormData = FormData> = {
 
 /** 事件的 onXxx prop 形式；Hook 生成的组件用它把 emits 表达成 props 类型。 */
 export interface DynamicSearchEventProps<T extends FormData = FormData> {
-  'onUpdate:modelValue'?: (values: T) => void;
   onValuesChange?: (values: T, fieldsChanged: string[]) => void;
   onSearch?: (values: T) => void;
   onFinish?: (values: T) => void;

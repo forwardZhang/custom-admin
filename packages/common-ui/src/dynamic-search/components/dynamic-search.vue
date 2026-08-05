@@ -6,7 +6,6 @@
     :initial-values="props.initialValues"
     :label-width="props.labelWidth"
     :layout="props.layout"
-    :model-value="props.modelValue"
     :schema="runtimeSchema"
     :scroll-to-first-error="props.scrollToFirstError"
     :show-default-actions="false"
@@ -14,7 +13,6 @@
     @finish="handleFinish"
     @finish-failed="handleFinishFailed"
     @reset="handleReset"
-    @update:model-value="handleModelUpdate"
     @values-change="handleValuesChange"
   >
     <template #actions>
@@ -74,7 +72,6 @@ defineOptions({ name: 'DynamicSearch', inheritAttrs: false });
 
 // 配置只从 props 来；搜索区自己的默认值只写在这里一处。
 const props = withDefaults(defineProps<DynamicSearchProps<T>>(), {
-  modelValue: undefined,
   initialValues: undefined,
   layout: 'horizontal',
   disabled: false,
@@ -167,10 +164,6 @@ function handleFinishFailed(error: DynamicFormValidateError<T>): void {
 
 function handleReset(values: T): void {
   emit('reset', values);
-}
-
-function handleModelUpdate(values: T): void {
-  emit('update:modelValue', values);
 }
 
 function handleValuesChange(values: T, fieldsChanged: string[]): void {

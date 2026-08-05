@@ -2,7 +2,7 @@ import type { Component, VNodeChild } from 'vue';
 import type { FormItemProps, Rule } from 'antdv-next';
 
 import { computed, defineComponent, h, toHandlerKey } from 'vue';
-import { get, has } from 'lodash-es';
+import { get, has, isObjectLike } from 'lodash-es';
 
 import { useDynamicFormContext } from '../core/context';
 import { createFieldApi } from '../core/field-api';
@@ -162,17 +162,25 @@ export function useFormField<T extends FormData>(props: UseFormFieldProps<T>) {
 
   const handleModelUpdate = (...args: unknown[]) => {
     const nextValue = args[0];
-    const oldValue = cloneValue(fieldApi.value);
-    if (valuesEqual(oldValue, nextValue)) return;
+    const currentValue = fieldApi.value;
+    if (valuesEqual(currentValue, nextValue)) return;
+
+    // oldValue 只有 onChange 会用到，而写入是原地进行的，所以必须在写之前拿快照。
+    // 原始值本身不可变，不需要克隆；没有 onChange 时连快照都不用做。
+    // 函数也不能克隆——cloneDeep 会把它变成 {}。
+    const oldValue =
+      props.schema.onChange && isObjectLike(currentValue) ? cloneValue(currentValue) : currentValue;
 
     fieldApi.setFieldValue(fieldApi.field.path, nextValue);
+    if (!props.schema.onChange) return;
+
     const eventApi: DynamicFormFieldEventApi<T> = {
       ...fieldApi,
       value: nextValue,
       oldValue,
       nativeArgs: args,
     };
-    props.schema.onChange?.(eventApi);
+    props.schema.onChange(eventApi);
   };
 
   const componentSlots = computed(() => {

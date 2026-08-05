@@ -1,14 +1,31 @@
-import { cloneDeep, isEqual, isPlainObject, mergeWith } from 'lodash-es';
+import { cloneDeep, isEqual, isObjectLike, isPlainObject, mergeWith } from 'lodash-es';
+import { readonly, toRaw } from 'vue';
 
 import type { DeepPartial, FormData } from '../types';
 
 export function cloneValue<T>(value: T): T {
-  return cloneDeep(value);
+  return cloneDeep(toRaw(value));
 }
 
-/** 深度合并部分表单值；对象递归合并，数组整体替换。 */
+/**
+ * 包一层只读视图：对象走 Vue 的 readonly 代理（内部有缓存，重复调用是 O(1)），
+ * 其余原样返回。
+ *
+ * 用 isObjectLike 而不是 isObject：后者对函数也返回 true，
+ * 而 readonly() 只接受 typeof 'object'，传函数会在开发期告警。
+ */
+export function toReadonlyValue<V>(value: V): V {
+  return isObjectLike(value) ? (readonly(value as object) as V) : value;
+}
+
+/**
+ * 深度合并部分表单值；对象递归合并，数组整体替换。
+ * 从 toRaw 起步再克隆，避免穿过响应式代理逐属性读取；
+ * nextValues 不预先克隆——数组由 customizer 复制，其余叶子由 syncValues 写入时再克隆，
+ * 因此这里的合并结果不会把 nextValues 的引用留在表单状态里。
+ */
 export function mergeValues<T extends FormData>(values: T, nextValues: DeepPartial<T>): T {
-  return mergeWith(cloneDeep(values), cloneDeep(nextValues), (current, next) => {
+  return mergeWith(cloneValue(values), nextValues, (current, next) => {
     if (Array.isArray(next)) return cloneDeep(next);
     return undefined;
   }) as T;

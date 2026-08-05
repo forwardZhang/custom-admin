@@ -1,16 +1,15 @@
 import type { FormInstance } from 'antdv-next';
 
 import { normalizePath } from '../utils/path';
-import { cloneValue } from '../utils/value';
 
 import type { DynamicFormValidateError, FormData, FormPath } from '../types';
 
 export interface UseFormValidateOptions<T extends FormData> {
   /** 底层 Antdv Form 实例，未挂载时为 undefined。 */
   getNativeInstance: () => FormInstance | undefined;
-  getValues: () => T;
+  getValues: () => Readonly<T>;
   /** 校验通过后的提交流程，由宿主负责触发 finish 事件。 */
-  finish: (values: T) => void | Promise<void>;
+  finish: (values: Readonly<T>) => void | Promise<void>;
   onFinishFailed: (error: DynamicFormValidateError<T>) => void;
 }
 
@@ -21,7 +20,7 @@ function toAntdPaths(fieldNames?: FormPath[]): string[][] | undefined {
 
 /** 校验、提交与校验状态清理：所有对底层 Form 实例的调用都收在这里。 */
 export function useFormValidate<T extends FormData>(options: UseFormValidateOptions<T>) {
-  async function validate(fieldNames?: FormPath[]): Promise<T> {
+  async function validate(fieldNames?: FormPath[]): Promise<Readonly<T>> {
     const form = options.getNativeInstance();
     if (!form) throw new Error('[DynamicForm] Form is not mounted');
 
@@ -45,8 +44,10 @@ export function useFormValidate<T extends FormData>(options: UseFormValidateOpti
       outOfDate?: boolean;
     };
 
+    // source.values 来自底层 Form 的 reject，本身已是独立对象；
+    // 兜底路径用只读视图，都不需要再克隆一遍。
     return {
-      values: cloneValue(source.values ?? options.getValues()),
+      values: source.values ?? options.getValues(),
       errorFields: (source.errorFields ?? []).map((field) => ({
         name: field.name,
         errors: [...field.errors],
@@ -64,7 +65,7 @@ export function useFormValidate<T extends FormData>(options: UseFormValidateOpti
   }
 
   /** 校验错误走 finishFailed；业务 finish 的异常原样抛出。 */
-  async function submit(): Promise<T> {
+  async function submit(): Promise<Readonly<T>> {
     try {
       const values = await validate();
       await options.finish(values);

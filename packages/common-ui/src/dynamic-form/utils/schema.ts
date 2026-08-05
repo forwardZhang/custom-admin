@@ -2,13 +2,30 @@ import { cloneDeep, get, set } from 'lodash-es';
 
 import { resolveFormPath } from './path';
 
-import type { DeepPartial, DynamicFormSchema, FormData, FormPath } from '../types';
+import type {
+  DeepPartial,
+  DynamicFormFieldSchema,
+  DynamicFormSchema,
+  FormData,
+  FormPath,
+} from '../types';
 
-/** 深拷贝 schema，隔离调用方配置与运行时动态修改。 */
+/**
+ * 逐字段浅拷贝 schema，嵌套 List 的子 schema 递归处理。
+ *
+ * 这里刻意不做深拷贝：schema 上挂着 Vue 组件（component、listOptions.layout）和解析函数，
+ * 而组件定义本身是普通对象，深拷贝会把它复制成另一个「组件」——
+ * 身份一变，调用方把结果喂回渲染就会触发重新挂载，而且要连组件内部结构一起复制。
+ * 浅拷贝足以隔离字段级改动（增删字段、改 label），组件与函数按引用透传。
+ */
 export function cloneSchema<T extends FormData>(
   schema: DynamicFormSchema<T>,
 ): DynamicFormSchema<T> {
-  return cloneDeep(schema);
+  return schema.map((field) => {
+    const next = { ...field } as DynamicFormFieldSchema<T>;
+    if (next.component === 'list') next.schema = cloneSchema(next.schema);
+    return next;
+  });
 }
 
 /** 仅为空值字段应用 schema.defaultValue，显式传入的初始值优先。 */

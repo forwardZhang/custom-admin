@@ -32,7 +32,7 @@
 <script setup lang="ts" generic="T extends FormData = FormData">
 import type { FormInstance } from 'antdv-next';
 
-import { computed, readonly, shallowRef, watch } from 'vue';
+import { computed, shallowRef, watch } from 'vue';
 import { Form } from 'antdv-next';
 
 import FormActions from './form-actions.vue';
@@ -56,7 +56,6 @@ defineOptions({ name: 'DynamicForm', inheritAttrs: false });
 
 // 配置只从 props 来；默认值只写在这里一处。
 const props = withDefaults(defineProps<DynamicFormProps<T>>(), {
-  modelValue: undefined,
   initialValues: undefined,
   layout: undefined,
   disabled: false,
@@ -85,12 +84,11 @@ const mergedFormProps = computed(() => ({
   ...props.formProps,
 }));
 
-// initialValues 优先作为重置基线；未配置时以挂载时的 modelValue 为基线。
+// initialValues 作为重置基线；未配置时使用 schema.defaultValue。
 const formValues = useFormValues<T>({
-  seed: props.initialValues ?? props.modelValue,
+  seed: props.initialValues,
   getSchema: () => props.schema,
   onChange(values, fieldsChanged) {
-    emit('update:modelValue', values);
     if (fieldsChanged.length) emit('valuesChange', values, fieldsChanged);
   },
 });
@@ -115,14 +113,14 @@ function resetFields(fieldNames?: FormPath[]): void {
   // 否则重置完的空字段会立刻亮起 required 错误。
   setTimeout(() => formValidate.clearValidate(fieldNames), 0);
 
-  const values = formValues.getValues();
-  emit('update:modelValue', values);
-  emit('reset', values);
+  emit('reset', formValues.getValues());
 }
 
 const formApi: DynamicFormApi<T> = {
+  // 与 getValues() 共用同一份缓存视图：字段的每个 resolver 都会读 values，
+  // 这里每次现造 readonly 代理的话，光是渲染一轮就要造上百个。
   get values() {
-    return readonly(formValues.values.value) as Readonly<T>;
+    return formValues.getValues();
   },
   getValues: formValues.getValues,
   setValues: formValues.setValues,
@@ -142,15 +140,6 @@ provideDynamicFormContext<T>({
   labelWidth: computed(() => props.labelWidth),
   disabled: computed(() => Boolean(props.disabled)),
 });
-
-// 受控值回流；相等时 syncExternalValues 自己会短路，不会与 update:modelValue 成环。
-watch(
-  () => props.modelValue,
-  (values) => {
-    if (values) formValues.syncExternalValues(values);
-  },
-  { deep: true },
-);
 
 // initialValues 变更只移动重置基线，不覆盖用户当前输入。
 watch(

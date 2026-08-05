@@ -73,6 +73,13 @@
             >{{ formattedValues }}</pre
           >
         </section>
+        <section class="rounded-lg bg-container p-4">
+          <h2 class="m-0 text-base font-medium text-text">初始值配置</h2>
+          <pre
+            class="mt-3 max-h-130 overflow-auto whitespace-pre-wrap break-words text-xs text-text-secondary"
+            >{{ JSON.stringify(initialValues, null, 2) }}</pre
+          >
+        </section>
       </aside>
     </main>
   </div>

@@ -1,21 +1,21 @@
 import type { Ref } from 'vue';
 
-import { cloneDeep, get, isEqual, set, unset } from 'lodash-es';
+import { get, isEqual, set, unset } from 'lodash-es';
 import { ref } from 'vue';
 
 import { normalizePath, pathToString } from '../utils/path';
 import { applySchemaDefaults } from '../utils/schema';
-import { cloneValue, mergeValues, syncValues } from '../utils/value';
+import { cloneValue, mergeValues, syncValues, toReadonlyValue } from '../utils/value';
 
 import type { DeepPartial, DynamicFormSchema, FormData, FormPath } from '../types';
 
 export interface UseFormValuesOptions<T extends FormData> {
-  /** 基线种子，取 initialValues ?? modelValue，只在 setup 期读一次。 */
+  /** 基线种子，取 initialValues，只在 setup 期读一次。 */
   seed: DeepPartial<T> | T | undefined;
   /** 读取当前 schema，用于把 defaultValue 补进基线。 */
   getSchema: () => DynamicFormSchema<T>;
   /** 值变化通知；fieldsChanged 为空数组表示整体更新。 */
-  onChange: (values: T, fieldsChanged: string[]) => void;
+  onChange: (values: Readonly<T>, fieldsChanged: string[]) => void;
 }
 
 /**
@@ -27,8 +27,20 @@ export function useFormValues<T extends FormData>(options: UseFormValuesOptions<
   let baseline = applySchemaDefaults(options.seed, options.getSchema());
   const values = ref(cloneValue(baseline)) as Ref<T>;
 
-  function getValues(): T {
-    return cloneValue(values.value);
+  // 只读视图缓存：所有写入都原地进行，values.value 的引用在整个生命周期内不变，
+  // 所以这个代理建一次就够。引用稳定也让调用方可以直接做等值判断。
+  let readonlyCache: { source: T; view: Readonly<T> } | undefined;
+
+  /**
+   * 当前值的只读视图，O(1)。
+   * 不是快照：内容随表单变化。需要冻结某一时刻的值请自行 cloneDeep。
+   */
+  function getValues(): Readonly<T> {
+    const source = values.value;
+    if (readonlyCache?.source !== source) {
+      readonlyCache = { source, view: toReadonlyValue(source) as Readonly<T> };
+    }
+    return readonlyCache.view;
   }
 
   /** 深合并部分值；数组整体替换，避免按索引残留旧数据。 */
@@ -40,8 +52,9 @@ export function useFormValues<T extends FormData>(options: UseFormValuesOptions<
     options.onChange(getValues(), []);
   }
 
+  /** 与 getValues 一致：对象返回只读视图，原始值直接返回。 */
   function getFieldValue(fieldName: FormPath): unknown {
-    return cloneDeep(get(values.value, normalizePath(fieldName)));
+    return toReadonlyValue(get(values.value, normalizePath(fieldName)));
   }
 
   function setFieldValue(fieldName: FormPath, value: unknown): void {
@@ -50,12 +63,6 @@ export function useFormValues<T extends FormData>(options: UseFormValuesOptions<
 
     set(values.value, path, cloneValue(value));
     options.onChange(getValues(), [pathToString(path)]);
-  }
-
-  /** 受控 modelValue 回流：原地同步，不触发 onChange，避免与外部形成回环。 */
-  function syncExternalValues(nextValues: T): void {
-    if (isEqual(values.value, nextValues)) return;
-    syncValues(values.value, nextValues);
   }
 
   /** 只把值恢复到基线；Antdv 校验状态与事件由宿主统一处理。 */
@@ -84,7 +91,6 @@ export function useFormValues<T extends FormData>(options: UseFormValuesOptions<
     setValues,
     getFieldValue,
     setFieldValue,
-    syncExternalValues,
     resetValues,
     rebaseline,
   };

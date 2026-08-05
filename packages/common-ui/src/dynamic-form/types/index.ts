@@ -110,27 +110,37 @@ export interface DynamicFormFieldInfo {
  * 这里只有「读值 / 写值 / 动作」，不包含任何配置写入——配置一律走 props。
  */
 export interface DynamicFormApi<T extends FormData = FormData> {
-  /** 当前响应式表单值；需要隔离快照时使用 getValues。 */
+  /** 当前表单值的只读视图，与 getValues() 返回同一份引用。 */
   readonly values: Readonly<T>;
-  /** 返回深拷贝后的完整表单值，避免调用方意外修改内部状态。 */
-  getValues(): T;
+  /**
+   * 当前表单值的只读视图，开销为 O(1)。
+   *
+   * 返回的是「视图」而不是「快照」：内容随表单变化，引用在组件生命周期内保持不变。
+   * 写入会被拦截（开发期告警，生产静默失败），类型层面也标记为只读。
+   * 需要冻结某一时刻的值（存原始值做 diff、塞进请求体后续还要改）请自行 `cloneDeep`。
+   */
+  getValues(): Readonly<T>;
   /** 深度合并部分表单值，其中数组按整体替换。 */
   setValues(values: DeepPartial<T>): void;
-  /** 按字段路径读取值，返回值与内部状态隔离。 */
+  /** 按字段路径读取值；对象返回只读视图，语义与 getValues 一致。 */
   getFieldValue(fieldName: FormPath): unknown;
   /** 更新单个字段并触发表单值变更事件。 */
   setFieldValue(fieldName: FormPath, value: unknown): void;
   /** 重置全部字段，或仅重置指定路径到初始值。 */
   resetFields(fieldNames?: FormPath[]): void;
-  /** 校验全部字段或指定字段，成功后返回当前完整值。 */
-  validate(fieldNames?: FormPath[]): Promise<T>;
+  /** 校验全部字段或指定字段，成功后返回当前值的只读视图。 */
+  validate(fieldNames?: FormPath[]): Promise<Readonly<T>>;
   /** 清除全部字段或指定字段的校验状态。 */
   clearValidate(fieldNames?: FormPath[]): void;
   /** 执行校验并触发 finish 事件，任一步失败都会 reject。 */
-  submit(): Promise<T>;
+  submit(): Promise<Readonly<T>>;
   /** 滚动到指定字段。 */
   scrollToField(fieldName: FormPath): void;
-  /** 返回深拷贝后的当前 schema，便于按当前配置做计算。 */
+  /**
+   * 返回逐字段浅拷贝后的当前 schema，便于按当前配置做计算。
+   * 字段对象本身是新的（可安全增删字段、改 label），
+   * component 与各类解析函数按引用透传——组件定义不该被复制。
+   */
   getSchema(): DynamicFormSchema<T>;
   /** 逃生舱：获取底层 Antdv Form 实例。 */
   getNativeInstance(): FormInstance | undefined;
@@ -363,8 +373,8 @@ export type DynamicFormFieldSchema<T extends FormData = FormData> =
 export type DynamicFormSchema<T extends FormData = FormData> = DynamicFormFieldSchema<T>[];
 
 export interface DynamicFormValidateError<T extends FormData = FormData> {
-  /** 校验失败时的完整表单值。 */
-  values: T;
+  /** 校验失败时的完整表单值（只读视图）。 */
+  values: Readonly<T>;
   errorFields: Array<{
     name: FormPath;
     errors: string[];
@@ -372,20 +382,18 @@ export interface DynamicFormValidateError<T extends FormData = FormData> {
   outOfDate?: boolean;
 }
 
+/** 事件里的表单值都是只读视图；需要留存请在回调里自行 cloneDeep。 */
 export type DynamicFormEmits<T extends FormData = FormData> = {
-  'update:modelValue': [values: T];
-  valuesChange: [values: T, fieldsChanged: string[]];
-  finish: [values: T];
+  valuesChange: [values: Readonly<T>, fieldsChanged: string[]];
+  finish: [values: Readonly<T>];
   finishFailed: [error: DynamicFormValidateError<T>];
-  reset: [values: T];
+  reset: [values: Readonly<T>];
 };
 
 export interface DynamicFormProps<T extends FormData = FormData> {
-  /** 受控表单值，字段变化时通过 update:modelValue 同步。 */
-  modelValue?: T;
   /**
    * 重置基线：resetFields 会回到这份值与 schema.defaultValue 的合并结果。
-   * 未配置时以挂载时的 modelValue 为基线；配置后变更只影响基线，不覆盖用户当前输入。
+   * 未配置时表单字段将使用 schema.defaultValue 作为初始值。
    */
   initialValues?: DeepPartial<T>;
   /** 字段配置列表，顺序即渲染顺序。 */
@@ -423,11 +431,10 @@ export interface DynamicFormProps<T extends FormData = FormData> {
 
 /** 事件的 onXxx prop 形式；Hook 生成的组件用它把 emits 表达成 props 类型。 */
 export interface DynamicFormEventProps<T extends FormData = FormData> {
-  'onUpdate:modelValue'?: (values: T) => void;
-  onValuesChange?: (values: T, fieldsChanged: string[]) => void;
-  onFinish?: (values: T) => void;
+  onValuesChange?: (values: Readonly<T>, fieldsChanged: string[]) => void;
+  onFinish?: (values: Readonly<T>) => void;
   onFinishFailed?: (error: DynamicFormValidateError<T>) => void;
-  onReset?: (values: T) => void;
+  onReset?: (values: Readonly<T>) => void;
 }
 
 export interface DynamicFormFieldContext<T extends FormData = FormData> {
