@@ -191,12 +191,12 @@ export function useDynamicModalDrawer<TRecord, TValue>(
         if (!current || current.action.type !== type) return null;
 
         const action = current.action;
-        // 两种容器的透传属性分别声明，取值时按 type 收窄，避免混用彼此的原生属性。
-        const configuredProps = action.type === 'modal' ? action.modalProps : action.drawerProps;
+        // 会话已在打开前解析过 modalProps/drawerProps，这里只补齐底部按钮的默认文案。
+        const configuredProps = current.containerProps as DynamicButtonLayerContainerProps;
         const containerProps = {
           ...configuredProps,
-          okText: configuredProps?.okText ?? '提交',
-          cancelText: configuredProps?.cancelText ?? '取消',
+          okText: configuredProps.okText ?? '提交',
+          cancelText: configuredProps.cancelText ?? '取消',
         } as DynamicButtonLayerContainerProps;
         // 底部按钮由 DynamicButton 接管，不再透传给容器本身。
         const { okText, cancelText, okButtonProps, cancelButtonProps, ...layerProps } =

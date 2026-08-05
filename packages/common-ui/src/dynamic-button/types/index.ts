@@ -41,6 +41,15 @@ export interface DynamicButtonActionContext<
   value: TValue | undefined;
 }
 
+/**
+ * 透传给 Antdv 容器的原生属性配置。
+ * 函数形式在打开前解析一次，可以读取当前 record 和 getDefaultValue 的结果，
+ * 因此适合根据业务数据决定标题、描述或按钮状态。
+ */
+export type DynamicButtonNativeProps<TProps, TRecord = void, TValue = void> =
+  | TProps
+  | ((context: DynamicButtonActionContext<TRecord, TValue>) => TProps);
+
 /** 自定义底部扩展内容渲染时收到的参数。 */
 export interface DynamicButtonFooterContext<
   TRecord = void,
@@ -79,8 +88,8 @@ export type DynamicButtonConfirmProps = Omit<
 export interface DynamicButtonConfirmAction<TRecord = void, TValue = void> {
   /** 打开二次确认气泡。 */
   type: 'confirm';
-  /** 透传给 Antdv Popconfirm 的原生属性。 */
-  confirmProps?: DynamicButtonConfirmProps;
+  /** 透传给 Antdv Popconfirm 的原生属性；函数形式可读取当前 record 和默认 value。 */
+  confirmProps?: DynamicButtonNativeProps<DynamicButtonConfirmProps, TRecord, TValue>;
   /** 打开确认框前获取自定义数据。 */
   getDefaultValue?: (context: DynamicButtonLoadContext<TRecord>) => Awaitable<TValue>;
   /** 点击确认按钮后执行。 */
@@ -153,14 +162,14 @@ export type DynamicButtonLayerAction<TRecord = void, TValue = void> = DynamicBut
     | {
         /** 使用 Modal 作为内容容器。 */
         type: 'modal';
-        /** 透传给 Antdv Modal 的原生属性。 */
-        modalProps?: DynamicButtonModalProps;
+        /** 透传给 Antdv Modal 的原生属性；函数形式可读取当前 record 和默认 value。 */
+        modalProps?: DynamicButtonNativeProps<DynamicButtonModalProps, TRecord, TValue>;
       }
     | {
         /** 使用 Drawer 作为内容容器。 */
         type: 'drawer';
-        /** 透传给 Antdv Drawer 的原生属性和底部按钮属性。 */
-        drawerProps?: DynamicButtonDrawerProps;
+        /** 透传给 Antdv Drawer 的原生属性和底部按钮属性；函数形式可读取当前 record 和默认 value。 */
+        drawerProps?: DynamicButtonNativeProps<DynamicButtonDrawerProps, TRecord, TValue>;
       }
   );
 
@@ -294,6 +303,8 @@ export interface DynamicButtonLayerSession<
   action: DynamicButtonLayerAction<TRecord, TValue>;
   /** 已解析的业务组件额外属性。 */
   componentProps: Record<string, unknown>;
+  /** 已解析的 Modal 或 Drawer 原生属性。 */
+  containerProps: DynamicButtonModalProps | DynamicButtonDrawerProps;
 }
 
 /** hooks 将内部生命周期统一回传给 DynamicButton。 */

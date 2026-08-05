@@ -56,6 +56,31 @@ const config: DynamicButtonConfig<DemoMember, MemberEditorValue> = {
 Modal / Drawer 的打开状态、`confirmLoading`、footer、`onOk` / `onCancel` 由组件接管，
 类型上已从 `modalProps` / `drawerProps` 里 `Omit` 掉。
 
+### 容器属性的函数形式
+
+`confirmProps` / `modalProps` / `drawerProps` 除了对象，也可以写成函数，
+在弹层打开前解析一次，拿到的是 `getDefaultValue` 之后的 `record` 与 `value`：
+
+```ts
+action: {
+  type: 'confirm',
+  getDefaultValue: ({ record }) => fetchQuota(record!.id),
+  // value 是上面请求回来的结果，用它拼确认文案。
+  confirmProps: ({ record, value }) => ({
+    title: `确认停用 ${record?.name}？`,
+    description: `该成员还有 ${value?.pending ?? 0} 条待办`,
+    okButtonProps: { danger: true },
+  }),
+  submit: async ({ record }) => disableMember(record!.id),
+}
+```
+
+要点：
+
+- 解析时机在 `getDefaultValue` 之后、容器打开之前，所以文案里可以直接用异步取回的数据。
+- 解析结果会随本次弹层会话缓存，关闭动画期间内容不会变空。
+- `okButtonProps.disabled` 会与组件内部的 loading 态合并，不会被覆盖掉。
+
 ## 弹层内容组件协议
 
 内容组件用标准 `v-model` 与按钮同步值，并可选地 expose 一个 `validate()`：

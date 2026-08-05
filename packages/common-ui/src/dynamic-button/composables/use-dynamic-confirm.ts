@@ -4,10 +4,13 @@ import type { Ref } from 'vue';
 import { cloneDeep } from 'lodash-es';
 import { computed, readonly, shallowRef } from 'vue';
 
+import { resolveDynamicButtonNativeProps } from '../utils/resolve-config';
+
 import type {
   DynamicButtonActionContext,
   DynamicButtonCancelReason,
   DynamicButtonConfirmAction,
+  DynamicButtonConfirmProps,
   DynamicButtonDispatch,
   DynamicButtonPhase,
   DynamicButtonProps,
@@ -20,6 +23,8 @@ interface DynamicButtonConfirmSession<TRecord, TValue> extends DynamicButtonActi
 > {
   /** 本次确认使用的配置快照，避免打开后受外部 config 变化影响。 */
   action: DynamicButtonConfirmAction<TRecord, TValue>;
+  /** 已解析的 Popconfirm 原生属性。 */
+  confirmProps: DynamicButtonConfirmProps;
 }
 
 /** useDynamicConfirm 对 DynamicButton 暴露的受控确认框能力。 */
@@ -52,6 +57,11 @@ export function useDynamicConfirm<TRecord, TValue>(
   const opened = shallowRef(false);
   const phase = shallowRef<DynamicButtonPhase | null>(null);
   const session = shallowRef<DynamicButtonConfirmSession<TRecord, TValue>>();
+  /**
+   * close() 会立即清空 session，但 Popconfirm 还要播放离场动画。
+   * 单独保留最后一次解析结果，标题和描述在关闭过程中不会突然消失。
+   */
+  const resolvedConfirmProps = shallowRef<DynamicButtonConfirmProps>({});
 
   /** phase 变化会同步通知外部；null 明确表示本轮异步任务结束。 */
   function setPhase(
@@ -109,7 +119,13 @@ export function useDynamicConfirm<TRecord, TValue>(
       value = action.getDefaultValue
         ? cloneDeep(await action.getDefaultValue({ record, event }))
         : undefined;
-      session.value = { action, ...createActionContext(record, event, value) };
+
+      const context = createActionContext(record, event, value);
+      // 默认值就绪后再解析，函数形式的 confirmProps 才能读到本次加载的数据。
+      const confirmProps = resolveDynamicButtonNativeProps(action.confirmProps, context);
+
+      resolvedConfirmProps.value = confirmProps;
+      session.value = { action, confirmProps, ...context };
       opened.value = true;
       dispatch('onOpenChange', { open: true, type: 'confirm', record });
     } catch (error) {
@@ -212,9 +228,16 @@ export function useDynamicConfirm<TRecord, TValue>(
    */
   const props = computed<PopconfirmProps>(() => {
     const configuredAction = buttonProps.config.action;
-    const action =
-      session.value?.action ?? (configuredAction.type === 'confirm' ? configuredAction : undefined);
-    const nativeProps = action?.confirmProps ?? {};
+    const configuredProps =
+      configuredAction.type === 'confirm'
+        ? configuredAction.confirmProps
+        : session.value?.action.confirmProps;
+    /**
+     * 静态对象保持实时读取，外部 config 变化可以立即生效；
+     * 函数形式依赖本次会话的 value，只能复用打开时解析的那份快照。
+     */
+    const nativeProps =
+      typeof configuredProps === 'function' ? resolvedConfirmProps.value : (configuredProps ?? {});
 
     return {
       ...nativeProps,
@@ -223,12 +246,13 @@ export function useDynamicConfirm<TRecord, TValue>(
       okButtonProps: {
         ...nativeProps.okButtonProps,
         loading: phase.value === 'submit',
-        disabled: phase.value === 'cancel',
+        // 调用方配置的禁用状态需要保留，内部只在执行取消时额外禁用确定按钮。
+        disabled: Boolean(nativeProps.okButtonProps?.disabled) || phase.value === 'cancel',
       },
       cancelButtonProps: {
         ...nativeProps.cancelButtonProps,
         loading: phase.value === 'cancel',
-        disabled: phase.value === 'submit',
+        disabled: Boolean(nativeProps.cancelButtonProps?.disabled) || phase.value === 'submit',
       },
     };
   });

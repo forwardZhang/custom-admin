@@ -5,7 +5,11 @@ import { computed, shallowRef } from 'vue';
 
 import { useDynamicConfirm } from './use-dynamic-confirm';
 import { useDynamicModalDrawer } from './use-dynamic-modal-drawer';
-import { resolveDynamicButtonDisabled, resolveDynamicButtonLabel } from '../utils/resolve-config';
+import {
+  resolveDynamicButtonDisabled,
+  resolveDynamicButtonLabel,
+  resolveDynamicButtonNativeProps,
+} from '../utils/resolve-config';
 
 import type {
   DynamicButtonActionContext,
@@ -251,10 +255,16 @@ export function useDynamicButton<TRecord, TValue>(props: DynamicButtonProps<TRec
         typeof action.componentProps === 'function'
           ? action.componentProps(context)
           : (action.componentProps ?? {});
+      // 默认值就绪后统一解析容器属性，函数形式可以据此决定标题、宽度或按钮文案。
+      const containerProps = resolveDynamicButtonNativeProps(
+        action.type === 'modal' ? action.modalProps : action.drawerProps,
+        context,
+      );
       const session: DynamicButtonLayerSession<TRecord, TValue> = {
         ...context,
         action,
         componentProps,
+        containerProps,
       };
 
       // layer 已在 setup 时根据 action.type 精确选择，这里不再初始化另一套弹层状态。
