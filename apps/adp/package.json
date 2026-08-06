@@ -17,6 +17,7 @@
     "@package/common-ui": "workspace:*",
     "@package/request": "workspace:*",
     "@package/shared": "workspace:*",
+    "echarts": "^6.1.0",
     "nprogress": "^0.2.0"
   },
   "devDependencies": {
