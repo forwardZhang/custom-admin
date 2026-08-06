@@ -30,7 +30,7 @@ interface UseFormFieldProps<T extends FormData> {
  * 读一个字段时只需要看这个文件。
  */
 export function useFormField<T extends FormData>(props: UseFormFieldProps<T>) {
-  const { formApi, labelWidth, disabled: formDisabled } = useDynamicFormContext<T>();
+  const { formApi, labelWidth, layout, disabled: formDisabled } = useDynamicFormContext<T>();
 
   const schemaRef = computed(() => props.schema);
   const basePath = computed<NormalizedFormPath>(() => normalizePath(props.basePath ?? []));
@@ -139,7 +139,8 @@ export function useFormField<T extends FormData>(props: UseFormFieldProps<T>) {
   const resolvedFormItemProps = computed(() => {
     const itemProps = { ...props.schema.formItemProps } as Record<string, unknown>;
     const width = labelWidth.value;
-    if (width !== undefined) {
+    // vertical 下标签独占一整行，套 labelCol 会把它压成窄列导致文案折行、标签变高。
+    if (width !== undefined && layout.value !== 'vertical') {
       itemProps.labelCol = {
         flex: `0 0 ${typeof width === 'number' ? `${width}px` : width}`,
       };

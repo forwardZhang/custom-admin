@@ -16,7 +16,7 @@
     @values-change="handleValuesChange"
   >
     <template #actions>
-      <div :class="DYNAMIC_SEARCH_ACTIONS_CLASS">
+      <div :class="layout.actionsClass.value">
         <Button
           v-if="resolved.showResetButton"
           v-bind="resetButtonProps"
@@ -62,7 +62,7 @@ import { DynamicForm } from '../../dynamic-form';
 import { createFormApiDefinition } from '../../dynamic-form/core/api-definition';
 import { useApiProxy } from '../../internal/use-api-proxy';
 import { createSearchLayout } from '../core/layout';
-import { DEFAULT_SEARCH_COLUMNS, DYNAMIC_SEARCH_ACTIONS_CLASS } from '../constants/layout';
+import { DEFAULT_SEARCH_COLUMNS } from '../constants/layout';
 import { resolveButtonProps } from '../utils/button';
 
 import type { DynamicFormApi, DynamicFormValidateError, FormData } from '../../dynamic-form';

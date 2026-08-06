@@ -1,10 +1,6 @@
 <template>
   <DynamicPage :search="searchProps" :table="tableProps" fill>
-    <template #title>
-      <h2>用户列表</h2>
-    </template>
-
-    <template #toolbar-right>
+    <template #toolbar-left>
       <DynamicButton :config="createButtonConfig" />
     </template>
 

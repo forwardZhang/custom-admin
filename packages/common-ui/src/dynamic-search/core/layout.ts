@@ -4,7 +4,10 @@ import { computed } from 'vue';
 
 import {
   DEFAULT_SEARCH_COLUMNS,
+  DYNAMIC_SEARCH_ACTIONS_CLASS,
   DYNAMIC_SEARCH_FORM_CLASS,
+  DYNAMIC_SEARCH_INLINE_ACTIONS_CLASS,
+  DYNAMIC_SEARCH_INLINE_FORM_CLASS,
   FIXED_FIELD_CLASSES,
   RESPONSIVE_FIELD_CLASSES,
 } from '../constants/layout';
@@ -16,6 +19,8 @@ export interface SearchLayout<T extends FormData> {
   canCollapse: ComputedRef<boolean>;
   formProps: ComputedRef<DynamicFormProps<T>['formProps']>;
   schema: ComputedRef<DynamicFormFieldSchema<T>[]>;
+  /** 按钮容器的 class：与字段同宽，保证始终占满一列 slot，不会意外换行。 */
+  actionsClass: ComputedRef<string>;
 }
 
 /**
@@ -42,7 +47,12 @@ export function createSearchLayout<T extends FormData>(
     return props.collapsible !== false && props.schema.length > collapsedCount.value;
   });
 
+  /** inline 布局不参与列网格：字段按内容自然宽度行内流动，columns/responsive 不生效。 */
+  const isInline = computed(() => getProps().layout === 'inline');
+
   const fieldClass = computed(() => {
+    if (isInline.value) return '';
+
     const props = getProps();
     const columns = props.columns ?? DEFAULT_SEARCH_COLUMNS;
     const widthClass =
@@ -66,12 +76,25 @@ export function createSearchLayout<T extends FormData>(
 
   const formProps = computed(() => {
     const props = getProps();
+    const rootClass = [
+      props.formProps?.rootClass,
+      isInline.value ? DYNAMIC_SEARCH_INLINE_FORM_CLASS : DYNAMIC_SEARCH_FORM_CLASS,
+    ]
+      .filter(Boolean)
+      .join(' ');
 
-    return {
-      ...props.formProps,
-      rootClass: [props.formProps?.rootClass, DYNAMIC_SEARCH_FORM_CLASS].filter(Boolean).join(' '),
-    };
+    return { ...props.formProps, rootClass };
   });
 
-  return { canCollapse, formProps, schema };
+  /**
+   * 按钮容器继承与字段相同的列宽 class，确保它始终恰好占满一列 slot。
+   * 这样无论当前行剩几个空位，按钮都不会因内容宽度超出剩余空间而意外换行。
+   */
+  const actionsClass = computed(() =>
+    isInline.value
+      ? DYNAMIC_SEARCH_INLINE_ACTIONS_CLASS
+      : `${DYNAMIC_SEARCH_ACTIONS_CLASS} ${fieldClass.value}`,
+  );
+
+  return { canCollapse, formProps, schema, actionsClass };
 }

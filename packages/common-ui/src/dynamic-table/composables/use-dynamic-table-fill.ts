@@ -39,8 +39,13 @@ export function useDynamicTableFillEffect({
     if (!fill.value || !root || !tableElement) return;
 
     // 根节点底边到 Table 顶边的距离，已经扣掉工具栏与其间距。
+    // getBoundingClientRect 拿的是边框盒，下内边距不属于表格可用高度：
+    // 放大模式下根节点自带留白，不扣掉会把分页顶出可视区。
+    const paddingBottom = Number.parseFloat(getComputedStyle(root).paddingBottom) || 0;
     const available =
-      root.getBoundingClientRect().bottom - tableElement.getBoundingClientRect().top;
+      root.getBoundingClientRect().bottom -
+      paddingBottom -
+      tableElement.getBoundingClientRect().top;
     const bodyElement = tableElement.querySelector<HTMLElement>(TABLE_BODY_SELECTOR);
     // 表头、分页、横向滚动条等表体之外的高度；与 scroll.y 无关，因此测量能收敛。
     const chrome = bodyElement ? tableElement.offsetHeight - bodyElement.offsetHeight : 0;

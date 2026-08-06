@@ -60,7 +60,7 @@ const props = withDefaults(defineProps<DynamicFormProps<T>>(), {
   layout: undefined,
   disabled: false,
   labelWidth: undefined,
-  wrapperClass: 'grid grid-cols-1 gap-x-6',
+  wrapperClass: 'grid grid-cols-1 gap-x-4',
   showDefaultActions: false,
   scrollToFirstError: true,
   formProps: undefined,
@@ -138,6 +138,7 @@ const formApi: DynamicFormApi<T> = {
 provideDynamicFormContext<T>({
   formApi,
   labelWidth: computed(() => props.labelWidth),
+  layout: computed(() => props.layout),
   disabled: computed(() => Boolean(props.disabled)),
 });
 

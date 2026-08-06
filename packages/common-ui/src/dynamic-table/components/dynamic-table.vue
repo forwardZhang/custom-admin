@@ -289,6 +289,32 @@ defineExpose<DynamicTableApi<TRecord>>(tableApi);
   min-height: 0;
   flex-direction: column;
 }
+
+/* 放大模式：脱离原容器铺满视口。祖先上没有持久 transform，fixed 对齐的是视口。 */
+.dynamic-table--fullscreen {
+  position: fixed;
+  inset: 0;
+  /* 低于 antd 弹层基线 1000：工具栏里的下拉、Tooltip、Modal 仍能盖在放大层之上。 */
+  z-index: 900;
+  overflow: auto;
+  /* body 已锁滚动，这里再挡一次滚动链，避免滚到底时带动外层。 */
+  overscroll-behavior: contain;
+  padding: 16px;
+}
+
+/* 放大 + 撑满：高度已被视口锁定，滚动交给表体，容器自身不滚。 */
+.dynamic-table--fullscreen.dynamic-table--fill {
+  overflow: hidden;
+}
+
+/* 非撑满时放大后是容器自身滚动，工具栏吸顶，退出按钮不会被滚走。 */
+.dynamic-table--fullscreen:not(.dynamic-table--fill) .dynamic-table-toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background: var(--ant-color-bg-container);
+}
+
 .dynamic-table__table {
   :deep(.ant-pagination) {
     margin-bottom: 0;

@@ -1,3 +1,4 @@
+import type { FormProps } from 'antdv-next';
 import type { InjectionKey, Ref } from 'vue';
 import { inject, provide } from 'vue';
 
@@ -8,6 +9,8 @@ export interface DynamicFormContext<T extends FormData = FormData> {
   formApi: DynamicFormApi<T>;
   /** 表单级标签宽度，字段用它生成 labelCol。 */
   labelWidth: Readonly<Ref<string | number | undefined>>;
+  /** 表单级布局；vertical 下标签独占一行，不能套用 labelWidth。 */
+  layout: Readonly<Ref<FormProps['layout']>>;
   /** 表单级禁用，优先于字段级 disabled。 */
   disabled: Readonly<Ref<boolean>>;
 }
